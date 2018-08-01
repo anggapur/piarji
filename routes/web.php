@@ -61,6 +61,7 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::group(['middleware' => 'level:operator'],function(){
 		Route::resource('absensi','absensiController');
 		Route::get('getDataAbsensi','absensiController@anyData')->name('getDataAbsensi');
+		Route::post('pilihBulanTahun','absensiController@pilihBulanTahun')->name('pilihBulanTahun');
 	});
 
 });

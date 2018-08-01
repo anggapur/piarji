@@ -8,6 +8,8 @@ use App\pegawai;
 use CH;
 use Yajra\Datatables\Datatables;
 use App\aturan_absensi;
+use App\waktu_absensi;
+use App\absensi;
 class absensiController extends Controller
 {
     /**
@@ -36,7 +38,8 @@ class absensiController extends Controller
             ->select('pegawai.*','satker.nm_satker','nm_pangkat','nm_jabatan');
         }
         $data['pegawai'] = $q->get();
-        //
+        //waktu absensi
+        $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
         $data['page'] = $this->page;
         $data['subpage'] = "";        
@@ -61,7 +64,36 @@ class absensiController extends Controller
     public function store(Request $request)
     {
         //
-        return $request->datas['absensi1'];
+        $where = ['bulan' => $request->datas['bulan'], 'tahun' => $request->datas['tahun']];
+        $query = waktu_absensi::where($where)->first();
+        $data = $request->datas;
+        $data['idBulanTahun'] = $query->id;
+
+        $datas = $request->datas['absensi'];
+        
+        //proses pemasukan data
+        foreach ($datas[1] as $key => $value) {
+            $dataInsert['nip'] = $value['id'];
+            $dataInsert['absensi1'] = $value['nilai'];
+            $dataInsert['absensi2'] = $datas[2][$key]['nilai'];            
+            $dataInsert['absensi3'] = $datas[3][$key]['nilai'];            
+            $dataInsert['absensi4'] = $datas[4][$key]['nilai'];            
+            $dataInsert['id_waktu'] = $data['idBulanTahun'];
+            $dataInsert['kd_aturan'] = 0;
+            //cari dulu 
+            $querySearch = absensi::where(['nip' => $value['id'], 'id_waktu' => $data['idBulanTahun']])->get();
+            //insert
+            if($querySearch->count() == 0)
+                $queryProcess = absensi::create($dataInsert);
+            else
+                $queryProcess = absensi::where(['nip' => $value['id'], 'id_waktu' => $data['idBulanTahun']])->update($dataInsert);
+
+            //cek query executed or not
+            if(!$queryProcess)
+                return ['status' => 'failed'];
+        }
+
+        return ['status' => 'success'];
     }
 
     /**
@@ -140,5 +172,25 @@ class absensiController extends Controller
             })
              ->rawColumns(['action','action2','action3','action4'])
             ->make(true);
+    }
+    public function pilihBulanTahun(Request $request)
+    {
+        //cari data yang sesuai
+        $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun];
+        $query = waktu_absensi::where($where)->get();
+        if($query->count() == 0)
+        {
+            //buat data jika tidak ada
+            $q = waktu_absensi::create($where);
+            return ['idBulanTahun' => $q->id,'status' => 'success'];
+        }
+        else if($query->count() == 1)
+        {
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success'];            
+        }
+        else
+        {
+            return ['status' => 'failed'];
+        }
     }
 }
