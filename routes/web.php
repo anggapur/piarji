@@ -22,6 +22,8 @@ Route::get('test',function(){
 Auth::routes();
 
 Route::group(['middleware' => 'auth'],function(){
+	//Api
+	Route::get('getDeptApi','apiController@getDeptApi');
 	// Home
 	Route::get('/home', 'HomeController@index')->name('home');
 	//update profile

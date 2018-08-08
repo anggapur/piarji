@@ -182,11 +182,13 @@ class absensiController extends Controller
         {
             //buat data jika tidak ada
             $q = waktu_absensi::create($where);
-            return ['idBulanTahun' => $q->id,'status' => 'success'];
+            return ['idBulanTahun' => $q->id,'status' => 'success','dataAbsensi' => null];
         }
         else if($query->count() == 1)
         {
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success'];            
+            $q2 = absensi::where('id_waktu',$query[0]['id'])
+                    ->select('id','nip','id_waktu','absensi1','absensi2','absensi3','absensi4')->get();
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $q2];            
         }
         else
         {

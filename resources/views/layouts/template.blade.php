@@ -32,6 +32,7 @@
   <link rel="stylesheet" href="{{ asset('public/template/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="{{ asset('public/template/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('public/template/style.css')}}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -123,7 +124,7 @@
      
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
+        <!-- <li class="header">MAIN NAVIGATION</li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
@@ -135,7 +136,7 @@
             <li class=""><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
             <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
           </ul>
-        </li>
+        </li> -->
         <!-- MENU HOME -->
         <li class="{{CH::segment(1,['home'])}}"><a href="{{url('')}}"><i class="fa fa-book"></i> <span>Home</span></a></li> 
 
@@ -160,6 +161,26 @@
         <li class="{{CH::segment(1,['dataSatker','dataUnit','dataDept','dataJabatan','dataLokasi','dataPangkat','dataPegawai'])}} {{CH::showTo(['admin','operator'])}} treeview">
           <a href="#">
             <i class="fa fa-gear"></i> <span>Data Master</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{CH::segment(1,['dataSatker'])}}"><a href="{{url('dataSatker')}}"><i class="fa fa-circle-o"></i> Data Satker</a></li>
+            <li class="{{CH::segment(1,['dataUnit'])}}"><a href="{{url('dataUnit')}}"><i class="fa fa-circle-o"></i> Data Unit</a></li>
+            <li class="{{CH::segment(1,['dataDept'])}}"><a href="{{url('dataDept')}}"><i class="fa fa-circle-o"></i> Data Dept</a></li>
+            <li class="{{CH::segment(1,['dataJabatan'])}}"><a href="{{url('dataJabatan')}}"><i class="fa fa-circle-o"></i> 
+            Data Jabatan</a></li>
+            <li class="{{CH::segment(1,['dataLokasi'])}}"><a href="{{url('dataLokasi')}}"><i class="fa fa-circle-o"></i> Data Lokasi</a></li>
+            <li class="{{CH::segment(1,['dataPangkat'])}}"><a href="{{url('dataPangkat')}}"><i class="fa fa-circle-o"></i> Data Pangkat</a></li>
+            <li class="{{CH::segment(1,['dataPegawai'])}}"><a href="{{url('dataPegawai')}}"><i class="fa fa-circle-o"></i> Data Pegawai</a></li>
+          </ul>
+        </li>  
+
+        <!-- Menu Laporan -->
+        <li class="{{CH::segment(1,[])}} {{CH::showTo(['operator'])}} treeview">
+          <a href="#">
+            <i class="fa fa-file-text"></i> <span>Laporan</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>

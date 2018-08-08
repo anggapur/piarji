@@ -5,7 +5,7 @@
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-12 col-xs-6">         
+        <div class="col-lg-12 col-xs-12">         
               <div class="alert alert-success" style="display: none;">
                   Berhasil Simpan Data
               </div>          
@@ -56,7 +56,7 @@
                 </div>
               </form>
               <hr>
-                <form class="hide" id="formAbsensi">
+                <form style="display: none;" id="formAbsensi">
                   <table id="example" class="display table table-bordered table-striped" cellspacing="0" width="100%">
                     <thead>
                         <tr>
@@ -72,17 +72,17 @@
                         <tr>
                            <td>{{$value->nip}}</td>                           
                             <td>{{$value->nama}}</td>     
-                            <td><input type="number" name="absensi1" value="0" data="{{$value->nip}}" class="form-control" style="width:100px;" required /></td>                             
-                            <td><input type="number" name="absensi2" value="0" data="{{$value->nip}}" class="form-control" style="width:100px;" required /></td>                             
-                            <td><input type="number" name="absensi3" value="0" data="{{$value->nip}}" class="form-control" style="width:100px;" required /></td>                             
-                            <td><input type="number" name="absensi4" value="0" data="{{$value->nip}}" class="form-control" style="width:100px;" required /></td>                             
+                            <td class="inputColumn"><input type="number" name="absensi1" value="0" data="{{$value->nip}}" class="form-control" style="width:100px;" required /></td>                             
+                            <td class="inputColumn"><input type="number" name="absensi2" value="0" data="{{$value->nip}}" class="form-control" style="width:100px;" required /></td>                             
+                            <td class="inputColumn"><input type="number" name="absensi3" value="0" data="{{$value->nip}}" class="form-control" style="width:100px;" required /></td>                             
+                            <td class="inputColumn"><input type="number" name="absensi4" value="0" data="{{$value->nip}}" class="form-control" style="width:100px;" required /></td>                             
                         </tr>
                       @endforeach                       
                     </tbody>
                   </table>                
                   <button id="get-result" class="btn btn-success">Simpan</button><br />
-                  <textarea id="result-serialized" style="width: 200px; height: 100px;" class="hides"></textarea>
-                  <textarea id="result-json" style="width: 200px; height: 100px;" class="hides"></textarea>  
+                  <textarea id="result-serialized" style="width: 200px; height: 100px;display: none;" class="hides"></textarea>
+                  <textarea id="result-json" style="width: 200px; height: 100px;display: none;" class="hides"></textarea>  
                 </form>
                
             </div>   
@@ -122,9 +122,25 @@
                     if(data.status == "success")
                     {                  
                       json_obj.bulan = bulan;    
-                      json_obj.tahun = tahun;    
+                      json_obj.tahun = tahun;  
+                      if(data.dataAbsensi !== null)  
+                      {
+                        arr = $();
+                        for (var i = 0; i < t.rows()[0].length; i++) { 
+                            arr = arr.add(t.row(i).node())
+                        }
+                        console.log(data.dataAbsensi);
+                        $.each(data.dataAbsensi, function(k, v) {                          
+                          arr.find('input[name="absensi1"][data="'+v.nip+'"]').val(v.absensi1);
+                          arr.find('input[name="absensi2"][data="'+v.nip+'"]').val(v.absensi2);
+                          arr.find('input[name="absensi3"][data="'+v.nip+'"]').val(v.absensi3);
+                          arr.find('input[name="absensi4"][data="'+v.nip+'"]').val(v.absensi4);
+                        });
+                        
+                      }                      
+                      //
                       $('#formBulanTahun').find('select,input').attr('disabled','disabled');
-                      $('#formAbsensi').removeClass('hide');
+                      $('#formAbsensi').fadeIn('slow');
                     }
                 }
             });

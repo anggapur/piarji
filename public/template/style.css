@@ -1,0 +1,10 @@
+th.absensiColumn{
+    width: 16% !important;
+}
+td.inputColumn {
+    text-align: center;
+}
+
+td.inputColumn input {
+    text-align: center;
+}
