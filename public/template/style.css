@@ -8,3 +8,18 @@ td.inputColumn {
 td.inputColumn input {
     text-align: center;
 }
+
+.w100
+{
+	width: 100px;
+}
+.w50
+{
+	width: 50px;
+}
+
+#tableLaporan td , #tableLaporan th{
+	text-align: center;
+	padding: 5px;
+	font-size: 11px;
+}

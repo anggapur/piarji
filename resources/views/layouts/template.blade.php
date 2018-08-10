@@ -138,8 +138,7 @@
           </ul>
         </li> -->
         <!-- MENU HOME -->
-        <li class="{{CH::segment(1,['home'])}}"><a href="{{url('')}}"><i class="fa fa-book"></i> <span>Home</span></a></li> 
-
+        <li class="{{CH::segment(1,['home'])}}"><a href="{{url('')}}"><i class="fa fa-book"></i> <span>Home</span></a></li>       
         <!-- MENU ABSENSI-->
         <li class="{{CH::segment(1,['absensi'])}} {{CH::showTo(['operator'])}}"><a href="{{url('absensi')}}"><i class="fa fa-list-alt"></i> <span>Absensi</span></a></li> 
 
@@ -157,6 +156,35 @@
           </ul>
         </li>  
 
+        <!-- Menu Setting User -->        
+        <li class="{{CH::segment(1,['settingRekening'])}} {{CH::showTo(['admin','operator'])}} treeview">
+          <a href="#">
+            <i class="fa fa-gear"></i> <span>Setting Rekening</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{CH::segment(2,['importForm'])}}"><a href="{{url('settingRekening/importForm')}}"><i class="fa fa-circle-o"></i> Import Data Rekening</a></li>
+            <li class="{{CH::segment(2,[''])}}"><a href="{{url('settingRekening')}}"><i class="fa fa-circle-o"></i> Lihat Pegawai</a></li>
+          </ul>
+        </li> 
+
+        <!-- Menu Setting User -->        
+        <li class="{{CH::segment(1,['laporanAbsensi'])}} {{CH::showTo(['admin','operator'])}} treeview">
+          <a href="#">
+            <i class="fa fa-gear"></i> <span>Laporan</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{CH::segment(2,['laporan1'])}}"><a href="{{url('laporanAbsensi/laporan1')}}"><i class="fa fa-circle-o"></i> Laporan Absensi</a></li>            
+          </ul>
+        </li> 
+
+        <!-- Sinkronisasi -->
+        <li class="{{CH::segment(1,['sinkronisasiData'])}}"><a href="{{url('sinkronisasiData')}}"><i class="fa fa-book"></i> <span>Sinkronisasi Data</span></a></li>
         <!-- Menu Data MAster -->
         <li class="{{CH::segment(1,['dataSatker','dataUnit','dataDept','dataJabatan','dataLokasi','dataPangkat','dataPegawai'])}} {{CH::showTo(['admin','operator'])}} treeview">
           <a href="#">
@@ -209,6 +237,7 @@
             <li class="{{CH::segment(2,[''])}} {{CH::showTo(['admin'])}}"><a href="{{url('kebijakanAbsensi')}}"><i class="fa fa-circle-o"></i> Kebijakan Absensi</a></li>            
           </ul>
         </li>  
+
         <li class="header">LABELS</li>       
       </ul>
     </section>

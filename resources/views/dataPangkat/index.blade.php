@@ -29,8 +29,9 @@
                 <thead>
                 <tr>                
                   <th>Kode Pangkat</th>
-                  <th>Nama Pangkat</th>                  
-                  <th>Nama Gapok</th>                  
+                  <th>Nama Pangkat1</th>                  
+                  <th>Nama Pangkat2</th>                  
+                  <th>Gaji Pokok</th>                  
                 </tr>
                 </thead>
                 <tbody>
@@ -55,7 +56,8 @@ $(function() {
         ajax: '{!! route('getDataPangkat') !!}',
         columns: [
             { data: 'kd_pangkat', name: 'kd_pangkat' },                                  
-            { data: 'nm_pangkat', name: 'nm_pangkat' },                        
+            { data: 'nm_pangkat1', name: 'nm_pangkat1' },                        
+            { data: 'nm_pangkat2', name: 'nm_pangkat2' },                        
             { data: 'gapok', name: 'gapok.gapok' },                        
                         
             /*{data: 'action', name: 'action', orderable: false, searchable: false}*/

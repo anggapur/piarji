@@ -24,6 +24,15 @@ Auth::routes();
 Route::group(['middleware' => 'auth'],function(){
 	//Api
 	Route::get('getDeptApi','apiController@getDeptApi');
+	Route::get('getLokasiApi','apiController@getLokasiApi');
+	Route::get('getUnitApi','apiController@getUnitApi');
+	Route::get('getPangkatApi','apiController@getPangkatApi');
+	Route::get('getGapokApi','apiController@getGapokApi');
+	Route::get('getPegawaiApi','apiController@getPegawaiApi');
+	Route::get('getSatkerApi','apiController@getSatkerApi');
+	//sinkronisasi
+	Route::get('sinkronisasiData','apiController@index');
+	Route::post('sinkronisasiData','apiController@getDataPost');
 	// Home
 	Route::get('/home', 'HomeController@index')->name('home');
 	//update profile
@@ -51,6 +60,12 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::resource('dataPegawai','pegawaiController');
 	Route::get('getDataPegawai','pegawaiController@anyData')->name('getDataPegawai');
 
+	Route::get('settingRekening/importForm','settingRekening@importForm');
+	Route::post('settingRekening/importrekening','settingRekening@importrekening');
+	Route::resource('settingRekening','settingRekening');
+	Route::get('getDataRekening','settingRekening@anyData')->name('getDataRekening');
+
+
 	//Only Admin can access	
 	Route::group(['middleware' => 'level:admin'],function(){
 		//User setting
@@ -62,8 +77,11 @@ Route::group(['middleware' => 'auth'],function(){
 	//Only Operator can access
 	Route::group(['middleware' => 'level:operator'],function(){
 		Route::resource('absensi','absensiController');
-		Route::get('getDataAbsensi','absensiController@anyData')->name('getDataAbsensi');
+		Route::get('getDataAbsensi','absensiController@anyData')->name('getDataAbsensi');	
 		Route::post('pilihBulanTahun','absensiController@pilihBulanTahun')->name('pilihBulanTahun');
+
+		Route::get('laporanAbsensi/laporan1','laporanAbsensi@laporan1');
+		Route::post('pilihBulanTahunLaporan','laporanAbsensi@pilihBulanTahun')->name('pilihBulanTahunLaporan');
 	});
 
 });

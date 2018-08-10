@@ -162,6 +162,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\CustomServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -213,6 +214,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'CH' => App\Helpers\customHelper::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

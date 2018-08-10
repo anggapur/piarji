@@ -60,7 +60,7 @@ $(function() {
             { data: 'nip', name: 'nip' },                                  
             { data: 'nama', name: 'nama' },                        
             { data: 'nm_satker', name: 'satker.nm_satker' },                        
-            { data: 'nm_pangkat', name: 'pangkat.nm_pangkat' },                        
+            { data: 'nm_pangkat', name: 'pangkat.nm_pangkat1' },                        
             { data: 'nm_jabatan', name: 'jabatan.nm_jabatan' },                        
             { data: 'no_rekening', name: 'no_rekening' },                        
                         

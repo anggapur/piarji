@@ -95,7 +95,7 @@ class pegawaiController extends Controller
             $q = pegawai::leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
             ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
             ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')            
-            ->select('pegawai.*','satker.nm_satker','nm_pangkat','nm_jabatan');
+            ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
         }
         else
         {
@@ -103,13 +103,13 @@ class pegawaiController extends Controller
             ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
             ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')   
             ->where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))         
-            ->select('pegawai.*','satker.nm_satker','nm_pangkat','nm_jabatan');
+            ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
         }
         return Datatables::of($q)
-            /*->addColumn('action', function ($user) {
-                return '<a href="#edit-'.$user->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+            ->addColumn('nm_pangkat', function ($user) {
+                return $user->nm_pangkat1." - ".$user->nm_pangkat2;
                 
-            })*/
+            })
             ->make(true);
     }
 }
