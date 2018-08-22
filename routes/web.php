@@ -15,6 +15,7 @@ Route::get('/', function () {
     return redirect('login');
 });
 
+Route::get('formula','HomeController@mathFormula');
 Route::get('test',function(){
 	return CH::segment(1,"test");
 });
@@ -71,17 +72,22 @@ Route::group(['middleware' => 'auth'],function(){
 		//User setting
 		Route::resource('settingUser','userController');
 		//Setting Kebijakan Abensi
-		Route::resource('kebijakanAbsensi','KebijakanAbsensiController');		
+		Route::resource('kebijakanAbsensi','KebijakanAbsensiController');	
+		// Aturan Tunkin
+		Route::get('aturanTunkin/aktifkan/{id}','aturanTunkinController@aktifkan');
+		Route::get('aturanTunkin/detail/{id}','aturanTunkinController@detail');
+		Route::resource('aturanTunkin','aturanTunkinController');			
 	});
 
 	//Only Operator can access
 	Route::group(['middleware' => 'level:operator'],function(){
 		Route::resource('absensi','absensiController');
 		Route::get('getDataAbsensi','absensiController@anyData')->name('getDataAbsensi');	
-		Route::post('pilihBulanTahun','absensiController@pilihBulanTahun')->name('pilihBulanTahun');
-
-		Route::get('laporanAbsensi/laporan1','laporanAbsensi@laporan1');
-		Route::post('pilihBulanTahunLaporan','laporanAbsensi@pilihBulanTahun')->name('pilihBulanTahunLaporan');
+		Route::post('pilihBulanTahun','absensiController@pilihBulanTahun')->name('pilihBulanTahun');		
 	});
+
+	Route::get('laporanAbsensi/laporan1','laporanAbsensi@laporan1');
+	Route::post('pilihBulanTahunLaporan','laporanAbsensi@pilihBulanTahun')->name('pilihBulanTahunLaporan');
+	Route::get('laporanAbsensi/cekLap','laporanAbsensi@cekLap');
 
 });

@@ -9,6 +9,7 @@ use CH;
 use Yajra\Datatables\Datatables;
 use App\aturan_absensi;
 use App\waktu_absensi;
+use App\aturan_tunkin;
 use App\absensi;
 class absensiController extends Controller
 {
@@ -42,7 +43,8 @@ class absensiController extends Controller
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
         $data['page'] = $this->page;
-        $data['subpage'] = "";        
+        $data['subpage'] = ""; 
+        // return CH::getKdSatker(Auth::user()->kd_satker);        
         return view($this->mainPage.".index",$data);
     }
     /**
@@ -71,6 +73,8 @@ class absensiController extends Controller
 
         $datas = $request->datas['absensi'];
         
+        //kode aturan
+        $kd_aturan = aturan_tunkin::where('state','1')->first();
         //proses pemasukan data
         foreach ($datas[1] as $key => $value) {
             $dataInsert['nip'] = $value['id'];
@@ -79,7 +83,7 @@ class absensiController extends Controller
             $dataInsert['absensi3'] = $datas[3][$key]['nilai'];            
             $dataInsert['absensi4'] = $datas[4][$key]['nilai'];            
             $dataInsert['id_waktu'] = $data['idBulanTahun'];
-            $dataInsert['kd_aturan'] = 0;
+            $dataInsert['kd_aturan'] = $kd_aturan->id;
             //cari dulu 
             $querySearch = absensi::where(['nip' => $value['id'], 'id_waktu' => $data['idBulanTahun']])->get();
             //insert
@@ -93,7 +97,7 @@ class absensiController extends Controller
                 return ['status' => 'failed'];
         }
 
-        return ['status' => 'success'];
+        return ['status' => 'success','kd_aturan' => $kd_aturan];
     }
 
     /**

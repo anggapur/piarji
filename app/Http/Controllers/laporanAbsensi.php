@@ -24,6 +24,7 @@ class laporanAbsensi extends Controller
     public function laporan1()
     {
         //data
+        /*
         if(Auth::user()->level == "admin")
         {
             $q = pegawai::leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
@@ -40,13 +41,16 @@ class laporanAbsensi extends Controller
             ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
         }
         $data['pegawai'] = $q->get();
+        */
+        
         //waktu absensi
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
         $data['page'] = $this->page;
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
-        
+            
+
         return view($this->mainPage.".laporan1",$data);
     }
    
@@ -99,19 +103,23 @@ class laporanAbsensi extends Controller
         	if(Auth::user()->level == "admin")
         	{
             	$q2 = pegawai::leftJoin('absensi','pegawai.nip','=','absensi.nip')
-            		->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
-            		->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
-            		->leftJoin('aturan_tunkin_detail','pegawai.kelas_jab','=','aturan_tunkin_detail.kelas_jabatan')
-            		->where('aturan_tunkin_detail.id_aturan_tunkin',$id_aturan_tunkin)
+                    ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
+                    ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
+                    ->leftJoin('aturan_tunkin_detail',function($q){
+                        $q->on('pegawai.kelas_jab','=','aturan_tunkin_detail.kelas_jabatan');
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin',"absensi.kd_aturan");
+                    })
             		->where('absensi.id_waktu',$query[0]['id'])->get();
             }
             else
             {
             	$q2 = pegawai::leftJoin('absensi','pegawai.nip','=','absensi.nip')
-            		->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
-            		->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
-            		->leftJoin('aturan_tunkin_detail','pegawai.kelas_jab','=','aturan_tunkin_detail.kelas_jabatan')
-            		->where('aturan_tunkin_detail.id_aturan_tunkin',$id_aturan_tunkin)
+                    ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
+                    ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
+                    ->leftJoin('aturan_tunkin_detail',function($q){
+                        $q->on('pegawai.kelas_jab','=','aturan_tunkin_detail.kelas_jabatan');
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin',"absensi.kd_aturan");
+                    })
             		->where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))
             		->where('absensi.id_waktu',$query[0]['id'])->get();	
             }
@@ -122,5 +130,20 @@ class laporanAbsensi extends Controller
         {
             return ['status' => 'failed'];
         }
+    }
+    public function cekLap()
+    {
+        $q2 = pegawai::leftJoin('absensi','pegawai.nip','=','absensi.nip')
+                    ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
+                    ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
+                    ->leftJoin('aturan_tunkin_detail',function($q){
+                        $q->on('pegawai.kelas_jab','=','aturan_tunkin_detail.kelas_jabatan');
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin',"absensi.kd_aturan");
+                    })
+                    
+                    
+                    ->where('pegawai.kd_satker',"S1")
+                    ->where('absensi.id_waktu',"1")->get(); 
+        return $q2;
     }
 }

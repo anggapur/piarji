@@ -41,4 +41,15 @@ class HomeController extends Controller
         $data['subpage'] = "";
         return view('home',$data);
     }
+
+    public function mathFormula()
+    {
+        $formula = "G*H";
+        $formula = str_replace("G","1000000",$formula);        
+        $formula = str_replace("H","0.05",$formula);
+        $formula = "0.005*3717000*1";      
+        eval( '$result = (' . $formula. ');' );
+        echo $result;
+
+    }
 }

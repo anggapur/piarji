@@ -156,6 +156,20 @@
           </ul>
         </li>  
 
+        <!-- Aturan Tunkin -->        
+        <li class="{{CH::segment(1,['aturanTunkin'])}} {{CH::showTo(['admin'])}} treeview">
+          <a href="#">
+            <i class="fa fa-gear"></i> <span>Setting Aturan Tunkin</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{CH::segment(2,['create'])}}"><a href="{{url('aturanTunkin/create')}}"><i class="fa fa-circle-o"></i> Buat Aturan Tunkin</a></li>
+            <li class="{{CH::segment(2,[''])}}"><a href="{{url('aturanTunkin')}}"><i class="fa fa-circle-o"></i> Lihat Aturan Tunkin</a></li>
+          </ul>
+        </li>  
+
         <!-- Menu Setting User -->        
         <li class="{{CH::segment(1,['settingRekening'])}} {{CH::showTo(['admin','operator'])}} treeview">
           <a href="#">
@@ -490,6 +504,8 @@
     })
   })
 </script>
+<!-- Auto Currency -->
+<script src="{{ asset('public/template/jquery.masknumber.js')}}"></script>
 <!-- Morris.js charts -->
 <script src="{{ asset('public/template/bower_components/raphael/raphael.min.js')}}"></script>
 <script src="{{ asset('public/template/bower_components/morris.js/morris.min.js')}}"></script>

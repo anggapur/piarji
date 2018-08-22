@@ -134,7 +134,21 @@
                     i = 1;
                     $('table').fadeIn('slow');
                     $('tbody').empty();
-                    $.each(data.dataAbsensi,function(k,v){
+
+                    formula1 = "0.005*G*H";
+                    formula2 = "0.0075*G*H";
+                    formula3 = "0.01*G*H";
+                    formula4 = "0.03*G*H";
+                    absensVal = [];
+                    $.each(data.dataAbsensi,function(k,v){                      
+                      absensVal[1] = absensiFormulaMath(formula1,v.tunjangan,v.absensi1);
+                      absensVal[2] = absensiFormulaMath(formula2,v.tunjangan,v.absensi2);
+                      absensVal[3] = absensiFormulaMath(formula3,v.tunjangan,v.absensi3);
+                      absensVal[4] = absensiFormulaMath(formula4,v.tunjangan,v.absensi4);
+                      jumlahPengurangan = absensVal.reduce(getSum);
+                      yangDiterima = v.tunjangan-jumlahPengurangan;
+                      tPPH21 = 100000;
+                      terimaBruto = yangDiterima+tPPH21;
                       html = '<tr>'+
                                '<td>'+(i++)+'</td>'+
                                '<td>'+v.nama+'</td>'+
@@ -144,19 +158,19 @@
                                '<td>'+v.kelas_jab+'</td>'+
                                '<td>'+number_format(v.tunjangan,0,",",".")+'</td>'+
                                '<td>'+v.absensi1+'</td>'+
-                               '<td>-</td>'+
+                               '<td>'+number_format(absensVal[1],0,",",".")+'</td>'+
                                '<td>'+v.absensi2+'</td>'+
-                               '<td>-</td>'+
+                               '<td>'+number_format(absensVal[2],0,",",".")+'</td>'+
                                '<td>'+v.absensi3+'</td>'+
-                               '<td>-</td>'+
+                               '<td>'+number_format(absensVal[3],0,",",".")+'</td>'+
                                '<td>'+v.absensi4+'</td>'+
-                               '<td>-</td>'+
-                               '<td>-</td>'+
-                               '<td>-</td>'+
-                               '<td>-</td>'+
-                               '<td>-</td>'+
-                               '<td>-</td>'+
-                               '<td>-</td>'+
+                               '<td>'+number_format(absensVal[4],0,",",".")+'</td>'+
+                               '<td>'+number_format(jumlahPengurangan,0,",",".")+'</td>'+
+                               '<td>'+number_format(yangDiterima,0,",",".")+'</td>'+
+                               '<td>'+number_format(tPPH21,0,",",".")+'</td>'+
+                               '<td>'+number_format(terimaBruto,0,",",".")+'</td>'+
+                               '<td>'+number_format(tPPH21,0,",",".")+'</td>'+
+                               '<td>'+number_format(yangDiterima,0,",",".")+'</td>'+
                                '<td>'+v.no_rekening+'</td>'+
                              '</tr>';
                       $('tbody').append(html);
@@ -193,6 +207,18 @@
           }
 
           return s.join(dec)
+        }
+
+
+        function absensiFormulaMath(formula,tunjangan,absensi)
+        {
+          absensiVal = formula.replace('G',tunjangan);
+          absensiVal = absensiVal.replace('H',absensi);
+          absensiVal = eval(absensiVal);
+          return absensiVal;
+        }
+        function getSum(total, num) {
+            return total + num;
         }
    </script>
 @endsection

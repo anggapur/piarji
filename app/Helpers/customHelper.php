@@ -26,7 +26,7 @@ class customHelper {
       }
       else
       {
-        $query = satker::find($kd_satker)->first();
+        $query = satker::where('id',$kd_satker)->first();        
         return $query['kd_satker']." - ".$query['nm_satker'];
       }
     }
@@ -48,7 +48,12 @@ class customHelper {
     }
     public static function getKdSatker($id)
     {
-      $q = satker::find($id)->first();
+      $q = satker::where('id',$id)->first();
       return $q->kd_satker;
+    }
+
+    public static function currencyIndo($val)
+    {
+      return number_format($val,0,',','.');
     }
 }

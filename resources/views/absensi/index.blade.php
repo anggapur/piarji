@@ -218,6 +218,7 @@
                   "datas" : json_obj,
                 },
                 success: function(data) {
+                  console.log(data);
                     if(data.status == "success")
                     {
                       $("html,body").scrollTop($("body").scrollTop() + 0);
