@@ -78,34 +78,22 @@
                  <thead>
                   <tr>
                      <th rowspan="2">No</th>
-                     <th rowspan="2">Nama</th>
-                     <th rowspan="2" id="thPangkatGologan">Pangkat / Golongan</th>
-                     <th rowspan="2">NRP</th>
-                     <th rowspan="2">Jabatan</th>
                      <th rowspan="2">Kelas Jabatan</th>
-                     <th rowspan="2">T. Kinerja</th>
-                     <th colspan="2" class="w100">{{collect($aturan_absensi)->firstWhere('id','1')->nama}}</th>                                          
-                     <th colspan="2" class="w100">{{collect($aturan_absensi)->firstWhere('id','2')->nama}}</th>                     
-                     <th colspan="2" class="w100">{{collect($aturan_absensi)->firstWhere('id','3')->nama}}</th>                     
-                     <th colspan="2" class="w100">{{collect($aturan_absensi)->firstWhere('id','4')->nama}}</th>
-                     <th rowspan="2" class="w50">Jumlah Pengurangan</th>                     
-                     <th rowspan="2" class="w50">Tunjangan Yang Diterima</th>
-                     <th rowspan="2" class="w50">T.PPH21</th>
-                     <th rowspan="2" class="w50">Terima Bruto</th>
-                     <th rowspan="2" class="w50">Potongan<br>PPH-21</th>
-                     <th rowspan="2" class="w50">T.Yang Dibayar</th>
-                     <th rowspan="2" class="w50">Rekening</th>
+                     <th rowspan="2">Jumlah Penerima (Org)</th>
+                     <th rowspan="2">Indek Tunjangan Kinerja (Rp)</th>
+                     <th rowspan="2">Jumlah (Rp) (3x4)</th>
+                     <th rowspan="2">Tunjangan PPh21 (Rp)</th>
+                     <th rowspan="2">Jumlah Bruto (Rp) (5+6)</th>
+                     <th colspan="2">Pengurangan</th>
+                     <th colspan="2">Jumlah Netto</th>
+                     <th rowspan="2">Jumlah Bruto(10+11)</th>
                    </tr>                  
-                   <tr>                   
-                     <th>Hari</th>
-                     <th>Rp</th>
-                     <th>Hari</th>
-                     <th>Rp</th>
-                     <th>Hari</th>
-                     <th>Rp</th>
-                     <th>Hari</th>
-                     <th>Rp</th>
-                   </tr>
+                   <tr>
+                     <th>Tunjangan Kinerja</th>
+                     <th>PPH 21</th>
+                     <th>TUNJKINERJA <br>(5-8)</th>
+                     <th>PPH 21 <br>(6-9)</th>
+                   </tr>                 
                     <tr>
                      <th>1</th>
                      <th>2</th>
@@ -118,17 +106,7 @@
                      <th>9</th>
                      <th>10</th>
                      <th>11</th>
-                     <th>12</th>
-                     <th>13</th>
-                     <th>14</th>
-                     <th>15</th>
-                     <th>16</th>
-                     <th>17</th>
-                     <th>18</th>
-                     <th>19</th>
-                     <th>20</th>
-                     <th>21</th>
-                     <th>22</th>
+                     <th>12</th>                     
                    </tr>
                  </thead>
                  <tbody>
@@ -151,18 +129,11 @@
           tahun = $(this).find("select[name='tahun']").val();
           satker = $(this).find("select[name='kd_satker']").val();
           jenis_pegawai = $(this).find("select[name='jenis_pegawai']").val();
-          
-          //ubah nama th
-          if(jenis_pegawai == "")
-            $('#thPangkatGologan').html('Pangkat / Golongan');
-          else if(jenis_pegawai == "0")
-            $('#thPangkatGologan').html('Pangkat');
-          else if(jenis_pegawai == "1")
-            $('#thPangkatGologan').html('Golongan');
+                    
 
           $.ajax({
                 type: "POST",                  
-                url: "{{route('pilihBulanTahunLaporan')}}",
+                url: "{{route('pilihBulanTahunLaporanB')}}",
                 data: 
                 { 
                   "_token": "{{ csrf_token() }}",
@@ -200,53 +171,38 @@
                     formula2 = data.formula[1]['rumus'];
                     formula3 = data.formula[2]['rumus'];
                     formula4 = data.formula[3]['rumus'];
-                    absensVal = [];
-                    kodeSatker = "0";
-                    console.log('KKK:'+kodeSatker);
-                    $.each(data.dataAbsensi,function(k,v){                      
-                      absensVal[1] = absensiFormulaMath(formula1,v.tunjangan,v.absensi1);
-                      absensVal[2] = absensiFormulaMath(formula2,v.tunjangan,v.absensi2);
-                      absensVal[3] = absensiFormulaMath(formula3,v.tunjangan,v.absensi3);
-                      absensVal[4] = absensiFormulaMath(formula4,v.tunjangan,v.absensi4);
-                      jumlahPengurangan = absensVal.reduce(getSum);
-                      yangDiterima = v.tunjangan-jumlahPengurangan;
-                      tPPH21 = 100000;
-                      terimaBruto = yangDiterima+tPPH21;
+                    absensVal = [];                            
 
-                      if(kodeSatker !== v.kd_satker)
-                      {
-                        html = '<tr><td colspan="21" style="text-align:left;text-transform: uppercase;"><b>Satker : '+v.kd_satker+' - '+v.nm_satker+'</b></td><td></td></tr>';
-                        html+='<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th></tr>';
-                        $('tbody').append(html);
-                      }
+                    //dat aawal nomor kelas jabatan atau yan terbesar
+                    awal =  data.tunkin[0];            
+                    $.each(data.dataAbsensi,function(k,v){     
+                      
+                      col5 = (v.tunjangan*v.countKelasJab);
+                      col6 = 100000*v.countKelasJab;
+                      col7 = col5+col6;                      
+                      col8 = 0;
+                      col9 = 0;
+                      col10 = col5-col8;
+                      col11 = col6-col9;
+                      col12 = col10+col11;
+                    
 
                       html = '<tr>'+
-                               '<td>'+(i++)+'</td>'+
-                               '<td>'+v.nama+'</td>'+
-                               '<td>'+v.nm_pangkat1+'</td>'+
-                               '<td>'+v.nip+'</td>'+
-                               '<td>'+v.nm_jabatan+'</td>'+
+                               '<td>'+(i++)+'</td>'+                               
                                '<td>'+v.kelas_jab+'</td>'+
+                               '<td>'+v.countKelasJab+'</td>'+
                                '<td>'+number_format(v.tunjangan,0,",",".")+'</td>'+
-                               '<td>'+v.absensi1+'</td>'+
-                               '<td>'+number_format(absensVal[1],0,",",".")+'</td>'+
-                               '<td>'+v.absensi2+'</td>'+
-                               '<td>'+number_format(absensVal[2],0,",",".")+'</td>'+
-                               '<td>'+v.absensi3+'</td>'+
-                               '<td>'+number_format(absensVal[3],0,",",".")+'</td>'+
-                               '<td>'+v.absensi4+'</td>'+
-                               '<td>'+number_format(absensVal[4],0,",",".")+'</td>'+
-                               '<td>'+number_format(jumlahPengurangan,0,",",".")+'</td>'+
-                               '<td>'+number_format(yangDiterima,0,",",".")+'</td>'+
-                               '<td>'+number_format(tPPH21,0,",",".")+'</td>'+
-                               '<td>'+number_format(terimaBruto,0,",",".")+'</td>'+
-                               '<td>'+number_format(tPPH21,0,",",".")+'</td>'+
-                               '<td>'+number_format(yangDiterima,0,",",".")+'</td>'+
-                               '<td>'+v.no_rekening+'</td>'+
+                               '<td>'+number_format(col5,0,",",".")+'</td>'+
+                               '<td>'+number_format(col6,0,",",".")+'</td>'+
+                               '<td>'+number_format(col7,0,",",".")+'</td>'+
+                               '<td>'+col8+'</td>'+
+                               '<td>'+col9+'</td>'+
+                               '<td>'+number_format(col10,0,",",".")+'</td>'+
+                               '<td>'+number_format(col11,0,",",".")+'</td>'+
+                               '<td>'+number_format(col12,0,",",".")+'</td>'+
                              '</tr>';
                       $('tbody').append(html);
-                      
-                      kodeSatker = v.kd_satker;
+                                            
 
                     });
                   }

@@ -88,6 +88,9 @@ Route::group(['middleware' => 'auth'],function(){
 
 	Route::get('laporanAbsensi/laporan1','laporanAbsensi@laporan1');
 	Route::post('pilihBulanTahunLaporan','laporanAbsensi@pilihBulanTahun')->name('pilihBulanTahunLaporan');
+
+	Route::get('laporanAbsensi/laporanB','laporanAbsensi@laporanB');
+	Route::post('pilihBulanTahunLaporanB','laporanAbsensi@pilihBulanTahunB')->name('pilihBulanTahunLaporanB');
 	Route::get('laporanAbsensi/cekLap','laporanAbsensi@cekLap');
 
 });

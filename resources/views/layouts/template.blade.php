@@ -193,7 +193,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="{{CH::segment(2,['laporan1'])}}"><a href="{{url('laporanAbsensi/laporan1')}}"><i class="fa fa-circle-o"></i> Laporan Absensi</a></li>            
+            <li class="{{CH::segment(2,['laporan1'])}}"><a href="{{url('laporanAbsensi/laporan1')}}"><i class="fa fa-circle-o"></i> Laporan C1/C2</a></li>            
+            <li class="{{CH::segment(2,['laporanB'])}}"><a href="{{url('laporanAbsensi/laporanB')}}"><i class="fa fa-circle-o"></i> Laporan B1/B2</a></li>            
           </ul>
         </li> 
 

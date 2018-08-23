@@ -39,7 +39,7 @@
                   <label>Confirmation Password</label>
                   <input type="password" class="form-control" name="conf_password" placeholder="Confirm Password" required>
                 </div>
-                <div>
+                <div class="form-group">
                   <label>Kode Satker</label>
                   <select class="js-example-basic-single form-control" name="kd_satker" required>                    
                     @foreach($dataSatker as $val)
