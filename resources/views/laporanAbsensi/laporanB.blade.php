@@ -174,9 +174,16 @@
                     absensVal = [];                            
 
                     //dat aawal nomor kelas jabatan atau yan terbesar
-                    awal =  data.tunkin[0];            
+                    awal =  data.tunkin[0];   
+                    jml3 = 0;   
+                    jml5 = 0;      
+                    jml6 = 0;      
+                    jml7 = 0;      
+                    jml10 = 0;      
+                    jml11 = 0;      
+                    jml12 = 0;      
                     $.each(data.dataAbsensi,function(k,v){     
-                      
+
                       col5 = (v.tunjangan*v.countKelasJab);
                       col6 = 100000*v.countKelasJab;
                       col7 = col5+col6;                      
@@ -185,7 +192,14 @@
                       col10 = col5-col8;
                       col11 = col6-col9;
                       col12 = col10+col11;
-                    
+                      
+                      jml3+=v.countKelasJab;      
+                      jml5+=col5;      
+                      jml6+=col6;      
+                      jml7+=col7;      
+                      jml10+=col10;      
+                      jml11+=col11;      
+                      jml12+=col12;
 
                       html = '<tr>'+
                                '<td>'+(i++)+'</td>'+                               
@@ -205,6 +219,21 @@
                                             
 
                     });
+                    //footer jumlah
+                    html = '<tr>'+
+                              '<td colspan="2">Jumlah</td>'+
+                              '<td>'+jml3+'</td>'+
+                              '<td></td>'+
+                              '<td>'+number_format(jml5,0,",",".")+'</td>'+
+                              '<td>'+number_format(jml6,0,",",".")+'</td>'+
+                              '<td>'+number_format(jml7,0,",",".")+'</td>'+
+                              '<td></td>'+
+                              '<td></td>'+
+                              '<td>'+number_format(jml10,0,",",".")+'</td>'+
+                              '<td>'+number_format(jml11,0,",",".")+'</td>'+
+                              '<td>'+number_format(jml12,0,",",".")+'</td>'+
+                             '</tr>';
+                      $('tbody').append(html);
                   }
                 }
             });

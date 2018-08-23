@@ -235,7 +235,8 @@ class laporanAbsensi extends Controller
                         $q->on('aturan_tunkin_detail.id_aturan_tunkin',"absensi.kd_aturan");
                     })
                     ->where('absensi.id_waktu',$query[0]['id'])
-                    ->orderBy('pegawai.kd_satker','ASC');
+                    ->orderBy('pegawai.kd_satker','ASC')
+                    ->orderBy('pegawai.kelas_jab','DESC');
             }
             else
             {
@@ -249,7 +250,8 @@ class laporanAbsensi extends Controller
                     })
                     ->where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))
                     ->where('absensi.id_waktu',$query[0]['id'])
-                    ->orderBy('pegawai.kd_satker','ASC');   
+                    ->orderBy('pegawai.kd_satker','ASC')
+                    ->orderBy('pegawai.kelas_jab','DESC');   
             }
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
