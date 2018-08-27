@@ -200,6 +200,21 @@
 
         <!-- Sinkronisasi -->
         <li class="{{CH::segment(1,['sinkronisasiData'])}}"><a href="{{url('sinkronisasiData')}}"><i class="fa fa-book"></i> <span>Sinkronisasi Data</span></a></li>
+
+        <!--  Backup Restore-->
+        <li class="{{CH::segment(1,['backupRestore'])}} {{CH::showTo(['admin'])}} treeview">
+          <a href="#">
+            <i class="fa fa-gear"></i> <span>Backup & Restore</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{CH::segment(2,['backup'])}}"><a href="{{url('backupRestore/backup')}}"><i class="fa fa-circle-o"></i> Backup</a></li>            
+            <li class="{{CH::segment(2,['restore'])}}"><a href="{{url('backupRestore/restore')}}"><i class="fa fa-circle-o"></i> Restore</a></li>            
+          </ul>
+        </li> 
+
         <!-- Menu Data MAster -->
         <li class="{{CH::segment(1,['dataSatker','dataUnit','dataDept','dataJabatan','dataLokasi','dataPangkat','dataPegawai'])}} {{CH::showTo(['admin','operator'])}} treeview">
           <a href="#">

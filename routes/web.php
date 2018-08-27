@@ -76,7 +76,10 @@ Route::group(['middleware' => 'auth'],function(){
 		// Aturan Tunkin
 		Route::get('aturanTunkin/aktifkan/{id}','aturanTunkinController@aktifkan');
 		Route::get('aturanTunkin/detail/{id}','aturanTunkinController@detail');
-		Route::resource('aturanTunkin','aturanTunkinController');			
+		Route::resource('aturanTunkin','aturanTunkinController');	
+		//backup restore
+		Route::get('backupRestore/backup','backupController@backupView');
+		Route::resource('backupRestore','backupController');
 	});
 
 	//Only Operator can access
