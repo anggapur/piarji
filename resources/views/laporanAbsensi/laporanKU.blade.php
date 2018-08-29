@@ -22,7 +22,7 @@
             <!-- <form method="POST" action="{{route('absensi.store')}}">   -->
               {{csrf_field()}}
             <div class="box-header">              
-              <h3 class="box-title">Laporan B1 Polri & B2 PNS</h3>                                                    
+              <h3 class="box-title">Laporan SPP Polri & PNS</h3>                            
             </div>
             <div class="box-body">    
               <form class="form-inline" id="formBulanTahun">
@@ -74,45 +74,120 @@
               </form>
               <hr>
 
-               <table border="1" cellpadding="10" id="tableLaporan">
-                 <thead>
-                  <tr>
-                     <th rowspan="2">No</th>
-                     <th rowspan="2">Kelas Jabatan</th>
-                     <th rowspan="2">Jumlah Penerima (Org)</th>
-                     <th rowspan="2">Indek Tunjangan Kinerja (Rp)</th>
-                     <th rowspan="2">Jumlah (Rp) (3x4)</th>
-                     <th rowspan="2">Tunjangan PPh21 (Rp)</th>
-                     <th rowspan="2">Jumlah Bruto (Rp) (5+6)</th>
-                     <th colspan="2">Pengurangan</th>
-                     <th colspan="2">Jumlah Netto</th>
-                     <th rowspan="2">Jumlah Bruto(10+11)</th>
-                   </tr>                  
-                   <tr>
-                     <th>Tunjangan Kinerja</th>
-                     <th>PPH 21</th>
-                     <th>TUNJKINERJA <br>(5-8)</th>
-                     <th>PPH 21 <br>(6-9)</th>
-                   </tr>                 
-                    <tr>
-                     <th>1</th>
-                     <th>2</th>
-                     <th>3</th>
-                     <th>4</th>
-                     <th>5</th>
-                     <th>6</th>
-                     <th>7</th>
-                     <th>8</th>
-                     <th>9</th>
-                     <th>10</th>
-                     <th>11</th>
-                     <th>12</th>                     
-                   </tr>
-                 </thead>
-                 <tbody>
-                   
-                 </tbody>
-               </table>               
+              <div class="lembarLaporanKU">
+                <div class="headerKU">
+                  <div class="leftKU">
+                    <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> BIDANG KEUANGAN</h5>
+                  </div>
+                  <div class="rightKU">
+                    <h5>Bukti Kas : </h5>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="judulKU">
+                  <h3>KWITANSI</h3>
+                </div>
+                <div class="bodyKU">
+                  <div class="bag1KU">
+                    <table>
+                      <tr>
+                        <td>Tahun Anggaran</td>
+                        <td>:</td>
+                        <td>2018</td>
+                      </tr>
+                      <tr>
+                        <td>Kode Akun</td>
+                        <td>:</td>
+                        <td>-</td>
+                      </tr>
+                      <tr>
+                        <td>Jenis Pengeluaran</td>
+                        <td>:</td>
+                        <td>Tunjangan Kinerja</td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="bag2KU">
+                    <table>
+                      <tr>
+                        <td>Terima Dari </td>
+                        <td>:</td>
+                        <td colspan="2">KABIDKEU POLDA BALI</td>
+                      </tr>
+                      <tr>
+                        <td>Uang sejumlah Rp.</td>
+                        <td>:</td>
+                        <td class="senilai"></td>
+                        <td class="terbilang"></td>
+                      </tr>
+                       <tr>
+                        <td>Untuk Pembayaran </td>
+                        <td>:</td>
+                        <td colspan="2" class="mengenai"></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="footerKU">
+                  <div class="leftKU">
+                    <h5>Denpasar, Juni 2018</h5>
+                    <h5>Yang membayarkan</h5>
+                    <div class="space"></div>
+                    <table>
+                      <tr>
+                        <td>Nama</td>
+                        <td>:</td>
+                        <td>TEGUH SLAMET KARYONO, S.H.</td>
+                      </tr>
+                      <tr>
+                        <td>Pangkat/NRP</td>
+                        <td>:</td>
+                        <td>KOMBES POL/62070680</td>
+                      </tr>
+                      <tr>
+                        <td>Jabatan</td>
+                        <td>:</td>
+                        <td>KABIDKEU</td>
+                      </tr>
+                      <tr>
+                        <td>Alamat</td>
+                        <td>:</td>
+                        <td>POLDA BALI</td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="rightKU">
+                    <h5>Denpasar, Juni 2018</h5>
+                    <h5>Yang membayarkan</h5>
+                    <div class="space"></div>
+                    <table>
+                      <tr>
+                        <td>Nama</td>
+                        <td>:</td>
+                        <td>IDA AYU PT. PURWA ASTUTI</td>
+                      </tr>
+                      <tr>
+                        <td>Pangkat/NRP</td>
+                        <td>:</td>
+                        <td>IPTU/66080339</td>
+                      </tr>
+                      <tr>
+                        <td>Jabatan</td>
+                        <td>:</td>
+                        <td>PAUR KEU SPRIPIM</td>
+                      </tr>
+                      <tr>
+                        <td>Alamat</td>
+                        <td>:</td>
+                        <td>POLDA BALI</td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="clearfix"></div>
+
+                </div>
+
+              </div>
             </div>   
           </div>
           <!-- end box info -->
@@ -124,6 +199,7 @@
     
    <script type="text/javascript">
       //form bulan tahun
+
         $('#formBulanTahun').submit(function(e){          
           bulan = $(this).find("select[name='bulan']").val();
           tahun = $(this).find("select[name='tahun']").val();
@@ -133,7 +209,7 @@
 
           $.ajax({
                 type: "POST",                  
-                url: "{{route('pilihBulanTahunLaporanB')}}",
+                url: "{{route('pilihBulanTahunLaporanKU')}}",
                 data: 
                 { 
                   "_token": "{{ csrf_token() }}",
@@ -143,10 +219,11 @@
                   "jenis_pegawai" : jenis_pegawai,
                 },
                 success: function(data) {
+                  
                   console.log(data);
                   if(data.status == "nodata")
                   { 
-                    $('table').fadeOut('slow');
+                    $('.lembarLaporanKU').fadeOut('slow');
                     $('#message').fadeIn("slow").html('Belum Ada Data Absensi');
                     setTimeout(function(){
                       $('#message').fadeOut('slow');
@@ -154,7 +231,7 @@
                   }
                   if(data.dataAbsensi.length == 0)
                   { 
-                    $('table').fadeOut('slow');
+                    $('.lembarLaporanKU').fadeOut('slow');
                     $('#message').fadeIn("slow").html('Belum Ada Data Absensi');
                     setTimeout(function(){
                       $('#message').fadeOut('slow');
@@ -162,9 +239,11 @@
                   }
                   else if(data.status == "success")
                   {
+                    $('.lembarLaporanKU').fadeIn("slow");
                     i = 1;
-                    $('table').fadeIn('slow');
-                    $('tbody').empty();
+                    
+                     mengenaiWord = data.words;
+                    $('.mengenai').html(mengenaiWord);
 
                     console.log(data.formula);
                     formula1 = data.formula[0]['rumus'];
@@ -182,6 +261,11 @@
                     jml10 = 0;      
                     jml11 = 0;      
                     jml12 = 0;      
+
+                    senilai2 = 0;
+                    sprinLalu = 0;
+                    sprinJumlah = 0;
+                    sisaSprint = 0;
                     $.each(data.dataAbsensi,function(k,v){     
 
                       col5 = (v.tunjangan*v.countKelasJab);
@@ -200,40 +284,15 @@
                       jml10+=col10;      
                       jml11+=col11;      
                       jml12+=col12;
-
-                      html = '<tr>'+
-                               '<td>'+(i++)+'</td>'+                               
-                               '<td>'+v.kelas_jab+'</td>'+
-                               '<td>'+v.countKelasJab+'</td>'+
-                               '<td>'+number_format(v.tunjangan,0,",",".")+'</td>'+
-                               '<td>'+number_format(col5,0,",",".")+'</td>'+
-                               '<td>'+number_format(col6,0,",",".")+'</td>'+
-                               '<td>'+number_format(col7,0,",",".")+'</td>'+
-                               '<td>'+col8+'</td>'+
-                               '<td>'+col9+'</td>'+
-                               '<td>'+number_format(col10,0,",",".")+'</td>'+
-                               '<td>'+number_format(col11,0,",",".")+'</td>'+
-                               '<td>'+number_format(col12,0,",",".")+'</td>'+
-                             '</tr>';
-                      $('tbody').append(html);
-                                            
-
                     });
-                    //footer jumlah
-                    html = '<tr>'+
-                              '<td colspan="2">Jumlah</td>'+
-                              '<td>'+jml3+'</td>'+
-                              '<td></td>'+
-                              '<td>'+number_format(jml5,0,",",".")+'</td>'+
-                              '<td>'+number_format(jml6,0,",",".")+'</td>'+
-                              '<td>'+number_format(jml7,0,",",".")+'</td>'+
-                              '<td></td>'+
-                              '<td></td>'+
-                              '<td>'+number_format(jml10,0,",",".")+'</td>'+
-                              '<td>'+number_format(jml11,0,",",".")+'</td>'+
-                              '<td>'+number_format(jml12,0,",",".")+'</td>'+
-                             '</tr>';
-                      $('tbody').append(html);
+                    $('.senilai').html("Rp.   "+number_format(jml12,0,",","."));
+                    $('.terbilang').html('('+terbilang(jml12)+')');
+                    senilaiJumlah = jml12+senilai2;
+                    $('.senilaiJumlah').html("Rp.   "+number_format(senilaiJumlah,0,",","."));
+                    $('.sprinLalu').html("Rp.   "+number_format(sprinLalu,0,",","."));
+                    sprinJumlah = sprinLalu+jml12;
+                    $('.sprinJumlah').html("Rp.   "+number_format(sprinJumlah,0,",","."));
+                    $('.sisaSprint').html("Rp.   "+number_format(sisaSprint,0,",","."));
                   }
                 }
             });
@@ -279,5 +338,91 @@
         function getSum(total, num) {
             return total + num;
         }
+
+
+
+        function terbilang(bilangan) {
+
+           bilangan    = String(bilangan);
+           var angka   = new Array('0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0');
+           var kata    = new Array('','Satu','Dua','Tiga','Empat','Lima','Enam','Tujuh','Delapan','Sembilan');
+           var tingkat = new Array('','Ribu','Juta','Milyar','Triliun');
+
+           var panjang_bilangan = bilangan.length;
+
+           /* pengujian panjang bilangan */
+           if (panjang_bilangan > 15) {
+             kaLimat = "Diluar Batas";
+             return kaLimat;
+           }
+
+           /* mengambil angka-angka yang ada dalam bilangan, dimasukkan ke dalam array */
+           for (i = 1; i <= panjang_bilangan; i++) {
+             angka[i] = bilangan.substr(-(i),1);
+           }
+
+           i = 1;
+           j = 0;
+           kaLimat = "";
+
+
+           /* mulai proses iterasi terhadap array angka */
+           while (i <= panjang_bilangan) {
+
+             subkaLimat = "";
+             kata1 = "";
+             kata2 = "";
+             kata3 = "";
+
+             /* untuk Ratusan */
+             if (angka[i+2] != "0") {
+               if (angka[i+2] == "1") {
+                 kata1 = "Seratus";
+               } else {
+                 kata1 = kata[angka[i+2]] + " Ratus";
+               }
+             }
+
+             /* untuk Puluhan atau Belasan */
+             if (angka[i+1] != "0") {
+               if (angka[i+1] == "1") {
+                 if (angka[i] == "0") {
+                   kata2 = "Sepuluh";
+                 } else if (angka[i] == "1") {
+                   kata2 = "Sebelas";
+                 } else {
+                   kata2 = kata[angka[i]] + " Belas";
+                 }
+               } else {
+                 kata2 = kata[angka[i+1]] + " Puluh";
+               }
+             }
+
+             /* untuk Satuan */
+             if (angka[i] != "0") {
+               if (angka[i+1] != "1") {
+                 kata3 = kata[angka[i]];
+               }
+             }
+
+             /* pengujian angka apakah tidak nol semua, lalu ditambahkan tingkat */
+             if ((angka[i] != "0") || (angka[i+1] != "0") || (angka[i+2] != "0")) {
+               subkaLimat = kata1+" "+kata2+" "+kata3+" "+tingkat[j]+" ";
+             }
+
+             /* gabungkan variabe sub kaLimat (untuk Satu blok 3 angka) ke variabel kaLimat */
+             kaLimat = subkaLimat + kaLimat;
+             i = i + 3;
+             j = j + 1;
+
+           }
+
+           /* mengganti Satu Ribu jadi Seribu jika diperlukan */
+           if ((angka[5] == "0") && (angka[6] == "0")) {
+             kaLimat = kaLimat.replace("Satu Ribu","Seribu");
+           }
+
+           return kaLimat + "Rupiah";
+          }
    </script>
 @endsection

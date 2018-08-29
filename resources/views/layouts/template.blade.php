@@ -195,6 +195,8 @@
           <ul class="treeview-menu">
             <li class="{{CH::segment(2,['laporan1'])}}"><a href="{{url('laporanAbsensi/laporan1')}}"><i class="fa fa-circle-o"></i> Laporan C1/C2</a></li>            
             <li class="{{CH::segment(2,['laporanB'])}}"><a href="{{url('laporanAbsensi/laporanB')}}"><i class="fa fa-circle-o"></i> Laporan B1/B2</a></li>            
+            <li class="{{CH::segment(2,['laporanSPP'])}}"><a href="{{url('laporanAbsensi/laporanSPP')}}"><i class="fa fa-circle-o"></i> Laporan SPP</a></li>            
+            <li class="{{CH::segment(2,['laporanKU'])}}"><a href="{{url('laporanAbsensi/laporanKU')}}"><i class="fa fa-circle-o"></i> Laporan KU</a></li>            
           </ul>
         </li> 
 
@@ -234,26 +236,7 @@
             <li class="{{CH::segment(1,['dataPegawai'])}}"><a href="{{url('dataPegawai')}}"><i class="fa fa-circle-o"></i> Data Pegawai</a></li>
           </ul>
         </li>  
-
-        <!-- Menu Laporan -->
-        <li class="{{CH::segment(1,[])}} {{CH::showTo(['operator'])}} treeview">
-          <a href="#">
-            <i class="fa fa-file-text"></i> <span>Laporan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="{{CH::segment(1,['dataSatker'])}}"><a href="{{url('dataSatker')}}"><i class="fa fa-circle-o"></i> Data Satker</a></li>
-            <li class="{{CH::segment(1,['dataUnit'])}}"><a href="{{url('dataUnit')}}"><i class="fa fa-circle-o"></i> Data Unit</a></li>
-            <li class="{{CH::segment(1,['dataDept'])}}"><a href="{{url('dataDept')}}"><i class="fa fa-circle-o"></i> Data Dept</a></li>
-            <li class="{{CH::segment(1,['dataJabatan'])}}"><a href="{{url('dataJabatan')}}"><i class="fa fa-circle-o"></i> 
-            Data Jabatan</a></li>
-            <li class="{{CH::segment(1,['dataLokasi'])}}"><a href="{{url('dataLokasi')}}"><i class="fa fa-circle-o"></i> Data Lokasi</a></li>
-            <li class="{{CH::segment(1,['dataPangkat'])}}"><a href="{{url('dataPangkat')}}"><i class="fa fa-circle-o"></i> Data Pangkat</a></li>
-            <li class="{{CH::segment(1,['dataPegawai'])}}"><a href="{{url('dataPegawai')}}"><i class="fa fa-circle-o"></i> Data Pegawai</a></li>
-          </ul>
-        </li>  
+        
 
         <!-- Menu Kebijakan -->
         <li class="{{CH::segment(1,['kebijakanAbsensi'])}} {{CH::showTo(['admin'])}} treeview">

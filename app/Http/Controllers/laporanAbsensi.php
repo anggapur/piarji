@@ -94,7 +94,79 @@ class laporanAbsensi extends Controller
 
         return view($this->mainPage.".laporanB",$data);
     }
-   
+    
+    public function laporanSPP()
+    {
+        //data
+        /*
+        if(Auth::user()->level == "admin")
+        {
+            $q = pegawai::leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
+            ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
+            ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')            
+            ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
+        }
+        else
+        {
+            $q = pegawai::leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
+            ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
+            ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')   
+            ->where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))         
+            ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
+        }
+        $data['pegawai'] = $q->get();
+        */
+        
+        //waktu absensi
+        $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
+        $data['dataAturanAbsensi'] = aturan_absensi::all();
+        $data['page'] = $this->page;
+        $data['subpage'] = "";    
+        $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
+
+        $data['dataSatker'] = [];
+        if(Auth::user()->level == "admin")
+            $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')->get();
+
+        return view($this->mainPage.".laporanSPP",$data);
+    }
+
+    public function laporanKU()
+    {
+        //data
+        /*
+        if(Auth::user()->level == "admin")
+        {
+            $q = pegawai::leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
+            ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
+            ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')            
+            ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
+        }
+        else
+        {
+            $q = pegawai::leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
+            ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
+            ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')   
+            ->where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))         
+            ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
+        }
+        $data['pegawai'] = $q->get();
+        */
+        
+        //waktu absensi
+        $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
+        $data['dataAturanAbsensi'] = aturan_absensi::all();
+        $data['page'] = $this->page;
+        $data['subpage'] = "";    
+        $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
+
+        $data['dataSatker'] = [];
+        if(Auth::user()->level == "admin")
+            $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')->get();
+
+        return view($this->mainPage.".laporanKU",$data);
+    }
+
     public function anyData()
     {
         if(Auth::user()->level == "admin")
@@ -202,6 +274,210 @@ class laporanAbsensi extends Controller
                 }
             }
             return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $nilaiBalik,'formula' => $formula,'tunkin' => $tunkin];            
+        }
+        else
+        {
+            return ['status' => 'failed'];
+        }
+    }
+
+    public function pilihBulanTahunSPP(Request $request)
+    {
+        //cari data yang sesuai
+        $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun];
+        $query = waktu_absensi::where($where)->get();
+        $formula = aturan_absensi::orderBy('id','ASC')->get();
+        $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        if($query->count() == 0)
+        {
+            //buat data jika tidak ada            
+            return ['status' => 'nodata','dataAbsensi' => null];
+        }
+        else if($query->count() == 1)
+        {
+            $id_aturan_tunkin = aturan_tunkin::where('state','1')->first()->id;
+            if(Auth::user()->level == "admin")
+            {
+                $q2 = pegawai::leftJoin('absensi','pegawai.nip','=','absensi.nip')
+                    ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
+                    ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
+                    ->leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
+                    ->leftJoin('aturan_tunkin_detail',function($q){
+                        $q->on('pegawai.kelas_jab','=','aturan_tunkin_detail.kelas_jabatan');
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin',"absensi.kd_aturan");
+                    })
+                    ->where('absensi.id_waktu',$query[0]['id']);
+                    
+            }
+            else
+            {
+                $q2 = pegawai::leftJoin('absensi','pegawai.nip','=','absensi.nip')
+                    ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
+                    ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
+                    ->leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
+                    ->leftJoin('aturan_tunkin_detail',function($q){
+                        $q->on('pegawai.kelas_jab','=','aturan_tunkin_detail.kelas_jabatan');
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin',"absensi.kd_aturan");
+                    })
+                    ->where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))
+                    ->where('absensi.id_waktu',$query[0]['id']);
+            }
+
+            $q2->groupBy('pegawai.kelas_jab')
+                    ->orderBy('pegawai.kelas_jab','DESC')   
+                    ->orderBy('pegawai.kd_satker','ASC')
+                    ->selectRaw(DB::raw('pegawai.* , count(pegawai.kelas_jab) as countKelasJab , aturan_tunkin_detail.tunjangan')); 
+            //cek apakah ada request berdasarkan satker
+            if($request->satker != "")
+                $q2->where('pegawai.kd_satker',$request->satker);
+            //cek apakah di requect polri atau pns
+            if($request->jenis_pegawai == "0")
+                $q2->whereRaw('LENGTH(pegawai.nip) <= 8'); // polri
+            else if($request->jenis_pegawai == "1")
+                $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
+
+            //cari aturan tunkin detail
+            $tunkin = aturan_tunkin_detail::leftJoin('aturan_tunkin','aturan_tunkin_detail.id_aturan_tunkin','=','aturan_tunkin.id')->where('state','1')->orderBy('kelas_jabatan','DESC')->get();       
+
+            $nilaiBalik = [];     
+            foreach ($tunkin as $key => $value) {
+                $state = false;
+                foreach ($q2->get() as $key => $val) {
+                    if($val->kelas_jab == $value->kelas_jabatan)
+                    {
+                        array_push($nilaiBalik, $val);
+                        $state = true;
+                        break;
+                    }
+                }
+                if($state == false)
+                {
+                    array_push($nilaiBalik, ['kelas_jab' => $value->kelas_jabatan , 'tunjangan' => $value->tunjangan , 'countKelasJab' => 0]);                    
+                }
+            }
+            //satker            
+            $mengenaiWord = "Pembayaran Tunjangan Kinerja";
+
+            //jenis pegawai            
+            if($request->jenis_pegawai == "0")
+                $mengenaiWord.=" Polri";                
+            else if($request->jenis_pegawai == "1")
+                $mengenaiWord.=" PNS";    
+            else
+                $mengenaiWord.=" Polri & PNS";            
+
+            //satker            
+            if($request->satker != "")
+            {
+                $satker = satker::where('kd_satker',$request->satker)->first()->nm_satker;            
+                $mengenaiWord.=" Satker ".$satker;
+            }
+
+            $mengenaiWord.=" bulan ".$bulan[$request->bulan]." ".$request->tahun;
+
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $nilaiBalik,'formula' => $formula,'tunkin' => $tunkin,'words' => $mengenaiWord];            
+        }
+        else
+        {
+            return ['status' => 'failed'];
+        }
+    }
+
+    public function pilihBulanTahunKU(Request $request)
+    {
+        //cari data yang sesuai
+        $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun];
+        $query = waktu_absensi::where($where)->get();
+        $formula = aturan_absensi::orderBy('id','ASC')->get();
+        $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        if($query->count() == 0)
+        {
+            //buat data jika tidak ada            
+            return ['status' => 'nodata','dataAbsensi' => null];
+        }
+        else if($query->count() == 1)
+        {
+            $id_aturan_tunkin = aturan_tunkin::where('state','1')->first()->id;
+            if(Auth::user()->level == "admin")
+            {
+                $q2 = pegawai::leftJoin('absensi','pegawai.nip','=','absensi.nip')
+                    ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
+                    ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
+                    ->leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
+                    ->leftJoin('aturan_tunkin_detail',function($q){
+                        $q->on('pegawai.kelas_jab','=','aturan_tunkin_detail.kelas_jabatan');
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin',"absensi.kd_aturan");
+                    })
+                    ->where('absensi.id_waktu',$query[0]['id']);
+                    
+            }
+            else
+            {
+                $q2 = pegawai::leftJoin('absensi','pegawai.nip','=','absensi.nip')
+                    ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
+                    ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
+                    ->leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
+                    ->leftJoin('aturan_tunkin_detail',function($q){
+                        $q->on('pegawai.kelas_jab','=','aturan_tunkin_detail.kelas_jabatan');
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin',"absensi.kd_aturan");
+                    })
+                    ->where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))
+                    ->where('absensi.id_waktu',$query[0]['id']);
+            }
+
+            $q2->groupBy('pegawai.kelas_jab')
+                    ->orderBy('pegawai.kelas_jab','DESC')   
+                    ->orderBy('pegawai.kd_satker','ASC')
+                    ->selectRaw(DB::raw('pegawai.* , count(pegawai.kelas_jab) as countKelasJab , aturan_tunkin_detail.tunjangan')); 
+            //cek apakah ada request berdasarkan satker
+            if($request->satker != "")
+                $q2->where('pegawai.kd_satker',$request->satker);
+            //cek apakah di requect polri atau pns
+            if($request->jenis_pegawai == "0")
+                $q2->whereRaw('LENGTH(pegawai.nip) <= 8'); // polri
+            else if($request->jenis_pegawai == "1")
+                $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
+
+            //cari aturan tunkin detail
+            $tunkin = aturan_tunkin_detail::leftJoin('aturan_tunkin','aturan_tunkin_detail.id_aturan_tunkin','=','aturan_tunkin.id')->where('state','1')->orderBy('kelas_jabatan','DESC')->get();       
+
+            $nilaiBalik = [];     
+            foreach ($tunkin as $key => $value) {
+                $state = false;
+                foreach ($q2->get() as $key => $val) {
+                    if($val->kelas_jab == $value->kelas_jabatan)
+                    {
+                        array_push($nilaiBalik, $val);
+                        $state = true;
+                        break;
+                    }
+                }
+                if($state == false)
+                {
+                    array_push($nilaiBalik, ['kelas_jab' => $value->kelas_jabatan , 'tunjangan' => $value->tunjangan , 'countKelasJab' => 0]);                    
+                }
+            }
+            //satker            
+            $mengenaiWord = "Pembayaran Tunjangan Kinerja";
+
+            //jenis pegawai            
+            if($request->jenis_pegawai == "0")
+                $mengenaiWord.=" Polri";                
+            else if($request->jenis_pegawai == "1")
+                $mengenaiWord.=" PNS";    
+            else
+                $mengenaiWord.=" Polri & PNS";            
+
+            //satker            
+            if($request->satker != "")
+            {
+                $satker = satker::where('kd_satker',$request->satker)->first()->nm_satker;            
+                $mengenaiWord.=" Satker ".$satker;
+            }
+
+            $mengenaiWord.=" bulan ".$bulan[$request->bulan]." ".$request->tahun;
+
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $nilaiBalik,'formula' => $formula,'tunkin' => $tunkin,'words' => $mengenaiWord];            
         }
         else
         {

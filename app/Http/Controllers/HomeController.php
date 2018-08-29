@@ -7,6 +7,10 @@ use Auth;
 use App\pegawai;
 use App\User;
 use CH;
+use DB;
+use File;
+use Illuminate\Support\Facades\Schema;
+use Artisan;
 class HomeController extends Controller
 {
     /**
@@ -24,6 +28,32 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function cobaImport()
+    {
+        set_time_limit(0);
+
+        DB::statement("SET foreign_key_checks=0");
+        $databaseName = DB::getDatabaseName();
+        $tables = DB::select("SELECT * FROM information_schema.tables WHERE table_schema = '$databaseName'");
+        foreach ($tables as $table) {
+            $name = $table->TABLE_NAME;
+            //if you don't want to truncate migrations
+            //if ($name !== 'migrations') {
+                echo $name;
+                // DB::table($name)->truncate();
+                Schema::drop($name);    
+            //}
+            
+        }
+        DB::statement("SET foreign_key_checks=1");
+        $q = DB::unprepared(File::get('public/backupMysql/db_prg.sql')); 
+        if($q)
+            return "Berhasil";
+        else
+            return "Gagal";
+            
+        
+    }
     public function index()
     {
         //cari jumlah pegawai             

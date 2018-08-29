@@ -15,6 +15,7 @@ Route::get('/', function () {
     return redirect('login');
 });
 
+Route::get('cobaImport','HomeController@cobaImport');
 Route::get('formula','HomeController@mathFormula');
 Route::get('test',function(){
 	return CH::segment(1,"test");
@@ -78,6 +79,7 @@ Route::group(['middleware' => 'auth'],function(){
 		Route::get('aturanTunkin/detail/{id}','aturanTunkinController@detail');
 		Route::resource('aturanTunkin','aturanTunkinController');	
 		//backup restore
+		Route::get('backupRestore/restore','backupController@restoreView');
 		Route::get('backupRestore/backup','backupController@backupView');
 		Route::resource('backupRestore','backupController');
 	});
@@ -95,5 +97,12 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get('laporanAbsensi/laporanB','laporanAbsensi@laporanB');
 	Route::post('pilihBulanTahunLaporanB','laporanAbsensi@pilihBulanTahunB')->name('pilihBulanTahunLaporanB');
 	Route::get('laporanAbsensi/cekLap','laporanAbsensi@cekLap');
+
+	Route::get('laporanAbsensi/laporanSPP','laporanAbsensi@laporanSPP');
+	Route::post('pilihBulanTahunLaporanSPP','laporanAbsensi@pilihBulanTahunSPP')->name('pilihBulanTahunLaporanSPP');
+
+	Route::get('laporanAbsensi/laporanKU','laporanAbsensi@laporanKU');
+	Route::post('pilihBulanTahunLaporanKU','laporanAbsensi@pilihBulanTahunKU')->name('pilihBulanTahunLaporanKU');
+	
 
 });
