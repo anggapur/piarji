@@ -241,10 +241,10 @@ class laporanAbsensi extends Controller
                     ->where('absensi.id_waktu',$query[0]['id']);
             }
 
-            $q2->groupBy('pegawai.kelas_jab')
+            $q2 //->groupBy('pegawai.kelas_jab')
                     ->orderBy('pegawai.kelas_jab','DESC')   
                     ->orderBy('pegawai.kd_satker','ASC')
-                    ->selectRaw(DB::raw('pegawai.* , count(pegawai.kelas_jab) as countKelasJab , aturan_tunkin_detail.tunjangan')); 
+                    ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan')); 
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
                 $q2->where('pegawai.kd_satker',$request->satker);
@@ -257,6 +257,7 @@ class laporanAbsensi extends Controller
             //cari aturan tunkin detail
             $tunkin = aturan_tunkin_detail::leftJoin('aturan_tunkin','aturan_tunkin_detail.id_aturan_tunkin','=','aturan_tunkin.id')->where('state','1')->orderBy('kelas_jabatan','DESC')->get();       
 
+            /*
             $nilaiBalik = [];     
             foreach ($tunkin as $key => $value) {
                 $state = false;
@@ -273,7 +274,44 @@ class laporanAbsensi extends Controller
                     array_push($nilaiBalik, ['kelas_jab' => $value->kelas_jabatan , 'tunjangan' => $value->tunjangan , 'countKelasJab' => 0]);                    
                 }
             }
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $nilaiBalik,'formula' => $formula,'tunkin' => $tunkin];            
+            */
+            $nilaiBalik = [];
+            foreach ($q2->get() as $key => $val) {
+                
+                if (array_key_exists($val->kelas_jab, $nilaiBalik)) {
+                    $nilaiBalik[$val->kelas_jab]['kelas_jab'] = $val->kelas_jab;
+                    $nilaiBalik[$val->kelas_jab]['count_orang'] +=1;
+                    $nilaiBalik[$val->kelas_jab]['tunjangan'] = $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab]['pph'] += CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain);
+                }
+                else
+                {
+                    $nilaiBalik[$val->kelas_jab]['kelas_jab'] = $val->kelas_jab;
+                    $nilaiBalik[$val->kelas_jab]['count_orang'] = 1;
+                    $nilaiBalik[$val->kelas_jab]['tunjangan'] = $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab]['pph'] = CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain);
+                }
+            }
+
+            $returnVal = [];     
+            foreach ($tunkin as $key => $value) {
+                $state = false;
+                foreach ($nilaiBalik as $key => $val) {
+                    if($val['kelas_jab'] == $value->kelas_jabatan)
+                    {
+                        array_push($returnVal, $val);
+                        $state = true;
+                        break;
+                    }
+                }
+                if($state == false)
+                {
+                    array_push($returnVal, ['kelas_jab' => $value->kelas_jabatan , 'tunjangan' => $value->tunjangan , 'count_orang' => 0 ,'pph' => '0']);                    
+                }
+            }
+
+
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $returnVal,'formula' => $formula,'tunkin' => $tunkin];            
         }
         else
         {
@@ -283,11 +321,12 @@ class laporanAbsensi extends Controller
 
     public function pilihBulanTahunSPP(Request $request)
     {
+        //cari data yang sesuai       
+        $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
         //cari data yang sesuai
         $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun];
         $query = waktu_absensi::where($where)->get();
         $formula = aturan_absensi::orderBy('id','ASC')->get();
-        $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
         if($query->count() == 0)
         {
             //buat data jika tidak ada            
@@ -323,10 +362,10 @@ class laporanAbsensi extends Controller
                     ->where('absensi.id_waktu',$query[0]['id']);
             }
 
-            $q2->groupBy('pegawai.kelas_jab')
+            $q2 //->groupBy('pegawai.kelas_jab')
                     ->orderBy('pegawai.kelas_jab','DESC')   
                     ->orderBy('pegawai.kd_satker','ASC')
-                    ->selectRaw(DB::raw('pegawai.* , count(pegawai.kelas_jab) as countKelasJab , aturan_tunkin_detail.tunjangan')); 
+                    ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan')); 
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
                 $q2->where('pegawai.kd_satker',$request->satker);
@@ -339,6 +378,7 @@ class laporanAbsensi extends Controller
             //cari aturan tunkin detail
             $tunkin = aturan_tunkin_detail::leftJoin('aturan_tunkin','aturan_tunkin_detail.id_aturan_tunkin','=','aturan_tunkin.id')->where('state','1')->orderBy('kelas_jabatan','DESC')->get();       
 
+            /*
             $nilaiBalik = [];     
             foreach ($tunkin as $key => $value) {
                 $state = false;
@@ -353,6 +393,41 @@ class laporanAbsensi extends Controller
                 if($state == false)
                 {
                     array_push($nilaiBalik, ['kelas_jab' => $value->kelas_jabatan , 'tunjangan' => $value->tunjangan , 'countKelasJab' => 0]);                    
+                }
+            }
+            */
+            $nilaiBalik = [];
+            foreach ($q2->get() as $key => $val) {
+                
+                if (array_key_exists($val->kelas_jab, $nilaiBalik)) {
+                    $nilaiBalik[$val->kelas_jab]['kelas_jab'] = $val->kelas_jab;
+                    $nilaiBalik[$val->kelas_jab]['count_orang'] +=1;
+                    $nilaiBalik[$val->kelas_jab]['tunjangan'] = $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab]['pph'] += CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain);
+                }
+                else
+                {
+                    $nilaiBalik[$val->kelas_jab]['kelas_jab'] = $val->kelas_jab;
+                    $nilaiBalik[$val->kelas_jab]['count_orang'] = 1;
+                    $nilaiBalik[$val->kelas_jab]['tunjangan'] = $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab]['pph'] = CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain);
+                }
+            }
+
+            $returnVal = [];     
+            foreach ($tunkin as $key => $value) {
+                $state = false;
+                foreach ($nilaiBalik as $key => $val) {
+                    if($val['kelas_jab'] == $value->kelas_jabatan)
+                    {
+                        array_push($returnVal, $val);
+                        $state = true;
+                        break;
+                    }
+                }
+                if($state == false)
+                {
+                    array_push($returnVal, ['kelas_jab' => $value->kelas_jabatan , 'tunjangan' => $value->tunjangan , 'count_orang' => 0 ,'pph' => '0']);                    
                 }
             }
             //satker            
@@ -375,7 +450,7 @@ class laporanAbsensi extends Controller
 
             $mengenaiWord.=" bulan ".$bulan[$request->bulan]." ".$request->tahun;
 
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $nilaiBalik,'formula' => $formula,'tunkin' => $tunkin,'words' => $mengenaiWord];            
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $returnVal,'formula' => $formula,'tunkin' => $tunkin,'words' => $mengenaiWord];            
         }
         else
         {
@@ -385,11 +460,11 @@ class laporanAbsensi extends Controller
 
     public function pilihBulanTahunKU(Request $request)
     {
+        $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
         //cari data yang sesuai
         $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun];
         $query = waktu_absensi::where($where)->get();
         $formula = aturan_absensi::orderBy('id','ASC')->get();
-        $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
         if($query->count() == 0)
         {
             //buat data jika tidak ada            
@@ -425,10 +500,10 @@ class laporanAbsensi extends Controller
                     ->where('absensi.id_waktu',$query[0]['id']);
             }
 
-            $q2->groupBy('pegawai.kelas_jab')
+            $q2 //->groupBy('pegawai.kelas_jab')
                     ->orderBy('pegawai.kelas_jab','DESC')   
                     ->orderBy('pegawai.kd_satker','ASC')
-                    ->selectRaw(DB::raw('pegawai.* , count(pegawai.kelas_jab) as countKelasJab , aturan_tunkin_detail.tunjangan')); 
+                    ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan')); 
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
                 $q2->where('pegawai.kd_satker',$request->satker);
@@ -441,6 +516,7 @@ class laporanAbsensi extends Controller
             //cari aturan tunkin detail
             $tunkin = aturan_tunkin_detail::leftJoin('aturan_tunkin','aturan_tunkin_detail.id_aturan_tunkin','=','aturan_tunkin.id')->where('state','1')->orderBy('kelas_jabatan','DESC')->get();       
 
+            /*
             $nilaiBalik = [];     
             foreach ($tunkin as $key => $value) {
                 $state = false;
@@ -455,6 +531,41 @@ class laporanAbsensi extends Controller
                 if($state == false)
                 {
                     array_push($nilaiBalik, ['kelas_jab' => $value->kelas_jabatan , 'tunjangan' => $value->tunjangan , 'countKelasJab' => 0]);                    
+                }
+            }
+            */
+            $nilaiBalik = [];
+            foreach ($q2->get() as $key => $val) {
+                
+                if (array_key_exists($val->kelas_jab, $nilaiBalik)) {
+                    $nilaiBalik[$val->kelas_jab]['kelas_jab'] = $val->kelas_jab;
+                    $nilaiBalik[$val->kelas_jab]['count_orang'] +=1;
+                    $nilaiBalik[$val->kelas_jab]['tunjangan'] = $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab]['pph'] += CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain);
+                }
+                else
+                {
+                    $nilaiBalik[$val->kelas_jab]['kelas_jab'] = $val->kelas_jab;
+                    $nilaiBalik[$val->kelas_jab]['count_orang'] = 1;
+                    $nilaiBalik[$val->kelas_jab]['tunjangan'] = $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab]['pph'] = CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain);
+                }
+            }
+
+            $returnVal = [];     
+            foreach ($tunkin as $key => $value) {
+                $state = false;
+                foreach ($nilaiBalik as $key => $val) {
+                    if($val['kelas_jab'] == $value->kelas_jabatan)
+                    {
+                        array_push($returnVal, $val);
+                        $state = true;
+                        break;
+                    }
+                }
+                if($state == false)
+                {
+                    array_push($returnVal, ['kelas_jab' => $value->kelas_jabatan , 'tunjangan' => $value->tunjangan , 'count_orang' => 0 ,'pph' => '0']);                    
                 }
             }
             //satker            
@@ -538,8 +649,12 @@ class laporanAbsensi extends Controller
             else if($request->jenis_pegawai == "1")
                 $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
 
-
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $q2->get(),'formula' => $formula];            
+            $dataSend = [];            
+            foreach ($q2->get() as $key => $value) {
+                $dataSend[$key] = $value;
+                $dataSend[$key]['pajak'] = CH::formulaPPH($value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$value->tunjangan,$value->tunj_lain);
+            }
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $dataSend,'formula' => $formula];            
         }
         else
         {

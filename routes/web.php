@@ -20,6 +20,7 @@ Route::get('formula','HomeController@mathFormula');
 Route::get('test',function(){
 	return CH::segment(1,"test");
 });
+Route::get('formulaPPH','HomeController@formulaPPH');
 
 Auth::routes();
 

@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="{{ asset('public/template/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="{{ asset('public/template/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('public/template/style.css')}}">
+  <link rel="stylesheet" href="{{ asset('public/template/style.css')}}" type="text/css" media="all">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -46,6 +46,13 @@
 
   <!-- jQuery 3 -->
 <script src="{{ asset('public/template/bower_components/jquery/dist/jquery.min.js')}}"></script>
+<style type="text/css">
+  
+@media print
+{
+  .noprint {display:none;}
+}
+</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -275,7 +282,7 @@
     <!-- CUT HERE -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
+  <footer class="main-footer noprint">
     <div class="pull-right hidden-xs">
       <b>Version</b> 0.0.1
     </div>

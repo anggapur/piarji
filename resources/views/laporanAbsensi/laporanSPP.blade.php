@@ -18,7 +18,7 @@
                   </ul>
               </div>
           @endif
-          <div class="box box-info">
+          <div class="box box-info noprint">
             <!-- <form method="POST" action="{{route('absensi.store')}}">   -->
               {{csrf_field()}}
             <div class="box-header">              
@@ -70,10 +70,13 @@
                 </div>  
                 <div class="form-group">
                   <input type="submit" name="submitBulanTahun" value="Pilih" class="btn btn-success" id="btnPilih">
+                  <button class="btn btn-default" onClick="printReport()">Print</button>
                 </div>
               </form>
-              <hr>
-
+              </div>
+            </div>
+            <div class="box " style="border-top:0px;">    
+              <div class="box-body">
                <div class="lembarLaporan">             
                   <div class="headerLembarLaporan">
                     <h5 class="titleLaporan">
@@ -237,7 +240,30 @@
       <!-- /.row -->
       
     </section>
-    
+    <script type="text/javascript">
+      function printReport()
+      {
+        
+          window.print();
+        
+          var prtContent = document.getElementById("printArea");
+                    
+          // html = "<html><head><link rel='stylesheet' href='http://localhost/PRG/public/template/style.css' type='text/css' media='all'/></head><body><h1>HAI</h1></body></html>";
+          // console.log(html);
+         /* 
+          var WinPrint = window.open();
+
+          // WinPrint.document.write( "<link rel='stylesheet' href='http://localhost/PRG/public/template/style.css' type='text/css' media='all'/>");
+          WinPrint.document.write(prtContent.innerHTML);
+          
+          WinPrint.document.close();
+          WinPrint.focus();
+          WinPrint.print();
+          WinPrint.close();
+          */
+          
+      }
+  </script>
    <script type="text/javascript">
       //form bulan tahun
 
@@ -310,8 +336,8 @@
                     sisaSprint = 0;
                     $.each(data.dataAbsensi,function(k,v){     
 
-                      col5 = (v.tunjangan*v.countKelasJab);
-                      col6 = 100000*v.countKelasJab;
+                      col5 = (v.tunjangan*v.count_orang);
+                      col6 = v.pph;
                       col7 = col5+col6;                      
                       col8 = 0;
                       col9 = 0;
@@ -319,7 +345,7 @@
                       col11 = col6-col9;
                       col12 = col10+col11;
                       
-                      jml3+=v.countKelasJab;      
+                      jml3+=v.count_orang;      
                       jml5+=col5;      
                       jml6+=col6;      
                       jml7+=col7;      
@@ -327,8 +353,8 @@
                       jml11+=col11;      
                       jml12+=col12;
                     });
-                    $('.senilai').html("Rp.   "+number_format(jml12,0,",","."));
-                    $('.terbilang').html('('+terbilang(jml12)+')');
+                    $('.senilai').html("Rp.   "+number_format(Math.ceil(jml12),0,",","."));
+                    $('.terbilang').html('('+terbilang(Math.ceil(jml12))+')');
                     senilaiJumlah = jml12+senilai2;
                     $('.senilaiJumlah').html("Rp.   "+number_format(senilaiJumlah,0,",","."));
                     $('.sprinLalu').html("Rp.   "+number_format(sprinLalu,0,",","."));

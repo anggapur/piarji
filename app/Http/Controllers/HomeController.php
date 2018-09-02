@@ -80,6 +80,14 @@ class HomeController extends Controller
         $formula = "0.005*3717000*1";      
         eval( '$result = (' . $formula. ');' );
         echo $result;
+    }
 
+    public function formulaPPH()
+    {
+        $tanggunganArray = ['18','38','48'];
+
+        $query = pegawai::where('nip','81051411')->first();
+
+        echo CH::formulaPPH($query->kawin,$query->tanggungan,$query->jenis_kelamin,$query->gapok,$query->tunj_strukfung,'11024000',$query->tunj_lain);
     }
 }

@@ -21,7 +21,7 @@ td.inputColumn input {
 #tableLaporan td , #tableLaporan th{
   text-align: center;
   padding: 5px;
-  font-size: 11px;
+  font-size: 9px;
 }
 
 .floatRight {
@@ -262,4 +262,10 @@ table {}
 }
 .lembarLaporanKU {
     display: none;
+}
+h1{
+  
+}
+th.w100 {
+    font-size: 8px !important;
 }

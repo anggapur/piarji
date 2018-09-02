@@ -18,7 +18,7 @@
                   </ul>
               </div>
           @endif
-          <div class="box box-info">
+          <div class="box box-info noprint" >
             <!-- <form method="POST" action="{{route('absensi.store')}}">   -->
               {{csrf_field()}}
             <div class="box-header">              
@@ -70,10 +70,16 @@
                 </div>  
                 <div class="form-group">
                   <input type="submit" name="submitBulanTahun" value="Pilih" class="btn btn-success" id="btnPilih">
+                  <button class="btn btn-default" onClick="printReport()">Print</button>
                 </div>
               </form>
-              <hr>
+              </div>
+            </div>
 
+            <div class="box " style="border-top:0px;">            
+           
+            <div class="box-body"> 
+              <div id="printArea" class="printArea">
                <table border="1" cellpadding="10" id="tableLaporan">
                  <thead>
                   <tr>
@@ -134,7 +140,8 @@
                  <tbody>
                    
                  </tbody>
-               </table>               
+               </table>  
+              </div>             
             </div>   
           </div>
           <!-- end box info -->
@@ -144,7 +151,33 @@
       
     </section>
     
+    <script type="text/javascript">
+	    function printReport()
+	    {
+	    	
+          window.print();
+	    	
+	        var prtContent = document.getElementById("printArea");
+	        	        
+	        // html = "<html><head><link rel='stylesheet' href='http://localhost/PRG/public/template/style.css' type='text/css' media='all'/></head><body><h1>HAI</h1></body></html>";
+	        // console.log(html);
+	       /* 
+	        var WinPrint = window.open();
+
+	        // WinPrint.document.write( "<link rel='stylesheet' href='http://localhost/PRG/public/template/style.css' type='text/css' media='all'/>");
+	        WinPrint.document.write(prtContent.innerHTML);
+	        
+	        WinPrint.document.close();
+	        WinPrint.focus();
+	        WinPrint.print();
+	        WinPrint.close();
+          */
+	        
+	    }
+	</script>
+
    <script type="text/javascript">
+
       //form bulan tahun
         $('#formBulanTahun').submit(function(e){          
           bulan = $(this).find("select[name='bulan']").val();
@@ -210,7 +243,7 @@
                       absensVal[4] = absensiFormulaMath(formula4,v.tunjangan,v.absensi4);
                       jumlahPengurangan = absensVal.reduce(getSum);
                       yangDiterima = v.tunjangan-jumlahPengurangan;
-                      tPPH21 = 100000;
+                      tPPH21 = v.pajak;
                       terimaBruto = yangDiterima+tPPH21;
 
                       if(kodeSatker !== v.kd_satker)
