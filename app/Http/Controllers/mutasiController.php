@@ -51,6 +51,34 @@ class mutasiController extends Controller
         return view($this->mainPage.".terimaMutasi",$data);
         
     }
+    public function autoCekMutasiAktif()
+    {       
+        // return $request->all();
+        $now = date("m-Y",strtotime(Carbon::now()));
+        
+        
+
+        $query = mutasi::where('status_terima','1')
+                    ->where('ke_satker','<>','out')->get();
+
+        foreach ($query as $key => $value) {
+            $inputDate = '01-'.$value->bulan_diterima.'-'.$value->tahun_diterima;
+            $date=date_create($inputDate);
+            $dateCompare =  date_format($date,"m-Y");
+            if($dateCompare <= $now)
+            {
+
+                $query = pegawai::where('nip',$value->nip)->update(['kd_satker' => $value->ke_satker,'status_aktif'=>'1']);
+                
+            }
+            else
+            {
+                $query = pegawai::where('nip',$value->nip)->update(['kd_satker' => $value->ke_satker,'status_aktif'=>'0']);
+                
+            }
+        }
+        return $query;
+    }
     public function terima(Request $request)
     {
         // return $request->all();

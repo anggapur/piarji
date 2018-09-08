@@ -70,7 +70,8 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::resource('settingRekening','settingRekening');
 	Route::get('getDataRekening','settingRekening@anyData')->name('getDataRekening');
 
-
+	//,utasi cek
+	Route::get('autoCekMutasiAktif','mutasiController@autoCekMutasiAktif');
 	//Only Admin can access	
 	Route::group(['middleware' => 'level:admin'],function(){
 		//User setting
