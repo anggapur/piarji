@@ -89,6 +89,10 @@ class laporanAbsensi extends Controller
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '2','kd_satker' => Auth::user()->kd_satker])->get();
+        
+        if($data['dataTTD']->count() == 0)
+            return redirect('tandaTanganSetting/laporanB')->with(['status' => 'warning','message' => 'Anda Belum Mengisi Form Tanda Tangan']);
+
         $data['dataSatker'] = [];
         if(Auth::user()->level == "admin")
             $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')->get();
@@ -125,6 +129,10 @@ class laporanAbsensi extends Controller
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '3','kd_satker' => Auth::user()->kd_satker])->get();
+
+        if($data['dataTTD']->count() == 0)
+            return redirect('tandaTanganSetting/laporanSPP')->with(['status' => 'warning','message' => 'Anda Belum Mengisi Form Tanda Tangan']);        
+
         $data['dataSatker'] = [];
         if(Auth::user()->level == "admin")
             $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')->get();
@@ -160,6 +168,10 @@ class laporanAbsensi extends Controller
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '5','kd_satker' => Auth::user()->kd_satker])->get();
+
+        if($data['dataTTD']->count() == 0)
+            return redirect('tandaTanganSetting/laporanSPTJM')->with(['status' => 'warning','message' => 'Anda Belum Mengisi Form Tanda Tangan']);
+
         $data['dataSatker'] = [];
         if(Auth::user()->level == "admin")
             $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')->get();
@@ -196,6 +208,10 @@ class laporanAbsensi extends Controller
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '4','kd_satker' => Auth::user()->kd_satker])->get();
+        
+        if($data['dataTTD']->count() == 0)
+            return redirect('tandaTanganSetting/laporanKU')->with(['status' => 'warning','message' => 'Anda Belum Mengisi Form Tanda Tangan']);
+
         $data['dataSatker'] = [];
         if(Auth::user()->level == "admin")
             $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')->get();
