@@ -78,6 +78,34 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">          
           <!-- User Account: style can be found in dropdown.less -->
+          @if(Auth::user()->level == "operator")
+          <li class="dropdown messages-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-envelope-o"></i>
+              <span class="label label-success">{{collect(CH::getNotifTerimaMutasi())->count()}}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">Ada {{collect(CH::getNotifTerimaMutasi())->count()}} Mutasi Pegawai Dari Satker Lain</li>
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  @foreach(CH::getNotifTerimaMutasi() as $val)
+                  <li><!-- start message -->
+                    <a href="{{url('mutasiSetting/terimaMutasi')}}">                      
+                      <h4>
+                        {{$val->dari_satker}} - {{$val->nm_satker}}                   
+                      </h4>
+                      <p>{{$val->nip}} - {{$val->nama}}</p>
+                    </a>
+                  </li>
+                  @endforeach                 
+                </ul>
+              </li>
+              <li class="footer"><a href="{{url('mutasiSetting/terimaMutasi')}}">Lihat Semua Mutasi Masuk</a></li>
+            </ul>
+          </li>
+          @endif
+
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{{asset('public/template/dist/img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
@@ -222,7 +250,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="{{CH::segment(2,['kirimMutasi'])}}"><a href="{{url('mutasiSetting/kirimMutasi')}}"><i class="fa fa-circle-o"></i> Kirim Mutasi</a></li>            
+            <li class="{{CH::segment(2,['kirimMutasi'])}}"><a href="{{url('mutasiSetting/kirimMutasi')}}"><i class="fa fa-circle-o"></i> Kirim Mutasi</a></li>
+            <li class="{{CH::segment(2,[''])}}"><a href="{{url('mutasiSetting')}}"><i class="fa fa-circle-o"></i> Mutasi Keluar</a></li>            
             <li class="{{CH::segment(2,['terimaMutasi'])}}"><a href="{{url('mutasiSetting/terimaMutasi')}}"><i class="fa fa-circle-o"></i> Terima Mutasi</a></li>                        
           </ul>
         </li> 

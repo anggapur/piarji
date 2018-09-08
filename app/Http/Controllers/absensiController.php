@@ -178,6 +178,7 @@ class absensiController extends Controller
              ->rawColumns(['action','action2','action3','action4'])
             ->make(true);
     }
+    /*
     public function pilihBulanTahun(Request $request)
     {
         //cari data yang sesuai
@@ -201,6 +202,7 @@ class absensiController extends Controller
             return ['status' => 'failed'];
         }
     }
+    */
 
     public function pilihBulanTahunPegawai(Request $request)
     {
@@ -209,8 +211,14 @@ class absensiController extends Controller
         $query = waktu_absensi::where($where)->join('absensi','waktu_absensi.id','=','absensi.id_waktu');
         if($query->get()->count() == 0)
         {
-          $q = waktu_absensi::create(['bulan' => $request->bulan, 'tahun' => $request->tahun]);
-            $data =  $q = pegawai::where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))         
+
+          $qu = waktu_absensi::where(['bulan' => $request->bulan, 'tahun' => $request->tahun]);
+          
+          if($qu->get()->count() == 0)
+            $q = waktu_absensi::create(['bulan' => $request->bulan, 'tahun' => $request->tahun]);
+
+            $data = pegawai::where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker)) 
+                    ->where('status_aktif','1')        
             ->get();
             return ['keterangan' => 'Tidak Ada Pegawai','data' => $data];
         }

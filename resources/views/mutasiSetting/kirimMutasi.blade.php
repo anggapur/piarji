@@ -6,6 +6,11 @@
       <!-- Small boxes (Stat box) -->
       <div class="row">
         <div class="col-lg-12 col-xs-6">
+           @if (session('status'))
+              <div class="alert alert-{{session('status')}}">
+                  {!! session('message') !!}
+              </div>
+          @endif
           @if ($errors->any())
               <div class="alert alert-danger">
                   <ul>

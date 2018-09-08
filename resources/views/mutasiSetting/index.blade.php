@@ -29,14 +29,61 @@
                 <thead>
                 <tr>
                   <th>No</th>
-                  <th>Username</th>
-                  <th>Email</th>
-                  <th>Satker</th>
+                  <th>NIP</th>
+                  <th>Nama</th>
+                  <th>Ke Satker</th>
+                  <th>Waktu Keluar</th>
+                  <th>Status Terima</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                         
+                  @foreach($dataMutasi as $val)    
+                    <tr>
+                      <td>{{$loop->iteration}}</td>
+                      <td>{{$val->nip}}</td>
+                      <td>{{$val->nama}}</td>
+                      <td>
+                        @if($val->ke_satker !== "out")
+                          {{$val->ke_satker}} - {{$val->nm_satker}}
+                        @else
+                          <span class="label label-danger">Keluar Polda</span>
+                        @endif
+                      </td>
+                      <td>{{$bulan[$val->bulan_keluar]}} {{$val->tahun_keluar}}</td>
+                      <td>
+                        @if($val->ke_satker !== "out")
+                          @if($val->status_terima == 0)
+                            <span class="label label-warning">Belum Diterima</span>
+                          @elseif($val->status_terima == 1)
+                            <span class="label label-success">Sudah Diterima - 
+                            {{$bulan[$val->bulan_diterima]}} {{$val->tahun_diterima}}</span>
+                          @endif
+                        @else
+                          -
+                        @endif
+                      </td>
+                      <td>
+                        @if($val->ke_satker !== "out")
+                          @if($val->status_terima == 0)
+                             <form action="{{url('mutasiSetting/'.$val->id)}}" method="POST">
+                              {{csrf_field()}}
+                              <input type="hidden" name="_method" value="DELETE">
+                              <button type="submit" class=" btn btn-danger btn-xs"><i class="fa fa-trash"></i> Batalkan</button>
+                            </form>
+                          @elseif($val->status_terima == 1)
+                            -                            
+                          @endif
+                        @else
+                           <form action="{{url('mutasiSetting/'.$val->id)}}" method="POST">
+                              {{csrf_field()}}
+                              <input type="hidden" name="_method" value="DELETE">
+                              <button type="submit" class=" btn btn-danger btn-xs"><i class="fa fa-trash"></i> Batalkan</button>
+                            </form>
+                        @endif
+                      </td>
+                    </tr>
+                  @endforeach
                 </tbody>                
               </table>
                              

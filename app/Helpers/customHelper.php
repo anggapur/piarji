@@ -4,12 +4,28 @@ namespace App\Helpers;
 use Request;
 use Auth;
 use App\satker;
+use App\mutasi;
 class customHelper {
     /**
      * @param int $user_id User-id
      * 
      * @return string
      */
+    public static function getNotifTerimaMutasi()
+    {
+        $q = satker::where('id',Auth::user()->kd_satker);
+
+        if($q->get()->count() != 0)
+            $data = mutasi::where('ke_satker',$q->first()->kd_satker)
+                ->leftJoin('pegawai','mutasi.nip','=','pegawai.nip')
+                ->leftJoin('satker','mutasi.dari_satker','=','satker.kd_satker')
+                ->select('mutasi.*','pegawai.nama','satker.nm_satker')
+                ->where('status_terima','0')
+                ->get();
+        else
+            $data = "";
+        return $data;
+    }
     public static function segment($i,$word) {
             
       if (in_array(Request::segment($i),$word))

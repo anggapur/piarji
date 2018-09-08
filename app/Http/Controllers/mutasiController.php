@@ -21,6 +21,13 @@ class mutasiController extends Controller
     
     public function index()
     {
+
+        $data['bulan'] = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        $data['dataMutasi'] = mutasi::where('dari_satker',CH::getKdSatker(Auth::user()->kd_satker))
+                                ->leftJoin('satker','mutasi.dari_satker','=','satker.kd_satker')
+                                ->leftJoin('pegawai','pegawai.nip','=','mutasi.nip')
+                                ->select('mutasi.*','satker.nm_satker','pegawai.nama')
+                                ->get();
         $data['page'] = $this->page;
         $data['subpage'] = "Daftar Mutasi"; 
         
@@ -57,31 +64,52 @@ class mutasiController extends Controller
     public function store(Request $request)
     {
         //
-        if($request->mutasi_ke == "dalam")
+        $query = mutasi::where(['dari_satker' => CH::getKdSatker(Auth::user()->kd_satker) , 'nip' => $request->nip])
+                        ->where(function($q) use($request){
+                            $q->where('ke_satker','out');
+                            $q->orWhere('status_terima','1');
+                            $q->orWhere('status_terima','0');
+                        });
+        // return $query->get();
+        if($query->get()->count() == 0)
         {
-            $data['nip'] = $request->nip;
-            $data['dari_satker'] = CH::getKdSatker(Auth::user()->kd_satker);
-            $data['ke_satker'] = $request->ke_satker;
-            $data['bulan_keluar'] = $request->bulan_keluar;
-            $data['tahun_keluar'] = $request->tahun_keluar;
-            $data['bulan_diterima'] = "";
-            $data['tahun_diterima'] = "";
-            $data['status_terima'] = "0";
+            if($request->mutasi_ke == "dalam")
+            {
+                $data['nip'] = $request->nip;
+                $data['dari_satker'] = CH::getKdSatker(Auth::user()->kd_satker);
+                $data['ke_satker'] = $request->ke_satker;
+                $data['bulan_keluar'] = $request->bulan_keluar;
+                $data['tahun_keluar'] = $request->tahun_keluar;
+                $data['bulan_diterima'] = "";
+                $data['tahun_diterima'] = "";
+                $data['status_terima'] = "0";
+            }
+            else if($request->mutasi_ke == "keluar")
+            {
+                $data['nip'] = $request->nip;
+                $data['dari_satker'] = CH::getKdSatker(Auth::user()->kd_satker);
+                $data['ke_satker'] = "out";
+                $data['bulan_keluar'] = $request->bulan_keluar;
+                $data['tahun_keluar'] = $request->tahun_keluar;
+                $data['bulan_diterima'] = "";
+                $data['tahun_diterima'] = "";
+                $data['status_terima'] = "0";
+            }
+            $query = mutasi::create($data);
+            $query2 = pegawai::where('nip',$request->nip)->update(['status_aktif'=>'0']);
+            if($query)
+                return redirect($this->mainPage)->with(['status' => 'success' ,'message' => 'Berhasil mutasi pegawai']);
         }
-        else if($request->mutasi_ke == "keluar")
+        else
         {
-            $data['nip'] = $request->nip;
-            $data['dari_satker'] = CH::getKdSatker(Auth::user()->kd_satker);
-            $data['ke_satker'] = "out";
-            $data['bulan_keluar'] = $request->bulan_keluar;
-            $data['tahun_keluar'] = $request->tahun_keluar;
-            $data['bulan_diterima'] = "";
-            $data['tahun_diterima'] = "";
-            $data['status_terima'] = "0";
+            if($query->first()->ke_satker == "out")
+                return redirect()->back()->with(['status' => 'danger' ,'message' => 'Gagal mutasi, pegawai '.$request->nip.' sudah dimutasi keluar polda Bali dari satker ini']);       
+            else if($query->first()->status_terima == "1")
+                return redirect()->back()->with(['status' => 'danger' ,'message' => 'Gagal mutasi, pegawai '.$request->nip.' sudah diterima di satker '.$query->first()->ke_satker]);       
+            else if($query->first()->status_terima == "0")                
+                return redirect()->back()->with(['status' => 'danger' ,'message' => 'Gagal mutasi, pegawai '.$request->nip.' sedang dimutasi ke satker '.$query->first()->ke_satker.', batalkan mutasi terlebih dahulu']);       
+
         }
-        $query = mutasi::create($data);
-        if($query)
-            return redirect($this->mainPage)->with(['status' => 'success' ,'message' => 'Berhasil mutasi pegawai']);
     }
 
     /**
@@ -104,6 +132,7 @@ class mutasiController extends Controller
     public function edit($id)
     {
         //
+        return $id."edit";
     }
 
     /**
@@ -116,6 +145,7 @@ class mutasiController extends Controller
     public function update(Request $request, $id)
     {
         //
+        return $id."dupate";
     }
 
     /**
@@ -127,5 +157,16 @@ class mutasiController extends Controller
     public function destroy($id)
     {
         //
+
+        
+        $query = mutasi::where('id',$id)->first();
+        if($query->status_terima == "1")
+            return redirect()->back()->with(['status' => 'danger' ,'message' => 'Gagal Hapus mutasi, pegawai '.$request->nip.' sudah diterima di satker '.$query->first()->ke_satker]);       
+
+        $data = mutasi::where('id',$id)->first();
+        $q = mutasi::where('id',$id)->delete();
+        $query2 = pegawai::where('nip',$data->nip)->update(['status_aktif'=>'1']);
+        if($q)
+            return redirect()->back()->with(['status' => 'success' ,'message' => 'Berhasil Hapus Mutasi']);       
     }
 }
