@@ -96,6 +96,7 @@ Route::group(['middleware' => 'auth'],function(){
 		//Mutasi
 		Route::get('mutasiSetting/kirimMutasi','mutasiController@kirimMutasi');
 		Route::get('mutasiSetting/terimaMutasi','mutasiController@terimaMutasi');
+		Route::post('mutasiSetting/terima','mutasiController@terima');
 		Route::resource('mutasiSetting','mutasiController');
 	});
 

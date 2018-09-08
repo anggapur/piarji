@@ -9,6 +9,7 @@ use App\pegawai;
 use Auth;
 use App\waktu_absensi;
 use App\mutasi;
+use Carbon\Carbon;
 class mutasiController extends Controller
 {
     /**
@@ -32,6 +33,58 @@ class mutasiController extends Controller
         $data['subpage'] = "Daftar Mutasi"; 
         
         return view($this->mainPage.".index",$data);
+    }
+
+    public function terimaMutasi()
+    {
+        $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;  
+        $data['bulan'] = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        $data['dataMutasi'] = mutasi::where('ke_satker',CH::getKdSatker(Auth::user()->kd_satker))
+                                ->leftJoin('pegawai','mutasi.nip','=','pegawai.nip')
+                                ->leftJoin('satker','mutasi.dari_satker','=','satker.kd_satker')
+                                ->select('mutasi.*','pegawai.nama','satker.nm_satker')
+                                ->where('status_terima','0')
+                                ->get();
+        $data['page'] = $this->page;
+        $data['subpage'] = "Daftar Mutasi"; 
+        
+        return view($this->mainPage.".terimaMutasi",$data);
+        
+    }
+    public function terima(Request $request)
+    {
+        // return $request->all();
+        $now = date("m-Y",strtotime(Carbon::now()));
+        $inputDate = '01-'.$request->bulan_diterima.'-'.$request->tahun_diterima;
+        $date=date_create($inputDate);
+        $dateCompare =  date_format($date,"m-Y");
+        
+
+
+        $q = mutasi::where('id',$request->id)->first();
+        if($q->ke_satker == CH::getKdSatker(Auth::user()->kd_satker))
+        {
+            $nip = $q->nip;
+            $dataUpdate['bulan_diterima'] = $request->bulan_diterima;
+            $dataUpdate['tahun_diterima'] = $request->tahun_diterima;
+            $dataUpdate['status_terima'] = "1";
+
+            $updateMutasi = mutasi::where('id',$request->id)->update($dataUpdate);        
+
+            if($dateCompare <= $now)
+                $query = pegawai::where('nip',$nip)->update(['kd_satker' => $q->ke_satker,'status_aktif'=>'1']);
+            else
+                $query = pegawai::where('nip',$nip)->update(['kd_satker' => $q->ke_satker,'status_aktif'=>'0']);
+
+            
+
+            if($query)
+                return redirect()->back()->with(['status' => 'success' , 'message' => 'Berhasil terima mutasi pegawai']);
+        }
+        else
+        {
+            return redirect()->back()->with(['status' => 'danger' , 'message' => 'Gagal Terima Mutasi Pegawai']);
+        }
     }
     public function kirimMutasi()
     {
