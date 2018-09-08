@@ -95,7 +95,7 @@ h5.titleLaporan {
     text-align: center;
 }
 
-h3.judul {
+h3.judul , h4.judul , h3.judul {
     text-align: center;
 }
 
@@ -201,11 +201,13 @@ td.underscoreDouble {
     text-align: center;
     border-bottom: 1px solid;
     /* font-size: 26px; */
+    width: fit-content;
 }
 
 .headerKU .leftKU h5 {
     font-size: 16px;
     line-height: 1.3;
+    /* width: fit-content; */
 }
 
 .judulKU h3 {
@@ -268,4 +270,88 @@ h1{
 }
 th.w100 {
     font-size: 8px !important;
+}
+
+.nilai1, .nilai2, .nilai3, .nilai4 {
+    text-align: center;
+}
+
+.nilai2 span{
+    font-weight: bold;
+    border-bottom: 1px solid;
+}
+
+.nilai1 {
+    
+}
+
+.TTDarea.row {
+    padding-top: 50px;
+}
+
+.TTD2 {
+    padding-top: 150px;
+}
+
+.col-cs-4
+{
+  float: left;
+  width: 33.33%;
+}
+.col-cs-6
+{
+  float: left;
+  width: 50%;
+}
+.top-20{
+      padding-top: 20px;
+}
+ div.TTDarea{
+        page-break-inside: avoid;
+    }
+}
+@media print  
+{
+    div.TTDarea{
+        page-break-inside: avoid;
+    }
+}
+
+.imgWrap img {
+    height: 80px;
+}
+
+.imgWrap {
+    text-align: center;
+}
+
+.ttdImage {
+    height: 80px;
+}
+
+.wrapTTD {
+    height: 100px;
+    padding: 10px;
+    border: 1px solid black;
+    text-align: center;
+    position: relative;
+}
+
+.wrapTTD img {
+    height: 80px;
+    margin: 0 auto;
+}
+.deleteImage {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+.logoPolriLaporan img {
+    width: 90px;
+    margin: 0 auto;
+}
+.leftKU h5 {
+    margin-top: 0px;
+    margin-bottom: 5px;
 }

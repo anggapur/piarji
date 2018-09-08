@@ -60,6 +60,8 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::resource('dataPangkat','pangkatController');
 	Route::get('getDataPangkat','pangkatController@anyData')->name('getDataPangkat');
 	// Data Pegawai
+	Route::get('pegawaiSetting/importPegawai','pegawaiController@formImport');
+	Route::post('pegawaiSetting/importDataPegawai','pegawaiController@importDataPegawai');
 	Route::resource('dataPegawai','pegawaiController');
 	Route::get('getDataPegawai','pegawaiController@anyData')->name('getDataPegawai');
 
@@ -90,6 +92,11 @@ Route::group(['middleware' => 'auth'],function(){
 		Route::resource('absensi','absensiController');
 		Route::get('getDataAbsensi','absensiController@anyData')->name('getDataAbsensi');	
 		Route::post('pilihBulanTahun','absensiController@pilihBulanTahun')->name('pilihBulanTahun');		
+		Route::post('pilihBulanTahunPegawai','absensiController@pilihBulanTahunPegawai')->name('pilihBulanTahunPegawai');		
+		//Mutasi
+		Route::get('mutasiSetting/kirimMutasi','mutasiController@kirimMutasi');
+		Route::get('mutasiSetting/terimaMutasi','mutasiController@terimaMutasi');
+		Route::resource('mutasiSetting','mutasiController');
 	});
 
 	Route::get('laporanAbsensi/laporan1','laporanAbsensi@laporan1');
@@ -100,10 +107,17 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get('laporanAbsensi/cekLap','laporanAbsensi@cekLap');
 
 	Route::get('laporanAbsensi/laporanSPP','laporanAbsensi@laporanSPP');
+	Route::get('laporanAbsensi/laporanSPTJM','laporanAbsensi@laporanSPTJM');
 	Route::post('pilihBulanTahunLaporanSPP','laporanAbsensi@pilihBulanTahunSPP')->name('pilihBulanTahunLaporanSPP');
 
 	Route::get('laporanAbsensi/laporanKU','laporanAbsensi@laporanKU');
 	Route::post('pilihBulanTahunLaporanKU','laporanAbsensi@pilihBulanTahunKU')->name('pilihBulanTahunLaporanKU');
 	
-
+	Route::get('tandaTanganSetting/laporan1','TTDController@laporan1');
+	Route::get('tandaTanganSetting/laporanB','TTDController@laporanB');
+	Route::get('tandaTanganSetting/laporanSPP','TTDController@laporanSPP');
+	Route::get('tandaTanganSetting/laporanSPTJM','TTDController@laporanSPTJM');
+	Route::get('tandaTanganSetting/laporanKU','TTDController@laporanKU');
+	Route::post('tandaTanganSetting/saveData','TTDController@saveData');
+	Route::post('tandaTanganSetting/deleteImageTTD','TTDController@deleteImageTTD')->name('deleteImageTTD');
 });

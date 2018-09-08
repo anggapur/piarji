@@ -46,6 +46,9 @@
 
   <!-- jQuery 3 -->
 <script src="{{ asset('public/template/bower_components/jquery/dist/jquery.min.js')}}"></script>
+<!-- CKEDITOR -->
+<script src="//cdn.ckeditor.com/4.10.0/full/ckeditor.js"></script>
+
 <style type="text/css">
   
 @media print
@@ -178,7 +181,7 @@
         </li>  
 
         <!-- Menu Setting User -->        
-        <li class="{{CH::segment(1,['settingRekening'])}} {{CH::showTo(['admin','operator'])}} treeview">
+        <li class="{{CH::segment(1,['settingRekening','pegawaiSetting','dataPegawai'])}} {{CH::showTo(['admin','operator'])}} treeview">
           <a href="#">
             <i class="fa fa-gear"></i> <span>Setting Rekening</span>
             <span class="pull-right-container">
@@ -187,7 +190,9 @@
           </a>
           <ul class="treeview-menu">
             <li class="{{CH::segment(2,['importForm'])}}"><a href="{{url('settingRekening/importForm')}}"><i class="fa fa-circle-o"></i> Import Data Rekening</a></li>
+            <li class="{{CH::segment(2,['create'])}}"><a href="{{url('dataPegawai/create')}}"><i class="fa fa-circle-o"></i> Buat Pegawai</a></li>
             <li class="{{CH::segment(2,[''])}}"><a href="{{url('settingRekening')}}"><i class="fa fa-circle-o"></i> Lihat Pegawai</a></li>
+            <li class="{{CH::segment(2,['importPegawai'])}}"><a href="{{url('pegawaiSetting/importPegawai')}}"><i class="fa fa-circle-o"></i> Import Data Pegawai</a></li>
           </ul>
         </li> 
 
@@ -204,6 +209,38 @@
             <li class="{{CH::segment(2,['laporanB'])}}"><a href="{{url('laporanAbsensi/laporanB')}}"><i class="fa fa-circle-o"></i> Laporan B1/B2</a></li>            
             <li class="{{CH::segment(2,['laporanSPP'])}}"><a href="{{url('laporanAbsensi/laporanSPP')}}"><i class="fa fa-circle-o"></i> Laporan SPP</a></li>            
             <li class="{{CH::segment(2,['laporanKU'])}}"><a href="{{url('laporanAbsensi/laporanKU')}}"><i class="fa fa-circle-o"></i> Laporan KU</a></li>            
+            <li class="{{CH::segment(2,['laporanSPTJM'])}}"><a href="{{url('laporanAbsensi/laporanSPTJM')}}"><i class="fa fa-circle-o"></i> Laporan SPTJM</a></li>
+          </ul>
+        </li> 
+
+        <!-- Menu Setting User -->        
+        <li class="{{CH::segment(1,['mutasiSetting'])}} {{CH::showTo(['operator'])}} treeview">
+          <a href="#">
+            <i class="fa fa-gear"></i> <span>Mutasi</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{CH::segment(2,['kirimMutasi'])}}"><a href="{{url('mutasiSetting/kirimMutasi')}}"><i class="fa fa-circle-o"></i> Kirim Mutasi</a></li>            
+            <li class="{{CH::segment(2,['terimaMutasi'])}}"><a href="{{url('mutasiSetting/terimaMutasi')}}"><i class="fa fa-circle-o"></i> Terima Mutasi</a></li>                        
+          </ul>
+        </li> 
+
+        <!-- Menu Setting User -->        
+        <li class="{{CH::segment(1,['tandaTanganSetting'])}} {{CH::showTo(['admin','operator'])}} treeview">
+          <a href="#">
+            <i class="fa fa-gear"></i> <span>Tanda Tangan Setting</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{CH::segment(2,['laporan1'])}}"><a href="{{url('tandaTanganSetting/laporan1')}}"><i class="fa fa-circle-o"></i> Laporan C1/C2</a></li>            
+            <li class="{{CH::segment(2,['laporanB'])}}"><a href="{{url('tandaTanganSetting/laporanB')}}"><i class="fa fa-circle-o"></i> Laporan B1/B2</a></li>            
+            <li class="{{CH::segment(2,['laporanSPP'])}}"><a href="{{url('tandaTanganSetting/laporanSPP')}}"><i class="fa fa-circle-o"></i> Laporan SPP</a></li>            
+            <li class="{{CH::segment(2,['laporanKU'])}}"><a href="{{url('tandaTanganSetting/laporanKU')}}"><i class="fa fa-circle-o"></i> Laporan KU</a></li>            
+            <li class="{{CH::segment(2,['laporanSPTJM'])}}"><a href="{{url('tandaTanganSetting/laporanSPTJM')}}"><i class="fa fa-circle-o"></i> Laporan SPTJM</a></li> 
           </ul>
         </li> 
 

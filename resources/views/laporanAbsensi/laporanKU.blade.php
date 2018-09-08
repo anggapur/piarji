@@ -60,7 +60,7 @@
                     @endforeach
                   </select>                 
                 </div>              
-                <div class="form-group @if(Auth::user()->level != 'admin') hide @endif">
+                <div class="form-group ">
                   <label>Kategori</label>
                   <select class="js-example-basic-single form-control" name="jenis_pegawai">    
                     <option value="">Polri & PNS</option>                
@@ -81,6 +81,7 @@
               <div class="lembarLaporanKU">
                 <div class="headerKU">
                   <div class="leftKU">
+                    <div class="logoPolriLaporan"><img src="{{url('public/asset/Logo-POLRI-bw.png')}}"></div>
                     <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> BIDANG KEUANGAN</h5>
                   </div>
                   <div class="rightKU">
@@ -127,63 +128,63 @@
                        <tr>
                         <td>Untuk Pembayaran </td>
                         <td>:</td>
-                        <td colspan="2" class="mengenai"></td>
+                        <td colspan="2" class="mengenai" data-word="{{collect($dataTTD)->firstWhere('bagian','3')->nilai1}}"></td>
                       </tr>
                     </table>
                   </div>
                 </div>
                 <div class="footerKU">
                   <div class="leftKU">
-                    <h5>Denpasar, Juni 2018</h5>
-                    <h5>Yang membayarkan</h5>
+                    <h5 style="margin-bottom:0px;">{{collect($dataTTD)->firstWhere('bagian','1')->nilai4}}</h5>
+                    <h5 style="margin-top:0px;">Yang membayarkan</h5>
                     <div class="space"></div>
                     <table>
                       <tr>
                         <td>Nama</td>
                         <td>:</td>
-                        <td>TEGUH SLAMET KARYONO, S.H.</td>
+                        <td>{{collect($dataTTD)->firstWhere('bagian','1')->nilai2}}</td>
                       </tr>
                       <tr>
                         <td>Pangkat/NRP</td>
                         <td>:</td>
-                        <td>KOMBES POL/62070680</td>
+                        <td>{{collect($dataTTD)->firstWhere('bagian','1')->nilai3}}</td>
                       </tr>
                       <tr>
                         <td>Jabatan</td>
                         <td>:</td>
-                        <td>KABIDKEU</td>
+                        <td>{{collect($dataTTD)->firstWhere('bagian','1')->nilai1}}</td>
                       </tr>
                       <tr>
                         <td>Alamat</td>
                         <td>:</td>
-                        <td>POLDA BALI</td>
+                        <td>{{collect($dataTTD)->firstWhere('bagian','1')->nilai5}}</td>
                       </tr>
                     </table>
                   </div>
                   <div class="rightKU">
-                    <h5>Denpasar, Juni 2018</h5>
-                    <h5>Yang membayarkan</h5>
+                    <h5 style="margin-bottom:0px;">{{collect($dataTTD)->firstWhere('bagian','2')->nilai4}}</h5>
+                    <h5 style="margin-top:0px;">Yang menerima</h5>
                     <div class="space"></div>
                     <table>
                       <tr>
                         <td>Nama</td>
                         <td>:</td>
-                        <td>IDA AYU PT. PURWA ASTUTI</td>
+                        <td>{{collect($dataTTD)->firstWhere('bagian','2')->nilai2}}</td>
                       </tr>
                       <tr>
                         <td>Pangkat/NRP</td>
                         <td>:</td>
-                        <td>IPTU/66080339</td>
+                        <td>{{collect($dataTTD)->firstWhere('bagian','2')->nilai3}}</td>
                       </tr>
                       <tr>
                         <td>Jabatan</td>
                         <td>:</td>
-                        <td>PAUR KEU SPRIPIM</td>
+                        <td>{{collect($dataTTD)->firstWhere('bagian','2')->nilai1}}</td>
                       </tr>
                       <tr>
                         <td>Alamat</td>
                         <td>:</td>
-                        <td>POLDA BALI</td>
+                        <td>{{collect($dataTTD)->firstWhere('bagian','2')->nilai5}}</td>
                       </tr>
                     </table>
                   </div>
@@ -269,8 +270,12 @@
                     $('.lembarLaporanKU').fadeIn("slow");
                     i = 1;
                     
-                     mengenaiWord = data.words;
-                    $('.mengenai').html(mengenaiWord);
+                    mengenaiWord = data.words;                    
+                    insertWord = $('.mengenai').attr('data-word').replace('[bulan]',mengenaiWord);
+                    insertWord = insertWord.replace('[anggota]',data.anggota);
+                    insertWord = insertWord.replace('[satker]',data.satkerNama);
+                    $('.mengenai').html(insertWord);
+                    
 
                     console.log(data.formula);
                     formula1 = data.formula[0]['rumus'];

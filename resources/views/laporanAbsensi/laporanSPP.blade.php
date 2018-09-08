@@ -60,7 +60,7 @@
                     @endforeach
                   </select>                 
                 </div>              
-                <div class="form-group @if(Auth::user()->level != 'admin') hide @endif">
+                <div class="form-group ">
                   <label>Kategori</label>
                   <select class="js-example-basic-single form-control" name="jenis_pegawai">    
                     <option value="">Polri & PNS</option>                
@@ -78,30 +78,33 @@
             <div class="box " style="border-top:0px;">    
               <div class="box-body">
                <div class="lembarLaporan">             
-                  <div class="headerLembarLaporan">
-                    <h5 class="titleLaporan">
-                      KEPOLISIAN NEGARA REPUBLIK INDONESIA<br>
-                      DAERAH BALI<br>
-                      STAF PRIBADI PIMPINAN
-                    </h5>
+                  <div class="headerKU">
+                    <div class="leftKU">
+                      <div class="logoPolriLaporan"><img src="{{url('public/asset/Logo-POLRI-bw.png')}}"></div>
+                      <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> BIDANG KEUANGAN</h5>
+                    </div>
+                    <div class="rightKU">
+                      
+                    </div>
+                    <div class="clearfix"></div>
                   </div>
                   <div class="judulLaporan">
                     <h3 class="judul">
                       SURAT PERMINTAAN PEMBAYARAN (SPP)
                     </h3>
-                    <h5>Nomor : SPP/09/V/2018/Spripim</h5>
+                    <h5>Nomor : {{collect($dataTTD)->firstWhere('bagian','4')->nilai1}}</h5>
                   </div>
                   <div class="bag1">
                     <table>
                       <tr>
                         <td>Dari</td>
                         <td>:</td>
-                        <td>KOORSPRIPIM POLDA BALI</td>
+                        <td>{{collect($dataTTD)->firstWhere('bagian','2')->nilai1}}</td>
                       </tr>
                       <tr>
                         <td>Kepada</td>
                         <td>:</td>
-                        <td>KEPALA BIDANG KEUANGAN POLDA BALI </td>
+                        <td>{{collect($dataTTD)->firstWhere('bagian','2')->nilai2}}</td>
                       </tr>
                     </table>
                   </div>
@@ -124,19 +127,19 @@
                       <tr>
                         <td>Untuk</td>
                         <td>:</td>
-                        <td class="mengenai"></td>
+                        <td class="mengenai" data-word="{{collect($dataTTD)->firstWhere('bagian','3')->nilai1}}"> <span></span></td>
                       </tr>
                       <tr>
                         <td>Kepada</td>
                         <td>:</td>
-                        <td>PAUR KEU SPRIPIM POLDA BALI</td>
-                        <td>SKEP PENGUKUHAN PKP</td>
+                        <td>{{collect($dataTTD)->firstWhere('bagian','3')->nilai2}}</td>
+                        <td>{{collect($dataTTD)->firstWhere('bagian','3')->nilai4}}</td>
                       </tr>
                       <tr>
                         <td>Alamat</td>
                         <td>:</td>
-                        <td>Jln. W.R. Supratman No. 7 Denpasar</td>
-                        <td>NPWP : 00.307.356.6-901.000</td>
+                        <td>{{collect($dataTTD)->firstWhere('bagian','3')->nilai3}}</td>
+                        <td>{{collect($dataTTD)->firstWhere('bagian','3')->nilai5}}</td>
                       </tr>
                     </table>
                   </div>
@@ -184,7 +187,7 @@
                         <td>b.</td>
                         <td>Mengenai</td>
                         <td>:</td>
-                        <td class="mengenai"></td>
+                        <td class="mengenai">{{collect($dataTTD)->firstWhere('bagian','3')->nilai1}} <span></span></td>
                       </tr>
                     </table>
                   </div>
@@ -223,11 +226,17 @@
                   </div>
                   <div class="bag6">
                     <div class="ttdform">
-                        <p>Denpasar, 25 Mei 2018</p>
-                        <p>KOORDINATOR STAF PRIBADI PIMPINAN POLDA BALI</p>
-                        <img class="ttd">
-                        <p>RICKO A.A. TARUNA, S.H.,S.I.K.,M.H.,M.M.</p>
-                        <p>KOMPOL NRP 81051412</p>
+                        <p>{{collect($dataTTD)->firstWhere('bagian','1')->nilai4}}</p>
+                        <p>{{collect($dataTTD)->firstWhere('bagian','1')->nilai1}}</p>
+                        @if(collect($dataTTD)->firstWhere('bagian','1')->image != "")
+                        <div class="imgWrap">
+                          <img class="imageTTD" src="{{url('public/images/'.collect($dataTTD)->firstWhere('bagian','1')->image)}}">
+                        </div>
+                        @else
+                          <div class="ttdImage"></div>
+                        @endif
+                        <p style="text-decoration: underline;"><b>{{collect($dataTTD)->firstWhere('bagian','1')->nilai2}}</b></p>
+                        <p>{{collect($dataTTD)->firstWhere('bagian','1')->nilai3}}</p>
                     </div>
                     <div class="clearfix"></div>
                   </div>
@@ -310,8 +319,11 @@
                     i = 1;
                     
                     //mengenai
-                    mengenaiWord = data.words;
-                    $('.mengenai').html(mengenaiWord);
+                   mengenaiWord = data.words;                    
+                    insertWord = $('.mengenai').attr('data-word').replace('[bulan]',mengenaiWord);
+                    insertWord = insertWord.replace('[anggota]',data.anggota);
+                    insertWord = insertWord.replace('[satker]',data.satkerNama);
+                    $('.mengenai').html(insertWord);
 
                     console.log(data.formula);
                     formula1 = data.formula[0]['rumus'];

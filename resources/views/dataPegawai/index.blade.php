@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-lg-12 col-xs-6">
          @if (session('status'))
-              <div class="alert alert-success">
+              <div class="alert alert-{{session('status')}}">
                   {!! session('message') !!}
               </div>
           @endif

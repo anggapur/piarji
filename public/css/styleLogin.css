@@ -1,0 +1,20 @@
+div#loginForm {
+    /*top: 50%;
+    transform: translateY(-50%);*/
+    text-align: center;
+}
+img#LogoPOLRI {
+    height: 150px;
+    margin: 0 auto;
+    position: relative;
+}
+
+div#loginForm .card {
+    text-align: left;
+}
+
+@media only screen and (max-width: 768px) {
+	#imgPakPol{
+		display: none;
+	}
+}

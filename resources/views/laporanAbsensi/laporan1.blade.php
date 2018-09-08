@@ -60,7 +60,7 @@
                     @endforeach
                   </select>                 
                 </div>              
-                <div class="form-group @if(Auth::user()->level != 'admin') hide @endif">
+                <div class="form-group ">
                   <label>Kategori</label>
                   <select class="js-example-basic-single form-control" name="jenis_pegawai">    
                     <option value="">Polri & PNS</option>                
@@ -79,7 +79,25 @@
             <div class="box " style="border-top:0px;">            
            
             <div class="box-body"> 
-              <div id="printArea" class="printArea">
+              <div id="printArea" class="printArea" style="display: none;">
+                 <div class="headerKU">
+
+                    <div class="leftKU">
+                      <div class="logoPolriLaporan"><img src="{{url('public/asset/Logo-POLRI-bw.png')}}"></div>
+                      <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> BIDANG KEUANGAN</h5>
+                    </div>
+                    <div class="rightKU">
+
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="judulLaporan">
+                    <h5 class="judul">
+                    DAFTAR PEMBAYARAN TUNJANGAN KINERJA PNS T.A <span class="tahun"></span>
+                    </h5>
+                  <h5>Bulan : <span class="waktu"></span></h5>
+                  </div>
                <table border="1" cellpadding="10" id="tableLaporan">
                  <thead>
                   <tr>
@@ -140,7 +158,72 @@
                  <tbody>
                    
                  </tbody>
-               </table>  
+               </table> 
+               @if($dataTTD->count() != 0)
+               <div class="TTDarea row"> 
+                <div class="TTD1 col-cs-4">
+                  <div class="nilai1 top-20">
+                    {{collect($dataTTD)->firstWhere('bagian','1')->nilai1}}
+                  </div>
+                  @if(collect($dataTTD)->firstWhere('bagian','1')->image != "")
+                  <div class="imgWrap">
+                    <img class="imageTTD" src="{{url('public/images/'.collect($dataTTD)->firstWhere('bagian','1')->image)}}">
+                  </div>
+                  @else
+                    <div class="ttdImage"></div>
+                  @endif
+                  <div class="nilai2">
+                    <span>{{collect($dataTTD)->firstWhere('bagian','1')->nilai2}}</span>
+                  </div>
+                  <div class="nilai3">
+                    {{collect($dataTTD)->firstWhere('bagian','1')->nilai3}}
+                  </div>
+                </div>
+                <div class="TTD2 col-cs-4">
+                   <div class="nilai4">
+                    {{collect($dataTTD)->firstWhere('bagian','2')->nilai4}}
+                  </div>
+                  <div class="nilai1">
+                    {{collect($dataTTD)->firstWhere('bagian','2')->nilai1}}
+                  </div>
+                   @if(collect($dataTTD)->firstWhere('bagian','2')->image != "")
+                   <div class="imgWrap">
+                    <img class="imageTTD" src="{{url('public/images/'.collect($dataTTD)->firstWhere('bagian','2')->image)}}">
+                  </div>
+                  @else
+                    <div class="ttdImage"></div>
+                  @endif
+                  <div class="nilai2">
+                    <span>{{collect($dataTTD)->firstWhere('bagian','2')->nilai2}}</span>
+                  </div>
+                  <div class="nilai3">
+                    {{collect($dataTTD)->firstWhere('bagian','2')->nilai3}}
+                  </div>
+                </div>
+                <div class="TTD3 col-cs-4">
+                   <div class="nilai4">
+                    {{collect($dataTTD)->firstWhere('bagian','3')->nilai4}}
+                  </div>
+                  <div class="nilai1">
+                    {{collect($dataTTD)->firstWhere('bagian','3')->nilai1}}
+                  </div>
+                   @if(collect($dataTTD)->firstWhere('bagian','3')->image != "")
+                    <div class="imgWrap">
+                    <img class="imageTTD" src="{{url('public/images/'.collect($dataTTD)->firstWhere('bagian','3')->image)}}">
+                  </div>
+                  @else
+                    <div class="ttdImage"></div>
+                  @endif
+                  <div class="nilai2">
+                    <span>{{collect($dataTTD)->firstWhere('bagian','3')->nilai2}}</span>
+                  </div>
+                  <div class="nilai3">
+                    {{collect($dataTTD)->firstWhere('bagian','3')->nilai3}}
+                  </div>
+                </div>
+
+               </div>
+               @endif
               </div>             
             </div>   
           </div>
@@ -177,7 +260,7 @@
 	</script>
 
    <script type="text/javascript">
-
+      //alert(parseInt(1000.4));
       //form bulan tahun
         $('#formBulanTahun').submit(function(e){          
           bulan = $(this).find("select[name='bulan']").val();
@@ -208,7 +291,7 @@
                   console.log(data);
                   if(data.status == "nodata")
                   { 
-                    $('table').fadeOut('slow');
+                    $('#printArea').fadeOut('slow');
                     $('#message').fadeIn("slow").html('Belum Ada Data Absensi');
                     setTimeout(function(){
                       $('#message').fadeOut('slow');
@@ -216,7 +299,7 @@
                   }
                   if(data.dataAbsensi.length == 0)
                   { 
-                    $('table').fadeOut('slow');
+                    $('#printArea').fadeOut('slow');
                     $('#message').fadeIn("slow").html('Belum Ada Data Absensi');
                     setTimeout(function(){
                       $('#message').fadeOut('slow');
@@ -225,8 +308,11 @@
                   else if(data.status == "success")
                   {
                     i = 1;
-                    $('table').fadeIn('slow');
+                    $('#printArea').fadeIn('slow');
                     $('tbody').empty();
+
+                    $('.waktu').html(data.bulan+" "+data.tahun);
+                    $('.tahun').html(data.tahun);
 
                     console.log(data.formula);
                     formula1 = data.formula[0]['rumus'];
@@ -235,19 +321,63 @@
                     formula4 = data.formula[3]['rumus'];
                     absensVal = [];
                     kodeSatker = "0";
+                    awal = true;
+                    tunjanganKinerjaTotal = 0;
+                    absensi1total = 0;
+                    absensi2total = 0;
+                    absensi3total = 0;
+                    absensi4total = 0;
+                    uang1total = 0;
+                    uang2total = 0;
+                    uang3total = 0;
+                    uang4total = 0;
+                    jumlahPenguranganTotal = 0;
+                    tunjanganYangDiterimaTotal = 0
+                    tPPH21Total =0;
+                    terimaBrutoTotal =0;
+                    potonganPPH21 = 0;
+                    yangDibayarTotal = 0;
+
                     console.log('KKK:'+kodeSatker);
                     $.each(data.dataAbsensi,function(k,v){                      
-                      absensVal[1] = absensiFormulaMath(formula1,v.tunjangan,v.absensi1);
-                      absensVal[2] = absensiFormulaMath(formula2,v.tunjangan,v.absensi2);
-                      absensVal[3] = absensiFormulaMath(formula3,v.tunjangan,v.absensi3);
-                      absensVal[4] = absensiFormulaMath(formula4,v.tunjangan,v.absensi4);
-                      jumlahPengurangan = absensVal.reduce(getSum);
-                      yangDiterima = v.tunjangan-jumlahPengurangan;
-                      tPPH21 = v.pajak;
-                      terimaBruto = yangDiterima+tPPH21;
+                      absensVal[1] = parseInt(absensiFormulaMath(formula1,parseInt(v.tunjangan),v.absensi1));
+                      absensVal[2] = parseInt(absensiFormulaMath(formula2,parseInt(v.tunjangan),v.absensi2));
+                      absensVal[3] = parseInt(absensiFormulaMath(formula3,parseInt(v.tunjangan),v.absensi3));
+                      absensVal[4] = parseInt(absensiFormulaMath(formula4,parseInt(v.tunjangan),v.absensi4));
+                      jumlahPengurangan = parseInt(absensVal.reduce(getSum));
+                      yangDiterima = parseInt(parseInt(v.tunjangan)-parseInt(jumlahPengurangan));
+                      tPPH21 = parseInt(v.pajak);
+                      terimaBruto = parseInt(parseInt(yangDiterima)+parseInt(tPPH21));                      
 
                       if(kodeSatker !== v.kd_satker)
                       {
+                        if(awal == true)
+                        {
+                          awal = false;
+                        }
+                        else
+                        {
+                          //insert jumlah
+                          html = '<tr><td colspan="6">Jumlah</td>'+
+                                  '<td>'+number_format(tunjanganKinerjaTotal,0,",",".")+'</td>'+
+                                  '<td>'+absensi1total+'</td>'+
+                                  '<td>'+number_format(uang1total,0,",",".")+'</td>'+
+                                  '<td>'+absensi2total+'</td>'+
+                                  '<td>'+number_format(uang2total,0,",",".")+'</td>'+
+                                  '<td>'+absensi3total+'</td>'+
+                                  '<td>'+number_format(uang3total,0,",",".")+'</td>'+
+                                  '<td>'+absensi4total+'</td>'+
+                                  '<td>'+number_format(uang4total,0,",",".")+'</td>'+
+                                  '<td>'+number_format(jumlahPenguranganTotal,0,",",".")+'</td>'+
+                                  '<td>'+number_format(tunjanganYangDiterimaTotal,0,",",".")+'</td>'+
+                                  '<td>'+number_format(tPPH21Total,0,",",".")+'</td>'+
+                                  '<td>'+number_format(terimaBrutoTotal,0,",",".")+'</td>'+
+                                  '<td>'+number_format(potonganPPH21,0,",",".")+'</td>'+
+                                  '<td>'+number_format(yangDibayarTotal,0,",",".")+'</td>'+
+                                  '<td>-</td>'+
+                                  '</tr>';
+                          $('tbody').append(html);
+                        }
                         html = '<tr><td colspan="21" style="text-align:left;text-transform: uppercase;"><b>Satker : '+v.kd_satker+' - '+v.nm_satker+'</b></td><td></td></tr>';
                         html+='<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th></tr>';
                         $('tbody').append(html);
@@ -280,8 +410,44 @@
                       $('tbody').append(html);
                       
                       kodeSatker = v.kd_satker;
+                      tunjanganKinerjaTotal+= parseInt(v.tunjangan);
+                      absensi1total += parseInt(v.absensi1);
+                      absensi2total += parseInt(v.absensi2);
+                      absensi3total += parseInt(v.absensi3);
+                      absensi4total += parseInt(v.absensi4);
+                      uang1total+=parseInt(absensVal[1]);
+                      uang2total+=parseInt(absensVal[2]);
+                      uang3total+=parseInt(absensVal[3]);
+                      uang4total+=parseInt(absensVal[4]);
+                      jumlahPenguranganTotal +=parseInt(jumlahPengurangan);
+                      tunjanganYangDiterimaTotal += parseInt(yangDiterima);
+                      tPPH21Total += parseInt(tPPH21);
+                      terimaBrutoTotal += parseInt(terimaBruto);
+                      potonganPPH21 += parseInt(tPPH21);
+                      yangDibayarTotal += parseInt(yangDiterima);
 
                     });
+
+                    //insert jumlah
+                     html = '<tr><td colspan="6">Jumlah</td>'+
+                                  '<td>'+number_format(tunjanganKinerjaTotal,0,",",".")+'</td>'+
+                                  '<td>'+absensi1total+'</td>'+
+                                  '<td>'+number_format(uang1total,0,",",".")+'</td>'+
+                                  '<td>'+absensi2total+'</td>'+
+                                  '<td>'+number_format(uang2total,0,",",".")+'</td>'+
+                                  '<td>'+absensi3total+'</td>'+
+                                  '<td>'+number_format(uang3total,0,",",".")+'</td>'+
+                                  '<td>'+absensi4total+'</td>'+
+                                  '<td>'+number_format(uang4total,0,",",".")+'</td>'+
+                                  '<td>'+number_format(jumlahPenguranganTotal,0,",",".")+'</td>'+
+                                  '<td>'+number_format(tunjanganYangDiterimaTotal,0,",",".")+'</td>'+
+                                  '<td>'+number_format(tPPH21Total,0,",",".")+'</td>'+
+                                  '<td>'+number_format(terimaBrutoTotal,0,",",".")+'</td>'+
+                                  '<td>'+number_format(potonganPPH21,0,",",".")+'</td>'+
+                                  '<td>'+number_format(yangDibayarTotal,0,",",".")+'</td>'+
+                                  '<td>-</td>'+
+                                  '</tr>';
+                          $('tbody').append(html);
                   }
                 }
             });
@@ -303,7 +469,7 @@
               .toFixed(prec)
           }
 
-          // @todo: for IE parseFloat(0.55).toFixed(0) = 0;
+          // @todo: for IE parseInt(0.55).toFixed(0) = 0;
           s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.')
           if (s[0].length > 3) {
             s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep)

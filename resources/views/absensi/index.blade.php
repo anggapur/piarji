@@ -57,7 +57,7 @@
               </form>
               <hr>
                 <form style="display: none;" id="formAbsensi">
-                  <table id="example" class="display table table-bordered table-striped" cellspacing="0" width="100%">
+                  <table  class="display table table-bordered table-striped" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>NIP</th>
@@ -68,16 +68,16 @@
                         </tr>
                     </thead>                   
                     <tbody>
-                      @foreach($pegawai as $value)
-                        <tr>
+                      <!-- @foreach($pegawai as $value) -->
+                       <!--  <tr>
                            <td>{{$value->nip}}</td>                           
                             <td>{{$value->nama}}</td>     
                             <td class="inputColumn"><input type="number" name="absensi1" value="0" data="{{$value->nip}}" class="form-control" style="width:100px;" required /></td>                             
                             <td class="inputColumn"><input type="number" name="absensi2" value="0" data="{{$value->nip}}" class="form-control" style="width:100px;" required /></td>                             
                             <td class="inputColumn"><input type="number" name="absensi3" value="0" data="{{$value->nip}}" class="form-control" style="width:100px;" required /></td>                             
                             <td class="inputColumn"><input type="number" name="absensi4" value="0" data="{{$value->nip}}" class="form-control" style="width:100px;" required /></td>                             
-                        </tr>
-                      @endforeach                       
+                        </tr> -->
+                      <!-- @endforeach                        -->
                     </tbody>
                   </table>                
                   <button id="get-result" class="btn btn-success">Simpan</button><br />
@@ -91,10 +91,17 @@
         </div>        
       </div>
       <!-- /.row -->
-      
+      <div class="bgBlack showWhenLoading"></div>
+    <div class="spinner showWhenLoading">
+      <h3>Menyimpan Absensi</h3>
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
     </section>
     
    <script type="text/javascript">
+    var t;
      $(function() {
       //deklarasi var
       json_obj = { 
@@ -107,8 +114,52 @@
         $('#formBulanTahun').submit(function(e){
           bulan = $(this).find("select[name='bulan']").val();
           tahun = $(this).find("select[name='tahun']").val();
-          
+          $('#formAbsensi').fadeIn('slow');
+          $('#formBulanTahun').find('select,input').attr('disabled','disabled');
+
           $.ajax({
+                type: "POST",                  
+                url: "{{route('pilihBulanTahunPegawai')}}",
+                data: 
+                { 
+                  "_token": "{{ csrf_token() }}",
+                  "bulan" : bulan,
+                  "tahun" : tahun,
+                },
+                success: function(data){
+                  console.log(data);
+                  //alert(data);
+                  $.each(data.data,function(k,v){
+                    if(data.keterangan == "Tidak Ada Pegawai")
+                    {
+                      html = '<tr>'+
+                           '<td>'+v.nip+'</td>'+                         
+                            '<td>'+v.nama+'</td>'+     
+                            '<td class="inputColumn"><input type="number" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
+                            '<td class="inputColumn"><input type="number" name="absensi2" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
+                            '<td class="inputColumn"><input type="number" name="absensi3" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
+                            '<td class="inputColumn"><input type="number" name="absensi4" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
+                        '</tr>';
+                   
+                    }
+                    else
+                    {
+                       html = '<tr>'+
+                           '<td>'+v.nip+'</td>'+                         
+                            '<td>'+v.nama+'</td>'+     
+                            '<td class="inputColumn"><input type="number" name="absensi1" value="'+v.absensi1+'" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
+                            '<td class="inputColumn"><input type="number" name="absensi2" value="'+v.absensi2+'" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
+                            '<td class="inputColumn"><input type="number" name="absensi3" value="'+v.absensi3+'" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
+                            '<td class="inputColumn"><input type="number" name="absensi4" value="'+v.absensi4+'" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
+                        '</tr>';                      
+                    }
+                      $('tbody').append(html);
+                    });
+                  
+                  t = $('table').DataTable();
+                }
+              });
+         /* $.ajax({
                 type: "POST",                  
                 url: "{{route('pilihBulanTahun')}}",
                 data: 
@@ -143,20 +194,17 @@
                       $('#formAbsensi').fadeIn('slow');
                     }
                 }
-            });
+            });*/
           e.preventDefault();
         });
 
         //send data
-        t = $('#example').DataTable( {
-        "columnDefs": [ {
-          "targets": 'no-sort',
-          "orderable": false,
-           "searchable": false,
-            } ]
-        } );
+        
         $('#get-result').click(function(e) {
+          $('.showWhenLoading').fadeIn("slow");
             e.preventDefault();
+            json_obj.bulan = bulan;    
+            json_obj.tahun = tahun;  
             ar = $()
             for (var i = 0; i < t.rows()[0].length; i++) { 
                 ar = ar.add(t.row(i).node())
@@ -209,6 +257,7 @@
             $('#result-json').val(JSON.stringify(json_obj));
 
             //Kirim data melalui ajax
+            console.log(json_obj);
             $.ajax({
                 type: "POST",                  
                 url: "{{route('absensi.store')}}",
@@ -228,6 +277,7 @@
                         }, 4000);
                       
                     }
+                    $('.showWhenLoading').fadeOut("slow");
                 }
             });
             //unset data

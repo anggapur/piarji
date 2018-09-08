@@ -60,7 +60,7 @@
                     @endforeach
                   </select>                 
                 </div>              
-                <div class="form-group @if(Auth::user()->level != 'admin') hide @endif">
+                <div class="form-group">
                   <label>Kategori</label>
                   <select class="js-example-basic-single form-control" name="jenis_pegawai">    
                     <option value="">Polri & PNS</option>                
@@ -78,45 +78,108 @@
 
             <div class="box " style="border-top:0px;">    
               <div class="box-body">
-               <table border="1" cellpadding="10" id="tableLaporan">
-                 <thead>
-                  <tr>
-                     <th rowspan="2">No</th>
-                     <th rowspan="2">Kelas Jabatan</th>
-                     <th rowspan="2">Jumlah Penerima (Org)</th>
-                     <th rowspan="2">Indek Tunjangan Kinerja (Rp)</th>
-                     <th rowspan="2">Jumlah (Rp) (3x4)</th>
-                     <th rowspan="2">Tunjangan PPh21 (Rp)</th>
-                     <th rowspan="2">Jumlah Bruto (Rp) (5+6)</th>
-                     <th colspan="2">Pengurangan</th>
-                     <th colspan="2">Jumlah Netto</th>
-                     <th rowspan="2">Jumlah Bruto(10+11)</th>
-                   </tr>                  
-                   <tr>
-                     <th>Tunjangan Kinerja</th>
-                     <th>PPH 21</th>
-                     <th>TUNJKINERJA <br>(5-8)</th>
-                     <th>PPH 21 <br>(6-9)</th>
-                   </tr>                 
-                    <tr>
-                     <th>1</th>
-                     <th>2</th>
-                     <th>3</th>
-                     <th>4</th>
-                     <th>5</th>
-                     <th>6</th>
-                     <th>7</th>
-                     <th>8</th>
-                     <th>9</th>
-                     <th>10</th>
-                     <th>11</th>
-                     <th>12</th>                     
-                   </tr>
-                 </thead>
-                 <tbody>
-                   
-                 </tbody>
-               </table>               
+                <div class="printLaporan" style="display: none;">
+                    <div class="headerKU">
+                      <div class="leftKU">
+                        <div class="logoPolriLaporan"><img src="{{url('public/asset/Logo-POLRI-bw.png')}}"></div>
+                        <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> BIDANG KEUANGAN</h5>
+                      </div>
+                      <div class="rightKU">
+
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+
+                    <div class="judulLaporan">
+                      <h5 class="judul">
+                      REKAPITULASI DAFTAR PEMBAYARAN TUNJANGAN KINERJA ANGGOTA POLRI
+                      </h5>
+                    <h5>Bulan : <span class="waktu"></span></h5>
+                    </div>
+
+                   <table border="1" cellpadding="10" id="tableLaporan">
+                     <thead>
+                      <tr>
+                         <th rowspan="2">No</th>
+                         <th rowspan="2">Kelas Jabatan</th>
+                         <th rowspan="2">Jumlah Penerima (Org)</th>
+                         <th rowspan="2">Indek Tunjangan Kinerja (Rp)</th>
+                         <th rowspan="2">Jumlah (Rp) (3x4)</th>
+                         <th rowspan="2">Tunjangan PPh21 (Rp)</th>
+                         <th rowspan="2">Jumlah Bruto (Rp) (5+6)</th>
+                         <th colspan="2">Pengurangan</th>
+                         <th colspan="2">Jumlah Netto</th>
+                         <th rowspan="2">Jumlah Bruto(10+11)</th>
+                       </tr>                  
+                       <tr>
+                         <th>Tunjangan Kinerja</th>
+                         <th>PPH 21</th>
+                         <th>TUNJKINERJA <br>(5-8)</th>
+                         <th>PPH 21 <br>(6-9)</th>
+                       </tr>                 
+                        <tr>
+                         <th>1</th>
+                         <th>2</th>
+                         <th>3</th>
+                         <th>4</th>
+                         <th>5</th>
+                         <th>6</th>
+                         <th>7</th>
+                         <th>8</th>
+                         <th>9</th>
+                         <th>10</th>
+                         <th>11</th>
+                         <th>12</th>                     
+                       </tr>
+                     </thead>
+                     <tbody>
+                       
+                     </tbody>
+                   </table>     
+                    <div class="TTDarea row"> 
+                <div class="TTD1 col-cs-6">
+                  <div class="nilai1 top-20">
+                    {{collect($dataTTD)->firstWhere('bagian','1')->nilai1}}
+                  </div>
+                  @if(collect($dataTTD)->firstWhere('bagian','1')->image != "")
+                  <div class="imgWrap">
+                    <img class="imageTTD" src="{{url('public/images/'.collect($dataTTD)->firstWhere('bagian','1')->image)}}">
+                  </div>
+                  @else
+                    <div class="ttdImage"></div>
+                  @endif
+                  <div class="nilai2">
+                    <span>{{collect($dataTTD)->firstWhere('bagian','1')->nilai2}}</span>
+                  </div>
+                  <div class="nilai3">
+                    {{collect($dataTTD)->firstWhere('bagian','1')->nilai3}}
+                  </div>
+                </div>
+                <div class="TTD3 col-cs-6">
+                   <div class="nilai4">
+                    {{collect($dataTTD)->firstWhere('bagian','2')->nilai4}}
+                  </div>
+                  <div class="nilai1">
+                    {{collect($dataTTD)->firstWhere('bagian','2')->nilai1}}
+                  </div>
+                  @if(collect($dataTTD)->firstWhere('bagian','2')->image != "")
+                  <div class="imgWrap">
+                    <img class="imageTTD" src="{{url('public/images/'.collect($dataTTD)->firstWhere('bagian','2')->image)}}">
+                  </div>
+                  @else
+                    <div class="ttdImage"></div>
+                  @endif
+                  <div class="nilai2">
+                    <span>{{collect($dataTTD)->firstWhere('bagian','2')->nilai2}}</span>
+                  </div>
+                  <div class="nilai3">
+                    {{collect($dataTTD)->firstWhere('bagian','2')->nilai3}}
+                  </div>
+                </div>
+                
+
+               </div> 
+                </div>         
             </div>   
           </div>
           <!-- end box info -->
@@ -173,7 +236,7 @@
                   console.log(data);
                   if(data.status == "nodata")
                   { 
-                    $('table').fadeOut('slow');
+                    $('.printLaporan').fadeOut('slow');
                     $('#message').fadeIn("slow").html('Belum Ada Data Absensi');
                     setTimeout(function(){
                       $('#message').fadeOut('slow');
@@ -181,7 +244,7 @@
                   }
                   if(data.dataAbsensi.length == 0)
                   { 
-                    $('table').fadeOut('slow');
+                    $('.printLaporan').fadeOut('slow');
                     $('#message').fadeIn("slow").html('Belum Ada Data Absensi');
                     setTimeout(function(){
                       $('#message').fadeOut('slow');
@@ -190,8 +253,10 @@
                   else if(data.status == "success")
                   {
                     i = 1;
-                    $('table').fadeIn('slow');
+                    $('.printLaporan').fadeIn('slow');
                     $('tbody').empty();
+
+                    $('.waktu').html(data.bulan+" "+data.tahun);
 
                     console.log(data.formula);
                     formula1 = data.formula[0]['rumus'];
@@ -211,36 +276,36 @@
                     jml12 = 0;      
                     $.each(data.dataAbsensi,function(k,v){     
 
-                      col5 = (v.tunjangan*v.count_orang);
-                      col6 = v.pph;
-                      col7 = col5+col6;                      
+                      col5 = parseInt(parseInt(v.tunjangan)*v.count_orang);
+                      col6 = parseInt(v.pph);
+                      col7 = parseInt(col5)+parseInt(col6);                      
                       col8 = 0;
                       col9 = 0;
-                      col10 = col5-col8;
-                      col11 = col6-col9;
-                      col12 = col10+col11;
+                      col10 = parseInt(col5)-parseInt(col8);
+                      col11 = parseInt(col6)-parseInt(col9);
+                      col12 = parseInt(col10)+parseInt(col11);
                       
                       jml3+=v.count_orang;      
-                      jml5+=col5;      
-                      jml6+=col6;      
-                      jml7+=col7;      
-                      jml10+=col10;      
-                      jml11+=col11;      
-                      jml12+=col12;
+                      jml5+=parseInt(col5);      
+                      jml6+=parseInt(col6);      
+                      jml7+=parseInt(col7);      
+                      jml10+=parseInt(col10);      
+                      jml11+=parseInt(col11);      
+                      jml12+=parseInt(col12);
 
                       html = '<tr>'+
                                '<td>'+(i++)+'</td>'+                               
                                '<td>'+v.kelas_jab+'</td>'+
                                '<td>'+v.count_orang+'</td>'+
                                '<td>'+number_format(v.tunjangan,0,",",".")+'</td>'+
-                               '<td>'+number_format(col5,0,",",".")+'</td>'+
-                               '<td>'+number_format(col6,0,",",".")+'</td>'+
-                               '<td>'+number_format(col7,0,",",".")+'</td>'+
+                               '<td>'+number_format(parseInt(col5),0,",",".")+'</td>'+
+                               '<td>'+number_format(parseInt(col6),0,",",".")+'</td>'+
+                               '<td>'+number_format(parseInt(col7),0,",",".")+'</td>'+
                                '<td>'+col8+'</td>'+
                                '<td>'+col9+'</td>'+
-                               '<td>'+number_format(col10,0,",",".")+'</td>'+
-                               '<td>'+number_format(col11,0,",",".")+'</td>'+
-                               '<td>'+number_format(col12,0,",",".")+'</td>'+
+                               '<td>'+number_format(parseInt(col10),0,",",".")+'</td>'+
+                               '<td>'+number_format(parseInt(col11),0,",",".")+'</td>'+
+                               '<td>'+number_format(parseInt(col12),0,",",".")+'</td>'+
                              '</tr>';
                       $('tbody').append(html);
                                             
@@ -260,6 +325,7 @@
                               '<td>'+number_format(jml11,0,",",".")+'</td>'+
                               '<td>'+number_format(jml12,0,",",".")+'</td>'+
                              '</tr>';
+                             //alert(jml12);
                       $('tbody').append(html);
                   }
                 }

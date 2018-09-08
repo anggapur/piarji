@@ -84,6 +84,7 @@ class absensiController extends Controller
             $dataInsert['absensi4'] = $datas[4][$key]['nilai'];            
             $dataInsert['id_waktu'] = $data['idBulanTahun'];
             $dataInsert['kd_aturan'] = $kd_aturan->id;
+            $dataInsert['kd_satker_saat_absensi'] = CH::getKdSatker(Auth::user()->kd_satker);
             //cari dulu 
             $querySearch = absensi::where(['nip' => $value['id'], 'id_waktu' => $data['idBulanTahun']])->get();
             //insert
@@ -191,8 +192,35 @@ class absensiController extends Controller
         else if($query->count() == 1)
         {
             $q2 = absensi::where('id_waktu',$query[0]['id'])
+                    ->where('absensi.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))            
                     ->select('id','nip','id_waktu','absensi1','absensi2','absensi3','absensi4')->get();
             return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $q2];            
+        }
+        else
+        {
+            return ['status' => 'failed'];
+        }
+    }
+
+    public function pilihBulanTahunPegawai(Request $request)
+    {
+        //cari data yang sesuai
+        $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun,'absensi.kd_satker_saat_absensi' => CH::getKdSatker(Auth::user()->kd_satker)];
+        $query = waktu_absensi::where($where)->join('absensi','waktu_absensi.id','=','absensi.id_waktu');
+        if($query->get()->count() == 0)
+        {
+          $q = waktu_absensi::create(['bulan' => $request->bulan, 'tahun' => $request->tahun]);
+            $data =  $q = pegawai::where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))         
+            ->get();
+            return ['keterangan' => 'Tidak Ada Pegawai','data' => $data];
+        }
+        else if($query->get()->count() > 0)
+        {
+          $qWaktu = waktu_absensi::where(['bulan' => $request->bulan, 'tahun' => $request->tahun])->first();
+            $data =  absensi::where('absensi.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))
+              ->where('id_waktu',$qWaktu->id)
+              ->leftJoin('pegawai','absensi.nip','=','pegawai.nip');            
+            return ['keterangan' => ' Ada Pegawai','data' => $data->get(),'id_waktu' => $qWaktu->id];
         }
         else
         {
