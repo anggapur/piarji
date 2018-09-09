@@ -62,7 +62,7 @@
                 </div>
                 
                 <div class="col-md-4">     
-                  <h4>Tanda Tangan 3</h4> 
+                  <h4>Tanda Tangan 2</h4> 
                   <div class="form-group">    
                     <label>Waktu</label>
                     <input type="text" name="data[2][2][nilai4]" class="form-control" placeholder="Waktu" value="{{collect($dataTTD)->firstWhere('bagian','2')->nilai4}}" required>
@@ -113,7 +113,7 @@
                 </div>
              
                 <div class="col-md-4">     
-                  <h4>Tanda Tangan 3</h4> 
+                  <h4>Tanda Tangan 2</h4> 
                    <div class="form-group">    
                     <label>Waktu</label>
                     <input type="text" name="data[2][2][nilai4]" class="form-control" placeholder="Waktu" value="" required>
