@@ -11,6 +11,8 @@ use DB;
 use File;
 use Illuminate\Support\Facades\Schema;
 use Artisan;
+use App\testing;
+use Carbon\Carbon;
 class HomeController extends Controller
 {
     /**
@@ -20,9 +22,13 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        
+        testing::create(['waktu' => Carbon::now()]);   
     }
 
+    public function testing()
+    {
+
+    }
     public function cobaPrint()
     {
         return view('cobaPrint');
