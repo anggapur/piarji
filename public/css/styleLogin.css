@@ -14,12 +14,15 @@ div#loginForm .card {
 }
 
 @media only screen and (max-width: 768px) {
-	#imgPakPol{
-		display: none;
-	}
+    #imgPakPol{
+        display: none;
+    }
 }
 
 img#imgPakPol {
-    height: 300px;
+    height: 100px;
     margin: 0 auto;
+    border: 0;
+    position: absolute;
+    bottom: 0;
 }
