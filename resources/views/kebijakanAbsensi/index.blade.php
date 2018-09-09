@@ -30,7 +30,7 @@
               <div class="form-group">
                 <label>Keterangan</label>
                 <p>
-                  G = Gaji<br>
+                  G = Index Tunjangan Kinerja (TunKin)<br>
                   H = Hari<br>
                 </p>
               </div>

@@ -71,7 +71,7 @@ class mutasiController extends Controller
     public function autoCekMutasiAktif()
     {       
         // return $request->all();
-        testing::create(['waktu' => Carbon::now()]);   
+        //testing::create(['waktu' => Carbon::now()]);   
         $now = date("m-Y",strtotime(Carbon::now()));
         
         
