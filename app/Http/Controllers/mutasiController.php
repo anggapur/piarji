@@ -10,6 +10,7 @@ use Auth;
 use App\waktu_absensi;
 use App\mutasi;
 use Carbon\Carbon;
+use App\testing;
 class mutasiController extends Controller
 {
     /**
@@ -70,6 +71,7 @@ class mutasiController extends Controller
     public function autoCekMutasiAktif()
     {       
         // return $request->all();
+        testing::create(['waktu' => Carbon::now()]);   
         $now = date("m-Y",strtotime(Carbon::now()));
         
         
