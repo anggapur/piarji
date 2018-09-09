@@ -82,7 +82,7 @@ class kebijakanAbsensiController extends Controller
             # code...
             echo $key." ".$value."  = ".$request->rumus[$key]."<br>";
             $data['nama'] = $value;
-            $data['rumus'] = $request->rumus[$key];
+            $data['rumus'] = str_replace("IT","G",$request->rumus[$key]);
             $query = aturan_absensi::where('id',$key)->update($data);
         }
         if($query)

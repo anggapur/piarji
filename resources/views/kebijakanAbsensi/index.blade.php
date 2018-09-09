@@ -30,7 +30,7 @@
               <div class="form-group">
                 <label>Keterangan</label>
                 <p>
-                  G = Index Tunjangan Kinerja (TunKin)<br>
+                  IT = Index Tunjangan Kinerja (TunKin)<br>
                   H = Hari<br>
                 </p>
               </div>
@@ -43,7 +43,7 @@
                   <label>Nama Rumus</label>
                   <textarea class="form-control"  name="nama[{{$val->id}}]" rows="3" required> {!!$val->nama!!} </textarea>
                   <label>Rumus</label>
-                  <input type="text" class="form-control"  name="rumus[{{$val->id}}]" value="{{$val->rumus}}" required>
+                  <input type="text" class="form-control"  name="rumus[{{$val->id}}]" value="{{str_replace('G','IT',$val->rumus)}}" required>
                 </div>     
                 <hr>   
                 @endforeach                              
