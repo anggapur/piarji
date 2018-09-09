@@ -179,6 +179,7 @@
         <li class="{{CH::segment(1,['home'])}}"><a href="{{url('')}}"><i class="fa fa-book"></i> <span>Home</span></a></li>       
         <!-- MENU ABSENSI-->
         <li class="{{CH::segment(1,['absensi'])}} {{CH::showTo(['operator'])}}"><a href="{{url('absensi')}}"><i class="fa fa-list-alt"></i> <span>Rekap Absensi</span></a></li> 
+        <li class="{{CH::segment(1,['absensiSusulan'])}} {{CH::showTo(['operator'])}}"><a href="{{url('absensiSusulan')}}"><i class="fa fa-list-alt"></i> <span>Rekap Absensi Susulan</span></a></li> 
 
         <!-- Menu Setting User -->        
         <li class="{{CH::segment(1,['settingUser'])}} {{CH::showTo(['admin'])}} treeview">
@@ -287,6 +288,23 @@
             <li class="{{CH::segment(2,['laporanSPTJM'])}}"><a href="{{url('laporanAbsensi/laporanSPTJM')}}"><i class="fa fa-circle-o"></i> Laporan SPTJM</a></li>
           </ul>
         </li> 
+
+        <li class="{{CH::segment(1,['laporanAbsensiSusulan'])}} {{CH::showTo(['admin','operator'])}} treeview">
+          <a href="#">
+            <i class="fa fa-gear"></i> <span>Cetak Laporan Susulan</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{CH::segment(2,['laporan1'])}}"><a href="{{url('laporanAbsensiSusulan/laporan1')}}"><i class="fa fa-circle-o"></i> Laporan C1/C2</a></li>            
+            <li class="{{CH::segment(2,['laporanB'])}}"><a href="{{url('laporanAbsensiSusulan/laporanB')}}"><i class="fa fa-circle-o"></i> Laporan B1/B2</a></li>            
+            <li class="{{CH::segment(2,['laporanSPP'])}}"><a href="{{url('laporanAbsensiSusulan/laporanSPP')}}"><i class="fa fa-circle-o"></i> Laporan SPP</a></li>            
+            <li class="{{CH::segment(2,['laporanKU'])}}"><a href="{{url('laporanAbsensiSusulan/laporanKU')}}"><i class="fa fa-circle-o"></i> Laporan KU</a></li>            
+            <li class="{{CH::segment(2,['laporanSPTJM'])}}"><a href="{{url('laporanAbsensiSusulan/laporanSPTJM')}}"><i class="fa fa-circle-o"></i> Laporan SPTJM</a></li>
+          </ul>
+        </li> 
+
 
         <!-- Menu Setting User -->        
         <li class="{{CH::segment(1,['mutasiSetting'])}} {{CH::showTo(['operator'])}} treeview">

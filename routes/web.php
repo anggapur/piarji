@@ -133,7 +133,11 @@ Route::group(['middleware' => 'auth'],function(){
 
 	//Only Operator can access
 	Route::group(['middleware' => 'level:operator'],function(){
+		//absensi
+		Route::post('absensiSusulan/cekBulanTahun','absensiSusulan@cekBulanTahun')->name('cekBulanTahun');
 		Route::resource('absensi','absensiController');
+		Route::resource('absensiSusulan','absensiSusulan');
+
 		Route::get('getDataAbsensi','absensiController@anyData')->name('getDataAbsensi');	
 		Route::post('pilihBulanTahun','absensiController@pilihBulanTahun')->name('pilihBulanTahun');		
 		Route::post('pilihBulanTahunPegawai','absensiController@pilihBulanTahunPegawai')->name('pilihBulanTahunPegawai');		
@@ -144,6 +148,7 @@ Route::group(['middleware' => 'auth'],function(){
 		Route::resource('mutasiSetting','mutasiController');
 	});
 
+	//cetak 1
 	Route::get('laporanAbsensi/laporan1','laporanAbsensi@laporan1');
 	Route::post('pilihBulanTahunLaporan','laporanAbsensi@pilihBulanTahun')->name('pilihBulanTahunLaporan');
 
@@ -157,6 +162,22 @@ Route::group(['middleware' => 'auth'],function(){
 
 	Route::get('laporanAbsensi/laporanKU','laporanAbsensi@laporanKU');
 	Route::post('pilihBulanTahunLaporanKU','laporanAbsensi@pilihBulanTahunKU')->name('pilihBulanTahunLaporanKU');
+
+	//cetak 2
+	Route::get('laporanAbsensiSusulan/laporan1','laporanAbsensiSusulan@laporan1');
+	Route::post('pilihBulanTahunLaporanSusulan','laporanAbsensiSusulan@pilihBulanTahun')->name('pilihBulanTahunLaporanSusulan');
+
+	Route::get('laporanAbsensiSusulan/laporanB','laporanAbsensiSusulan@laporanB');
+	Route::post('pilihBulanTahunLaporanBSusulan','laporanAbsensiSusulan@pilihBulanTahunB')->name('pilihBulanTahunLaporanBSusulan');
+	Route::get('laporanAbsensiSusulan/cekLap','laporanAbsensiSusulan@cekLap');
+
+	Route::get('laporanAbsensiSusulan/laporanSPP','laporanAbsensiSusulan@laporanSPP');
+	Route::get('laporanAbsensiSusulan/laporanSPTJM','laporanAbsensiSusulan@laporanSPTJM');
+	Route::post('pilihBulanTahunLaporanSPPSusulan','laporanAbsensiSusulan@pilihBulanTahunSPP')->name('pilihBulanTahunLaporanSPPSusulan');
+
+	Route::get('laporanAbsensiSusulan/laporanKU','laporanAbsensiSusulan@laporanKU');
+	Route::post('pilihBulanTahunLaporanKUSusulan','laporanAbsensiSusulan@pilihBulanTahunKU')->name('pilihBulanTahunLaporanKUSusulan');
+	//
 	
 	Route::get('tandaTanganSetting/laporan1','TTDController@laporan1');
 	Route::get('tandaTanganSetting/laporanB','TTDController@laporanB');
