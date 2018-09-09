@@ -139,7 +139,7 @@
                     <div class="TTDarea row"> 
                 <div class="TTD1 col-cs-6">
                   <div class="nilai1 top-20">
-                    {{collect($dataTTD)->firstWhere('bagian','1')->nilai1}}
+                    {!!collect($dataTTD)->firstWhere('bagian','1')->nilai1!!}
                   </div>
                   @if(collect($dataTTD)->firstWhere('bagian','1')->image != "")
                   <div class="imgWrap">
