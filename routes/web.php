@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('cobaPrint','HomeController@cobaPrint');
 Route::get('download/{filename}', function($filename)
 {
     // Check if file exists in app/storage/file folder

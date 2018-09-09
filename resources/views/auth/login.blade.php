@@ -71,7 +71,7 @@
             </div>
         </div>
 
-         <div class="col-md-4">
+         <div class="col-md-3">
             <img src="{{url('public/asset/Gambar-Kartun-Polisi-Hormat.png')}}" class="img-fluid" id="imgPakPol">
         </div>
     </div>

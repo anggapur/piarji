@@ -48,6 +48,8 @@
 <script src="{{ asset('public/template/bower_components/jquery/dist/jquery.min.js')}}"></script>
 <!-- CKEDITOR -->
 <script src="//cdn.ckeditor.com/4.10.0/full/ckeditor.js"></script>
+<!-- HTML to PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>
 
 <style type="text/css">
   
@@ -258,7 +260,7 @@
         <!-- Menu Setting User -->        
         <li class="{{CH::segment(1,['tandaTanganSetting'])}} {{CH::showTo(['admin','operator'])}} treeview">
           <a href="#">
-            <i class="fa fa-gear"></i> <span>Setting Laporan</span>
+            <i class="fa fa-gear"></i> <span>Isi Laporan</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>

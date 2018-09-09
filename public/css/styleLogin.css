@@ -18,3 +18,8 @@ div#loginForm .card {
 		display: none;
 	}
 }
+
+img#imgPakPol {
+    height: 300px;
+    margin: 0 auto;
+}

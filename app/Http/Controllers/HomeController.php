@@ -23,6 +23,10 @@ class HomeController extends Controller
         
     }
 
+    public function cobaPrint()
+    {
+        return view('cobaPrint');
+    }
     /**
      * Show the application dashboard.
      *

@@ -125,7 +125,11 @@
       function printReport()
       {
         
-          window.print();
+          $('#btnPilih').click();
+          setTimeout(function(){
+            window.print();
+          },1000);
+          
         
           var prtContent = document.getElementById("printArea");
                     
