@@ -61,6 +61,7 @@ Route::get('test',function(){
 	return CH::segment(1,"test");
 });
 Route::get('formulaPPH','HomeController@formulaPPH');
+Route::get('autoCekMutasiAktif','mutasiController@autoCekMutasiAktif');
 
 Auth::routes();
 
@@ -113,7 +114,7 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get('getDataRekening','settingRekening@anyData')->name('getDataRekening');
 
 	//,utasi cek
-	Route::get('autoCekMutasiAktif','mutasiController@autoCekMutasiAktif');
+	
 	//Only Admin can access	
 	Route::group(['middleware' => 'level:admin'],function(){
 		//mutasi
