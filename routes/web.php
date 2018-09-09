@@ -10,7 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('testing','HomeController@testing');
+
+
 Route::get('cobaPrint','HomeController@cobaPrint');
 Route::get('download/{filename}', function($filename)
 {
@@ -66,6 +67,8 @@ Route::get('autoCekMutasiAktif','mutasiController@autoCekMutasiAktif');
 Auth::routes();
 
 Route::group(['middleware' => 'auth'],function(){
+	Route::get('exportDataPegawai','pegawaiController@exporting');
+
 	//Api
 	Route::get('getDeptApi','apiController@getDeptApi');
 	Route::get('getLokasiApi','apiController@getLokasiApi');

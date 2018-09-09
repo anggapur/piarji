@@ -50,10 +50,7 @@
                     <label>Waktu</label>
                     <input type="text" name="data[4][1][nilai4]" class="form-control" placeholder="Waktu" value="{{collect($dataTTD)->firstWhere('bagian','1')->nilai4}}" required>
                   </div>                     
-                  <div class="form-group">    
-                    <label>Jabatan</label>
-                    <input type="text" name="data[4][1][nilai1]" class="form-control" placeholder="Jabatan" value="{{collect($dataTTD)->firstWhere('bagian','1')->nilai1}}" required>
-                  </div>
+                  
                   <div class="form-group">    
                     <label>Nama</label>
                     <input type="text" name="data[4][1][nilai2]" class="form-control" placeholder="Nama" value="{{collect($dataTTD)->firstWhere('bagian','1')->nilai2}}" required>
@@ -61,6 +58,10 @@
                   <div class="form-group">    
                     <label>Pangkat</label>
                     <input type="text" name="data[4][1][nilai3]" class="form-control" placeholder="Pangkat" value="{{collect($dataTTD)->firstWhere('bagian','1')->nilai3}}" required>
+                  </div>
+                  <div class="form-group">    
+                    <label>Jabatan</label>
+                    <input type="text" name="data[4][1][nilai1]" class="form-control" placeholder="Jabatan" value="{{collect($dataTTD)->firstWhere('bagian','1')->nilai1}}" required>
                   </div>
                   <div class="form-group">    
                     <label>Alamat</label>
@@ -85,10 +86,7 @@
                     <label>Waktu</label>
                     <input type="text" name="data[4][2][nilai4]" class="form-control" placeholder="Waktu" value="{{collect($dataTTD)->firstWhere('bagian','2')->nilai4}}" required>
                   </div>                     
-                  <div class="form-group">    
-                    <label>Jabatan</label>
-                    <input type="text" name="data[4][2][nilai1]" class="form-control" placeholder="Jabatan" value="{{collect($dataTTD)->firstWhere('bagian','2')->nilai1}}" required>
-                  </div>
+                 
                   <div class="form-group">    
                     <label>Nama</label>
                     <input type="text" name="data[4][2][nilai2]" class="form-control" placeholder="Nama" value="{{collect($dataTTD)->firstWhere('bagian','2')->nilai2}}" required>
@@ -96,6 +94,10 @@
                   <div class="form-group">    
                     <label>Pangkat</label>
                     <input type="text" name="data[4][2][nilai3]" class="form-control" placeholder="Pangkat" value="{{collect($dataTTD)->firstWhere('bagian','2')->nilai3}}" required>
+                  </div>
+                   <div class="form-group">    
+                    <label>Jabatan</label>
+                    <input type="text" name="data[4][2][nilai1]" class="form-control" placeholder="Jabatan" value="{{collect($dataTTD)->firstWhere('bagian','2')->nilai1}}" required>
                   </div>
                   <div class="form-group">    
                     <label>Alamat</label>
@@ -130,10 +132,7 @@
                     <label>Waktu</label>
                     <input type="text" name="data[4][1][nilai4]" class="form-control" placeholder="Waktu" value="" required>
                   </div>                  
-                  <div class="form-group">    
-                    <label>Jabatan</label>
-                    <input type="text" name="data[4][1][nilai1]" class="form-control" placeholder="Jabatan" value="" required>
-                  </div>
+                  
                   <div class="form-group">    
                     <label>Nama</label>
                     <input type="text" name="data[4][1][nilai2]" class="form-control" placeholder="Nama" value="" required>
@@ -141,6 +140,10 @@
                   <div class="form-group">    
                     <label>Pangkat</label>
                     <input type="text" name="data[4][1][nilai3]" class="form-control" placeholder="Pangkat" value="" required>
+                  </div>
+                  <div class="form-group">    
+                    <label>Jabatan</label>
+                    <input type="text" name="data[4][1][nilai1]" class="form-control" placeholder="Jabatan" value="" required>
                   </div>
                    <div class="form-group">    
                     <label>Alamat</label>
@@ -159,10 +162,7 @@
                     <label>Waktu</label>
                     <input type="text" name="data[4][2][nilai4]" class="form-control" placeholder="Waktu" value="" required>
                   </div>                  
-                  <div class="form-group">    
-                    <label>Jabatan</label>
-                    <input type="text" name="data[4][2][nilai1]" class="form-control" placeholder="Jabatan" value="" required>
-                  </div>
+                  
                   <div class="form-group">    
                     <label>Nama</label>
                     <input type="text" name="data[4][2][nilai2]" class="form-control" placeholder="Nama" value="" required>
@@ -170,6 +170,10 @@
                   <div class="form-group">    
                     <label>Pangkat</label>
                     <input type="text" name="data[4][2][nilai3]" class="form-control" placeholder="Pangkat" value="" required>
+                  </div>
+                  <div class="form-group">    
+                    <label>Jabatan</label>
+                    <input type="text" name="data[4][2][nilai1]" class="form-control" placeholder="Jabatan" value="" required>
                   </div>
                    <div class="form-group">    
                     <label>Alamat</label>

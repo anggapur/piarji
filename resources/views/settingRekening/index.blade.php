@@ -28,8 +28,10 @@
           <div class="box box-info">
             <div class="box-header">              
               <h3 class="box-title">User</h3>                            
+              <a href="{{url('exportDataPegawai')}}" class="btn btn-success btn-xs" style="float: right;">Download Data Pegawai</a>
             </div>
             <div class="box-body">
+
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>                

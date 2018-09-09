@@ -401,4 +401,60 @@ class pegawaiController extends Controller
             }
         }
     }
+
+    public function exporting()
+    {
+         // Execute the query used to retrieve the data. In this example
+    // we're joining hypothetical users and payments tables, retrieving
+    // the payments table's primary key, the user's first and last name, 
+    // the user's e-mail address, the amount paid, and the payment
+    // timestamp.
+
+    if(Auth::user()->level == "admin")
+        {
+            $payments = pegawai::leftJoin('satker','satker.kd_satker','=','pegawai.kd_satker')
+                ->leftJoin('pangkat','pangkat.kd_pangkat','=','pegawai.kd_pangkat')
+                ->leftJoin('jabatan','jabatan.kd_jabatan','=','pegawai.kd_jab')
+                ->select('nip','nama','nm_satker','nm_pangkat2','nm_jabatan','kelas_jab','no_rekening','kawin','tanggungan','jenis_kelamin')
+                ->get();
+        }
+        else
+        {
+            $payments = pegawai::leftJoin('satker','satker.kd_satker','=','pegawai.kd_satker')
+                ->leftJoin('pangkat','pangkat.kd_pangkat','=','pegawai.kd_pangkat')
+                ->leftJoin('jabatan','jabatan.kd_jabatan','=','pegawai.kd_jab')
+                ->select('nip','nama','nm_satker','nm_pangkat2','nm_jabatan','kelas_jab','no_rekening','kawin','tanggungan','jenis_kelamin')
+                ->where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))
+                ->get();
+        }
+    // return $payments;
+
+    // Initialize the array which will be passed into the Excel
+    // generator.
+    $paymentsArray = []; 
+
+    // Define the Excel spreadsheet headers
+    $paymentsArray[] = ['NI/NRP', 'NAMA','SATKER','PANGKAT','JABATAN','KELAS JABATAN','NO REKENING','KAWIN','TANGGUNGAN','JENIS KELAMIN'];
+    // Convert each member of the returned collection into an array,
+    // and append it to the payments array.
+    foreach ($payments as $payment) {
+        $paymentsArray[] = $payment->toArray();
+    }
+
+    // Generate and return the spreadsheet
+    $data = "a";
+    Excel::create('Data Pegawai', function($excel) use ($paymentsArray) {
+
+        // Set the spreadsheet title, creator, and description
+        $excel->setTitle('Data Pegawai');
+        $excel->setCreator('PRG BALI')->setCompany('Angga Purnajiwa');
+        $excel->setDescription('List Pegawai');
+
+        // Build the spreadsheet, passing in the payments array
+        $excel->sheet('sheet1', function($sheet) use ($paymentsArray) {
+            $sheet->fromArray($paymentsArray, null, 'A1', false, false);
+        });
+
+    })->download('xlsx');
+    }
 }

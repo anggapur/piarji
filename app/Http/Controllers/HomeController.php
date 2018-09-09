@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Schema;
 use Artisan;
 use App\testing;
 use Carbon\Carbon;
+use Excel;
+
 class HomeController extends Controller
 {
     /**
@@ -25,6 +27,7 @@ class HomeController extends Controller
         testing::create(['waktu' => Carbon::now()]);   
     }
 
+    
     public function testing()
     {
 
