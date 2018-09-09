@@ -178,7 +178,7 @@
         <!-- MENU HOME -->
         <li class="{{CH::segment(1,['home'])}}"><a href="{{url('')}}"><i class="fa fa-book"></i> <span>Home</span></a></li>       
         <!-- MENU ABSENSI-->
-        <li class="{{CH::segment(1,['absensi'])}} {{CH::showTo(['operator'])}}"><a href="{{url('absensi')}}"><i class="fa fa-list-alt"></i> <span>Absensi</span></a></li> 
+        <li class="{{CH::segment(1,['absensi'])}} {{CH::showTo(['operator'])}}"><a href="{{url('absensi')}}"><i class="fa fa-list-alt"></i> <span>Rekap Absensi</span></a></li> 
 
         <!-- Menu Setting User -->        
         <li class="{{CH::segment(1,['settingUser'])}} {{CH::showTo(['admin'])}} treeview">
@@ -189,7 +189,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="{{CH::segment(2,['create'])}}"><a href="{{url('settingUser/create')}}"><i class="fa fa-circle-o"></i> Buat User</a></li>
+            <li class="{{CH::segment(2,['create'])}}"><a href="{{url('settingUser/create')}}"><i class="fa fa-circle-o"></i> Tambah User</a></li>
             <li class="{{CH::segment(2,[''])}}"><a href="{{url('settingUser')}}"><i class="fa fa-circle-o"></i> Lihat User</a></li>
           </ul>
         </li>  
@@ -197,37 +197,84 @@
         <!-- Aturan Tunkin -->        
         <li class="{{CH::segment(1,['aturanTunkin'])}} {{CH::showTo(['admin'])}} treeview">
           <a href="#">
-            <i class="fa fa-gear"></i> <span>Setting Aturan Tunkin</span>
+            <i class="fa fa-gear"></i> <span>Setting Kebijakan Tunkin</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="{{CH::segment(2,['create'])}}"><a href="{{url('aturanTunkin/create')}}"><i class="fa fa-circle-o"></i> Buat Aturan Tunkin</a></li>
+            <li class="{{CH::segment(2,['create'])}}"><a href="{{url('aturanTunkin/create')}}"><i class="fa fa-circle-o"></i> Input Aturan Tunkin</a></li>
             <li class="{{CH::segment(2,[''])}}"><a href="{{url('aturanTunkin')}}"><i class="fa fa-circle-o"></i> Lihat Aturan Tunkin</a></li>
+          </ul>
+        </li>  
+
+        <!-- Kebijakan Absensi -->
+         <li class="{{CH::segment(1,['kebijakanAbsensi'])}} {{CH::showTo(['admin'])}} treeview">
+          <a href="#">
+            <i class="fa fa-gear"></i> <span>Setting Kebijakan Absensi</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{CH::segment(2,[''])}} {{CH::showTo(['admin'])}}"><a href="{{url('kebijakanAbsensi')}}"><i class="fa fa-circle-o"></i> Kebijakan Absensi</a></li>            
           </ul>
         </li>  
 
         <!-- Menu Setting User -->        
         <li class="{{CH::segment(1,['settingRekening','pegawaiSetting','dataPegawai'])}} {{CH::showTo(['admin','operator'])}} treeview">
           <a href="#">
-            <i class="fa fa-gear"></i> <span>Setting Rekening</span>
+            <i class="fa fa-gear"></i> <span>Data Personil</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="{{CH::segment(2,['importForm'])}}"><a href="{{url('settingRekening/importForm')}}"><i class="fa fa-circle-o"></i> Import Data Rekening</a></li>
-            <li class="{{CH::segment(2,['create'])}}"><a href="{{url('dataPegawai/create')}}"><i class="fa fa-circle-o"></i> Buat Pegawai</a></li>
-            <li class="{{CH::segment(2,[''])}}"><a href="{{url('settingRekening')}}"><i class="fa fa-circle-o"></i> Lihat Pegawai</a></li>
-            <li class="{{CH::segment(2,['importPegawai'])}}"><a href="{{url('pegawaiSetting/importPegawai')}}"><i class="fa fa-circle-o"></i> Import Data Pegawai</a></li>
+            <!-- <li class="{{CH::segment(2,['importForm'])}}"><a href="{{url('settingRekening/importForm')}}"><i class="fa fa-circle-o"></i> Import Data Rekening</a></li> -->
+            <li class="{{CH::segment(2,['create'])}}"><a href="{{url('dataPegawai/create')}}"><i class="fa fa-circle-o"></i> Input Personil</a></li>
+            <li class="{{CH::segment(2,[''])}}"><a href="{{url('settingRekening')}}"><i class="fa fa-circle-o"></i> Lihat Personil</a></li>
+            <li class="{{CH::segment(2,['importPegawai'])}}"><a href="{{url('pegawaiSetting/importPegawai')}}"><i class="fa fa-circle-o"></i> Import Data Personil</a></li>
+          </ul>
+        </li> 
+
+ <!-- Menu Setting User -->        
+        <li class="{{CH::segment(1,['dataSatker'])}} {{CH::showTo(['admin'])}} treeview">
+          <a href="#">
+            <i class="fa fa-gear"></i> <span>Data Satker</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <!-- <li class="{{CH::segment(2,['importForm'])}}"><a href="{{url('settingRekening/importForm')}}"><i class="fa fa-circle-o"></i> Import Data Rekening</a></li> -->
+            <li class="{{CH::segment(2,['create'])}}"><a href="{{url('dataSatker/create')}}"><i class="fa fa-circle-o"></i> Input Satker</a></li>
+            <li class="{{CH::segment(2,[''])}}"><a href="{{url('dataSatker')}}"><i class="fa fa-circle-o"></i> Lihat Satker</a></li>
+            <li class="{{CH::segment(2,['importPegawai'])}}"><a href="{{url('dataSatker/importSatker')}}"><i class="fa fa-circle-o"></i> Import Data Satker</a></li>
+          </ul>
+        </li> 
+
+
+        <!-- Menu Setting User -->        
+        <li class="{{CH::segment(1,['tandaTanganSetting'])}} {{CH::showTo(['admin','operator'])}} treeview">
+          <a href="#">
+            <i class="fa fa-gear"></i> <span>Setting Laporan</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{CH::segment(2,['laporan1'])}}"><a href="{{url('tandaTanganSetting/laporan1')}}"><i class="fa fa-circle-o"></i> Laporan C1/C2</a></li>            
+            <li class="{{CH::segment(2,['laporanB'])}}"><a href="{{url('tandaTanganSetting/laporanB')}}"><i class="fa fa-circle-o"></i> Laporan B1/B2</a></li>            
+            <li class="{{CH::segment(2,['laporanSPP'])}}"><a href="{{url('tandaTanganSetting/laporanSPP')}}"><i class="fa fa-circle-o"></i> Laporan SPP</a></li>            
+            <li class="{{CH::segment(2,['laporanKU'])}}"><a href="{{url('tandaTanganSetting/laporanKU')}}"><i class="fa fa-circle-o"></i> Laporan KU</a></li>            
+            <li class="{{CH::segment(2,['laporanSPTJM'])}}"><a href="{{url('tandaTanganSetting/laporanSPTJM')}}"><i class="fa fa-circle-o"></i> Laporan SPTJM</a></li> 
           </ul>
         </li> 
 
         <!-- Menu Setting User -->        
         <li class="{{CH::segment(1,['laporanAbsensi'])}} {{CH::showTo(['admin','operator'])}} treeview">
           <a href="#">
-            <i class="fa fa-gear"></i> <span>Laporan</span>
+            <i class="fa fa-gear"></i> <span>Cetak Laporan</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -256,25 +303,11 @@
           </ul>
         </li> 
 
-        <!-- Menu Setting User -->        
-        <li class="{{CH::segment(1,['tandaTanganSetting'])}} {{CH::showTo(['admin','operator'])}} treeview">
-          <a href="#">
-            <i class="fa fa-gear"></i> <span>Tanda Tangan Setting</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="{{CH::segment(2,['laporan1'])}}"><a href="{{url('tandaTanganSetting/laporan1')}}"><i class="fa fa-circle-o"></i> Laporan C1/C2</a></li>            
-            <li class="{{CH::segment(2,['laporanB'])}}"><a href="{{url('tandaTanganSetting/laporanB')}}"><i class="fa fa-circle-o"></i> Laporan B1/B2</a></li>            
-            <li class="{{CH::segment(2,['laporanSPP'])}}"><a href="{{url('tandaTanganSetting/laporanSPP')}}"><i class="fa fa-circle-o"></i> Laporan SPP</a></li>            
-            <li class="{{CH::segment(2,['laporanKU'])}}"><a href="{{url('tandaTanganSetting/laporanKU')}}"><i class="fa fa-circle-o"></i> Laporan KU</a></li>            
-            <li class="{{CH::segment(2,['laporanSPTJM'])}}"><a href="{{url('tandaTanganSetting/laporanSPTJM')}}"><i class="fa fa-circle-o"></i> Laporan SPTJM</a></li> 
-          </ul>
-        </li> 
+        <li class="{{CH::segment(2,['mutasiViewAdmin'])}} {{CH::showTo(['admin'])}}"><a href="{{url('mutasiSetting/mutasiViewAdmin')}}"><i class="fa fa-book"></i> <span>Mutasi</span></a></li>
+        
 
         <!-- Sinkronisasi -->
-        <li class="{{CH::segment(1,['sinkronisasiData'])}}"><a href="{{url('sinkronisasiData')}}"><i class="fa fa-book"></i> <span>Sinkronisasi Data</span></a></li>
+        <!-- <li class="{{CH::segment(1,['sinkronisasiData'])}}"><a href="{{url('sinkronisasiData')}}"><i class="fa fa-book"></i> <span>Sinkronisasi Data</span></a></li> -->
 
         <!--  Backup Restore-->
         <li class="{{CH::segment(1,['backupRestore'])}} {{CH::showTo(['admin'])}} treeview">
@@ -291,7 +324,7 @@
         </li> 
 
         <!-- Menu Data MAster -->
-        <li class="{{CH::segment(1,['dataSatker','dataUnit','dataDept','dataJabatan','dataLokasi','dataPangkat','dataPegawai'])}} {{CH::showTo(['admin','operator'])}} treeview">
+        <!-- <li class="{{CH::segment(1,['dataSatker','dataUnit','dataDept','dataJabatan','dataLokasi','dataPangkat','dataPegawai'])}} {{CH::showTo(['admin','operator'])}} treeview">
           <a href="#">
             <i class="fa fa-gear"></i> <span>Data Master</span>
             <span class="pull-right-container">
@@ -308,22 +341,10 @@
             <li class="{{CH::segment(1,['dataPangkat'])}}"><a href="{{url('dataPangkat')}}"><i class="fa fa-circle-o"></i> Data Pangkat</a></li>
             <li class="{{CH::segment(1,['dataPegawai'])}}"><a href="{{url('dataPegawai')}}"><i class="fa fa-circle-o"></i> Data Pegawai</a></li>
           </ul>
-        </li>  
+        </li>   -->
         
 
-        <!-- Menu Kebijakan -->
-        <li class="{{CH::segment(1,['kebijakanAbsensi'])}} {{CH::showTo(['admin'])}} treeview">
-          <a href="#">
-            <i class="fa fa-gear"></i> <span>Kebijakan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="{{CH::segment(2,[''])}} {{CH::showTo(['admin'])}}"><a href="{{url('kebijakanAbsensi')}}"><i class="fa fa-circle-o"></i> Kebijakan Absensi</a></li>            
-          </ul>
-        </li>  
-
+        
         <li class="header">LABELS</li>       
       </ul>
     </section>

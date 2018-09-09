@@ -15,42 +15,32 @@
                   </ul>
               </div>
           @endif
+          @if(session('status'))
+            <div class="alert alert-{{session('status')}}">
+              {{session('message')}}
+            </div>
+          @endif
           <div class="box box-info">
             <div class="box-header">              
-              <h3 class="box-title">Form Edit User</h3>              
+              <h3 class="box-title">Form Edit Satker</h3>              
               <!-- /. tools -->
             </div>
             <div class="box-body">
-              <form action="{{ route('settingUser.update',$dataUser->id)}}" method="POST">
-                 @method('PUT')
+              <form action="{{ route('dataSatker.update',$dataSatker->id)}}" method="post">
+                @method('PUT')
                 {{csrf_field()}}
                 <div class="form-group">
-                  <label>Username</label>
-                  <input type="text" class="form-control" name="name" placeholder="Username" value="{{$dataUser->name}}" required>
-                </div>
-                <div class="form-group">
-                  <label>Email</label>
-                  <input type="email" class="form-control" name="email" placeholder="Email" value="{{$dataUser->email}}" required>
-                </div>
-                <div class="form-group">
-                  <label>Password</label>
-                  <input type="password" class="form-control" name="password" placeholder="Password" required>
-                </div>
-                <div class="form-group">
-                  <label>Confirmation Password</label>
-                  <input type="password" class="form-control" name="conf_password" placeholder="Confirm Password" required>
-                </div>
-                <div>
                   <label>Kode Satker</label>
-                  <select class="js-example-basic-single form-control" name="kd_satker" required>                    
-                    @foreach($dataSatker as $val)
-                      <option value="{{$val->id}}" {{($val->id == $dataUser->kd_satker) ? "selected" : ""}}>{{$val->kd_satker." - ".$val->nm_satker}}</option>                                        
-                    @endforeach
-                  </select>                 
-                </div>              
+                  <input type="text" class="form-control" name="kd_satker" placeholder="Kode Satker" value="{{$dataSatker->kd_satker}}" readonly>
+                </div>
+                <div class="form-group">
+                  <label>Nama Satker</label>
+                  <input type="text" class="form-control" name="nm_satker" placeholder="Nama Satker" value="{{$dataSatker->nm_satker}}" required>
+                </div>
+                                      
             </div>
             <div class="box-footer clearfix">
-              <button type="submit" class="pull-right btn btn-success" id="sendEmail">Update User
+              <button type="submit" class="pull-right btn btn-success" id="sendEmail">Update Satker
                 <i class="fa fa-arrow-circle-right"></i></button>
             </div>
           </div>

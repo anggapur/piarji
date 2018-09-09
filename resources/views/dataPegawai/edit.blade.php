@@ -59,6 +59,11 @@
                     </datalist>
                 </div>
                 <div class="form-group">
+                  <label>Status Keaktifan</label><br>
+                  <input type="radio" name="status_aktif" value="1" @if($dataPegawai->status_aktif == "1") checked @endif> Aktif <br>
+                  <input type="radio" name="status_aktif" value="0" @if($dataPegawai->status_aktif == "0") checked @endif> Non-Aktif<br>
+                </div>
+                <div class="form-group">
                   <label>Jenis Kelamin</label><br>
                   <input type="radio" name="jenis_kelamin" value="L" @if($dataPegawai->jenis_kelamin == "L") checked @endif> Laki - Laki <br>
                   <input type="radio" name="jenis_kelamin" value="P" @if($dataPegawai->jenis_kelamin == "P") checked @endif> Perempuan <br>
@@ -83,6 +88,10 @@
                 <div class="form-group">        
                   <label>Tunjangan Lain - Lain</label>
                   <input type="text" class="form-control money" name="tunj_lain" placeholder="Tunjangan Lain - Lain" value="{{CH::currencyIndo($dataPegawai->tunj_lain)}}" required>
+                </div>
+                <div class="form-group">        
+                  <label>No Rekening</label>
+                  <input type="text" class="form-control " name="no_rekening" placeholder="No Rekening" value="{{$dataPegawai->no_rekening}}" required>
                 </div>
                 @if(Auth::user()->level == "admin")
                 <div class="form-group">

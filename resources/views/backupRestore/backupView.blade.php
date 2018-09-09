@@ -49,7 +49,7 @@
                       <b>{{Carbon\Carbon::parse($date)->format('d F Y')}}</b> <span style="padding-left: 10px;">{{$time}}</span>
                     </td>
                     <td>
-                      <a href="{{asset($value)}}" class="btn btn-success btn-xs">Download</a>
+                      <a href="{{url('downloadBackup/backup_'.$file.'.sql')}}" class="btn btn-success btn-xs">Download</a>
                     </td>
                   </tr>
                   @endforeach

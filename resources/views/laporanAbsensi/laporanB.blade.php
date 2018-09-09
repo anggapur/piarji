@@ -92,7 +92,7 @@
 
                     <div class="judulLaporan">
                       <h5 class="judul">
-                      REKAPITULASI DAFTAR PEMBAYARAN TUNJANGAN KINERJA ANGGOTA POLRI
+                      REKAPITULASI DAFTAR PEMBAYARAN TUNJANGAN KINERJA ANGGOTA <span class="keanggotaan"></span>
                       </h5>
                     <h5>Bulan : <span class="waktu"></span></h5>
                     </div>
@@ -252,6 +252,7 @@
                   }
                   else if(data.status == "success")
                   {
+                    $('.keanggotaan').html(data.keanggotaan);
                     i = 1;
                     $('.printLaporan').fadeIn('slow');
                     $('tbody').empty();

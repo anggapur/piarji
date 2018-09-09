@@ -91,7 +91,8 @@ class pegawaiController extends Controller
             $dataInput['kd_jab'] = $cariJabatan->first()->kd_jabatan;
         }
         $dataInput['kd_gapok'] = "";
-        $dataInput['no_rekening'] = "";
+        $dataInput['no_rekening'] = $request->no_rekening;
+        $dataInput['status_aktif'] = $request->status_aktif;
         // return $dataInput;   
         $insertPegawai = pegawai::create($dataInput);
 
@@ -334,6 +335,7 @@ class pegawaiController extends Controller
                         $dataInsert[$key]['gapok'] = $val->gaji_pokokpensiun;
                         $dataInsert[$key]['tunj_strukfung'] = $val->tunjangan_strukturalfungsional;
                         $dataInsert[$key]['tunj_lain'] = $val->tunjangan_lain_lain;
+                        $dataInsert[$key]['no_rekening'] = $val->no_rekening;
                         $insertCount++;
                     }
                     else

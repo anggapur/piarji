@@ -11,6 +11,45 @@
 |
 */
 
+Route::get('download/{filename}', function($filename)
+{
+    // Check if file exists in app/storage/file folder
+    $file_path = public_path()."/".$filename;
+    if (file_exists($file_path))
+    {
+        // Send Download
+        return Response::download($file_path, $filename, [
+            'Content-Length: '. filesize($file_path)
+        ]);
+    }
+    else
+    {
+        // Error
+        //return $file_path;
+        exit('Requested file does not exist on our server!');
+    }
+})
+->where('filename', '[A-Za-z0-9\-\_\.]+');
+Route::get('downloadBackup/{filename}', function($filename)
+{
+    // Check if file exists in app/storage/file folder
+    $file_path = public_path()."/backupMysql/".$filename;
+    if (file_exists($file_path))
+    {
+        // Send Download
+        return Response::download($file_path, $filename, [
+            'Content-Length: '. filesize($file_path)
+        ]);
+    }
+    else
+    {
+        // Error
+        //return $file_path;
+        exit('Requested file does not exist on our server!');
+    }
+})
+->where('filename', '[A-Za-z0-9\-\_\.]+');
+
 Route::get('/', function () {
     return redirect('login');
 });
@@ -42,6 +81,8 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::resource('profile','profileController');
 
 	// Data Satker
+	Route::post('dataSatker/importDataSatker','satkerController@importDataSatker');
+	Route::get('dataSatker/importSatker','satkerController@formImport');
 	Route::resource('dataSatker','satkerController');		
 	Route::get('getDataSatker','satkerController@anyData')->name('getDataSatker');
 	//Data Unit
@@ -74,10 +115,12 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get('autoCekMutasiAktif','mutasiController@autoCekMutasiAktif');
 	//Only Admin can access	
 	Route::group(['middleware' => 'level:admin'],function(){
+		//mutasi
+		Route::get('mutasiSetting/mutasiViewAdmin','mutasiController@mutasiViewAdmin');
 		//User setting
 		Route::resource('settingUser','userController');
 		//Setting Kebijakan Abensi
-		Route::resource('kebijakanAbsensi','KebijakanAbsensiController');	
+		Route::resource('kebijakanAbsensi','kebijakanAbsensiController');	
 		// Aturan Tunkin
 		Route::get('aturanTunkin/aktifkan/{id}','aturanTunkinController@aktifkan');
 		Route::get('aturanTunkin/detail/{id}','aturanTunkinController@detail');

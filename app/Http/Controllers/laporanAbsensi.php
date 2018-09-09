@@ -302,10 +302,17 @@ class laporanAbsensi extends Controller
             if($request->satker != "")
                 $q2->where('pegawai.kd_satker',$request->satker);
             //cek apakah di requect polri atau pns
+            $keanggotaan = "POLRI & PNS";
             if($request->jenis_pegawai == "0")
+            {
                 $q2->whereRaw('LENGTH(pegawai.nip) <= 8'); // polri
+                $keanggotaan = "POLRI";
+            }
             else if($request->jenis_pegawai == "1")
+            {
                 $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
+                $keanggotaan = "PNS";
+            }
 
             //cari aturan tunkin detail
             $tunkin = aturan_tunkin_detail::leftJoin('aturan_tunkin','aturan_tunkin_detail.id_aturan_tunkin','=','aturan_tunkin.id')->where('state','1')->orderBy('kelas_jabatan','DESC')->get();       
@@ -365,7 +372,7 @@ class laporanAbsensi extends Controller
             }
 
 
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $returnVal,'formula' => $formula,'tunkin' => $tunkin, 'bulan' => $bulan[$request->bulan] ,'tahun' => $request->tahun];            
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $returnVal,'formula' => $formula,'tunkin' => $tunkin, 'bulan' => $bulan[$request->bulan] ,'tahun' => $request->tahun,'keanggotaan' => $keanggotaan];            
         }
         else
         {
@@ -703,16 +710,26 @@ class laporanAbsensi extends Controller
                 $q2->where('pegawai.kd_satker',$request->satker);
             //cek apakah di requect polri atau pns
             if($request->jenis_pegawai == "0")
+            {
                 $q2->whereRaw('LENGTH(pegawai.nip) <= 8'); // polri
+                $keanggotaan = "POLRI";
+            }
             else if($request->jenis_pegawai == "1")
+            {
                 $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
+                $keanggotaan = "PNS";
+            }
+            else
+            {
+                $keanggotaan = "POLRI & PNS";
+            }
 
             $dataSend = [];            
             foreach ($q2->get() as $key => $value) {
                 $dataSend[$key] = $value;
                 $dataSend[$key]['pajak'] = CH::formulaPPH($value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$value->tunjangan,$value->tunj_lain);
             }
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $dataSend,'formula' => $formula , 'bulan' => $bulan[$request->bulan] ,'tahun' => $request->tahun];            
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $dataSend,'formula' => $formula , 'bulan' => $bulan[$request->bulan] ,'tahun' => $request->tahun ,'keanggotaan' => $keanggotaan];            
         }
         else
         {

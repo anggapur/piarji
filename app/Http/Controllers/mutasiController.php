@@ -20,12 +20,28 @@ class mutasiController extends Controller
     public $mainPage = "mutasiSetting";
     public $page = "Mutasi";
     
+    public function mutasiViewAdmin()
+    {
+
+        $data['bulan'] = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        $data['dataMutasi'] = mutasi::
+                                leftJoin('satker as KE','mutasi.ke_satker','=','KE.kd_satker')
+                                ->leftJoin('satker as DARI','mutasi.dari_satker','=','DARI.kd_satker')
+                                ->leftJoin('pegawai','pegawai.nip','=','mutasi.nip')
+                                ->select('mutasi.*','KE.nm_satker as KE_nm_satker','DARI.nm_satker as DARI_nm_satker','pegawai.nama')
+                                ->get();
+        $data['page'] = $this->page;
+        $data['subpage'] = "Daftar Mutasi"; 
+        
+        return view($this->mainPage.".viewAdmin",$data);
+    }
+
     public function index()
     {
 
-        $data['bulan'] = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        $data['bulan'] = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
         $data['dataMutasi'] = mutasi::where('dari_satker',CH::getKdSatker(Auth::user()->kd_satker))
-                                ->leftJoin('satker','mutasi.dari_satker','=','satker.kd_satker')
+                                ->leftJoin('satker','mutasi.ke_satker','=','satker.kd_satker')
                                 ->leftJoin('pegawai','pegawai.nip','=','mutasi.nip')
                                 ->select('mutasi.*','satker.nm_satker','pegawai.nama')
                                 ->get();
@@ -38,12 +54,12 @@ class mutasiController extends Controller
     public function terimaMutasi()
     {
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;  
-        $data['bulan'] = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        $data['bulan'] = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
         $data['dataMutasi'] = mutasi::where('ke_satker',CH::getKdSatker(Auth::user()->kd_satker))
                                 ->leftJoin('pegawai','mutasi.nip','=','pegawai.nip')
                                 ->leftJoin('satker','mutasi.dari_satker','=','satker.kd_satker')
                                 ->select('mutasi.*','pegawai.nama','satker.nm_satker')
-                                ->where('status_terima','0')
+                                // ->where('status_terima','0')
                                 ->get();
         $data['page'] = $this->page;
         $data['subpage'] = "Daftar Mutasi"; 
@@ -58,26 +74,31 @@ class mutasiController extends Controller
         
         
 
-        $query = mutasi::where('status_terima','1')
+        $querys = mutasi::where('status_terima','1')  
+                    ->leftJoin('pegawai','mutasi.nip','=','pegawai.nip')
+                    ->select('mutasi.*','pegawai.status_aktif','pegawai.kd_satker')                                      
+                    ->where('status_cek','0')
                     ->where('ke_satker','<>','out')->get();
 
-        foreach ($query as $key => $value) {
+        // return $query;
+        foreach ($querys as $key => $value) {
             $inputDate = '01-'.$value->bulan_diterima.'-'.$value->tahun_diterima;
             $date=date_create($inputDate);
             $dateCompare =  date_format($date,"m-Y");
             if($dateCompare <= $now)
             {
-
+                $q2 = mutasi::where('id',$value->id)->update(['status_cek' => '1']);
                 $query = pegawai::where('nip',$value->nip)->update(['kd_satker' => $value->ke_satker,'status_aktif'=>'1']);
                 
             }
             else
             {
+                $q2 = mutasi::where('id',$value->id)->update(['status_cek' => '0']);
                 $query = pegawai::where('nip',$value->nip)->update(['kd_satker' => $value->ke_satker,'status_aktif'=>'0']);
                 
             }
         }
-        return $query;
+        return $querys;
     }
     public function terima(Request $request)
     {
@@ -100,9 +121,15 @@ class mutasiController extends Controller
             $updateMutasi = mutasi::where('id',$request->id)->update($dataUpdate);        
 
             if($dateCompare <= $now)
+            {
+                $q2 = mutasi::where('id',$request->id)->update(['status_cek' => '1']);
                 $query = pegawai::where('nip',$nip)->update(['kd_satker' => $q->ke_satker,'status_aktif'=>'1']);
+            }
             else
+            {
+                $q2 = mutasi::where('id',$request->id)->update(['status_cek' => '0']);
                 $query = pegawai::where('nip',$nip)->update(['kd_satker' => $q->ke_satker,'status_aktif'=>'0']);
+            }
 
             
 
@@ -161,9 +188,10 @@ class mutasiController extends Controller
                 $data['ke_satker'] = $request->ke_satker;
                 $data['bulan_keluar'] = $request->bulan_keluar;
                 $data['tahun_keluar'] = $request->tahun_keluar;
-                $data['bulan_diterima'] = "";
-                $data['tahun_diterima'] = "";
+                $data['bulan_diterima'] = NULL;
+                $data['tahun_diterima'] = NULL;
                 $data['status_terima'] = "0";
+                $data['status_cek'] = "0";
             }
             else if($request->mutasi_ke == "keluar")
             {
@@ -172,9 +200,10 @@ class mutasiController extends Controller
                 $data['ke_satker'] = "out";
                 $data['bulan_keluar'] = $request->bulan_keluar;
                 $data['tahun_keluar'] = $request->tahun_keluar;
-                $data['bulan_diterima'] = "";
-                $data['tahun_diterima'] = "";
+                $data['bulan_diterima'] = NULL;
+                $data['tahun_diterima'] = NULL;
                 $data['status_terima'] = "0";
+                $data['status_cek'] = "0";
             }
             $query = mutasi::create($data);
             $query2 = pegawai::where('nip',$request->nip)->update(['status_aktif'=>'0']);

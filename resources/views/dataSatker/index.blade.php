@@ -30,9 +30,7 @@
                 <tr>                
                   <th>Kode Satker</th>
                   <th>Nama Satker</th>
-                  <th>Dept</th>
-                  <th>Unit</th>
-                  <th>Lokasi</th>                  
+                  <th>Action</th>                  
                 </tr>
                 </thead>
                 <tbody>
@@ -58,10 +56,8 @@ $(function() {
         columns: [
             { data: 'kd_satker', name: 'satker.kd_satker' },
             { data: 'nm_satker', name: 'satker.nm_satker' },                        
-            { data: 'nm_dept', name: 'dept.nm_dept' },                        
-            { data: 'nm_unit', name: 'unit.nm_unit' },                        
-            { data: 'nm_lokasi', name: 'lokasi.nm_lokasi' },  
-            /*{data: 'action', name: 'action', orderable: false, searchable: false}*/
+            
+            {data: 'action', name: 'action', orderable: false, searchable: false}
         ]
     });
 });

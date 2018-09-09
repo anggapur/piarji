@@ -22,7 +22,7 @@
           @endif
           <div class="box box-info">
             <div class="box-header">              
-              <h3 class="box-title">User</h3>                            
+              <h3 class="box-title">Daftar Mutasi</h3>                            
             </div>
             <div class="box-body">
               <table id="example1" class="table table-bordered table-striped">

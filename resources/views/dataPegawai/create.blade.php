@@ -60,6 +60,11 @@
                     </datalist>
                 </div>
                 <div class="form-group">
+                  <label>Status Keaktifan</label><br>
+                  <input type="radio" name="status_aktif" value="1" checked>Aktif<br>
+                  <input type="radio" name="status_aktif" value="0" >Non-Aktif<br>
+                </div>
+                <div class="form-group">
                   <label>Jenis Kelamin</label><br>
                   <input type="radio" name="jenis_kelamin" value="L" > Laki - Laki <br>
                   <input type="radio" name="jenis_kelamin" value="P" > Perempuan <br>
@@ -84,6 +89,10 @@
                 <div class="form-group">        
                   <label>Tunjangan Lain - Lain</label>
                   <input type="text" class="form-control money" name="tunj_lain" placeholder="Tunjangan Lain - Lain" value="" required>
+                </div>
+                <div class="form-group">        
+                  <label>No Rekening</label>
+                  <input type="text" class="form-control" name="no_rekening" placeholder="No Rekening" value="" required>
                 </div>
                 @if(Auth::user()->level == "admin")
                 <div class="form-group">

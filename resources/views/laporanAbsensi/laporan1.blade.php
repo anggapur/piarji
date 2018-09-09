@@ -94,7 +94,7 @@
 
                   <div class="judulLaporan">
                     <h5 class="judul">
-                    DAFTAR PEMBAYARAN TUNJANGAN KINERJA PNS T.A <span class="tahun"></span>
+                    DAFTAR PEMBAYARAN TUNJANGAN KINERJA <span class="keanggotaan"></span> T.A <span class="tahun"></span>
                     </h5>
                   <h5>Bulan : <span class="waktu"></span></h5>
                   </div>
@@ -307,6 +307,8 @@
                   }
                   else if(data.status == "success")
                   {
+
+                    $('.keanggotaan').html(data.keanggotaan);
                     i = 1;
                     $('#printArea').fadeIn('slow');
                     $('tbody').empty();
@@ -384,7 +386,7 @@
                       }
 
                       html = '<tr>'+
-                               '<td>'+(i++)+'</td>'+
+                               '<td>'+(i)+'</td>'+
                                '<td>'+v.nama+'</td>'+
                                '<td>'+v.nm_pangkat1+'</td>'+
                                '<td>'+v.nip+'</td>'+
@@ -405,7 +407,7 @@
                                '<td>'+number_format(terimaBruto,0,",",".")+'</td>'+
                                '<td>'+number_format(tPPH21,0,",",".")+'</td>'+
                                '<td>'+number_format(yangDiterima,0,",",".")+'</td>'+
-                               '<td>'+v.no_rekening+'</td>'+
+                               '<td class="wrapper_ttd_field"> <div class="ttd_field">'+(i++)+'</div><span class="no_rekening_field">'+v.no_rekening+'</span></td>'+
                              '</tr>';
                       $('tbody').append(html);
                       

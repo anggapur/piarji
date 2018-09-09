@@ -19,7 +19,7 @@ class backupController extends Controller
     public $page = "Backup & Restore";
     public function backupView()
     {
-        $data['files'] = array_sort(File::files('public\backupMysql'));
+        $data['files'] = array_sort(File::files('public/backupMysql'));
         
         $data['page'] = $this->page;
         $data['subpage'] = "Backup"; 

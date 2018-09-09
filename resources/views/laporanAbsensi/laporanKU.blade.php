@@ -135,7 +135,7 @@
                 </div>
                 <div class="footerKU">
                   <div class="leftKU">
-                    <h5 style="margin-bottom:0px;">{{collect($dataTTD)->firstWhere('bagian','1')->nilai4}}</h5>
+                    <h5 style="margin-bottom:0px; margin-top: 10px;">{{collect($dataTTD)->firstWhere('bagian','1')->nilai4}}</h5>
                     <h5 style="margin-top:0px;">Yang membayarkan</h5>
                     <div class="space"></div>
                     <table>
