@@ -293,7 +293,7 @@
           </ul>
         </li> 
 
-        <li class="{{CH::segment(1,['laporanAbsensiSusulan'])}} {{CH::showTo(['admin','operator'])}} treeview">
+        <li class="{{CH::segment(1,['laporanAbsensiSusulan'])}} {{CH::showTo(['operator'])}} treeview">
           <a href="#">
             <i class="fa fa-gear"></i> <span>Cetak Laporan Susulan</span>
             <span class="pull-right-container">
