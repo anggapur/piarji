@@ -139,6 +139,9 @@ Route::group(['middleware' => 'auth'],function(){
 
 	//Only Operator can access
 	Route::group(['middleware' => 'level:operator'],function(){
+		//kekurangan
+		Route::resource('absensiKekurangan','absensiKekuranganController');
+		Route::post('pilihBulanTahunPegawaiKekurangan','absensiKekuranganController@pilihBulanTahunPegawai')->name('pilihBulanTahunPegawaiKekurangan');
 		//absensi
 		Route::post('absensiSusulan/cekBulanTahun','absensiSusulan@cekBulanTahun')->name('cekBulanTahun');
 		Route::resource('absensi','absensiController');
@@ -184,6 +187,21 @@ Route::group(['middleware' => 'auth'],function(){
 
 	Route::get('laporanAbsensiSusulan/laporanKU','laporanAbsensiSusulan@laporanKU');
 	Route::post('pilihBulanTahunLaporanKUSusulan','laporanAbsensiSusulan@pilihBulanTahunKU')->name('pilihBulanTahunLaporanKUSusulan');
+
+	//cetak 3
+	Route::get('laporanAbsensiKekurangan/laporan1','laporanAbsensiKekurangan@laporan1');
+	Route::post('pilihBulanTahunLaporanKekurangan','laporanAbsensiKekurangan@pilihBulanTahun')->name('pilihBulanTahunLaporanKekurangan');
+
+	Route::get('laporanAbsensiKekurangan/laporanB','laporanAbsensiKekurangan@laporanB');
+	Route::post('pilihBulanTahunLaporanBKekurangan','laporanAbsensiKekurangan@pilihBulanTahunB')->name('pilihBulanTahunLaporanBKekurangan');
+	Route::get('laporanAbsensiKekurangan/cekLap','laporanAbsensiKekurangan@cekLap');
+
+	Route::get('laporanAbsensiKekurangan/laporanSPP','laporanAbsensiKekurangan@laporanSPP');
+	Route::get('laporanAbsensiKekurangan/laporanSPTJM','laporanAbsensiKekurangan@laporanSPTJM');
+	Route::post('pilihBulanTahunLaporanSPPKekurangan','laporanAbsensiKekurangan@pilihBulanTahunSPP')->name('pilihBulanTahunLaporanSPPKekurangan');
+
+	Route::get('laporanAbsensiKekurangan/laporanKU','laporanAbsensiKekurangan@laporanKU');
+	Route::post('pilihBulanTahunLaporanKUKekurangan','laporanAbsensiKekurangan@pilihBulanTahunKU')->name('pilihBulanTahunLaporanKUKekurangan');
 	//
 	
 	Route::get('tandaTanganSetting/laporan1','TTDController@laporan1');
