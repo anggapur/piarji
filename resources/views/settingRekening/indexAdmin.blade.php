@@ -43,10 +43,16 @@
                   <th>No Rekening</th>                  
                   <th>Action</th>                  
                 </tr>
+                <tr>                
+                  <th colspan="2">Cari Berdasarkan Satker</th>                                
+                  <th>Satker</th>                  
+                  <th colspan="4"></th>                 
+                </tr>
                 </thead>
                 <tbody>
                       
-                </tbody>                
+                </tbody>   
+                     
               </table>
                              
             </div>           
@@ -74,7 +80,27 @@ $(function() {
             { data: 'action', name: 'action' },                        
                         
             /*{data: 'action', name: 'action', orderable: false, searchable: false}*/
-        ]
+        ],
+         initComplete: function () {
+            this.api().columns(2).every( function () {
+                var column = this;
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo( $(column.header()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+ 
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+ 
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        }
     });
 });
 

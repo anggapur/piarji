@@ -28,6 +28,17 @@ class pegawaiController extends Controller
         return view($this->mainPage.".index",$data);
     }
 
+    public function rekapPegawai()
+    {
+        $data['page'] = $this->page;
+        $data['subpage'] = "Rekap Pegawai";  
+        $data['dataRekap'] = satker::withCount(['getPegawai' => function($q){
+            $q->where('status_aktif','1');
+        }])->get();
+        // return $data['dataRekap'];
+        return view($this->mainPage.".rekapPegawai",$data);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -229,7 +240,8 @@ class pegawaiController extends Controller
         {
             $q = pegawai::leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
             ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
-            ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')            
+            ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')     
+            ->where('pegawai.status_aktif','1')       
             ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
         }
         else
@@ -237,7 +249,8 @@ class pegawaiController extends Controller
             $q = pegawai::leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
             ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
             ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')   
-            ->where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))         
+            ->where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker)) 
+            ->where('pegawai.status_aktif','1')        
             ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
         }
         return Datatables::of($q)

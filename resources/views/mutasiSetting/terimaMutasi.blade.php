@@ -110,7 +110,7 @@
             <input type="" name="nama" class="form-control" value="" readonly>
           </div>
           <div class="form-group dalam keluar">
-            <label>Bulan Keluar</label>
+            <label>Bulan Diterima</label>
             <select class="form-control" name="bulan_diterima" required="required">
               <option value="">-</option>
               <option value="1">Januari</option>
@@ -128,7 +128,7 @@
             </select>
           </div>
           <div class="form-group dalam keluar">
-            <label>Tahun Keluar</label>
+            <label>Tahun Diterima</label>
             <select class="form-control" name="tahun_diterima" required="required">
               <option value="">-</option>
               @for($i = $tahunTerkecil; $i <= date('Y')+1 ; $i++)

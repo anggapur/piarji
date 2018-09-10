@@ -178,7 +178,8 @@
           </ul>
         </li> -->
         <!-- MENU HOME -->
-        <li class="{{CH::segment(1,['home'])}}"><a href="{{url('')}}"><i class="fa fa-book"></i> <span>Home</span></a></li>       
+        <li class="{{CH::segment(1,['home'])}}"><a href="{{url('')}}"><i class="fa fa-book"></i> <span>Home</span></a></li>
+        <li class="{{CH::segment(2,['laporanPerSatker'])}}  {{CH::showTo(['admin'])}}"><a href="{{url('laporanAbsensi/laporanPerSatker')}}"><i class="fa fa-book"></i> <span>Laporan Per Satker</span></a></li>       
         <!-- MENU ABSENSI-->
         <li class="{{CH::segment(1,['absensi'])}} {{CH::showTo(['operator'])}}"><a href="{{url('absensi')}}"><i class="fa fa-list-alt"></i> <span>Rekap Absensi</span></a></li> 
         <li class="{{CH::segment(1,['absensiSusulan'])}} {{CH::showTo(['operator'])}}"><a href="{{url('absensiSusulan')}}"><i class="fa fa-list-alt"></i> <span>Rekap Absensi Susulan</span></a></li> 
@@ -237,6 +238,7 @@
             <li class="{{CH::segment(2,['create'])}}"><a href="{{url('dataPegawai/create')}}"><i class="fa fa-circle-o"></i> Input Personil</a></li>
             <li class="{{CH::segment(2,[''])}}"><a href="{{url('settingRekening')}}"><i class="fa fa-circle-o"></i> Lihat Personil</a></li>
             <li class="{{CH::segment(2,['importPegawai'])}}"><a href="{{url('pegawaiSetting/importPegawai')}}"><i class="fa fa-circle-o"></i> Import Data Personil</a></li>
+            <li class="{{CH::segment(2,['rekapPegawai'])}} {{CH::showTo(['admin'])}}"><a href="{{url('pegawaiSetting/rekapPegawai')}}"><i class="fa fa-circle-o"></i> Rekap Data Personil</a></li>
           </ul>
         </li> 
 
@@ -258,7 +260,7 @@
 
 
         <!-- Menu Setting User -->        
-        <li class="{{CH::segment(1,['tandaTanganSetting'])}} {{CH::showTo(['admin','operator'])}} treeview">
+        <li class="{{CH::segment(1,['tandaTanganSetting'])}} {{CH::showTo(['operator'])}} treeview">
           <a href="#">
             <i class="fa fa-gear"></i> <span>Isi Laporan</span>
             <span class="pull-right-container">
@@ -275,7 +277,7 @@
         </li> 
 
         <!-- Menu Setting User -->        
-        <li class="{{CH::segment(1,['laporanAbsensi'])}} {{CH::showTo(['admin','operator'])}} treeview">
+        <li class="{{CH::segment(1,['laporanAbsensi'])}} {{CH::showTo(['operator'])}} treeview">
           <a href="#">
             <i class="fa fa-gear"></i> <span>Cetak Laporan</span>
             <span class="pull-right-container">

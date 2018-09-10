@@ -24,6 +24,24 @@ class laporanAbsensi extends Controller
      */
     public $mainPage = "laporanAbsensi";
     public $page = "Laporan Absensi Pegawai";
+    public function laporanPerSatker()
+    {
+       
+        
+        
+        //waktu absensi
+        $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
+        $data['dataAturanAbsensi'] = aturan_absensi::all();
+        $data['page'] = $this->page;
+        $data['subpage'] = "";    
+        $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
+        $data['dataTTD'] = TTD::where(['halaman' => '1','kd_satker' => Auth::user()->kd_satker])->get();
+        $data['dataSatker'] = [];
+        if(Auth::user()->level == "admin")
+            $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')->get();
+
+        return view($this->mainPage.".laporan1",$data);
+    }
     public function laporan1()
     {
         //data

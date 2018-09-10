@@ -22,7 +22,10 @@ class settingRekening extends Controller
     {
         $data['page'] = $this->page;
         $data['subpage'] = "List Pegawai";    
-        return view($this->mainPage.".index",$data);
+        if(Auth::user()->level == "admin")
+            return view($this->mainPage.".indexAdmin",$data);
+        else
+            return view($this->mainPage.".indexOperator",$data);
     }
 
     /**
@@ -153,7 +156,8 @@ class settingRekening extends Controller
         {
             $q = pegawai::leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
             ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
-            ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')            
+            ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')    
+            ->where('pegawai.status_aktif','1')        
             ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
         }
         else
@@ -161,7 +165,8 @@ class settingRekening extends Controller
             $q = pegawai::leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
             ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
             ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')   
-            ->where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))         
+            ->where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))  
+            ->where('pegawai.status_aktif','1')       
             ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
         }
         return Datatables::of($q)

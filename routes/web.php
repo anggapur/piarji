@@ -106,6 +106,7 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::resource('dataPangkat','pangkatController');
 	Route::get('getDataPangkat','pangkatController@anyData')->name('getDataPangkat');
 	// Data Pegawai
+	Route::get('pegawaiSetting/rekapPegawai','pegawaiController@rekapPegawai');
 	Route::get('pegawaiSetting/importPegawai','pegawaiController@formImport');
 	Route::post('pegawaiSetting/importDataPegawai','pegawaiController@importDataPegawai');
 	Route::resource('dataPegawai','pegawaiController');
@@ -154,6 +155,7 @@ Route::group(['middleware' => 'auth'],function(){
 	});
 
 	//cetak 1
+	Route::get('laporanAbsensi/laporanPerSatker','laporanAbsensi@laporanPerSatker');
 	Route::get('laporanAbsensi/laporan1','laporanAbsensi@laporan1');
 	Route::post('pilihBulanTahunLaporan','laporanAbsensi@pilihBulanTahun')->name('pilihBulanTahunLaporan');
 
