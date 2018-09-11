@@ -250,6 +250,7 @@
               }
 
             });
+            console.log(absensi1);
             json_obj.absensi[1] = absensi1;
             json_obj.absensi[2] = absensi2;
             json_obj.absensi[3] = absensi3;

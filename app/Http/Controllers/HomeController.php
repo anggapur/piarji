@@ -14,6 +14,7 @@ use Artisan;
 use App\testing;
 use Carbon\Carbon;
 use Excel;
+use App\aturan_tunkin_detail;
 
 class HomeController extends Controller
 {
@@ -95,12 +96,21 @@ class HomeController extends Controller
         echo $result;
     }
 
-    public function formulaPPH()
+    public function formulaPPH($id)
     {
         $tanggunganArray = ['18','38','48'];
 
-        $query = pegawai::where('nip','81051411')->first();
-
-        echo CH::formulaPPH($query->kawin,$query->tanggungan,$query->jenis_kelamin,$query->gapok,$query->tunj_strukfung,'11024000',$query->tunj_lain);
+        $query = pegawai::where('nip',$id)
+                ->leftJoin('aturan_tunkin_detail',function($q){
+                        $q->on('pegawai.kelas_jab','=','aturan_tunkin_detail.kelas_jabatan');                        
+                    })
+                ->leftJoin('aturan_tunkin',function($q){
+                    $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','aturan_tunkin.id');
+                    $q->where('state','1');
+                })
+                ->where('state','1')
+                ->first();
+                // return $query;
+        echo CH::formulaPPHPrint($query->kawin,$query->tanggungan,$query->jenis_kelamin,$query->gapok,$query->tunj_strukfung,$query->tunjangan,$query->tunj_lain);
     }
 }

@@ -61,7 +61,7 @@ Route::get('formula','HomeController@mathFormula');
 Route::get('test',function(){
 	return CH::segment(1,"test");
 });
-Route::get('formulaPPH','HomeController@formulaPPH');
+Route::get('formulaPPH/{id}','HomeController@formulaPPH');
 Route::get('autoCekMutasiAktif','mutasiController@autoCekMutasiAktif');
 
 Auth::routes();
