@@ -349,6 +349,8 @@ class pegawaiController extends Controller
                         $dataInsert[$key]['tunj_strukfung'] = $val->tunjangan_strukturalfungsional;
                         $dataInsert[$key]['tunj_lain'] = $val->tunjangan_lain_lain;
                         $dataInsert[$key]['no_rekening'] = $val->no_rekening;
+                        $insert = pegawai::insert($dataInsert);
+                        $dataInsert = null;
                         $insertCount++;
                     }
                     else
@@ -404,7 +406,7 @@ class pegawaiController extends Controller
                         $updateCount++;
                     }
                 }
-                $insert = pegawai::insert($dataInsert);
+                // $insert = pegawai::insert($dataInsert);
                 if($insert || $update)
                     return redirect('pegawaiSetting/importPegawai')->with(['status' => 'success' ,'message' => 'Berhasil Import Data Pegawai. Insert Data Baru '.$insertCount.' , Update Data '.$updateCount]);
             }
