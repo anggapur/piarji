@@ -75,7 +75,7 @@ class customHelper {
     public static function formulaPPH($kawin,$tanggungan,$jenis_kelamin,$gapok,$tunj_strukfung,$tunkin,$tunj_lain)
     {
         $tanggunganArray = ['18','38','48','0','0','0','0','0','0','0','0','0'];
-        if($nilaiTanggungan > 2)
+        if($tanggungan > 2)
             $nilaiTanggungan = 48;
         else
             $nilaiTanggungan = $tanggunganArray[$tanggungan];
