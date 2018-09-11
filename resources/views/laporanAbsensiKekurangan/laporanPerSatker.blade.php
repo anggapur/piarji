@@ -93,7 +93,7 @@
 
               <div class="judulLaporan">
                 <h5 class="judul">
-                DAFTAR PEMBAYARAN TUNJANGAN KINERJA KEKURANGAN <span class="keanggotaan"></span> T.A <span class="tahun"></span>
+                REKAPITULASI PENERIMAAN KEKURANGAN TUNJANGAN KINERJA <span class="keanggotaan"> </span> <br>POLDA BALI<br>T.A <span class="tahun"></span>
                 </h5>
               <h5>Bulan : <span class="waktu"></span></h5>
               </div>
@@ -103,8 +103,12 @@
                     <th>No</th>
                     <th>Kode Satker</th>
                     <th>Nama Satker</th>
-                    <th>PPH</th>
-                    <th>Bruto</th>
+                    <th>Penerimaan</th>
+                    <th>Realisasi</th>
+                    <th>PPH 21 Disetor Ke Kas Negara</th>
+                    <th>Pengembalian PPH21</th>
+                    <th>Pengembalian Tunkin</th>
+                    
                   </tr>
                 </thead>
                 <tbody>
@@ -283,7 +287,10 @@
                   // console.log(data.satker);
                   totalMoneyPPH = 0;
                   totalMoneyBruto = 0;
+                  totalRealisasi = 0;
                   listSatker = dataPerSatker;
+                  pengembalianPPH21 = 0;
+                  pengembalianTunkin =0;
                   iteration = 1;
                    $.each(data.satker,function(k,v){ 
                     dataMoney = listSatker.filter(function (person) { return person.kd_satker == v.kd_satker })[0];
@@ -298,12 +305,18 @@
                       moneyPPH = dataMoney['pph21'];
                       moneyBruto = dataMoney['jumlahBruto'];
                     }
+                    realisasi = moneyBruto-moneyPPH;
+                    totalRealisasi+=realisasi;
                     html = '<tr>'+
                             '<td>'+(iteration++)+'</td>'+
                             '<td>'+v.kd_satker+'</td>'+
                             '<td>'+v.nm_satker+'</td>'+
+                            '<td>Rp. '+number_format(moneyBruto,0,",",".")+'</td>'+                            
+                            '<td>Rp. '+number_format(realisasi,0,",",".")+'</td>'+                            
                             '<td>Rp. '+number_format(moneyPPH,0,",",".")+'</td>'+
-                            '<td>Rp. '+number_format(moneyBruto,0,",",".")+'</td>'+
+                            '<td>Rp. '+number_format(pengembalianPPH21,0,",",".")+'</td>'+                            
+                            '<td>Rp. '+number_format(pengembalianTunkin,0,",",".")+'</td>'+                                                        
+                            
                             '</tr>';
                     $('#tableLaporanPerSatker').append(html);
                     totalMoneyPPH +=moneyPPH;
@@ -311,8 +324,12 @@
                    });
                    html = '<tr>'+                            
                             '<th colspan="3">Total</th>'+
-                            '<th>Rp. '+number_format(totalMoneyPPH,0,",",".")+'</th>'+
                             '<th>Rp. '+number_format(totalMoneyBruto,0,",",".")+'</th>'+
+                            '<th>Rp. '+number_format(totalRealisasi,0,",",".")+'</th>'+
+                            '<th>Rp. '+number_format(totalMoneyPPH,0,",",".")+'</th>'+
+                            '<th>Rp. '+number_format(pengembalianPPH21,0,",",".")+'</th>'+
+                            '<th>Rp. '+number_format(pengembalianTunkin,0,",",".")+'</th>'+
+                            
                             '</tr>';
                     $('#tableLaporanPerSatker').append(html);
 
