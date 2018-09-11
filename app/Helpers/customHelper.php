@@ -74,8 +74,11 @@ class customHelper {
     }
     public static function formulaPPH($kawin,$tanggungan,$jenis_kelamin,$gapok,$tunj_strukfung,$tunkin,$tunj_lain)
     {
-        $tanggunganArray = ['18','38','48'];
-
+        $tanggunganArray = ['18','38','48','0','0','0','0','0','0','0','0','0'];
+        if($nilaiTanggungan > 2)
+            $nilaiTanggungan = 48;
+        else
+            $nilaiTanggungan = $tanggunganArray[$tanggungan];
         //$query = pegawai::where('nip','81051411')->first();
 
         $gapok = $gapok;
@@ -83,7 +86,8 @@ class customHelper {
         $tunjangan_anak = $tanggungan*0.02*$gapok;
         $jumlah_gaji_tunjangan_keluarga = $gapok+$tunjangan_istri+$tunjangan_anak;
         $tunjangan_strukfung = $tunj_strukfung;
-        $tunjangan_beras = (7242*$tanggunganArray[$tanggungan]);
+
+        $tunjangan_beras = (7242*$nilaiTanggungan);
         $tunkin = $tunkin;///special
         $tunjangan_lain = $tunj_lain;
         $jumlah_penghasilan_bruto = $jumlah_gaji_tunjangan_keluarga+$tunjangan_strukfung+$tunjangan_beras+$tunkin+$tunjangan_lain;
