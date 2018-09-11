@@ -98,6 +98,7 @@ class customHelper {
         $jumlah_penghasilan_netto = $jumlah_penghasilan_bruto-$jumlah_pengurang;
         $jumlah_ph_netto = $jumlah_penghasilan_netto*12;
         //ptkp
+        $ptkp = 1;
         if($jenis_kelamin == "P" AND $kawin == "K")
             $ptkp = 54000000;
         else if($kawin == 0 AND $tanggungan == 0)
