@@ -19,7 +19,7 @@ class absensiKekuranganController extends Controller
      * @return \Illuminate\Http\Response
      */
     public $mainPage = "absensiKekurangan";
-    public $page = "Absensi Pegawai";
+    public $page = "Absensi Kekurangan Pegawai";
     public function index()
     {
         //data

@@ -24,7 +24,7 @@ class laporanAbsensiKekurangan extends Controller
      */
     public $mainPage = "laporanAbsensiKekurangan";
     public $page = "Laporan Absensi KekuranganPegawai";
-    public function laporanPerSatker()
+    public function laporanPerSatkerKekurangan()
     {
        
         
@@ -40,7 +40,7 @@ class laporanAbsensiKekurangan extends Controller
         if(Auth::user()->level == "admin")
             $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')->get();
 
-        return view($this->mainPage.".laporan1",$data);
+        return view($this->mainPage.".laporanPerSatker",$data);
     }
     public function laporan1()
     {
@@ -747,7 +747,8 @@ class laporanAbsensiKekurangan extends Controller
                 $dataSend[$key] = $value;
                 $dataSend[$key]['pajak'] = CH::formulaPPH($value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$value->tunjangan,$value->tunj_lain);
             }
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $dataSend,'formula' => $formula , 'bulan' => $bulan[$request->bulan] ,'tahun' => $request->tahun ,'keanggotaan' => $keanggotaan];            
+            $satker = satker::select('kd_satker','nm_satker')->get();
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $dataSend,'formula' => $formula , 'bulan' => $bulan[$request->bulan] ,'tahun' => $request->tahun ,'keanggotaan' => $keanggotaan ,'satker' => $satker];            
         }
         else
         {

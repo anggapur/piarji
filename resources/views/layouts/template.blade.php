@@ -179,7 +179,11 @@
         </li> -->
         <!-- MENU HOME -->
         <li class="{{CH::segment(1,['home'])}}"><a href="{{url('')}}"><i class="fa fa-book"></i> <span>Home</span></a></li>
-        <li class="{{CH::segment(2,['laporanPerSatker'])}}  {{CH::showTo(['admin'])}}"><a href="{{url('laporanAbsensi/laporanPerSatker')}}"><i class="fa fa-book"></i> <span>Laporan Per Satker</span></a></li>       
+        <!-- <li class="{{CH::segment(2,['laporanPerSatker'])}}  {{CH::showTo(['admin'])}}"><a href="{{url('laporanAbsensi/laporanPerSatker')}}"><i class="fa fa-book"></i> <span>Laporan Per Satker</span></a></li>    -->
+
+        
+
+
         <!-- MENU ABSENSI-->
         <li class="{{CH::segment(1,['absensi'])}} {{CH::showTo(['operator'])}}"><a href="{{url('absensi')}}"><i class="fa fa-list-alt"></i> <span>Rekap Absensi</span></a></li> 
         <li class="{{CH::segment(1,['absensiSusulan'])}} {{CH::showTo(['operator'])}}"><a href="{{url('absensiSusulan')}}"><i class="fa fa-list-alt"></i> <span>Rekap Absensi Susulan</span></a></li> 
@@ -342,6 +346,21 @@
           </ul>
         </li> 
 
+        <li class="{{CH::segment(1,['laporanAbsensi','laporanAbsensiSusulan','laporanAbsensiKekurangan'])}} {{CH::showTo(['admin'])}} treeview">
+          <a href="#">
+            <i class="fa fa-gear"></i> <span>Laporan Per Satker</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{CH::segment(2,['laporanPerSatker'])}}"><a href="{{url('laporanAbsensi/laporanPerSatker')}}"><i class="fa fa-circle-o"></i> Laporan Tunkin Induk</a></li>
+            <li class="{{CH::segment(2,['laporanPerSatkerSusulan'])}}"><a href="{{url('laporanAbsensiSusulan/laporanPerSatkerSusulan')}}"><i class="fa fa-circle-o"></i> Laporan Tunkin Susulan</a></li>
+            <li class="{{CH::segment(2,['laporanPerSatkerKekurangan'])}}"><a href="{{url('laporanAbsensiKekurangan/laporanPerSatkerKekurangan')}}"><i class="fa fa-circle-o"></i> Laporan Tunkin Kekurangan</a></li>
+           
+          </ul>
+        </li>  
+        
         <li class="{{CH::segment(2,['mutasiViewAdmin'])}} {{CH::showTo(['admin'])}}"><a href="{{url('mutasiSetting/mutasiViewAdmin')}}"><i class="fa fa-book"></i> <span>Mutasi</span></a></li>
         
 

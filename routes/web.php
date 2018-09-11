@@ -174,6 +174,7 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::post('pilihBulanTahunLaporanKU','laporanAbsensi@pilihBulanTahunKU')->name('pilihBulanTahunLaporanKU');
 
 	//cetak 2
+	Route::get('laporanAbsensiSusulan/laporanPerSatkerSusulan','laporanAbsensiSusulan@laporanPerSatkerSusulan');
 	Route::get('laporanAbsensiSusulan/laporan1','laporanAbsensiSusulan@laporan1');
 	Route::post('pilihBulanTahunLaporanSusulan','laporanAbsensiSusulan@pilihBulanTahun')->name('pilihBulanTahunLaporanSusulan');
 
@@ -189,6 +190,7 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::post('pilihBulanTahunLaporanKUSusulan','laporanAbsensiSusulan@pilihBulanTahunKU')->name('pilihBulanTahunLaporanKUSusulan');
 
 	//cetak 3
+	Route::get('laporanAbsensiKekurangan/laporanPerSatkerKekurangan','laporanAbsensiKekurangan@laporanPerSatkerKekurangan');
 	Route::get('laporanAbsensiKekurangan/laporan1','laporanAbsensiKekurangan@laporan1');
 	Route::post('pilihBulanTahunLaporanKekurangan','laporanAbsensiKekurangan@pilihBulanTahun')->name('pilihBulanTahunLaporanKekurangan');
 

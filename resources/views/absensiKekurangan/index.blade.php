@@ -22,7 +22,7 @@
             <!-- <form method="POST" action="{{route('absensi.store')}}">   -->
               {{csrf_field()}}
             <div class="box-header">              
-              <h3 class="box-title">Form Absensi</h3>                            
+              <h3 class="box-title">Form Absensi Kekurangan</h3>                            
             </div>
             <div class="box-body">    
               <form class="form-inline" id="formBulanTahun">

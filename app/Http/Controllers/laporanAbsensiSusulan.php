@@ -25,6 +25,24 @@ class laporanAbsensiSusulan extends Controller
      */
     public $mainPage = "laporanAbsensiSusulan";
     public $page = "Laporan Absensi Susulan Pegawai";
+
+    public function laporanPerSatkerSusulan()
+    {
+        
+        //waktu absensi
+        $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
+        $data['dataAturanAbsensi'] = aturan_absensi::all();
+        $data['page'] = $this->page;
+        $data['subpage'] = "";    
+        $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
+        $data['dataTTD'] = TTD::where(['halaman' => '1','kd_satker' => Auth::user()->kd_satker])->get();
+        $data['dataSatker'] = [];
+        if(Auth::user()->level == "admin")
+            $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')->get();
+
+        return view($this->mainPage.".laporanPerSatker",$data);
+    }
+
     public function laporan1()
     {
         //data
@@ -730,7 +748,8 @@ class laporanAbsensiSusulan extends Controller
                 $dataSend[$key] = $value;
                 $dataSend[$key]['pajak'] = CH::formulaPPH($value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$value->tunjangan,$value->tunj_lain);
             }
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $dataSend,'formula' => $formula , 'bulan' => $bulan[$request->bulan] ,'tahun' => $request->tahun ,'keanggotaan' => $keanggotaan];            
+            $satker = satker::select('kd_satker','nm_satker')->get();
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $dataSend,'formula' => $formula , 'bulan' => $bulan[$request->bulan] ,'tahun' => $request->tahun ,'keanggotaan' => $keanggotaan ,'satker' => $satker];            
         }
         else
         {
