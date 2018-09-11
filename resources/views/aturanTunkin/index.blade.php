@@ -43,7 +43,9 @@
                       <td>{{$val->nama_aturan}}</td>
                       <td>
                         @if($val->state == "1")
-                          <span class="btn btn-xs btn-success">Aturan Aktif </span>
+                          <span class="btn btn-xs btn-success">Aturan Aktif Untuk Tunkin Induk </span>
+                        @elseif($val->state == "2")
+                          <span class="btn btn-xs btn-default">Aturan Aktif Untuk Tunkin Kekurangan </span>
                         @else
                           <span class="btn btn-xs btn-danger">Aturan Tidak Aktif </span>  
                         @endif
@@ -57,8 +59,11 @@
                         <a href="{{url('aturanTunkin/'.$val->id.'/edit')}}" class="btn btn-warning btn-xs"><i class="fa fa-trash"></i> Edit</a>
                         <a href="{{url('aturanTunkin/detail/'.$val->id)}}" class="btn btn-primary btn-xs"> Detail </a>
 
-                        @if($val->state == "0")
-                          <a href="{{url('aturanTunkin/aktifkan/'.$val->id)}}" class="btn btn-success btn-xs">Aktifkan</a>
+                        @if($val->state == "0" || $val->state == "2")
+                          <a href="{{url('aturanTunkin/aktifkan/'.$val->id)}}" class="btn btn-success btn-xs">Aktifkan Untuk Tunkin Induk</a>
+                        @endif
+                        @if($val->state == "0" || $val->state == "1")
+                          <a href="{{url('aturanTunkin/aktifkanKekurangan/'.$val->id)}}" class="btn btn-default btn-xs">Aktifkan Untuk Tunkin Kekurangan</a>
                         @endif
                       </td>
                     </tr>       

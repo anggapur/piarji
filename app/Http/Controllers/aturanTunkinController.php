@@ -195,7 +195,16 @@ class aturanTunkinController extends Controller
         $data = aturan_tunkin::where('id',$id)->first();
 
         if($update && $update2)
-            return redirect($this->mainPage)->with(['status' => 'success' , 'message' => 'Sukses Mengaktifkan Aturan <b>'.$data->kd_aturan.' - '.$data->nama_aturan.'</b>']);
+            return redirect($this->mainPage)->with(['status' => 'success' , 'message' => 'Sukses Mengaktifkan Aturan Untuk Induk <b>'.$data->kd_aturan.' - '.$data->nama_aturan.'</b>']);
+    }
+    public function aktifkanKekurangan($id)
+    {
+        $update = aturan_tunkin::where('state','2')->update(['state' => '0']);
+        $update2 = aturan_tunkin::where('id',$id)->update(['state' => '2']);
+        $data = aturan_tunkin::where('id',$id)->first();
+
+        if($update && $update2)
+            return redirect($this->mainPage)->with(['status' => 'success' , 'message' => 'Sukses Mengaktifkan Aturan Untuk Kekurangan <b>'.$data->kd_aturan.' - '.$data->nama_aturan.'</b>']);
     }
     public function detail($id)
     {

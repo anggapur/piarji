@@ -282,9 +282,15 @@
         </li> 
 
         <!-- Menu Setting User -->        
-        <li class="{{CH::segment(1,['laporanAbsensi'])}} {{CH::showTo(['operator'])}} treeview">
+        <li class="{{CH::segment(1,['laporanAbsensi'])}} {{CH::showTo(['operator','admin'])}} treeview">
           <a href="#">
-            <i class="fa fa-gear"></i> <span>Cetak Laporan</span>
+            <i class="fa fa-gear"></i> <span>
+       	     @if(Auth::user()->level == "admin")
+       	     	Laporan Per Satker
+       	     @else
+       	     	Cetak Laporan
+       	     @endif
+	        </span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -346,17 +352,17 @@
           </ul>
         </li> 
 
-        <li class="{{CH::segment(1,['laporanAbsensi','laporanAbsensiSusulan','laporanAbsensiKekurangan'])}} {{CH::showTo(['admin'])}} treeview">
+        <li class="{{CH::segment(1,['rekapAbsensi','rekapAbsensiSusulan','rekapAbsensiKekurangan'])}} {{CH::showTo(['admin'])}} treeview">
           <a href="#">
-            <i class="fa fa-gear"></i> <span>Laporan Per Satker</span>
+            <i class="fa fa-gear"></i> <span>Rekap Penerimaan Tunkin</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="{{CH::segment(2,['laporanPerSatker'])}}"><a href="{{url('laporanAbsensi/laporanPerSatker')}}"><i class="fa fa-circle-o"></i> Laporan Tunkin Induk</a></li>
-            <li class="{{CH::segment(2,['laporanPerSatkerSusulan'])}}"><a href="{{url('laporanAbsensiSusulan/laporanPerSatkerSusulan')}}"><i class="fa fa-circle-o"></i> Laporan Tunkin Susulan</a></li>
-            <li class="{{CH::segment(2,['laporanPerSatkerKekurangan'])}}"><a href="{{url('laporanAbsensiKekurangan/laporanPerSatkerKekurangan')}}"><i class="fa fa-circle-o"></i> Laporan Tunkin Kekurangan</a></li>
+            <li class="{{CH::segment(2,['laporanPerSatker'])}}"><a href="{{url('rekapAbsensi/laporanPerSatker')}}"><i class="fa fa-circle-o"></i> Rekap Tunkin Induk</a></li>
+            <li class="{{CH::segment(2,['laporanPerSatkerSusulan'])}}"><a href="{{url('rekapAbsensiSusulan/laporanPerSatkerSusulan')}}"><i class="fa fa-circle-o"></i> Rekap Tunkin Susulan</a></li>
+            <li class="{{CH::segment(2,['laporanPerSatkerKekurangan'])}}"><a href="{{url('rekapAbsensiKekurangan/laporanPerSatkerKekurangan')}}"><i class="fa fa-circle-o"></i> Rekap Tunkin Kekurangan</a></li>
            
           </ul>
         </li>  

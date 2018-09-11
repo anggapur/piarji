@@ -74,7 +74,7 @@ class absensiKekuranganController extends Controller
         $datas = $request->datas['absensi'];
         
         //kode aturan
-        $kd_aturan = aturan_tunkin::where('state','1')->first();
+        $kd_aturan = aturan_tunkin::where('state','2')->first();
         //proses pemasukan data
         foreach ($datas[1] as $key => $value) {
             $dataInsert['nip'] = $value['id'];

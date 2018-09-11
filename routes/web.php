@@ -129,6 +129,7 @@ Route::group(['middleware' => 'auth'],function(){
 		Route::resource('kebijakanAbsensi','kebijakanAbsensiController');	
 		// Aturan Tunkin
 		Route::get('aturanTunkin/aktifkan/{id}','aturanTunkinController@aktifkan');
+		Route::get('aturanTunkin/aktifkanKekurangan/{id}','aturanTunkinController@aktifkanKekurangan');
 		Route::get('aturanTunkin/detail/{id}','aturanTunkinController@detail');
 		Route::resource('aturanTunkin','aturanTunkinController');	
 		//backup restore
@@ -158,7 +159,7 @@ Route::group(['middleware' => 'auth'],function(){
 	});
 
 	//cetak 1
-	Route::get('laporanAbsensi/laporanPerSatker','laporanAbsensi@laporanPerSatker');
+	Route::get('rekapAbsensi/laporanPerSatker','laporanAbsensi@laporanPerSatker');
 	Route::get('laporanAbsensi/laporan1','laporanAbsensi@laporan1');
 	Route::post('pilihBulanTahunLaporan','laporanAbsensi@pilihBulanTahun')->name('pilihBulanTahunLaporan');
 
@@ -174,7 +175,7 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::post('pilihBulanTahunLaporanKU','laporanAbsensi@pilihBulanTahunKU')->name('pilihBulanTahunLaporanKU');
 
 	//cetak 2
-	Route::get('laporanAbsensiSusulan/laporanPerSatkerSusulan','laporanAbsensiSusulan@laporanPerSatkerSusulan');
+	Route::get('rekapAbsensiSusulan/laporanPerSatkerSusulan','laporanAbsensiSusulan@laporanPerSatkerSusulan');
 	Route::get('laporanAbsensiSusulan/laporan1','laporanAbsensiSusulan@laporan1');
 	Route::post('pilihBulanTahunLaporanSusulan','laporanAbsensiSusulan@pilihBulanTahun')->name('pilihBulanTahunLaporanSusulan');
 
@@ -190,7 +191,7 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::post('pilihBulanTahunLaporanKUSusulan','laporanAbsensiSusulan@pilihBulanTahunKU')->name('pilihBulanTahunLaporanKUSusulan');
 
 	//cetak 3
-	Route::get('laporanAbsensiKekurangan/laporanPerSatkerKekurangan','laporanAbsensiKekurangan@laporanPerSatkerKekurangan');
+	Route::get('rekapAbsensiKekurangan/laporanPerSatkerKekurangan','laporanAbsensiKekurangan@laporanPerSatkerKekurangan');
 	Route::get('laporanAbsensiKekurangan/laporan1','laporanAbsensiKekurangan@laporan1');
 	Route::post('pilihBulanTahunLaporanKekurangan','laporanAbsensiKekurangan@pilihBulanTahun')->name('pilihBulanTahunLaporanKekurangan');
 

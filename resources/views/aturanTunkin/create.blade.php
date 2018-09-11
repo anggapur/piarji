@@ -33,7 +33,8 @@
                 </div>
                 <div class="form-group">
                   <label>Aktif/Tidak Aktif</label><br>
-                  <input type="radio" name="state" value="1"> Aktif <br>
+                  <input type="radio" name="state" value="1"> Aktif Untuk Tunkin Induk <br>
+                  <input type="radio" name="state" value="2"> Aktif Untuk Tunkin Kekurangan <br>
                   <input type="radio" name="state" value="0" checked> Tidak Aktif <br>
                 </div>   
                 <hr>

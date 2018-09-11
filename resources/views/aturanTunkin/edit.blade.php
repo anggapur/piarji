@@ -34,7 +34,8 @@
                 </div>
                 <div class="form-group">
                   <label>Aktif/Tidak Aktif</label><br>
-                  <input type="radio" name="state" value="1" @if($dataTunkin->state == 1) checked @endif > Aktif <br>
+                  <input type="radio" name="state" value="1" @if($dataTunkin->state == 1) checked @endif > Aktif Untuk Tunkin Induk<br>
+                  <input type="radio" name="state" value="2" @if($dataTunkin->state == 2) checked @endif > Aktif Untuk Tunkin Kekurangan<br>
                   <input type="radio" name="state" value="0" @if($dataTunkin->state == 0) checked @endif > Tidak Aktif <br>
                 </div>   
                 <hr>
