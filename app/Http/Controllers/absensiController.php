@@ -77,6 +77,7 @@ class absensiController extends Controller
         $kd_aturan = aturan_tunkin::where('state','1')->first();
         //proses pemasukan data
         foreach ($datas[1] as $key => $value) {
+          try{
             $dataInsert['nip'] = $value['id'];
             $dataInsert['absensi1'] = $value['nilai'];
             $dataInsert['absensi2'] = $datas[2][$key]['nilai'];            
@@ -94,8 +95,15 @@ class absensiController extends Controller
                 $queryProcess = absensi::where(['nip' => $value['id'], 'id_waktu' => $data['idBulanTahun']])->update($dataInsert);
 
             //cek query executed or not
-            if(!$queryProcess)
-                return $dataInsert;
+            // if(!$queryProcess)
+            //     return $dataInsert;
+            }
+            catch (\Illuminate\Database\QueryException $exception) {
+    // You can check get the details of the error using `errorInfo`:
+    $errorInfo = $exception->errorInfo;
+return $errorInfo;
+    // Return the response to the client..
+}
         }
 
         return ['status' => 'success','kd_aturan' => $kd_aturan];
