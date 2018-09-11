@@ -74,7 +74,7 @@ class customHelper {
     }
     public static function formulaPPH($kawin,$tanggungan,$jenis_kelamin,$gapok,$tunj_strukfung,$tunkin,$tunj_lain)
     {
-        $tanggunganArray = ['18','38','48','0','0','0','0','0','0','0','0','0'];
+       $tanggunganArray = ['18','38','48','0','0','0','0','0','0','0','0','0'];
         if($tanggungan > 2)
             $nilaiTanggungan = 48;
         else
@@ -93,7 +93,7 @@ class customHelper {
         $jumlah_penghasilan_bruto = $jumlah_gaji_tunjangan_keluarga+$tunjangan_strukfung+$tunjangan_beras+$tunkin+$tunjangan_lain;
 
         $biaya_jabatan = ($jumlah_penghasilan_bruto*(5/100) > 500000) ? 500000 : ($jumlah_penghasilan_bruto*(5/100));
-        $iuran_pensiun = $jumlah_gaji_tunjangan_keluarga*(10/100);
+        $iuran_pensiun = $jumlah_gaji_tunjangan_keluarga*(4.75/100);
         $jumlah_pengurang = $biaya_jabatan+$iuran_pensiun;
         $jumlah_penghasilan_netto = $jumlah_penghasilan_bruto-$jumlah_pengurang;
         $jumlah_ph_netto = $jumlah_penghasilan_netto*12;
@@ -135,12 +135,17 @@ class customHelper {
         $jumlah_pph_pasal_21 =  $pph_21_terutang-$pph_21_yang_telah_dipotong;
         $pph_21_per_bulan = $pph_21_terutang/12;
 
-        $gaji_kotor_bulanan = $jumlah_gaji_tunjangan_keluarga+$tunjangan_strukfung+$tunjangan_beras+$tunjangan_lain;
+        $gaji_kotor_bulanan = $jumlah_gaji_tunjangan_keluarga+$tunjangan_strukfung+$tunjangan_beras+$tunkin+$tunjangan_lain;
 
-        $biaya_jabatan   = ($gaji_kotor_bulanan*(5/100) > 500000) ? 500000:($gaji_kotor_bulanan*(5/100));
+        $biaya_jabatan   = ($gaji_kotor_bulanan*(0.05) > 500000) ? 500000:($gaji_kotor_bulanan*(5/100));
+
+        $gaji_kotor_bulanan2 = $jumlah_gaji_tunjangan_keluarga+$tunjangan_strukfung+$tunjangan_beras+$tunjangan_lain;
+
+        $biaya_jabatan2   = ($gaji_kotor_bulanan2*0.05 > 500000) ? 500000:($gaji_kotor_bulanan2*(5/100));
+
         $iuran_pensiun = $iuran_pensiun;
-        $jumlah_pengurang_hijau = $biaya_jabatan+$iuran_pensiun;
-        $penghasilan_netto_hijau = $gaji_kotor_bulanan-$jumlah_pengurang_hijau;
+        $jumlah_pengurang_hijau = $biaya_jabatan2+$iuran_pensiun;
+        $penghasilan_netto_hijau = $gaji_kotor_bulanan2-$jumlah_pengurang_hijau;
         $peng_netto_setahun = $penghasilan_netto_hijau*12;
         $ptkp = $ptkp;
         $pkp = ($peng_netto_setahun < $ptkp) ? 0:($peng_netto_setahun-$ptkp) ;
@@ -218,7 +223,7 @@ class customHelper {
         $jumlah_penghasilan_bruto = $jumlah_gaji_tunjangan_keluarga+$tunjangan_strukfung+$tunjangan_beras+$tunkin+$tunjangan_lain;
 
         $biaya_jabatan = ($jumlah_penghasilan_bruto*(5/100) > 500000) ? 500000 : ($jumlah_penghasilan_bruto*(5/100));
-        $iuran_pensiun = $jumlah_gaji_tunjangan_keluarga*(10/100);
+        $iuran_pensiun = $jumlah_gaji_tunjangan_keluarga*(4.75/100);
         $jumlah_pengurang = $biaya_jabatan+$iuran_pensiun;
         $jumlah_penghasilan_netto = $jumlah_penghasilan_bruto-$jumlah_pengurang;
         $jumlah_ph_netto = $jumlah_penghasilan_netto*12;
@@ -260,12 +265,17 @@ class customHelper {
         $jumlah_pph_pasal_21 =  $pph_21_terutang-$pph_21_yang_telah_dipotong;
         $pph_21_per_bulan = $pph_21_terutang/12;
 
-        $gaji_kotor_bulanan = $jumlah_gaji_tunjangan_keluarga+$tunjangan_strukfung+$tunjangan_beras+$tunjangan_lain;
+        $gaji_kotor_bulanan = $jumlah_gaji_tunjangan_keluarga+$tunjangan_strukfung+$tunjangan_beras+$tunkin+$tunjangan_lain;
 
-        $biaya_jabatan   = ($gaji_kotor_bulanan*(5/100) > 500000) ? 500000:($gaji_kotor_bulanan*(5/100));
+        $biaya_jabatan   = ($gaji_kotor_bulanan*(0.05) > 500000) ? 500000:($gaji_kotor_bulanan*(5/100));
+
+        $gaji_kotor_bulanan2 = $jumlah_gaji_tunjangan_keluarga+$tunjangan_strukfung+$tunjangan_beras+$tunjangan_lain;
+
+        $biaya_jabatan2   = ($gaji_kotor_bulanan2*0.05 > 500000) ? 500000:($gaji_kotor_bulanan2*(5/100));
+
         $iuran_pensiun = $iuran_pensiun;
-        $jumlah_pengurang_hijau = $biaya_jabatan+$iuran_pensiun;
-        $penghasilan_netto_hijau = $gaji_kotor_bulanan-$jumlah_pengurang_hijau;
+        $jumlah_pengurang_hijau = $biaya_jabatan2+$iuran_pensiun;
+        $penghasilan_netto_hijau = $gaji_kotor_bulanan2-$jumlah_pengurang_hijau;
         $peng_netto_setahun = $penghasilan_netto_hijau*12;
         $ptkp = $ptkp;
         $pkp = ($peng_netto_setahun < $ptkp) ? 0:($peng_netto_setahun-$ptkp) ;
@@ -294,6 +304,7 @@ class customHelper {
         echo "tunj_lain : ".$tunjangan_lain."<br>";
         echo "jumlah penghasilan bruto : ".$jumlah_penghasilan_bruto."<br>";
         echo "<hr>";
+        echo "gaji_kotor_bulanan".ceil($gaji_kotor_bulanan*(0.05))."<br>";
         echo "biaya_jabatan".ceil($biaya_jabatan)."<br>";
         echo "iuran_pensiun".ceil($iuran_pensiun)."<br>";
         echo "jumlah_pengurang".ceil($jumlah_pengurang)."<br>";
@@ -306,11 +317,11 @@ class customHelper {
         echo "jumlah pph 21 ".ceil($jumlah_pph_pasal_21)."<br>";
         echo "pph 21 per bulan ".floor($pph_21_per_bulan)."<br>";
         echo "<hr>";
-        echo "Gaji Kotor Bulanan ".$gaji_kotor_bulanan."<br>";
-        echo "Gaji Kotor Bulanan ".$biaya_jabatan."<br>";
-        echo "Gaji Kotor Bulanan ".$iuran_pensiun."<br>";
-        echo "Gaji Kotor Bulanan ".$jumlah_pengurang_hijau."<br>";
-        echo "Gaji Kotor Bulanan ".$penghasilan_netto_hijau."<br>";
+        echo "Gaji Kotor Bulanan ".$gaji_kotor_bulanan2."<br>";
+        echo "biaya_jabatan".$gaji_kotor_bulanan2*0.05."<br>";
+        echo "Iuran pensiun ".$iuran_pensiun."<br>";
+        echo "Jumlah pengurang ".$jumlah_pengurang_hijau."<br>";
+        echo "Penghasilan Netto ".$penghasilan_netto_hijau."<br>";
         echo "Gaji Kotor Bulanan ".$peng_netto_setahun."<br>";
         echo "Gaji Kotor Bulanan ".$ptkp."<br>";
         echo "Gaji Kotor Bulanan ".$pkp."<br>";
