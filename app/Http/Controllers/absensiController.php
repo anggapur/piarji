@@ -95,7 +95,7 @@ class absensiController extends Controller
 
             //cek query executed or not
             if(!$queryProcess)
-                return ['status' => 'failed'];
+                return $dataInsert;
         }
 
         return ['status' => 'success','kd_aturan' => $kd_aturan];
