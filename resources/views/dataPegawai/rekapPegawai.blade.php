@@ -22,7 +22,7 @@
           @endif
           <div class="box box-info">
             <div class="box-header">              
-              <h3 class="box-title">Rekap Pegawai</h3>                            
+              <h3 class="box-title">Rekap Data Personil</h3>                            
             </div>
             <div class="box-body">
                <table class="table table-bordered">

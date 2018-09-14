@@ -22,7 +22,7 @@
             <!-- <form method="POST" action="{{route('absensi.store')}}">   -->
               {{csrf_field()}}
             <div class="box-header">              
-              <h3 class="box-title">Laporan SPP Polri & PNS</h3>                            
+              <h3 class="box-title">Form Surat Pernyataan Tanggung Jawab Mutlak</h3>                            
             </div>
             <div class="box-body">    
               <form class="form-inline" id="formBulanTahun">

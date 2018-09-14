@@ -119,6 +119,8 @@ class customHelper {
             $ptkp = 63000000;
         else if($kawin == "TK" AND $tanggungan == 3)
             $ptkp = 67500000;
+        else 
+            $ptkp = 1;
 
         $pkp_setahun = ($jumlah_ph_netto<$ptkp) ? 0:$jumlah_ph_netto-$ptkp;
 

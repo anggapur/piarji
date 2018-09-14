@@ -22,7 +22,7 @@
           @endif
           <div class="box box-info">
             <div class="box-header">              
-              <h3 class="box-title">Form Import Data Pegawai</h3>              
+              <h3 class="box-title">Form Import Data Personil</h3>              
               <!-- /. tools -->
             </div>
             <div class="box-body">
@@ -40,7 +40,7 @@
                         <a href="{{url('download\dataimportpegawai.xlsx')}}">Contoh Format Data Import</a>
                       </div>
                       <div class="form-group">                         
-                          <button type="submit" class="btn btn-primary">Import Data  Pegawai</button>                        
+                          <button type="submit" class="btn btn-primary">Import Data  Personil</button>                        
                       </div>
                 </form>         
               </div>

@@ -63,7 +63,7 @@ class laporanAbsensi extends Controller
         //waktu absensi
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
-        $data['page'] = $this->page;
+        $data['page'] = "Daftar Pembayaran Tunjangan Kinerja";
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '1','kd_satker' => Auth::user()->kd_satker])->get();
@@ -99,7 +99,7 @@ class laporanAbsensi extends Controller
         //waktu absensi
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
-        $data['page'] = $this->page;
+        $data['page'] = "Rekapitulasi Daftar Pembayaran Tunjangan Kinerja";
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '2','kd_satker' => Auth::user()->kd_satker])->get();
@@ -139,7 +139,7 @@ class laporanAbsensi extends Controller
         //waktu absensi
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
-        $data['page'] = $this->page;
+        $data['page'] = "Surat Permintaan Pembayaran (SPP)";
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '3','kd_satker' => Auth::user()->kd_satker])->get();
@@ -178,7 +178,7 @@ class laporanAbsensi extends Controller
         //waktu absensi
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
-        $data['page'] = $this->page;
+        $data['page'] = "Surat Pernyataan Tanggung Jawab Mutlak";
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '5','kd_satker' => Auth::user()->kd_satker])->get();
@@ -218,7 +218,7 @@ class laporanAbsensi extends Controller
         //waktu absensi
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
-        $data['page'] = $this->page;
+        $data['page'] = "KWITANSI";
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '4','kd_satker' => Auth::user()->kd_satker])->get();

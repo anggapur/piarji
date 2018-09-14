@@ -20,7 +20,7 @@ class pegawaiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public $mainPage = "dataPegawai";
-    public $page = "Data Pegawai";
+    public $page = "Data Personil";
     public function index()
     {
         $data['page'] = $this->page;
@@ -31,7 +31,7 @@ class pegawaiController extends Controller
     public function rekapPegawai()
     {
         $data['page'] = $this->page;
-        $data['subpage'] = "Rekap Pegawai";  
+        $data['subpage'] = "Rekap Data Personil";  
         $data['dataRekap'] = satker::withCount(['getPegawai' => function($q){
             $q->where('status_aktif','1');
         }])->get();
@@ -49,7 +49,7 @@ class pegawaiController extends Controller
         $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')->get();
         $data['page'] = $this->page;
         $data['aturanTunkin'] = aturan_tunkin::where('state','1')->with('detailAturanTunkinDetail')->first();
-        $data['subpage'] = "Edit Data Pegawai";         
+        $data['subpage'] = "Input Data Personil";         
         $data['pangkat'] = pangkat::all();
         $data['jabatan'] = jabatan::all();
         return view($this->mainPage.".create",$data);
@@ -274,7 +274,7 @@ class pegawaiController extends Controller
     public function formImport()
     {
         $data['page'] = $this->page;
-        $data['subpage'] = "Form Import Data Pegawai";    
+        $data['subpage'] = "Form Import Data Personil";    
         return view($this->mainPage.".formImport",$data);
     }
     public function importDataPegawai(Request $request)

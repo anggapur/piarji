@@ -17,11 +17,11 @@ class settingRekening extends Controller
      * @return \Illuminate\Http\Response
      */
    public $mainPage = "settingRekening";
-    public $page = "Data Rekening Pegawai";
+    public $page = "List Data Pegawai";
     public function index()
     {
         $data['page'] = $this->page;
-        $data['subpage'] = "List Pegawai";    
+        $data['subpage'] = "List Personil";    
         if(Auth::user()->level == "admin")
             return view($this->mainPage.".indexAdmin",$data);
         else
