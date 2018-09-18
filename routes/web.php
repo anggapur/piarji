@@ -11,7 +11,7 @@
 |
 */
 
-
+//last update
 Route::get('cobaPrint','HomeController@cobaPrint');
 Route::get('download/{filename}', function($filename)
 {
