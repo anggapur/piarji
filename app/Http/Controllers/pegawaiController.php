@@ -12,6 +12,7 @@ use App\pangkat;
 use App\jabatan;
 use App\satker;
 use App\aturan_tunkin;
+use Validator;
 class pegawaiController extends Controller
 {
     /**
@@ -288,14 +289,20 @@ class pegawaiController extends Controller
             $data = Excel::load($path, function($reader){})->get();
             if(!empty($data) && $data->count()){
                 $dataInsert = [];
-                foreach($data as $key=>$val){               
+                //return $data;
+                $insert = true;
+                $update = true;
+
+                foreach($data as $key=>$val){   
+                    if($val->no == null || $val->nipnrp == null)
+                        continue;            
                     //cari pegawainya
-                    //cari satker
+                    //cari satker                    
                     if(Auth::user()->level == "admin")
                     {
                         $cariSatker = satker::where('kd_satker',$val->kode_satker)->get();
                         if($cariSatker->count() == 0)     
-                            return redirect('pegawaiSetting/importPegawai')->with(['status' => 'danger' ,'message' => 'Gagal Import Data Pegawai, Kode Satker '.$val->kode_satker.' tidak terdaftar']);
+                            return redirect('pegawaiSetting/importPegawai')->with(['status' => 'danger' ,'message' => 'Gagal Import Data Pegawai, Kode Satker :'.$val.' tidak terdaftar']);
                     }
                     
 
@@ -349,6 +356,30 @@ class pegawaiController extends Controller
                         $dataInsert[$key]['tunj_strukfung'] = $val->tunjangan_strukturalfungsional;
                         $dataInsert[$key]['tunj_lain'] = $val->tunjangan_lain_lain;
                         $dataInsert[$key]['no_rekening'] = $val->no_rekening;
+                        $dataInsert[$key]['status_aktif'] = 1;
+                        $dataInsert[$key]['kd_gapok'] = 0;
+                        //Validation data
+                        $messages = [
+                            'required' => 'Gagal Import Data, Pastikan Kolom <b> :attribute </b> Diisi / Tidak Kosong',
+                        ];
+                        $validation = Validator::make($dataInsert[$key],[
+                            'nama' => 'required',
+                            'nip' => 'required',
+                            'status_aktif' => 'required',
+                            'kd_satker' => 'required',
+                            'kd_pangkat' => 'required',
+                            'kd_jab' => 'required',
+                            'no_rekening' => 'required',
+                            'kd_gapok' => 'required',
+                            'kelas_jab' => 'required',
+                            'kawin' => 'required',
+                            'tanggungan' => 'required',
+                            'jenis_kelamin' => 'required',
+                            'gapok' => 'required',
+                            'tunj_strukfung' => 'required',
+                            'tunj_lain' => 'required',
+                        ],$messages)->validate();
+
                         $insert = pegawai::insert($dataInsert);
                         $dataInsert = null;
                         $insertCount++;

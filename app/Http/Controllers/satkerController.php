@@ -7,6 +7,7 @@ use Yajra\Datatables\Datatables;
 use App\satker;
 use Auth;
 use Excel;
+use Validator;
 class satkerController extends Controller
 {
     /**
@@ -154,13 +155,25 @@ class satkerController extends Controller
             $path = $request->file('file')->getRealPath();
             $data = Excel::load($path, function($reader){})->get();
             if(!empty($data) && $data->count()){
-                $dataInsert = [];
-                foreach($data as $key=>$val){               
+                $dataInsert = [];                
+
+                foreach($data as $key=>$val){  
+                    if($val->kd_satker == null || $val->nm_satker == null)             
+                        continue;
                     $cari = satker::where('kd_satker',$val->kd_satker);
                     if($cari->get()->count() == 0)
                     {
                         $datas['kd_satker'] = $val->kd_satker;
                         $datas['nm_satker'] = $val->nm_satker;
+
+                        $messages = [
+                            'required' => 'Gagal Import Data, Pastikan Kolom <b> :attribute </b> Diisi / Tidak Kosong',
+                        ];
+                        $validation = Validator::make($datas,[
+                            'kd_satker' => 'required',
+                            'nm_satker' => 'required',                            
+                        ],$messages)->validate();
+
                         $create = satker::create($datas);
                         if($create)
                             $insertCount++;

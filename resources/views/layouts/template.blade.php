@@ -141,7 +141,7 @@
           </li>
           <!-- Control Sidebar Toggle Button -->
           <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+            <!-- <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a> -->
           </li>
         </ul>
       </div>
@@ -304,9 +304,15 @@
           </ul>
         </li> 
 
-        <li class="{{CH::segment(1,['laporanAbsensiSusulan'])}} {{CH::showTo(['operator'])}} treeview">
+        <li class="{{CH::segment(1,['laporanAbsensiSusulan'])}} {{CH::showTo(['operator','admin'])}} treeview">
           <a href="#">
-            <i class="fa fa-gear"></i> <span>Cetak Laporan Susulan</span>
+            <i class="fa fa-gear"></i> <span>
+             @if(Auth::user()->level == "admin")
+              Laporan Susulan Per Satker  
+             @else
+              Cetak Laporan Susulan
+             @endif
+          </span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -320,9 +326,15 @@
           </ul>
         </li> 
 
-        <li class="{{CH::segment(1,['laporanAbsensiKekurangan'])}} {{CH::showTo(['operator'])}} treeview">
+        <li class="{{CH::segment(1,['laporanAbsensiKekurangan'])}} {{CH::showTo(['operator','admin'])}} treeview">
           <a href="#">
-            <i class="fa fa-gear"></i> <span>Cetak Laporan Kekurangan</span>
+            <i class="fa fa-gear"></i> <span>
+             @if(Auth::user()->level == "admin")
+              Laporan Kekurangan Per Satker
+             @else
+              Cetak Laporan Kekurangan
+             @endif
+          </span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
