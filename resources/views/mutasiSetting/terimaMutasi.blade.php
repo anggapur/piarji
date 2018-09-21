@@ -67,12 +67,12 @@
                       <td>
                         @if($val->ke_satker !== "out")
                           @if($val->status_terima == 0)
-                             <button type="button" class="btn btn-success btn-xs btnTerima" data-nip="{{$val->nip}}" data-nama="{{$val->nama}}" data-id="{{$val->id}}" data-toggle="modal" data-target="#myModal">Terima</button>
+                             <button type="button" class="btn btn-success btn-xs btnTerima" data-nip="{{$val->nip}}" data-nama="{{$val->nama}}" data-id="{{$val->id}}" data-toggle="modal" data-target="#myModal" data-kelasjabatan="{{$val->kelas_jab}}">Terima</button>
                           @elseif($val->status_terima == 1)
                             -                            
                           @endif
                         @else
-                           <button type="button" class="btn btn-success btn-xs btnTerima" data-nip="{{$val->nip}}" data-nama="{{$val->nama}}" data-id="{{$val->id}}" data-toggle="modal" data-target="#myModal">Terima</button>
+                           <button type="button" class="btn btn-success btn-xs btnTerima" data-nip="{{$val->nip}}" data-nama="{{$val->nama}}" data-id="{{$val->id}}" data-toggle="modal" data-target="#myModal" data-kelasjabatan="{{$val->kelas_jab}}">Terima</button>
                         @endif
                       </td>
                     </tr>
@@ -136,6 +136,14 @@
               @endfor
             </select>
           </div> 
+
+          <div class="form-group dalam keluar">
+            <label>Kelas Jabatan Untuk Satker Ini</label>
+            <select class="form-control" name="kelas_jab" id="kelasJabatan" required="required">
+              <option value="">-</option>
+              
+            </select>
+          </div> 
           
 
       </div>
@@ -153,6 +161,14 @@
       $('input[name="id"]').val($(this).attr('data-id'));
       $('input[name="nip"]').val($(this).attr('data-nip'));
       $('input[name="nama"]').val($(this).attr('data-nama'));
+
+      $('#kelasJabatan').empty().append('<option value="">-</option>');
+
+      kelas_jab = parseInt($(this).attr('data-kelasjabatan'));
+      tambahSatu = (kelas_jab+1);
+      $('#kelasJabatan').append('<option value="'+(kelas_jab-1)+'">'+(kelas_jab-1)+'</option>');
+      $('#kelasJabatan').append('<option value="'+kelas_jab+'" selected>'+kelas_jab+'</option>');
+      $('#kelasJabatan').append('<option value="'+(tambahSatu)+'">'+(tambahSatu)+'</option>');
      });
    </script>
 @endsection

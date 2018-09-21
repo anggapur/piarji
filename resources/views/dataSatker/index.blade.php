@@ -30,6 +30,7 @@
                 <tr>                
                   <th>Kode Satker</th>
                   <th>Nama Satker</th>
+                  <th>Anak Satker</th>
                   <th>Action</th>                  
                 </tr>
                 </thead>
@@ -56,6 +57,7 @@ $(function() {
         columns: [
             { data: 'kd_satker', name: 'satker.kd_satker' },
             { data: 'nm_satker', name: 'satker.nm_satker' },                        
+            { data: 'kolom_anak_satker', name: 'kolom_anak_satker' },                        
             
             {data: 'action', name: 'action', orderable: false, searchable: false}
         ]

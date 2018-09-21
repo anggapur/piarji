@@ -61,10 +61,13 @@
                     <thead>
                         <tr>
                             <th>NIP</th>
-                            <th>Nama</th>
+                            <th>Nama</th>                            
                              @foreach($dataAturanAbsensi as $val)     
                               <th class="col-xs-1 absensiColumn no-sort" style="width:10% !important">{{$val->nama}}</th>                  
                             @endforeach
+                            <th>
+                              Status
+                            </th>
                         </tr>
                     </thead>                   
                     <tbody>
@@ -134,23 +137,36 @@
                     {
                       html = '<tr>'+
                            '<td>'+v.nip+'</td>'+                         
-                            '<td>'+v.nama+'</td>'+     
+                            '<td>'+v.nama+
+                            '<input type="hidden" name="kd_anak_satker" value="'+v.kd_anak_satker+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+                            '<input type="hidden" name="kelas_jab" value="'+v.kelas_jab+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+                            '</td>'+     
                             '<td class="inputColumn"><input type="number" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
                             '<td class="inputColumn"><input type="number" name="absensi2" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
                             '<td class="inputColumn"><input type="number" name="absensi3" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
-                            '<td class="inputColumn"><input type="number" name="absensi4" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
+                            '<td class="inputColumn"><input type="number" name="absensi4" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+       
+                            '<td> <label class="switch"><input type="checkbox" name="statusDapat" data="'+v.nip+'" checked><span class="slider round"></span></label></td>'+                      
                         '</tr>';
                    
                     }
                     else
                     {
+
+                      status_dapat = "";
+                      if(v.status_dapat == "1")
+                        status_dapat = "checked";
+
                        html = '<tr>'+
                            '<td>'+v.nip+'</td>'+                         
-                            '<td>'+v.nama+'</td>'+     
+                            '<td>'+v.nama+
+                            '<input type="hidden" name="kd_anak_satker" value="'+v.kd_anak_satker_saat_absensi+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+                            '<input type="hidden" name="kelas_jab" value="'+v.kelas_jab_saat_absensi+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+                            '</td>'+     
                             '<td class="inputColumn"><input type="number" name="absensi1" value="'+v.absensi1+'" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
                             '<td class="inputColumn"><input type="number" name="absensi2" value="'+v.absensi2+'" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
                             '<td class="inputColumn"><input type="number" name="absensi3" value="'+v.absensi3+'" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
                             '<td class="inputColumn"><input type="number" name="absensi4" value="'+v.absensi4+'" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
+                            '<td> <label class="switch"><input type="checkbox" name="statusDapat" data="'+v.nip+'" '+status_dapat+'><span class="slider round"></span></label></td>'+
                         '</tr>';                      
                     }
                       $('tbody').append(html);
@@ -214,7 +230,10 @@
             absensi1 = [];
             absensi2 = [];
             absensi3 = [];
-            absensi4 = [];         
+            absensi4 = [];   
+            kodeAnakSatker = []; 
+            kelasJab = [];     
+            statusDapat = [];
             ar.find('input').each(function(i, el) {    
               if($(el).attr('name') == "absensi1") 
               {
@@ -248,6 +267,40 @@
                   };           
                   absensi4.push(b);
               }
+              if($(el).attr('name') == "kd_anak_satker") 
+              {
+                  b = {
+                    "id" : $(el).attr('data'),
+                    "nilai" : $(el).val(),
+                  };           
+                  kodeAnakSatker.push(b);
+              }
+              if($(el).attr('name') == "kelas_jab") 
+              {
+                  b = {
+                    "id" : $(el).attr('data'),
+                    "nilai" : $(el).val(),
+                  };           
+                  kelasJab.push(b);
+              }
+              if($(el).attr('name') == "statusDapat") 
+              {
+                if($(el).is(":checked"))
+                {
+                  b = {
+                    "id" : $(el).attr('data'),
+                    "nilai" : "1",
+                  };         
+                }
+                else
+                {
+                  b = {
+                    "id" : $(el).attr('data'),
+                    "nilai" : "0",
+                  };    
+                }
+                statusDapat.push(b);
+              }
 
             });
             console.log(absensi1);
@@ -255,6 +308,9 @@
             json_obj.absensi[2] = absensi2;
             json_obj.absensi[3] = absensi3;
             json_obj.absensi[4] = absensi4;
+            json_obj.kodeAnakSatker = kodeAnakSatker;
+            json_obj.kelasJab = kelasJab;
+            json_obj.statusDapat = statusDapat;
             $('#result-json').val(JSON.stringify(json_obj));
 
             //Kirim data melalui ajax
@@ -286,6 +342,8 @@
             absensi2 = null;
             absensi3 = null;
             absensi4 = null;
+            kodeAnakSatker = null;
+            kelasJab = null;
         });
     });
    </script>

@@ -13,6 +13,7 @@ use App\jabatan;
 use App\satker;
 use App\aturan_tunkin;
 use Validator;
+use App\anak_satker;
 class pegawaiController extends Controller
 {
     /**
@@ -295,14 +296,25 @@ class pegawaiController extends Controller
 
                 foreach($data as $key=>$val){   
                     if($val->no == null || $val->nipnrp == null)
-                        continue;            
-                    //cari pegawainya
+                        continue;         
+
+                    //cari pegawainya     
+                    if(Auth::user()->level == "operator")               
+                    {
+                        $cariPegawai = pegawai::where('nip',$val->nipnrp)->first()->kd_satker;
+                        if($cariPegawai !== CH::getKdSatker(Auth::user()->kd_satker))
+                            return redirect()->back()->with(['status' => 'danger' , 'message' => 'Gagal Import Data Pegawai, anda mencoba mengupdate pegawai dengan NIP '.$val->nipnrp.' yang bukan pegawai dalam satker anda']);
+                    }
                     //cari satker                    
                     if(Auth::user()->level == "admin")
                     {
                         $cariSatker = satker::where('kd_satker',$val->kode_satker)->get();
                         if($cariSatker->count() == 0)     
-                            return redirect('pegawaiSetting/importPegawai')->with(['status' => 'danger' ,'message' => 'Gagal Import Data Pegawai, Kode Satker :'.$val.' tidak terdaftar']);
+                            return redirect('pegawaiSetting/importPegawai')->with(['status' => 'danger' ,'message' => 'Gagal Import Data Pegawai, Kode Satker :'.$val->kode_satker.' tidak terdaftar']);
+                        $cariAnakSatker = anak_satker::where(['kd_satker' => $val->kode_satker , 'kd_anak_satker' => $val->anak_satker])->get();
+                        if($cariAnakSatker->count() == 0)
+                            return redirect('pegawaiSetting/importPegawai')->with(['status' => 'danger' ,'message' => 'Gagal Import Data Pegawai, Kode Satker :'.$val->kode_satker.' Anak Satker : '.$val->anak_satker.' tidak terdaftar']);                        
+
                     }
                     
 
@@ -314,6 +326,7 @@ class pegawaiController extends Controller
                         else
                             $dataInsert[$key]['kd_satker'] = CH::getKdSatker(Auth::user()->kd_satker);
 
+                        $dataInsert[$key]['kd_anak_satker'] = $val->anak_satker;
                         //pangkat golongan
                         $where = pangkat::where('nm_pangkat2',$val->pangkatgolongan);
                         if($where->get()->count() == 0)
@@ -421,6 +434,7 @@ class pegawaiController extends Controller
                             $dataUpdate['kd_jab'] = ($cari->kd_jabatan);
                         }
 
+                        $dataUpdate['kd_anak_satker'] = $val->anak_satker;
                         $dataUpdate['nama'] = $val->nama;
                         $dataUpdate['nip'] = $val->nipnrp;                                                            
                         $dataUpdate['kelas_jab'] = $val->kls_jab;

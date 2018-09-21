@@ -59,7 +59,7 @@ class mutasiController extends Controller
         $data['dataMutasi'] = mutasi::where('ke_satker',CH::getKdSatker(Auth::user()->kd_satker))
                                 ->leftJoin('pegawai','mutasi.nip','=','pegawai.nip')
                                 ->leftJoin('satker','mutasi.dari_satker','=','satker.kd_satker')
-                                ->select('mutasi.*','pegawai.nama','satker.nm_satker')
+                                ->select('mutasi.*','pegawai.nama','pegawai.kelas_jab','satker.nm_satker')
                                 // ->where('status_terima','0')
                                 ->get();
         $data['page'] = $this->page;
@@ -115,24 +115,28 @@ class mutasiController extends Controller
         $q = mutasi::where('id',$request->id)->first();
         if($q->ke_satker == CH::getKdSatker(Auth::user()->kd_satker))
         {
+            //update mutasi
             $nip = $q->nip;
             $dataUpdate['bulan_diterima'] = $request->bulan_diterima;
             $dataUpdate['tahun_diterima'] = $request->tahun_diterima;
             $dataUpdate['status_terima'] = "1";
 
-            $updateMutasi = mutasi::where('id',$request->id)->update($dataUpdate);        
+            $updateMutasi = mutasi::where('id',$request->id)->update($dataUpdate);                    
 
             if($dateCompare <= $now)
             {
                 $q2 = mutasi::where('id',$request->id)->update(['status_cek' => '1']);
-                $query = pegawai::where('nip',$nip)->update(['kd_satker' => $q->ke_satker,'status_aktif'=>'1']);
+                $query = pegawai::where('nip',$nip)->update(['kd_satker' => $q->ke_satker,'status_aktif'=>'1','kelas_jab' => $request->kelas_jab]);
             }
             else
             {
                 $q2 = mutasi::where('id',$request->id)->update(['status_cek' => '0']);
-                $query = pegawai::where('nip',$nip)->update(['kd_satker' => $q->ke_satker,'status_aktif'=>'0']);
+                $query = pegawai::where('nip',$nip)->update(['kd_satker' => $q->ke_satker,'status_aktif'=>'0','kelas_jab' => $request->kelas_jab]);
             }
 
+            //update kelas jabatan dari sang karyawan
+            // $dataUpdate2['kelas_jab'] = $request->kelas_jab;
+            // $updatePegawai = pegawai::where('nip',$nip)->update($dataUpdate2);
             
 
             if($query)

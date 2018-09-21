@@ -36,6 +36,24 @@
                   <label>Nama Satker</label>
                   <input type="text" class="form-control" name="nm_satker" placeholder="Nama Satker" value="{{old('nm_satker')}}" required>
                 </div>
+
+                <hr>
+                <button class="btn btn-success btn-xs" type="button" id="tambahSubIndikator">Tambah Anak Satker</button>
+                <br>
+                <br>       
+                <div class="row rowSubIndikator">
+                  <div class=" col-sm-4" id="col1">
+                    <div class="form-group">
+                      <span class="floatRight"><i class="fa fa-trash" onclick="deleteDiv(1)"></i></span>
+                      <label>Kode Anak Satker</label>
+                      <input type="text" name="kd_anak_satker[1]" class="form-control" placeholder="Kode Anak Satker" required="required">                      
+                      <label>Nama Anak Satker</label>
+                      <input type="text" name="nm_anak_satker[1]" class="form-control" placeholder="Nama Anak Satker" required="required">                      
+                    </div>
+                    <hr>
+                  </div>
+                </div>
+
                                       
             </div>
             <div class="box-footer clearfix">
@@ -50,5 +68,34 @@
       
     </section>
     <!-- /.content -->
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.tunjangan').maskNumber({integer: true,thousands: '.'});
+
+        var i = 2;
+        $('#tambahSubIndikator').click(function(){
+          html = '<div class=" col-sm-4" id="col'+i+'">'+
+                      '<div class="form-group">'+
+                      '<span class="floatRight"><i class="fa fa-trash" onclick="deleteDiv('+i+')"></i></span>'+
+                        '<label>Kode Anak Satker</label>'+
+                        '<input type="text" name="kd_anak_satker['+i+']" class="form-control" placeholder="Kode Anak Satker" required="required">'+
+                        '<label style="padding-top: 5px;">Nama Anak Satker</label>'+
+                        '<input type="text" name="nm_anak_satker['+i+']" class="form-control" placeholder="Nama Anak Satker" required="required">'+
+                      '</div><hr>'+
+                    '</div>';
+          $('.rowSubIndikator').append(html);
+          i++;
+          $('.tunjangan').maskNumber({integer: true,thousands: '.'});
+
+        });
+      });
+
+      // alert(number_format(10000,0,',','.'));
+      function deleteDiv(i)
+      {
+        $('#col'+i).remove();
+      }
+      
+    </script>
 @endsection
     

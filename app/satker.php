@@ -14,4 +14,8 @@ class satker extends Model
     {
     	return $this->hasMany('App\pegawai','kd_satker','kd_satker');
     }
+    public function getAnakSatker()
+    {
+    	return $this->hasMany('App\anak_satker','kd_satker','kd_satker');
+    }
 }

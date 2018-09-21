@@ -8,6 +8,7 @@ use App\satker;
 use Auth;
 use Excel;
 use Validator;
+use App\anak_satker;
 class satkerController extends Controller
 {
     /**
@@ -45,6 +46,7 @@ class satkerController extends Controller
      */
     public function store(Request $request)
     {
+
         //
         $request->validate([
             'kd_satker' => 'required|unique:satker',
@@ -57,6 +59,16 @@ class satkerController extends Controller
         $data['kd_unit'] = "";
         $data['kd_lokasi'] = "";
         $query = satker::create($data);
+
+        $kd_anak_satker = $request->kd_anak_satker;
+        $nm_anak_satker = $request->nm_anak_satker;
+
+        foreach ($kd_anak_satker as $key => $value) {
+            $dataInsert['kd_satker'] = $request->kd_satker;
+            $dataInsert['kd_anak_satker'] = $value;
+            $dataInsert['nm_anak_satker'] = $nm_anak_satker[$key];
+            $querys = anak_satker::create($dataInsert);
+        }
 
         if($query)
             return redirect($this->mainPage)->with(['status' => 'success' ,'message' => 'Berhasil Tambah Satker']);
@@ -103,6 +115,20 @@ class satkerController extends Controller
         $data['nm_satker'] = $request->nm_satker;        
         $query = satker::where('id',$id)->update($data);
 
+        //hapus semua anak satker
+        $kd_satker = satker::where('id',$id)->first()->kd_satker;
+        $delete = anak_satker::where('kd_satker',$kd_satker)->delete();
+
+        $kd_anak_satker = $request->kd_anak_satker;
+        $nm_anak_satker = $request->nm_anak_satker;
+
+        foreach ($kd_anak_satker as $key => $value) {
+            $dataInsert['kd_satker'] = $request->kd_satker;
+            $dataInsert['kd_anak_satker'] = $value;
+            $dataInsert['nm_anak_satker'] = $nm_anak_satker[$key];
+            $querys = anak_satker::create($dataInsert);
+        }
+
         if($query)
             return redirect($this->mainPage)->with(['status' => 'success' ,'message' => 'Berhasil Update Satker']);
     }
@@ -127,15 +153,26 @@ class satkerController extends Controller
     }
     public function anyData()
     {
-        $q = satker::leftJoin('dept','satker.kd_dept','=','dept.kd_dept')
+        $q = satker::with('getAnakSatker')
+            ->leftJoin('dept','satker.kd_dept','=','dept.kd_dept')
             ->leftJoin('unit','satker.kd_unit','=','unit.kd_unit')
             ->leftJoin('lokasi','satker.kd_lokasi','=','lokasi.kd_lokasi')
             ->select('satker.id','kd_satker','nm_satker','dept.kd_dept','dept.nm_dept','unit.kd_unit','unit.nm_unit','lokasi.kd_lokasi','nm_lokasi');            
         return Datatables::of($q)
-            ->addColumn('action', function ($user) {
-                return '<a href="'.url('dataSatker/'.$user->id).'/edit" class="btn btn-xs btn-warning"> Edit</a>';
+            ->addColumn('kolom_anak_satker', function ($user) {
+                $returnVal = "";
+                foreach ($user->getAnakSatker as $key => $value) {
+                    $returnVal.='<span class="label label-default" style="margin-right:10px;">'.$value->kd_anak_satker.'-'.$value->nm_anak_satker.'</span>';
+                }
+                return $returnVal;
                 
             })
+            ->addColumn('action', function ($user) {
+                return '<a href="'.url('dataSatker/'.$user->id).'/edit" class="btn btn-xs btn-warning"> Edit</a>';
+
+                
+            })
+            ->rawColumns(['kolom_anak_satker', 'action'])
             ->make(true);
     }
 
@@ -177,6 +214,7 @@ class satkerController extends Controller
                         $create = satker::create($datas);
                         if($create)
                             $insertCount++;
+
                     }
                     else
                     {   
@@ -185,6 +223,30 @@ class satkerController extends Controller
                         if($update)
                             $updateCount++;
 
+                    }
+
+                    $delete = anak_satker::where('kd_satker',$val->kd_satker)->delete();
+
+                    $anak_satker = explode(",",$val->anak_satker);
+                    if(count($anak_satker) !== 0)
+                    {
+                        foreach ($anak_satker as $key => $values) {
+                            $datasAnakSatker = explode("-",$values);
+                            if(count($datasAnakSatker) == 2)
+                            {
+                                if($datasAnakSatker[0] == "" || $datasAnakSatker[1] == "")
+                                    continue;
+                                $dataInsertAnakSatker['kd_satker'] = $val->kd_satker;                            
+                                //return $datasAnakSatker[1];
+                                $dataInsertAnakSatker['kd_anak_satker'] = $datasAnakSatker[0];
+                                $dataInsertAnakSatker['nm_anak_satker'] = $datasAnakSatker[1];
+                                $query = anak_satker::create($dataInsertAnakSatker);
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
                     }
                 }
                 

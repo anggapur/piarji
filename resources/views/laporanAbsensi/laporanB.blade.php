@@ -236,6 +236,7 @@
                   "jenis_pegawai" : jenis_pegawai,
                 },
                 success: function(data) {
+                  console.log('this is data');
                   console.log(data);
                   if(data.status == "nodata")
                   { 
