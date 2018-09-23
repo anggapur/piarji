@@ -71,7 +71,11 @@ class absensiKekuranganController extends Controller
         $data = $request->datas;
         $data['idBulanTahun'] = $query->id;
 
-        $datas = $request->datas['absensi'];
+         $datas = $request->datas['absensi'];
+        $kdAnakSatker = $request->datas['kodeAnakSatker'];
+        $kelasJab = $request->datas['kelasJab'];        
+        $statusDapat = $request->datas['statusDapat'];        
+        
         
         //kode aturan
         $kd_aturan = aturan_tunkin::where('state','2')->first();
@@ -81,7 +85,10 @@ class absensiKekuranganController extends Controller
             $dataInsert['absensi1'] = $value['nilai'];
             $dataInsert['absensi2'] = $datas[2][$key]['nilai'];            
             $dataInsert['absensi3'] = $datas[3][$key]['nilai'];            
-            $dataInsert['absensi4'] = $datas[4][$key]['nilai'];            
+            $dataInsert['absensi4'] = $datas[4][$key]['nilai']; 
+            $dataInsert['kd_anak_satker_saat_absensi'] = $kdAnakSatker[$key]['nilai'];
+            $dataInsert['kelas_jab_saat_absensi'] = $kelasJab[$key]['nilai'];
+            $dataInsert['status_dapat'] = $statusDapat[$key]['nilai'];           
             $dataInsert['id_waktu'] = $data['idBulanTahun'];
             $dataInsert['kd_aturan'] = $kd_aturan->id;
             $dataInsert['kd_satker_saat_absensi'] = CH::getKdSatker(Auth::user()->kd_satker);
@@ -225,9 +232,10 @@ class absensiKekuranganController extends Controller
         else if($query->get()->count() > 0)
         {
           $qWaktu = waktu_absensi::where(['bulan' => $request->bulan, 'tahun' => $request->tahun])->first();
-            $data =  absensiKekurangan::where('absensi_kekurangan.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))
+            $data =  absensiKekurangan::where('absensi_kekurangan.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))              
+              ->leftJoin('pegawai','absensi_kekurangan.nip','=','pegawai.nip')
               ->where('id_waktu',$qWaktu->id)
-              ->leftJoin('pegawai','absensi_kekurangan.nip','=','pegawai.nip');            
+              ->select('absensi_kekurangan.*','pegawai.nama');            
             return ['keterangan' => ' Ada Pegawai','data' => $data->get(),'id_waktu' => $qWaktu->id];
         }
         else

@@ -326,7 +326,9 @@
                     formula4 = data.formula[3]['rumus'];
                     absensVal = [];
                     kodeSatker = "0";
+                    kodeAnakSatker = "0";
                     awal = true;
+                    awal2 = true;
                     tunjanganKinerjaTotal = 0;
                     absensi1total = 0;
                     absensi2total = 0;
@@ -341,7 +343,7 @@
                     tPPH21Total =0;
                     terimaBrutoTotal =0;
                     potonganPPH21 = 0;
-                    yangDibayarTotal = 0;
+                    yangDibayarTotal = 0;                    
 
                     console.log('KKK:'+kodeSatker);
                     $.each(data.dataAbsensi,function(k,v){                      
@@ -354,7 +356,7 @@
                       tPPH21 = parseInt(v.pajak);
                       terimaBruto = parseInt(parseInt(yangDiterima)+parseInt(tPPH21));                      
 
-                      if(kodeSatker !== v.kd_satker)
+                      if(kodeSatker !== v.kd_satker_saat_absensi)
                       {
                         if(awal == true)
                         {
@@ -383,8 +385,23 @@
                                   '</tr>';
                           $('tbody').append(html);
                         }
-                        html = '<tr><td colspan="21" style="text-align:left;text-transform: uppercase;"><b>Satker : '+v.kd_satker+' - '+v.nm_satker+'</b></td><td></td></tr>';
+                        html = '<tr><td colspan="21" style="text-align:left;text-transform: uppercase;"><b>Satker : '+v.kd_satker_saat_absensi+' - '+v.nm_satker+'</b></td><td></td></tr>';
                         html+='<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th></tr>';
+                        $('tbody').append(html);
+
+                        kodeAnakSatker = 0;
+                      }
+
+                      // Anak Satker
+                      if(kodeAnakSatker !== v.kd_anak_satker_saat_absensi)
+                      {
+                        if(awal2 == true)
+                        {
+                          awal2 = false;
+                        }
+                        
+                        html = '<tr><td colspan="21" style="text-align:left;text-transform: uppercase;"><b>Anak Satker : '+v.kd_anak_satker_saat_absensi+' - '+v.nm_anak_satker+'</b></td><td></td></tr>';
+                        
                         $('tbody').append(html);
                       }
 
@@ -394,7 +411,7 @@
                                '<td>'+v.nm_pangkat1+'</td>'+
                                '<td>'+v.nip+'</td>'+
                                '<td>'+v.nm_jabatan+'</td>'+
-                               '<td>'+v.kelas_jab+'</td>'+
+                               '<td>'+v.kelas_jab_saat_absensi+'</td>'+
                                '<td>'+number_format(v.tunjangan,0,",",".")+'</td>'+
                                '<td>'+v.absensi1+'</td>'+
                                '<td>'+number_format(absensVal[1],0,",",".")+'</td>'+
@@ -414,7 +431,8 @@
                              '</tr>';
                       $('tbody').append(html);
                       
-                      kodeSatker = v.kd_satker;
+                      kodeSatker = v.kd_satker_saat_absensi;
+                      kodeAnakSatker = v.kd_anak_satker_saat_absensi;
                       tunjanganKinerjaTotal+= parseInt(v.tunjangan);
                       absensi1total += parseInt(v.absensi1);
                       absensi2total += parseInt(v.absensi2);

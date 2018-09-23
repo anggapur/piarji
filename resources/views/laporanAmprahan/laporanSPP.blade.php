@@ -22,7 +22,7 @@
             <!-- <form method="POST" action="{{route('absensi.store')}}">   -->
               {{csrf_field()}}
             <div class="box-header">              
-              <h3 class="box-title">Laporan SPP Susulan Polri & PNS</h3>                            
+              <h3 class="box-title">Laporan SPP Polri & PNS</h3>                            
             </div>
             <div class="box-body">    
               <form class="form-inline" id="formBulanTahun">
@@ -90,7 +90,7 @@
                   </div>
                   <div class="judulLaporan">
                     <h3 class="judul">
-                      SURAT PERMINTAAN PEMBAYARAN (SPP) SUSULAN
+                      SURAT PERMINTAAN PEMBAYARAN (SPP)
                     </h3>
                     <h5>Nomor : {{collect($dataTTD)->firstWhere('bagian','4')->nilai1}}</h5>
                   </div>
@@ -288,7 +288,7 @@
 
           $.ajax({
                 type: "POST",                  
-                url: "{{route('pilihBulanTahunLaporanSPPSusulan')}}",
+                url: "{{route('pilihBulanTahunLaporanSPP')}}",
                 data: 
                 { 
                   "_token": "{{ csrf_token() }}",
@@ -352,7 +352,6 @@
                     $.each(data.dataAbsensi,function(k,v){     
 
                       col5 = (v.tunjangan*v.count_orang);
-                      
                       col6 = v.pph;
                       col7 = col5+col6;                      
                       col8 = 0;

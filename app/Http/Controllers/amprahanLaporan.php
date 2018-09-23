@@ -15,24 +15,20 @@ use App\aturan_tunkin_detail;
 use App\satker;
 use App\TTD;
 use DB;
-class laporanAbsensiKekurangan extends Controller
+class amprahanLaporan extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public $mainPage = "laporanAbsensiKekurangan";
-    public $page = "Laporan Absensi KekuranganPegawai";
-    public function laporanPerSatkerKekurangan()
+    public $mainPage = "laporanAmprahan";
+    public $page = "Laporan Permintaan Amprahan";
+    public function laporanPerSatker()
     {
-       
-        
-        
-        //waktu absensi
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
-        $data['page'] = "Laporan Rekap Kekurangan Tunkin";
+        $data['page'] = "Laporan Rekap Tunkin Induk";
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '1','kd_satker' => Auth::user()->kd_satker])->get();
@@ -67,7 +63,7 @@ class laporanAbsensiKekurangan extends Controller
         //waktu absensi
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
-        $data['page'] = $this->page;
+        $data['page'] = "Permintaan Tunkin";
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '1','kd_satker' => Auth::user()->kd_satker])->get();
@@ -103,7 +99,7 @@ class laporanAbsensiKekurangan extends Controller
         //waktu absensi
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
-        $data['page'] = $this->page;
+        $data['page'] = "Rekapitulasi Daftar Pembayaran Tunjangan Kinerja";
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '2','kd_satker' => Auth::user()->kd_satker])->get();
@@ -143,7 +139,7 @@ class laporanAbsensiKekurangan extends Controller
         //waktu absensi
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
-        $data['page'] = $this->page;
+        $data['page'] = "Surat Permintaan Pembayaran (SPP)";
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '3','kd_satker' => Auth::user()->kd_satker])->get();
@@ -182,7 +178,7 @@ class laporanAbsensiKekurangan extends Controller
         //waktu absensi
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
-        $data['page'] = $this->page;
+        $data['page'] = "Surat Pernyataan Tanggung Jawab Mutlak";
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '5','kd_satker' => Auth::user()->kd_satker])->get();
@@ -222,7 +218,7 @@ class laporanAbsensiKekurangan extends Controller
         //waktu absensi
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
-        $data['page'] = $this->page;
+        $data['page'] = "KWITANSI";
         $data['subpage'] = "";    
         $data['aturan_absensi'] = aturan_absensi::orderBy('id','ASC')->get();
         $data['dataTTD'] = TTD::where(['halaman' => '4','kd_satker' => Auth::user()->kd_satker])->get();
@@ -284,38 +280,40 @@ class laporanAbsensiKekurangan extends Controller
         }
         else if($query->count() == 1)
         {
-        	$id_aturan_tunkin = aturan_tunkin::where('state','1')->first()->id;
-        	if(Auth::user()->level == "admin")
+            $id_aturan_tunkin = aturan_tunkin::where('state','1')->first()->id;
+            if(Auth::user()->level == "admin")
             {
-                $q2 = pegawai::leftJoin('absensi_kekurangan','pegawai.nip','=','absensi_kekurangan.nip')
+                $q2 = pegawai::leftJoin('absensi','pegawai.nip','=','absensi.nip')
                     ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
                     ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
-                    ->leftJoin('satker','absensi_kekurangan.kd_satker_saat_absensi','=','satker.kd_satker')                    
+                    ->leftJoin('satker','absensi.kd_satker_saat_absensi','=','satker.kd_satker')
                     ->leftJoin('aturan_tunkin_detail',function($q){
-                        $q->on('absensi_kekurangan.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
-                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi_kekurangan.kd_aturan');
+                        $q->on('absensi.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi.kd_aturan');
                     })
-                    ->where('absensi_kekurangan.id_waktu',$query[0]['id']);
+                    ->where('absensi.status_dapat','1')
+                    ->where('absensi.id_waktu',$query[0]['id']);
                     
             }
             else
             {
-                $q2 = pegawai::leftJoin('absensi_kekurangan','pegawai.nip','=','absensi_kekurangan.nip')
+                $q2 = pegawai::leftJoin('absensi','pegawai.nip','=','absensi.nip')
                     ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
                     ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
-                     ->leftJoin('satker','absensi_kekurangan.kd_satker_saat_absensi','=','satker.kd_satker')                    
+                    ->leftJoin('satker','absensi.kd_satker_saat_absensi','=','satker.kd_satker')
                     ->leftJoin('aturan_tunkin_detail',function($q){
-                        $q->on('absensi_kekurangan.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
-                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi_kekurangan.kd_aturan');
+                        $q->on('absensi.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi.kd_aturan');
                     })
-                    ->where('absensi_kekurangan.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))
-                    ->where('absensi_kekurangan.id_waktu',$query[0]['id']);
+                    ->where('absensi.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))
+                    ->where('absensi.status_dapat','1')
+                    ->where('absensi.id_waktu',$query[0]['id']);
             }
 
             $q2 //->groupBy('pegawai.kelas_jab')
-                    ->orderBy('pegawai.kelas_jab','DESC')   
-                    ->orderBy('pegawai.kd_satker','ASC')
-                    ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan ,absensi_kekurangan.*')); 
+                    ->orderBy('absensi.kelas_jab_saat_absensi','DESC')   
+                    ->orderBy('absensi.kd_satker_saat_absensi','ASC')
+                    ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan,absensi.*')); 
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
                 $q2->where('pegawai.kd_satker',$request->satker);
@@ -354,6 +352,7 @@ class laporanAbsensiKekurangan extends Controller
             }
             */
             $nilaiBalik = [];
+            
             foreach ($q2->get() as $key => $val) {
                 
                 if (array_key_exists($val->kelas_jab_saat_absensi, $nilaiBalik)) {
@@ -371,6 +370,7 @@ class laporanAbsensiKekurangan extends Controller
 
                 }
             }
+            // return $nilaiBalik;
 
             $returnVal = [];     
             foreach ($tunkin as $key => $value) {
@@ -416,35 +416,37 @@ class laporanAbsensiKekurangan extends Controller
             $id_aturan_tunkin = aturan_tunkin::where('state','1')->first()->id;
             if(Auth::user()->level == "admin")
             {
-                $q2 = pegawai::leftJoin('absensi_kekurangan','pegawai.nip','=','absensi_kekurangan.nip')
+                $q2 = pegawai::leftJoin('absensi','pegawai.nip','=','absensi.nip')
                     ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
                     ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
-                     ->leftJoin('satker','absensi_kekurangan.kd_satker_saat_absensi','=','satker.kd_satker')                    
+                    ->leftJoin('satker','absensi.kd_satker_saat_absensi','=','satker.kd_satker')
                     ->leftJoin('aturan_tunkin_detail',function($q){
-                        $q->on('absensi_kekurangan.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
-                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi_kekurangan.kd_aturan');
+                        $q->on('absensi.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi.kd_aturan');
                     })
-                    ->where('absensi_kekurangan.id_waktu',$query[0]['id']);
+                    ->where('absensi.id_waktu',$query[0]['id'])
+                    ->where('absensi.status_dapat','1');
                     
             }
             else
             {
-                $q2 = pegawai::leftJoin('absensi_kekurangan','pegawai.nip','=','absensi_kekurangan.nip')
+                $q2 = pegawai::leftJoin('absensi','pegawai.nip','=','absensi.nip')
                     ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
                     ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
-                     ->leftJoin('satker','absensi_kekurangan.kd_satker_saat_absensi','=','satker.kd_satker')                    
+                    ->leftJoin('satker','absensi.kd_satker_saat_absensi','=','satker.kd_satker')
                     ->leftJoin('aturan_tunkin_detail',function($q){
-                        $q->on('absensi_kekurangan.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
-                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi_kekurangan.kd_aturan');
+                        $q->on('absensi.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi.kd_aturan');
                     })
-                    ->where('absensi_kekurangan.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))
-                    ->where('absensi_kekurangan.id_waktu',$query[0]['id']);
+                    ->where('absensi.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))
+                    ->where('absensi.id_waktu',$query[0]['id'])
+                    ->where('absensi.status_dapat','1');
             }
 
             $q2 //->groupBy('pegawai.kelas_jab')
-                    ->orderBy('pegawai.kelas_jab','DESC')   
-                    ->orderBy('pegawai.kd_satker','ASC')
-                    ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan, absensi_kekurangan.*')); 
+                    ->orderBy('absensi.kelas_jab_saat_absensi','DESC')   
+                    ->orderBy('absensi.kd_satker_saat_absensi','ASC')
+                    ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan,absensi.*')); 
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
                 $q2->where('pegawai.kd_satker',$request->satker);
@@ -478,7 +480,6 @@ class laporanAbsensiKekurangan extends Controller
             $nilaiBalik = [];
             foreach ($q2->get() as $key => $val) {
                 
-                  
                 if (array_key_exists($val->kelas_jab_saat_absensi, $nilaiBalik)) {
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['kelas_jab'] = $val->kelas_jab_saat_absensi;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['count_orang'] +=1;
@@ -491,7 +492,6 @@ class laporanAbsensiKekurangan extends Controller
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['count_orang'] = 1;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan'] = $val->tunjangan;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] = intval(CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
-
                 }
             }
 
@@ -558,35 +558,37 @@ class laporanAbsensiKekurangan extends Controller
             $id_aturan_tunkin = aturan_tunkin::where('state','1')->first()->id;
             if(Auth::user()->level == "admin")
             {
-                $q2 = pegawai::leftJoin('absensi_kekurangan','pegawai.nip','=','absensi_kekurangan.nip')
+                $q2 = pegawai::leftJoin('absensi','pegawai.nip','=','absensi.nip')
                     ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
                     ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
-                     ->leftJoin('satker','absensi_kekurangan.kd_satker_saat_absensi','=','satker.kd_satker')                    
+                    ->leftJoin('satker','absensi.kd_satker_saat_absensi','=','satker.kd_satker')
                     ->leftJoin('aturan_tunkin_detail',function($q){
-                        $q->on('absensi_kekurangan.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
-                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi_kekurangan.kd_aturan');
+                        $q->on('absensi.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi.kd_aturan');
                     })
-                    ->where('absensi_kekurangan.id_waktu',$query[0]['id']);
+                    ->where('absensi.id_waktu',$query[0]['id'])
+                    ->where('absensi.status_dapat','1');
                     
             }
             else
             {
-                $q2 = pegawai::leftJoin('absensi_kekurangan','pegawai.nip','=','absensi_kekurangan.nip')
+                $q2 = pegawai::leftJoin('absensi','pegawai.nip','=','absensi.nip')
                     ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
                     ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
-                     ->leftJoin('satker','absensi_kekurangan.kd_satker_saat_absensi','=','satker.kd_satker')                    
+                    ->leftJoin('satker','absensi.kd_satker_saat_absensi','=','satker.kd_satker')
                     ->leftJoin('aturan_tunkin_detail',function($q){
-                        $q->on('absensi_kekurangan.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
-                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi_kekurangan.kd_aturan');
+                        $q->on('absensi.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi.kd_aturan');
                     })
-                    ->where('absensi_kekurangan.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))
-                    ->where('absensi_kekurangan.id_waktu',$query[0]['id']);
+                    ->where('absensi.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))
+                    ->where('absensi.id_waktu',$query[0]['id'])
+                    ->where('absensi.status_dapat','1');
             }
 
             $q2 //->groupBy('pegawai.kelas_jab')
-                    ->orderBy('pegawai.kelas_jab','DESC')   
-                    ->orderBy('pegawai.kd_satker','ASC')
-                    ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan, absensi_kekurangan.*')); 
+                    ->orderBy('absensi.kelas_jab_saat_absensi','DESC')   
+                    ->orderBy('absensi.kd_satker_saat_absensi','ASC')
+                    ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan,absensi.*')); 
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
                 $q2->where('pegawai.kd_satker',$request->satker);
@@ -683,7 +685,7 @@ class laporanAbsensiKekurangan extends Controller
 
     public function pilihBulanTahun(Request $request)
     {
-       //cari data yang sesuai
+        //cari data yang sesuai
         $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
         $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun];
         $query = waktu_absensi::where($where)->get();
@@ -698,47 +700,47 @@ class laporanAbsensiKekurangan extends Controller
             $id_aturan_tunkin = aturan_tunkin::where('state','1')->first()->id;
             if(Auth::user()->level == "admin")
             {
-                $q2 = pegawai::leftJoin('absensi_kekurangan','pegawai.nip','=','absensi_kekurangan.nip')
+                $q2 = pegawai::leftJoin('amprahan','pegawai.nip','=','amprahan.nip')
                     ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
                     ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
-                    ->leftJoin('satker','absensi_kekurangan.kd_satker_saat_absensi','=','satker.kd_satker')
+                    ->leftJoin('satker','amprahan.kd_satker_saat_amprah','=','satker.kd_satker')
                     ->leftJoin('anak_satker',function($q){
-                        $q->on('absensi_kekurangan.kd_satker_saat_absensi','=','anak_satker.kd_satker');
-                        $q->on('absensi_kekurangan.kd_anak_satker_saat_absensi','=','anak_satker.kd_anak_satker'); // minta diubah
+                        $q->on('amprahan.kd_satker_saat_amprah','=','anak_satker.kd_satker');
+                        $q->on('amprahan.kd_anak_satker_saat_amprah','=','anak_satker.kd_anak_satker'); // minta diubah
                     })
                     ->leftJoin('aturan_tunkin_detail',function($q){
-                        $q->on('absensi_kekurangan.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
-                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi_kekurangan.kd_aturan');
+                        $q->on('amprahan.kelas_jab_saat_amprah','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','amprahan.kd_aturan');
                     })
-                    ->where('absensi_kekurangan.id_waktu',$query[0]['id'])
-                    ->where('absensi_kekurangan.status_dapat','1')
-                    ->orderBy('absensi_kekurangan.kd_satker_saat_absensi','ASC')
-                    ->orderBy('absensi_kekurangan.kd_anak_satker_saat_absensi','ASC')
-                    ->orderBy('absensi_kekurangan.kelas_jab_saat_absensi','DESC')
-                    ->select('absensi_kekurangan.*','pegawai.*','pangkat.*','jabatan.*','satker.*','anak_satker.nm_anak_satker','aturan_tunkin_detail.*')
+                    ->where('amprahan.id_waktu',$query[0]['id'])
+                    // ->where('amprahan.status_dapat','1')
+                    ->orderBy('amprahan.kd_satker_saat_amprah','ASC')
+                    ->orderBy('amprahan.kd_anak_satker_saat_amprah','ASC')
+                    ->orderBy('amprahan.kelas_jab_saat_amprah','DESC')
+                    ->select('amprahan.*','pegawai.*','pangkat.*','jabatan.*','satker.*','anak_satker.nm_anak_satker','aturan_tunkin_detail.*')
                     ;
             }
             else
             {
-                $q2 = pegawai::leftJoin('absensi_kekurangan','pegawai.nip','=','absensi_kekurangan.nip')
+                $q2 = pegawai::leftJoin('amprahan','pegawai.nip','=','amprahan.nip')
                     ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
                     ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
-                    ->leftJoin('satker','absensi_kekurangan.kd_satker_saat_absensi','=','satker.kd_satker')
+                    ->leftJoin('satker','amprahan.kd_satker_saat_amprah','=','satker.kd_satker')
                     ->leftJoin('anak_satker',function($q){
-                        $q->on('absensi_kekurangan.kd_satker_saat_absensi','=','anak_satker.kd_satker');
-                        $q->on('absensi_kekurangan.kd_anak_satker_saat_absensi','=','anak_satker.kd_anak_satker'); // minta diubah
+                        $q->on('amprahan.kd_satker_saat_amprah','=','anak_satker.kd_satker');
+                        $q->on('amprahan.kd_anak_satker_saat_amprah','=','anak_satker.kd_anak_satker'); // minta diubah
                     })
                     ->leftJoin('aturan_tunkin_detail',function($q){
-                        $q->on('absensi_kekurangan.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
-                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi_kekurangan.kd_aturan');
+                        $q->on('amprahan.kelas_jab_saat_amprah','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','amprahan.kd_aturan');
                     })
-                    ->where('absensi_kekurangan.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))
-                    ->where('absensi_kekurangan.id_waktu',$query[0]['id'])
-                    ->where('absensi_kekurangan.status_dapat','1')
-                    ->orderBy('absensi_kekurangan.kd_satker_saat_absensi','ASC')
-                    ->orderBy('absensi_kekurangan.kd_anak_satker_saat_absensi','ASC')
-                    ->orderBy('absensi_kekurangan.kelas_jab_saat_absensi','DESC')
-                    ->select('absensi_kekurangan.*','pegawai.*','pangkat.*','jabatan.*','satker.*','anak_satker.nm_anak_satker','aturan_tunkin_detail.*');   
+                    ->where('amprahan.kd_satker_saat_amprah',CH::getKdSatker(Auth::user()->kd_satker))
+                    ->where('amprahan.id_waktu',$query[0]['id'])
+                    // ->where('amprahan.status_dapat','1')
+                    ->orderBy('amprahan.kd_satker_saat_amprah','ASC')
+                    ->orderBy('amprahan.kd_anak_satker_saat_amprah','ASC')
+                    ->orderBy('amprahan.kelas_jab_saat_amprah','DESC')
+                    ->select('amprahan.*','pegawai.*','pangkat.*','jabatan.*','satker.*','anak_satker.nm_anak_satker','aturan_tunkin_detail.*');   
             }
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
@@ -774,17 +776,17 @@ class laporanAbsensiKekurangan extends Controller
     }
     public function cekLap()
     {
-        $q2 = pegawai::leftJoin('absensi_kekurangan','pegawai.nip','=','absensi_kekurangan.nip')
+        $q2 = pegawai::leftJoin('absensi','pegawai.nip','=','absensi.nip')
                     ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')
                     ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')
                     ->leftJoin('aturan_tunkin_detail',function($q){
                         $q->on('pegawai.kelas_jab','=','aturan_tunkin_detail.kelas_jabatan');
-                        $q->on('aturan_tunkin_detail.id_aturan_tunkin',"absensi_kekurangan.kd_aturan");
+                        $q->on('aturan_tunkin_detail.id_aturan_tunkin',"absensi.kd_aturan");
                     })
                     
                     
                     ->where('pegawai.kd_satker',"S1")
-                    ->where('absensi_kekurangan.id_waktu',"1")->get(); 
+                    ->where('absensi.id_waktu',"1")->get(); 
         return $q2;
     }
 }

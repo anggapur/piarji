@@ -103,6 +103,15 @@
                   </select>                 
                 </div>              
                 @endif
+                <div class="form-group">
+                  <label>Anak Satker</label>
+                  <select class=" form-control" name="kd_anak_satker" required>        
+                    <option data-parent="0" value="">--</option>            
+                    @foreach($dataAnakSatker as $val)
+                      <option data-parent="{{$val->kd_satker}}" value="{{$val->kd_anak_satker}}" {{($val->kd_anak_satker == $dataPegawai->kd_anak_satker AND $val->kd_satker == $dataPegawai->kd_satker) ? "selected" : ""}}>{{$val->kd_anak_satker." - ".$val->nm_anak_satker}}</option>                                        
+                    @endforeach
+                  </select>                 
+                </div>      
             </div>
             <div class="box-footer clearfix">
               <button type="submit" class="pull-right btn btn-success" id="sendEmail">Update Pegawai
@@ -119,6 +128,14 @@
     <script type="text/javascript">
       $(document).ready(function(){
         $('.money').maskNumber({integer: true,thousands: '.'});
+
+        $('select[name="kd_satker"]').change(function(){
+          kd_satker = $(this).val();
+          // alert('hai');
+          $('select[name="kd_anak_satker"]').children('option').hide();
+          $('select[name="kd_anak_satker"]').children('option[data-parent="'+kd_satker+'"]').show();
+          $('select[name="kd_anak_satker"]').children('option[data-parent="0"]').attr('selected','selected');
+        });
       });
     </script>
 @endsection

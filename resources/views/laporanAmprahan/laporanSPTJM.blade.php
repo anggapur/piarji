@@ -22,7 +22,7 @@
             <!-- <form method="POST" action="{{route('absensi.store')}}">   -->
               {{csrf_field()}}
             <div class="box-header">              
-              <h3 class="box-title">Laporan SPP Susulan Polri & PNS</h3>                            
+              <h3 class="box-title">Form Surat Pernyataan Tanggung Jawab Mutlak</h3>                            
             </div>
             <div class="box-body">    
               <form class="form-inline" id="formBulanTahun">
@@ -90,153 +90,25 @@
                   </div>
                   <div class="judulLaporan">
                     <h3 class="judul">
-                      SURAT PERMINTAAN PEMBAYARAN (SPP) SUSULAN
-                    </h3>
-                    <h5>Nomor : {{collect($dataTTD)->firstWhere('bagian','4')->nilai1}}</h5>
+                      SURAT PERNYATAAN  TANGGUNG JAWAB MUTLAK
+                    </h3>                    
                   </div>
-                  <div class="bag1">
-                    <table>
-                      <tr>
-                        <td>Dari</td>
-                        <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','2')->nilai1}}</td>
-                      </tr>
-                      <tr>
-                        <td>Kepada</td>
-                        <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','2')->nilai2}}</td>
-                      </tr>
-                    </table>
+                  <div class="bodySPTJM" data-word='{!!collect($dataTTD)->firstWhere("bagian","1")->nilai1!!}'>
+                    
                   </div>
-                  <div class="bag2">
-                    <table>
-                      <tr>
-                        <td>Sebesar</td>
-                        <td>:</td>
-                        <td class="senilai bold"></td>
-                      </tr>
-                      <tr>
-                        <td>Terbilang</td>
-                        <td>:</td>
-                        <td class="bold terbilang">-</td>
-                      </tr>
-                    </table>
-                  </div>
-                  <div class="bag3">
-                    <table>
-                      <tr>
-                        <td>Untuk</td>
-                        <td>:</td>
-                        <td class="mengenai" data-word="{{collect($dataTTD)->firstWhere('bagian','3')->nilai1}}"> <span></span></td>
-                      </tr>
-                      <tr>
-                        <td>Kepada</td>
-                        <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','3')->nilai2}}</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','3')->nilai4}}</td>
-                      </tr>
-                      <tr>
-                        <td>Alamat</td>
-                        <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','3')->nilai3}}</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','3')->nilai5}}</td>
-                      </tr>
-                    </table>
-                  </div>
-                  <div class="bag4">
-                    <table>
-                      <tr>
-                        <td colspan="4">Sprin Kapolda Bali</td>
-                      </tr>
-                      <tr>
-                        <td class="abjad">a.</td>
-                        <td class="keterangan">No.Pol</td>
-                        <td class="separator">:</td>
-                        <td class="isiAngka"></td>
-                        <td></td>
-                        <td class="senilai">-</td>
-                      </tr>
-                      <tr>
-                        <td></td>
-                        <td colspan="3">Tanggal</td>
-                      </tr>
-                      <tr>
-                        <td class="abjad">b.</td>
-                        <td class="keterangan">No.Pol</td>
-                        <td class="separator">:</td>
-                        <td class="isiAngka"></td>
-                        <td></td>
-                        <td class="senilai2 underscore">-</td>
-                      </tr>
-                      <tr>
-                        <td></td>
-                        <td colspan="3">Tanggal</td>
-                        <td class="jumlahLabel">Jumlah</td>
-                        <td class="senilaiJumlah"></td>
-                      </tr>
-                       <tr>                        
-                        <td colspan="4">SURAT PERJANJIAN / S.P K / SPRIN</td>
-                      </tr>
-                       <tr>
-                        <td>a.</td>
-                        <td>Nomor</td>
-                        <td>:</td>
-                        <td>-</td>
-                      </tr>
-                       <tr>
-                        <td>b.</td>
-                        <td>Mengenai</td>
-                        <td>:</td>
-                        <td class="mengenai">{{collect($dataTTD)->firstWhere('bagian','3')->nilai1}} <span></span></td>
-                      </tr>
-                    </table>
-                  </div>
-                  <div class="bag5">
-                    <table>
-                      <tr>
-                        <td>Pengawasan Sprin Kapolda Bali</td>
-                      </tr>
-                      <tr>
-                        <td>Jumlah Sprin Tersebut Diatas</td>
-                        <td></td>
-                        <td class="senilai"></td>
-                      </tr>
-                      <tr>
-                        <td>Jumlah Sprin s/d yang lalu</td>
-                        <td class="sprinLalu"></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <td>Jumlah Sprin ini</td>
-                        <td class="senilai underscore"></td>
-                        <td></td>
-                        
-                      </tr>
-                      <tr>
-                        <td>Jumlah Sprin s/d ini</td>
-                        <td></td>
-                        <td class="underscore sprinJumlah"></td>
-                      </tr>
-                      <tr>
-                        <td>Sisa Sprin tersebut diatas</td>
-                        <td></td>
-                        <td class="underscoreDouble sisaSprint"></td>
-                      </tr>
-                    </table>
-                  </div>
-                  <div class="bag6">
+                  <div class="bag7">
                     <div class="ttdform">
-                        <p>{{collect($dataTTD)->firstWhere('bagian','1')->nilai4}}</p>
-                        <p>{{collect($dataTTD)->firstWhere('bagian','1')->nilai1}}</p>
-                        @if(collect($dataTTD)->firstWhere('bagian','1')->image != "")
+                        <p style="margin-bottom: 0px;">{{collect($dataTTD)->firstWhere('bagian','2')->nilai4}}</p>
+                        <p>{{collect($dataTTD)->firstWhere('bagian','2')->nilai1}}</p>
+                        @if(collect($dataTTD)->firstWhere('bagian','2')->image != "")
                         <div class="imgWrap">
-                          <img class="imageTTD" src="{{url('public/images/'.collect($dataTTD)->firstWhere('bagian','1')->image)}}">
+                          <img class="imageTTD" src="{{url('public/images/'.collect($dataTTD)->firstWhere('bagian','2')->image)}}">
                         </div>
                         @else
                           <div class="ttdImage"></div>
                         @endif
-                        <p style="text-decoration: underline;"><b>{{collect($dataTTD)->firstWhere('bagian','1')->nilai2}}</b></p>
-                        <p>{{collect($dataTTD)->firstWhere('bagian','1')->nilai3}}</p>
+                        <p style="text-decoration: underline;margin-bottom: 0px;"><b>{{collect($dataTTD)->firstWhere('bagian','2')->nilai2}}</b></p>
+                        <p>{{collect($dataTTD)->firstWhere('bagian','2')->nilai3}}</p>
                     </div>
                     <div class="clearfix"></div>
                   </div>
@@ -288,7 +160,7 @@
 
           $.ajax({
                 type: "POST",                  
-                url: "{{route('pilihBulanTahunLaporanSPPSusulan')}}",
+                url: "{{route('pilihBulanTahunLaporanSPP')}}",
                 data: 
                 { 
                   "_token": "{{ csrf_token() }}",
@@ -321,13 +193,7 @@
                     $('.lembarLaporan').fadeIn("slow");
                     i = 1;
                     
-                    //mengenai
-                   mengenaiWord = data.words;                    
-                    insertWord = $('.mengenai').attr('data-word').replace('[bulan]',mengenaiWord);
-                    insertWord = insertWord.replace('[anggota]',data.anggota);
-                    insertWord = insertWord.replace('[satker]',data.satkerNama);
-                    $('.mengenai').html(insertWord);
-
+                  
                     console.log(data.formula);
                     formula1 = data.formula[0]['rumus'];
                     formula2 = data.formula[1]['rumus'];
@@ -352,7 +218,6 @@
                     $.each(data.dataAbsensi,function(k,v){     
 
                       col5 = (v.tunjangan*v.count_orang);
-                      
                       col6 = v.pph;
                       col7 = col5+col6;                      
                       col8 = 0;
@@ -377,6 +242,16 @@
                     sprinJumlah = sprinLalu+jml12;
                     $('.sprinJumlah').html("Rp.   "+number_format(sprinJumlah,0,",","."));
                     $('.sisaSprint').html("Rp.   "+number_format(sisaSprint,0,",","."));
+
+                      //mengenai
+                  mengenaiWord = data.words;                    
+                    insertWord = $('.bodySPTJM').attr('data-word').replace('[bulan]',mengenaiWord);
+                    insertWord = insertWord.replace('[anggota]',data.anggota);
+                    insertWord = insertWord.replace('[satker]',data.satkerNama);
+                    insertWord = insertWord.replace('[nominalAngka]',"Rp.   "+number_format(Math.ceil(jml12),0,",","."));
+                    insertWord = insertWord.replace('[nominalHuruf]','('+terbilang(Math.ceil(jml12))+')');
+                    $('.bodySPTJM').html(insertWord);
+
                   }
                 }
             });

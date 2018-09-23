@@ -145,6 +145,15 @@ class pegawaiController extends Controller
                 return redirect('error');
         }
         $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')->get();
+        //anak satker
+        if(Auth::user()->level == "admin")
+        {
+            $data['dataAnakSatker'] = anak_satker::all();
+        }
+        else
+        {
+            $data['dataAnakSatker'] = anak_satker::where('kd_satker',CH::getKdSatker(Auth::user()->kd_satker))->get();
+        }
         $data['page'] = $this->page;
         $data['aturanTunkin'] = aturan_tunkin::where('state','1')->with('detailAturanTunkinDetail')->first();
         $data['subpage'] = "Edit Data Pegawai";         

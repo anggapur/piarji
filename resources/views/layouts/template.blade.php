@@ -185,6 +185,26 @@
 
 
         <!-- MENU ABSENSI-->
+        <li class="{{CH::segment(1,['amprahan'])}} {{CH::showTo(['operator'])}}"><a href="{{url('amprahan')}}"><i class="fa fa-list-alt"></i> <span>Amprahan Tunkin</span></a></li> 
+        <!-- Menu Setting User -->        
+        <li class="{{CH::segment(1,['laporanAmprahan'])}} {{CH::showTo(['operator'])}} treeview">
+          <a href="#">
+            <i class="fa fa-gear"></i> <span>
+             Laporan Permintaan Amprahan
+          </span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{CH::segment(2,['laporan1'])}}"><a href="{{url('laporanAmprahan/laporan1')}}"><i class="fa fa-circle-o"></i> Permintaan Amprahan</a></li>            
+            <!-- <li class="{{CH::segment(2,['laporanB'])}}"><a href="{{url('laporanAbsensi/laporanB')}}"><i class="fa fa-circle-o"></i> Laporan B1/B2</a></li>            
+            <li class="{{CH::segment(2,['laporanSPP'])}}"><a href="{{url('laporanAbsensi/laporanSPP')}}"><i class="fa fa-circle-o"></i> Laporan SPP</a></li>            
+            <li class="{{CH::segment(2,['laporanKU'])}}"><a href="{{url('laporanAbsensi/laporanKU')}}"><i class="fa fa-circle-o"></i> Laporan KU</a></li>            
+            <li class="{{CH::segment(2,['laporanSPTJM'])}}"><a href="{{url('laporanAbsensi/laporanSPTJM')}}"><i class="fa fa-circle-o"></i> Laporan SPTJM</a></li> -->
+          </ul>
+        </li> 
+
         <li class="{{CH::segment(1,['absensi'])}} {{CH::showTo(['operator'])}}"><a href="{{url('absensi')}}"><i class="fa fa-list-alt"></i> <span>Rekap Absensi</span></a></li> 
         <li class="{{CH::segment(1,['absensiSusulan'])}} {{CH::showTo(['operator'])}}"><a href="{{url('absensiSusulan')}}"><i class="fa fa-list-alt"></i> <span>Rekap Absensi Susulan</span></a></li> 
         <li class="{{CH::segment(1,['absensiKekurangan'])}} {{CH::showTo(['operator'])}}"><a href="{{url('absensiKekurangan')}}"><i class="fa fa-list-alt"></i> <span>Rekap Absensi Kekurangan</span></a></li> 

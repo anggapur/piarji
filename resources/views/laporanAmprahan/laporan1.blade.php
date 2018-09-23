@@ -22,7 +22,7 @@
             <!-- <form method="POST" action="{{route('absensi.store')}}">   -->
               {{csrf_field()}}
             <div class="box-header">              
-              <h3 class="box-title">Laporan C1 Polri & C2 PNS</h3>                            
+              <h3 class="box-title">Laporan Permintaan Tunkin</h3>                            
             </div>
             <div class="box-body">    
               <form class="form-inline" id="formBulanTahun">
@@ -94,7 +94,7 @@
 
                   <div class="judulLaporan">
                     <h5 class="judul">
-                    DAFTAR PEMBAYARAN TUNJANGAN KINERJA SUSULAN <span class="keanggotaan"></span> T.A <span class="tahun"></span>
+                    DAFTAR PERMINTAAN TUNJANGAN KINERJA <span class="keanggotaan"></span> T.A <span class="tahun"></span>
                     </h5>
                   <h5>Bulan : <span class="waktu"></span></h5>
                   </div>
@@ -108,52 +108,10 @@
                      <th rowspan="2">Jabatan</th>
                      <th rowspan="2">Kelas Jabatan</th>
                      <th rowspan="2">T. Kinerja</th>
-                     <th colspan="2" class="w100">{{collect($aturan_absensi)->firstWhere('id','1')->nama}}</th>                                          
-                     <th colspan="2" class="w100">{{collect($aturan_absensi)->firstWhere('id','2')->nama}}</th>                     
-                     <th colspan="2" class="w100">{{collect($aturan_absensi)->firstWhere('id','3')->nama}}</th>                     
-                     <th colspan="2" class="w100">{{collect($aturan_absensi)->firstWhere('id','4')->nama}}</th>
-                     <th rowspan="2" class="w50">Jumlah Pengurangan</th>                     
-                     <th rowspan="2" class="w50">Tunjangan Yang Diterima</th>
-                     <th rowspan="2" class="w50">T.PPH21</th>
-                     <th rowspan="2" class="w50">Terima Bruto</th>
-                     <th rowspan="2" class="w50">Potongan<br>PPH-21</th>
-                     <th rowspan="2" class="w50">T.Yang Dibayar</th>
-                     <th rowspan="2" class="w50">Rekening</th>
+                     <th rowspan="2">Status</th>
+                                         
                    </tr>                  
-                   <tr>                   
-                     <th>Hari</th>
-                     <th>Rp</th>
-                     <th>Hari</th>
-                     <th>Rp</th>
-                     <th>Hari</th>
-                     <th>Rp</th>
-                     <th>Hari</th>
-                     <th>Rp</th>
-                   </tr>
-                    <tr>
-                     <th>1</th>
-                     <th>2</th>
-                     <th>3</th>
-                     <th>4</th>
-                     <th>5</th>
-                     <th>6</th>
-                     <th>7</th>
-                     <th>8</th>
-                     <th>9</th>
-                     <th>10</th>
-                     <th>11</th>
-                     <th>12</th>
-                     <th>13</th>
-                     <th>14</th>
-                     <th>15</th>
-                     <th>16</th>
-                     <th>17</th>
-                     <th>18</th>
-                     <th>19</th>
-                     <th>20</th>
-                     <th>21</th>
-                     <th>22</th>
-                   </tr>
+                   
                  </thead>
                  <tbody>
                    
@@ -245,20 +203,7 @@
 	    	
 	        var prtContent = document.getElementById("printArea");
 	        	        
-	        // html = "<html><head><link rel='stylesheet' href='http://localhost/PRG/public/template/style.css' type='text/css' media='all'/></head><body><h1>HAI</h1></body></html>";
-	        // console.log(html);
-	       /* 
-	        var WinPrint = window.open();
-
-	        // WinPrint.document.write( "<link rel='stylesheet' href='http://localhost/PRG/public/template/style.css' type='text/css' media='all'/>");
-	        WinPrint.document.write(prtContent.innerHTML);
-	        
-	        WinPrint.document.close();
-	        WinPrint.focus();
-	        WinPrint.print();
-	        WinPrint.close();
-          */
-	        
+	       
 	    }
 	</script>
 
@@ -281,7 +226,7 @@
 
           $.ajax({
                 type: "POST",                  
-                url: "{{route('pilihBulanTahunLaporanSusulan')}}",
+                url: "{{route('pilihBulanTahunLaporanPermintaanTunkin')}}",
                 data: 
                 { 
                   "_token": "{{ csrf_token() }}",
@@ -356,7 +301,7 @@
                       tPPH21 = parseInt(v.pajak);
                       terimaBruto = parseInt(parseInt(yangDiterima)+parseInt(tPPH21));                      
 
-                      if(kodeSatker !== v.kd_satker_saat_absensi)
+                      if(kodeSatker !== v.kd_satker_saat_amprah)
                       {
                         if(awal == true)
                         {
@@ -385,55 +330,50 @@
                                   '</tr>';
                           $('tbody').append(html);
                         }
-                        html = '<tr><td colspan="21" style="text-align:left;text-transform: uppercase;"><b>Satker : '+v.kd_satker_saat_absensi+' - '+v.nm_satker+'</b></td><td></td></tr>';
-                        html+='<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th></tr>';
+                        html = '<tr><td colspan="7" style="text-align:left;text-transform: uppercase;"><b>Satker : '+v.kd_satker_saat_amprah+' - '+v.nm_satker+'</b></td><td></td></tr>';
+                        html+='<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th></tr>';
                         $('tbody').append(html);
 
                         kodeAnakSatker = 0;
                       }
 
                       // Anak Satker
-                      if(kodeAnakSatker !== v.kd_anak_satker_saat_absensi)
+                      if(kodeAnakSatker !== v.kd_anak_satker_saat_amprah)
                       {
                         if(awal2 == true)
                         {
                           awal2 = false;
                         }
                         
-                        html = '<tr><td colspan="21" style="text-align:left;text-transform: uppercase;"><b>Anak Satker : '+v.kd_anak_satker_saat_absensi+' - '+v.nm_anak_satker+'</b></td><td></td></tr>';
+                        html = '<tr><td colspan="7" style="text-align:left;text-transform: uppercase;"><b>Anak Satker : '+v.kd_anak_satker_saat_amprah+' - '+v.nm_anak_satker+'</b></td><td></td></tr>';
                         
                         $('tbody').append(html);
                       }
 
+                      if(v.status_dapat == "1")
+                        statusDapat = "Dapat Tunkin";
+                      else
+                        statusDapat = "Tidak Dapat Tunkin";
                       html = '<tr>'+
-                               '<td>'+(i)+'</td>'+
+                               '<td>'+(i++)+'</td>'+
                                '<td>'+v.nama+'</td>'+
                                '<td>'+v.nm_pangkat1+'</td>'+
                                '<td>'+v.nip+'</td>'+
                                '<td>'+v.nm_jabatan+'</td>'+
-                               '<td>'+v.kelas_jab_saat_absensi+'</td>'+
+                               '<td>'+v.kelas_jab_saat_amprah+'</td>'+
                                '<td>'+number_format(v.tunjangan,0,",",".")+'</td>'+
-                               '<td>'+v.absensi1+'</td>'+
-                               '<td>'+number_format(absensVal[1],0,",",".")+'</td>'+
-                               '<td>'+v.absensi2+'</td>'+
-                               '<td>'+number_format(absensVal[2],0,",",".")+'</td>'+
-                               '<td>'+v.absensi3+'</td>'+
-                               '<td>'+number_format(absensVal[3],0,",",".")+'</td>'+
-                               '<td>'+v.absensi4+'</td>'+
-                               '<td>'+number_format(absensVal[4],0,",",".")+'</td>'+
-                               '<td>'+number_format(jumlahPengurangan,0,",",".")+'</td>'+
-                               '<td>'+number_format(yangDiterima,0,",",".")+'</td>'+
-                               '<td>'+number_format(tPPH21,0,",",".")+'</td>'+
-                               '<td>'+number_format(terimaBruto,0,",",".")+'</td>'+
-                               '<td>'+number_format(tPPH21,0,",",".")+'</td>'+
-                               '<td>'+number_format(yangDiterima,0,",",".")+'</td>'+
-                               '<td class="wrapper_ttd_field"> <div class="ttd_field">'+(i++)+'</div><span class="no_rekening_field">'+v.no_rekening+'</span></td>'+
+                               '<td>'+statusDapat+'</td>'+                               
+                              
                              '</tr>';
                       $('tbody').append(html);
                       
-                      kodeSatker = v.kd_satker_saat_absensi;
-                      kodeAnakSatker = v.kd_anak_satker_saat_absensi;
-                      tunjanganKinerjaTotal+= parseInt(v.tunjangan);
+                      if(v.status_dapat == "1")
+                        tunjanganKinerjaTotal+= parseInt(v.tunjangan);
+                      else
+                        tunjanganKinerjaTotal+= 0;
+                      
+                      kodeSatker = v.kd_satker_saat_amprah;
+                      kodeAnakSatker = v.kd_anak_satker_saat_amprah;                      
                       absensi1total += parseInt(v.absensi1);
                       absensi2total += parseInt(v.absensi2);
                       absensi3total += parseInt(v.absensi3);
@@ -453,21 +393,7 @@
 
                     //insert jumlah
                      html = '<tr><td colspan="6">Jumlah</td>'+
-                                  '<td>'+number_format(tunjanganKinerjaTotal,0,",",".")+'</td>'+
-                                  '<td>'+absensi1total+'</td>'+
-                                  '<td>'+number_format(uang1total,0,",",".")+'</td>'+
-                                  '<td>'+absensi2total+'</td>'+
-                                  '<td>'+number_format(uang2total,0,",",".")+'</td>'+
-                                  '<td>'+absensi3total+'</td>'+
-                                  '<td>'+number_format(uang3total,0,",",".")+'</td>'+
-                                  '<td>'+absensi4total+'</td>'+
-                                  '<td>'+number_format(uang4total,0,",",".")+'</td>'+
-                                  '<td>'+number_format(jumlahPenguranganTotal,0,",",".")+'</td>'+
-                                  '<td>'+number_format(tunjanganYangDiterimaTotal,0,",",".")+'</td>'+
-                                  '<td>'+number_format(tPPH21Total,0,",",".")+'</td>'+
-                                  '<td>'+number_format(terimaBrutoTotal,0,",",".")+'</td>'+
-                                  '<td>'+number_format(potonganPPH21,0,",",".")+'</td>'+
-                                  '<td>'+number_format(yangDibayarTotal,0,",",".")+'</td>'+
+                                  '<td>'+number_format(tunjanganKinerjaTotal,0,",",".")+'</td>'+                                  
                                   '<td>-</td>'+
                                   '</tr>';
                           $('tbody').append(html);

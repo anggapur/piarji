@@ -80,7 +80,7 @@
                       <select class="js-example-basic-single form-control cond2" name="nip" required>                    
                         <option value="">-</option>
                         @foreach($dataPegawai as $val)
-                          <option value="{{$val->nip}}" data-nama="{{$val->nama}}">{{$val->nip." - ".$val->nama}}</option>                                        
+                          <option value="{{$val->nip}}" data-nama="{{$val->nama}}" data-kd-anak-satker="{{$val->kd_anak_satker}}" data-kelas-jab="{{$val->kelas_jab}}">{{$val->nip." - ".$val->nama}}</option>                                        
                         @endforeach
                       </select>                 
                     </div>          
@@ -152,24 +152,30 @@
                   "tahun" : tahun,
                 },
                 success: function(data) {
-                  console.log(data.absensi);
-                  $.each(data.absensi,function(k,v){
-                    //insert ke array
-                    dataPegawaiTerpilih.push(v.nip);
+                  console.log(data);
+                 
+                      $.each(data.absensi,function(k,v){
+                      //insert ke array
+                      dataPegawaiTerpilih.push(v.nip);
 
-                     html = '<tr data-nip="'+v.nip+'">'+
-                      '<td>'+v.nip+'</td>'+
-                      '<td>'+v.nip+'</td>'+
-                      '<td><input type="number" min="0" name="absensi1['+v.nip+']" class="form-control" value="'+v.absensi1+'"></td>'+
-                      '<td><input type="number" min="0" name="absensi2['+v.nip+']" class="form-control" value="'+v.absensi2+'"></td>'+
-                      '<td><input type="number" min="0" name="absensi3['+v.nip+']" class="form-control" value="'+v.absensi3+'"></td>'+
-                      '<td><input type="number" min="0" name="absensi4['+v.nip+']" class="form-control" value="'+v.absensi4+'"></td>'+
-                      '<td>'+
-                        '<a  class="btn btn-danger btn-xs" class"deleteField" onclick="deleteField('+v.nip+')">Hapus</a>'+
-                      '</td>'+
-                    '</tr>';
-                    $('tbody').append(html);
-                  });
+                       html = '<tr data-nip="'+v.nip+'">'+
+                        '<td>'+v.nip+'</td>'+
+                        '<td>'+v.nama+
+                         '<input type="hidden" name="kd_anak_satker['+v.nip+']" value="'+v.kd_anak_satker_saat_absensi+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+                            '<input type="hidden" name="kelas_jab['+v.nip+']" value="'+v.kelas_jab_saat_absensi+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+                        '</td>'+
+                        '<td><input type="number" min="0" name="absensi1['+v.nip+']" class="form-control" value="'+v.absensi1+'"></td>'+
+                        '<td><input type="number" min="0" name="absensi2['+v.nip+']" class="form-control" value="'+v.absensi2+'"></td>'+
+                        '<td><input type="number" min="0" name="absensi3['+v.nip+']" class="form-control" value="'+v.absensi3+'"></td>'+
+                        '<td><input type="number" min="0" name="absensi4['+v.nip+']" class="form-control" value="'+v.absensi4+'"></td>'+
+                        '<td>'+
+                          '<a  class="btn btn-danger btn-xs" class"deleteField" onclick="deleteField('+v.nip+')">Hapus</a>'+
+                        '</td>'+
+                      '</tr>';
+                      $('tbody').append(html);
+                    });
+                 
+
                   $('input[name="waktu_absensi"]').val(data.id_waktu_absensi);
                 }
             });
@@ -197,6 +203,8 @@
           e.preventDefault();
           dataNip = $('select[name="nip"]').val();
           dataNama = $('select[name="nip"]').find(':selected').attr('data-nama');
+          dataAnakSatker = $('select[name="nip"]').find(':selected').attr('data-kd-anak-satker');
+          dataKelasJab = $('select[name="nip"]').find(':selected').attr('data-kelas-jab');
           console.log(dataNip+" "+dataNama);
           
           // dataPegawaiTerpilih[dataNip]['nip'] = dataNip;
@@ -217,7 +225,10 @@
             console.log('tidak ada');
             html = '<tr data-nip="'+dataNip+'">'+
                       '<td>'+dataNip+'</td>'+
-                      '<td>'+dataNama+'</td>'+
+                      '<td>'+dataNama+
+                       '<input type="hidden" name="kd_anak_satker['+dataNip+']" value="'+dataAnakSatker+'" data="'+dataNip+'" class="form-control" style="width:100px;" required />'+
+                            '<input type="hidden" name="kelas_jab['+dataNip+']" value="'+dataKelasJab+'" data="'+dataNip+'" class="form-control" style="width:100px;" required />'+
+                      '</td>'+
                       '<td><input type="number" min="0" name="absensi1['+dataNip+']" class="form-control" value="0"></td>'+
                       '<td><input type="number" min="0" name="absensi2['+dataNip+']" class="form-control" value="0"></td>'+
                       '<td><input type="number" min="0" name="absensi3['+dataNip+']" class="form-control" value="0"></td>'+

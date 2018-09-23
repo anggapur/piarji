@@ -57,6 +57,8 @@ class absensiSusulan extends Controller
         $delete = absensi_susulan::
                     where('id_waktu',$request->waktu_absensi)
                     ->where('kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))->delete();
+
+        
         foreach ($request->absensi1 as $key => $value) {
             // $cari = absensi_susulan::where('nip',$key)
             //         ->where('id_waktu',$request->waktu_absensi)
@@ -70,6 +72,9 @@ class absensiSusulan extends Controller
                 $dataInsert[$i]['absensi2'] = $request->absensi2[$key];
                 $dataInsert[$i]['absensi3'] = $request->absensi3[$key];
                 $dataInsert[$i]['absensi4'] = $request->absensi4[$key];
+                $dataInsert[$i]['kd_anak_satker_saat_absensi'] = $request->kd_anak_satker[$key];
+                $dataInsert[$i]['kelas_jab_saat_absensi'] = $request->kelas_jab[$key];
+                $dataInsert[$i]['status_dapat'] = "1";
                 $dataInsert[$i]['kd_aturan'] = $kd_aturan;
                 $dataInsert[$i]['kd_satker_saat_absensi'] = CH::getKdSatker(Auth::user()->kd_satker);
                 $i++;
@@ -141,14 +146,15 @@ class absensiSusulan extends Controller
         if($query->get()->count() == 0)
         {
             $create = waktu_absensi::create(['bulan' => $request->bulan , 'tahun' => $request->tahun]);
-            return ['id_waktu_absensi' => $create->id ,'absensi' => []];
+            return ['id_waktu_absensi' => $create->id ,'absensi' => [] ,'status' => 'kosong'];
         }
         else
         {
             $absensi = absensi_susulan::where('id_waktu',$query->first()->id)
+                            ->leftJoin('pegawai','absensi_susulan.nip','=','pegawai.nip')
                             ->where('kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))
                             ->get();
-            return ['id_waktu_absensi' => $query->first()->id ,'absensi' => $absensi];
+            return ['id_waktu_absensi' => $query->first()->id ,'absensi' => $absensi ,'status' => 'ada'];
         }
     }
 }

@@ -140,6 +140,11 @@ Route::group(['middleware' => 'auth'],function(){
 
 	//Only Operator can access
 	Route::group(['middleware' => 'level:operator'],function(){
+		//amprahan
+		Route::resource('amprahan','amprahanController');
+		Route::post('pilihBulanTahunPegawaiAmprahan','amprahanController@pilihBulanTahunPegawai')->name('pilihBulanTahunPegawaiAmprahan');
+		Route::get('laporanAmprahan/laporan1','amprahanLaporan@laporan1');
+		Route::post('pilihBulanTahunLaporanPermintaanTunkin','amprahanLaporan@pilihBulanTahun')->name('pilihBulanTahunLaporanPermintaanTunkin');
 		//kekurangan
 		Route::resource('absensiKekurangan','absensiKekuranganController');
 		Route::post('pilihBulanTahunPegawaiKekurangan','absensiKekuranganController@pilihBulanTahunPegawai')->name('pilihBulanTahunPegawaiKekurangan');
