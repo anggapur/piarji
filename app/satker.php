@@ -18,4 +18,12 @@ class satker extends Model
     {
     	return $this->hasMany('App\anak_satker','kd_satker','kd_satker');
     }
+    public function getDataAmprahanPolri()
+    {
+        return $this->hasMany('App\amprahan','kd_satker_saat_amprah','kd_satker');
+    }
+    public function getDataAmprahanPns()
+    {
+        return $this->hasMany('App\amprahan','kd_satker_saat_amprah','kd_satker');
+    }
 }

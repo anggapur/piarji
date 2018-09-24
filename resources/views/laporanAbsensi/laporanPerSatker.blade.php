@@ -256,12 +256,14 @@
                         dataPerSatker[iteration]['nm_satker'] = v.nm_satker;
                         dataPerSatker[iteration]['jumlahBruto'] = 0;
                         dataPerSatker[iteration]['pph21'] = 0;
+                        dataPerSatker[iteration]['jumlahPenguranganTotal'] = 0;
                       }
 
                       
                       
                       dataPerSatker[iteration]['jumlahBruto'] += terimaBruto;
                       dataPerSatker[iteration]['pph21'] += tPPH21;
+                      dataPerSatker[iteration]['jumlahPenguranganTotal'] +=parseInt(jumlahPengurangan);
 
                       kodeSatker = v.kd_satker;
                       tunjanganKinerjaTotal+= parseInt(v.tunjangan);
@@ -299,23 +301,27 @@
                     {
                       moneyPPH = 0;
                       moneyBruto = 0;
+                      jumlahPengurangan = 0 ;                      
                     }
                     else
                     {
                       moneyPPH = dataMoney['pph21'];
                       moneyBruto = dataMoney['jumlahBruto'];
+                      jumlahPengurangan = dataMoney['jumlahPenguranganTotal'];
+                      
                     }
                     realisasi = moneyBruto-moneyPPH;
+                    pengembalian = data.amprahan[v.kd_satker] - (realisasi-jumlahPengurangan) - moneyPPH;
                     totalRealisasi+=realisasi;
                     html = '<tr>'+
                             '<td>'+(iteration++)+'</td>'+
                             '<td>'+v.kd_satker+'</td>'+
                             '<td>'+v.nm_satker+'</td>'+
-                            '<td>Rp. '+number_format(moneyBruto,0,",",".")+'</td>'+                            
-                            '<td>Rp. '+number_format(realisasi,0,",",".")+'</td>'+ 
+                            '<td>Rp. '+number_format(data.amprahan[v.kd_satker],0,",",".")+'</td>'+                            
+                            '<td>Rp. '+number_format(realisasi-jumlahPengurangan,0,",",".")+'</td>'+ 
                             '<td>Rp. '+number_format(moneyPPH,0,",",".")+'</td>'+                           
                             '<td>Rp. '+number_format(pengembalianPPH21,0,",",".")+'</td>'+                            
-                            '<td>Rp. '+number_format(pengembalianTunkin,0,",",".")+'</td>'+                                                        
+                            '<td>Rp. '+number_format(pengembalian,0,",",".")+'</td>'+                                                        
                             
                             '</tr>';
                     $('#tableLaporanPerSatker').append(html);

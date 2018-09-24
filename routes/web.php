@@ -136,6 +136,14 @@ Route::group(['middleware' => 'auth'],function(){
 		Route::get('backupRestore/restore','backupController@restoreView');
 		Route::get('backupRestore/backup','backupController@backupView');
 		Route::resource('backupRestore','backupController');
+		//minta amprahan
+		Route::get('laporanAmprahan/mintaTunkin','amprahanController@mintaTunkin');
+		Route::post('apiMintaTunkin','amprahanController@apiMintaTunkin')->name('apiMintaTunkin');		
+		
+		Route::get('laporanAmprahan/lbrKerja','amprahanController@lbrKerja');
+		Route::post('apiLbrKerja','amprahanController@apiLbrKerja')->name('apiLbrKerja');		
+
+		Route::get('laporanAmprahan/perKelasJabatan','amprahanController@perKelasJabatan');
 	});
 
 	//Only Operator can access
@@ -163,6 +171,7 @@ Route::group(['middleware' => 'auth'],function(){
 		Route::resource('mutasiSetting','mutasiController');
 	});
 
+	Route::get('apiLihatAmprah','laporanAbsensi@apiLihatAmprah')->name('apiLihatAmprah');
 	//cetak 1
 	Route::get('rekapAbsensi/laporanPerSatker','laporanAbsensi@laporanPerSatker');
 	Route::get('laporanAbsensi/laporan1','laporanAbsensi@laporan1');

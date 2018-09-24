@@ -184,7 +184,7 @@
         
 
 
-        <!-- MENU ABSENSI-->
+        <!-- Amprahan-->
         <li class="{{CH::segment(1,['amprahan'])}} {{CH::showTo(['operator'])}}"><a href="{{url('amprahan')}}"><i class="fa fa-list-alt"></i> <span>Amprahan Tunkin</span></a></li> 
         <!-- Menu Setting User -->        
         <li class="{{CH::segment(1,['laporanAmprahan'])}} {{CH::showTo(['operator'])}} treeview">
@@ -198,6 +198,28 @@
           </a>
           <ul class="treeview-menu">
             <li class="{{CH::segment(2,['laporan1'])}}"><a href="{{url('laporanAmprahan/laporan1')}}"><i class="fa fa-circle-o"></i> Permintaan Amprahan</a></li>            
+            <!-- <li class="{{CH::segment(2,['laporanB'])}}"><a href="{{url('laporanAbsensi/laporanB')}}"><i class="fa fa-circle-o"></i> Laporan B1/B2</a></li>            
+            <li class="{{CH::segment(2,['laporanSPP'])}}"><a href="{{url('laporanAbsensi/laporanSPP')}}"><i class="fa fa-circle-o"></i> Laporan SPP</a></li>            
+            <li class="{{CH::segment(2,['laporanKU'])}}"><a href="{{url('laporanAbsensi/laporanKU')}}"><i class="fa fa-circle-o"></i> Laporan KU</a></li>            
+            <li class="{{CH::segment(2,['laporanSPTJM'])}}"><a href="{{url('laporanAbsensi/laporanSPTJM')}}"><i class="fa fa-circle-o"></i> Laporan SPTJM</a></li> -->
+          </ul>
+        </li> 
+
+
+        <!-- Menu Setting User -->        
+        <li class="{{CH::segment(1,['laporanAmprahan'])}} {{CH::showTo(['admin'])}} treeview">
+          <a href="#">
+            <i class="fa fa-gear"></i> <span>
+             Laporan Permintaan Amprahan
+          </span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{CH::segment(2,['mintaTunkin'])}}"><a href="{{url('laporanAmprahan/mintaTunkin')}}"><i class="fa fa-circle-o"></i> Minta Tunkin</a></li>            
+            <li class="{{CH::segment(2,['lbrKerja'])}}"><a href="{{url('laporanAmprahan/lbrKerja')}}"><i class="fa fa-circle-o"></i> LBR KERJA</a></li>            
+            <li class="{{CH::segment(2,['perKelasJabatan'])}}"><a href="{{url('laporanAmprahan/perKelasJabatan')}}"><i class="fa fa-circle-o"></i> PERKLAS JABT RTN</a></li>  
             <!-- <li class="{{CH::segment(2,['laporanB'])}}"><a href="{{url('laporanAbsensi/laporanB')}}"><i class="fa fa-circle-o"></i> Laporan B1/B2</a></li>            
             <li class="{{CH::segment(2,['laporanSPP'])}}"><a href="{{url('laporanAbsensi/laporanSPP')}}"><i class="fa fa-circle-o"></i> Laporan SPP</a></li>            
             <li class="{{CH::segment(2,['laporanKU'])}}"><a href="{{url('laporanAbsensi/laporanKU')}}"><i class="fa fa-circle-o"></i> Laporan KU</a></li>            
