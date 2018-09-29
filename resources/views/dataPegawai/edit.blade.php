@@ -5,7 +5,7 @@
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-12 col-xs-6">
+        <div class="col-lg-12 col-xs-12">
           @if ($errors->any())
               <div class="alert alert-danger">
                   <ul>
@@ -72,6 +72,12 @@
                   <label>Status</label><br>
                   <input type="radio" name="kawin" value="K" @if($dataPegawai->kawin == "K") checked @endif> Kawin <br>
                   <input type="radio" name="kawin" value="TK" @if($dataPegawai->kawin == "TK") checked @endif> Tidak Kawin <br>
+                </div>
+                <div class="form-group">
+                  <label>Status Tipikor</label><br>
+                   <input type="radio" name="state_tipikor" value="0" @if($dataPegawai->state_tipikor == "0") checked @endif> Bukan Tipikor <br>
+                  <input type="radio" name="state_tipikor" value="1" @if($dataPegawai->state_tipikor == "1") checked @endif> Tipikor <br>
+                 
                 </div>
                 <div class="form-group">        
                   <label>Tanggungan</label>

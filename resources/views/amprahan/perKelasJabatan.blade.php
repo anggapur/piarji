@@ -144,6 +144,74 @@
                  <tbody>
                    
                  </tbody>
+               </table> 
+
+               <hr>
+
+               <div class="headerKU">
+
+                    <div class="leftKU">
+                      <div class="logoPolriLaporan"><img src="{{url('public/asset/Logo-POLRI-bw.png')}}"></div>
+                      <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> BIDANG KEUANGAN</h5>
+                    </div>
+                    <div class="rightKU">
+
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="judulLaporan">
+                    <h5 class="judul">
+                    REKAPITULASI   TUNJANGAN KINERJA TIPIDKOR SESUAI KELAS JABATAN <span class="keanggotaan"></span> T.A <span class="tahun"></span>
+                    <br>POLDA BALI
+                    </h5>
+                  <h5>Bulan : <span class="waktu"></span></h5>
+                  </div>                
+               <table border="1" cellpadding="10" id="tableLaporan" class="tableTipidkor">
+                 <thead>
+                   <tr>
+                     <th rowspan="3"> No</th>
+                     <th colspan="2"> Kuat Pers</th>
+                     <th rowspan="3"> Kelas Jabatan</th>
+                     <th colspan="3"> POLRI</th>
+                     <th colspan="3"> PNS</th>
+                     <th colspan="3"> JUMLAH KESELURUHAN</th>
+                   </tr>
+                   <tr>
+                     <th rowspan="2">POLRI</th>
+                     <th rowspan="2">PNS</th>
+                     <th rowspan="2">POLRI X INDEX</th>
+                     <th rowspan="2">PPH 21</th>
+                     <th rowspan="2">BRUTO</th>
+                     <th rowspan="2">PNS X INDEX</th>
+                     <th rowspan="2">PPH 21</th>
+                     <th rowspan="2">BRUTO</th>
+                     <th colspan="3">POLRI+PNS</th>
+                   </tr>
+                   <tr>
+                     <th>BERSIH</th>
+                     <th>PPH</th>
+                     <th>BRUTO</th>
+                   </tr>
+                   <tr>
+                     <th>1</th>
+                     <th>2</th>
+                     <th>3</th>
+                     <th>4</th>
+                     <th>5</th>
+                     <th>6</th>
+                     <th>7</th>
+                     <th>8</th>
+                     <th>9</th>
+                     <th>10</th>
+                     <th>11</th>
+                     <th>12</th>
+                     <th>13</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   
+                 </tbody>
                </table>                
 
 
@@ -269,9 +337,78 @@
                 success: function(data) {
                   console.log(data.data);
                   $('#printArea').fadeIn("slow");  
-                   $('.tahun').html(data.tahun);
+                  $('.tahun').html(data.tahun);
+                  $('.waktu').html(data.bulan+" "+data.tahun); 
+                  printTable(data,"tablePolri");
+                }//end success
+            });
+
+            $.ajax({
+                  type: "POST",                  
+                  url: "{{route('apiPerKelasJabatan')}}",
+                  data: 
+                  { 
+                    "_token": "{{ csrf_token() }}",
+                    "bulan" : bulan,
+                    "tahun" : tahun,
+                    "satker" : satker,
+                    "jenis_pegawai" : jenis_pegawai,
+                  },
+                  success: function(data) {
+                    console.log(data.data);
+                    $('#printArea').fadeIn("slow");  
+                    $('.tahun').html(data.tahun);
                     $('.waktu').html(data.bulan+" "+data.tahun); 
-                  $('tbody').empty();                                 
+                    printTable(data,"tableTipidkor");
+                  }//end success
+              });
+
+          e.preventDefault();
+        });
+
+        function number_format (number, decimals, decPoint, thousandsSep) { 
+
+          number = (number + '').replace(/[^0-9+\-Ee.]/g, '')
+          var n = !isFinite(+number) ? 0 : +number
+          var prec = !isFinite(+decimals) ? 0 : Math.abs(decimals)
+          var sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep
+          var dec = (typeof decPoint === 'undefined') ? '.' : decPoint
+          var s = ''
+
+          var toFixedFix = function (n, prec) {
+            var k = Math.pow(10, prec)
+            return '' + (Math.round(n * k) / k)
+              .toFixed(prec)
+          }
+
+          // @todo: for IE parseInt(0.55).toFixed(0) = 0;
+          s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.')
+          if (s[0].length > 3) {
+            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep)
+          }
+          if ((s[1] || '').length < prec) {
+            s[1] = s[1] || ''
+            s[1] += new Array(prec - s[1].length + 1).join('0')
+          }
+
+          return s.join(dec)
+        }
+
+
+        function absensiFormulaMath(formula,tunjangan,absensi)
+        {
+          absensiVal = formula.replace('G',tunjangan);
+          absensiVal = absensiVal.replace('H',absensi);
+          absensiVal = eval(absensiVal);
+          return absensiVal;
+        }
+        function getSum(total, num) {
+            return total + num;
+        }
+
+        function printTable(data,tableClass)
+        {
+          $('table.'+tableClass+' tbody').empty();                                 
                   //jumlah
                   jumlahAkhir = [];                                                    
                   jumlahAkhir['kuatPersPolri'] = 0;
@@ -375,7 +512,7 @@
                                 "<td>Rp. "+number_format(v.jumlahSeluruhPajak,0,",",".")+"</td>"+
                                 "<td>Rp. "+number_format(v.jumlahSeluruhBruto,0,",",".")+"</td>"+
                               "</tr>";
-                      $('tbody').append(html);
+                      $('table.'+tableClass+' tbody').append(html);
                    } 
                    //akhir
                    v = jumlahAkhir;
@@ -394,53 +531,7 @@
                                 "<td>Rp. "+number_format(v.jumlahSeluruhPajak,0,",",".")+"</td>"+
                                 "<td>Rp. "+number_format(v.jumlahSeluruhBruto,0,",",".")+"</td>"+
                               "</tr>";
-                      $('tbody').append(html);
-                  
-                    
-                  
-                }//end success
-            });
-          e.preventDefault();
-        });
-
-        function number_format (number, decimals, decPoint, thousandsSep) { 
-
-          number = (number + '').replace(/[^0-9+\-Ee.]/g, '')
-          var n = !isFinite(+number) ? 0 : +number
-          var prec = !isFinite(+decimals) ? 0 : Math.abs(decimals)
-          var sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep
-          var dec = (typeof decPoint === 'undefined') ? '.' : decPoint
-          var s = ''
-
-          var toFixedFix = function (n, prec) {
-            var k = Math.pow(10, prec)
-            return '' + (Math.round(n * k) / k)
-              .toFixed(prec)
-          }
-
-          // @todo: for IE parseInt(0.55).toFixed(0) = 0;
-          s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.')
-          if (s[0].length > 3) {
-            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep)
-          }
-          if ((s[1] || '').length < prec) {
-            s[1] = s[1] || ''
-            s[1] += new Array(prec - s[1].length + 1).join('0')
-          }
-
-          return s.join(dec)
-        }
-
-
-        function absensiFormulaMath(formula,tunjangan,absensi)
-        {
-          absensiVal = formula.replace('G',tunjangan);
-          absensiVal = absensiVal.replace('H',absensi);
-          absensiVal = eval(absensiVal);
-          return absensiVal;
-        }
-        function getSum(total, num) {
-            return total + num;
+                      $('table.'+tableClass+' tbody').append(html);
         }
    </script>
 @endsection

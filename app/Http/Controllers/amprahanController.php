@@ -77,6 +77,7 @@ class amprahanController extends Controller
         $kdAnakSatker = $request->datas['kodeAnakSatker'];
         $kelasJab = $request->datas['kelasJab'];        
         $statusDapat = $request->datas['statusDapat'];        
+        $stateTipikor = $request->datas['stateTipikor'];
         
         //kode aturan
         $kd_aturan = aturan_tunkin::where('state','1')->first();
@@ -87,6 +88,7 @@ class amprahanController extends Controller
             $dataInsert['kd_anak_satker_saat_amprah'] = $kdAnakSatker[$key]['nilai'];
             $dataInsert['kelas_jab_saat_amprah'] = $kelasJab[$key]['nilai'];
             $dataInsert['status_dapat'] = $statusDapat[$key]['nilai'];
+            $dataInsert['state_tipikor_saat_amprah'] = $stateTipikor[$key]['nilai'];
             $dataInsert['id_waktu'] = $data['idBulanTahun'];
             $dataInsert['kd_aturan'] = $kd_aturan->id;
             $dataInsert['kd_satker_saat_amprah'] = CH::getKdSatker(Auth::user()->kd_satker);
@@ -222,12 +224,13 @@ return $errorInfo;
         {
             
             $data = satker::
-                    withCount(['getDataAmprahanPolri' => function($q) use ($cariWaktu){
+                    withCount(['getDataAmprahanPolri' => function($q) use ($request,$cariWaktu){
                         $q->whereRaw('LENGTH(amprahan.nip) <= 8')
                         ->where('amprahan.status_dapat','1')
+                        ->where('amprahan.state_tipikor_saat_amprah',$request->stateTipikor)
                         ->where('id_waktu',$cariWaktu->first()->id);
                     }])
-                    ->with(['getDataAmprahanPolri' => function($q) use ($cariWaktu){
+                    ->with(['getDataAmprahanPolri' => function($q) use ($request,$cariWaktu){
                         $q->whereRaw('LENGTH(amprahan.nip) <= 8')
                         ->leftJoin('aturan_tunkin_detail',function($q){
                             $q->on('amprahan.kelas_jab_saat_amprah','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
@@ -235,15 +238,17 @@ return $errorInfo;
                         })
                         ->leftJoin('pegawai','amprahan.nip','=','pegawai.nip')
                         ->where('amprahan.status_dapat','1')
+                        ->where('amprahan.state_tipikor_saat_amprah',$request->stateTipikor)
                         ->where('id_waktu',$cariWaktu->first()->id)
                         ->select(DB::raw('amprahan.*,tunjangan,pegawai.kawin,pegawai.tanggungan,pegawai.jenis_kelamin,pegawai.gapok,pegawai.tunj_strukfung,pegawai.tunj_lain'));
                     }])
-                    ->withCount(['getDataAmprahanPns' => function($q) use ($cariWaktu){
+                    ->withCount(['getDataAmprahanPns' => function($q) use ($request,$cariWaktu){
                         $q->whereRaw('LENGTH(amprahan.nip) > 8')
                         ->where('amprahan.status_dapat','1')
+                        ->where('amprahan.state_tipikor_saat_amprah',$request->stateTipikor)
                         ->where('id_waktu',$cariWaktu->first()->id);
                     }])
-                    ->with(['getDataAmprahanPns' => function($q) use ($cariWaktu){
+                    ->with(['getDataAmprahanPns' => function($q) use ($request,$cariWaktu){
                         $q->whereRaw('LENGTH(amprahan.nip) > 8')
                         ->leftJoin('aturan_tunkin_detail',function($q){
                             $q->on('amprahan.kelas_jab_saat_amprah','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
@@ -251,6 +256,7 @@ return $errorInfo;
                         })
                         ->leftJoin('pegawai','amprahan.nip','=','pegawai.nip')
                         ->where('amprahan.status_dapat','1')
+                        ->where('amprahan.state_tipikor_saat_amprah',$request->stateTipikor)
                         ->where('id_waktu',$cariWaktu->first()->id)
                         ->select(DB::raw('amprahan.*,tunjangan,pegawai.kawin,pegawai.tanggungan,pegawai.jenis_kelamin,pegawai.gapok,pegawai.tunj_strukfung,pegawai.tunj_lain'));
                     }])
@@ -343,6 +349,7 @@ return $errorInfo;
                         ->orderBy('amprahan.kelas_jab_saat_amprah','DESC')
                         ->leftJoin('pegawai','amprahan.nip','=','pegawai.nip')
                         ->where('amprahan.status_dapat','1')
+                        ->where('amprahan.state_tipikor_saat_amprah','0')
                         ->where('id_waktu',$cariWaktu->first()->id)
                         ->select(DB::raw('amprahan.*,tunjangan,pegawai.kawin,pegawai.tanggungan,pegawai.jenis_kelamin,pegawai.gapok,pegawai.tunj_strukfung,pegawai.tunj_lain'));
                     }])
@@ -359,6 +366,21 @@ return $errorInfo;
                         ->orderBy('amprahan.kelas_jab_saat_amprah','DESC')
                         ->leftJoin('pegawai','amprahan.nip','=','pegawai.nip')
                         ->where('amprahan.status_dapat','1')
+                        ->where('amprahan.state_tipikor_saat_amprah','0')
+                        ->where('id_waktu',$cariWaktu->first()->id)
+                        ->select(DB::raw('amprahan.*,tunjangan,pegawai.kawin,pegawai.tanggungan,pegawai.jenis_kelamin,pegawai.gapok,pegawai.tunj_strukfung,pegawai.tunj_lain'));
+                    }])
+
+                    ->with(['getDataAmprahanTipidkor' => function($q) use ($cariWaktu){
+                        // $q->whereRaw('LENGTH(amprahan.nip) > 8')
+                        $q->leftJoin('aturan_tunkin_detail',function($q){
+                            $q->on('amprahan.kelas_jab_saat_amprah','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
+                            $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','amprahan.kd_aturan');
+                        })
+                        ->orderBy('amprahan.kelas_jab_saat_amprah','DESC')
+                        ->leftJoin('pegawai','amprahan.nip','=','pegawai.nip')
+                        ->where('amprahan.status_dapat','1')
+                        ->where('amprahan.state_tipikor_saat_amprah','1')
                         ->where('id_waktu',$cariWaktu->first()->id)
                         ->select(DB::raw('amprahan.*,tunjangan,pegawai.kawin,pegawai.tanggungan,pegawai.jenis_kelamin,pegawai.gapok,pegawai.tunj_strukfung,pegawai.tunj_lain'));
                     }])
@@ -387,6 +409,147 @@ return $errorInfo;
                             $val['jumlahPajak'] = $val->sum('pajak');
                             $val['jumlahTunjangan'] = $val->sum('tunjangan');
                         }
+
+                        //tipidkor
+                        $value['getDataAmprahanTipidkorGroup'] = $value->getDataAmprahanTipidkor->groupBy('kelas_jab_saat_amprah');
+                        foreach ($value['getDataAmprahanTipidkorGroup'] as $key2 => $val) {
+                            foreach ($val as $key3 => $va) {
+                                $va['pajak'] = intval(CH::formulaPPH($va->kawin,$va->tanggungan,$va->jenis_kelamin,$va->gapok,$va->tunj_strukfung,$va->tunjangan,$va->tunj_lain));
+                            }
+                            $val['jumlahOrang'] = $val->count();
+                            $val['tunjangan'] = $val->sum('tunjangan') / $val['jumlahOrang'];
+                            $val['jumlahPajak'] = $val->sum('pajak');
+                            $val['jumlahTunjangan'] = $val->sum('tunjangan');
+                        }
+                    }
+
+                    // return Response::json($data[0]->getDataAmprahanPolriGroup,200,array(),JSON_PRETTY_PRINT);
+            // foreach ($data as $key => $value) {              
+            //     foreach ($value->getDataAmprahanPolri as $key2 => $val) {
+            //         $val['pajak'] = CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain);
+            //     }
+            //     foreach ($value->getDataAmprahanPns as $key2 => $val) {
+            //         $val['pajak'] = CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain);
+            //     }               
+            // }
+            // foreach ($data as $key => $value) {
+            //     echo $value->nm_satker."<br>";
+            //     echo $value->getDataAmprahanPolri->sum('tunjangan')."<br><hr>";
+            //     echo $value->getDataAmprahanPolri->count()."<br><hr>";
+            //     foreach ($value->getDataAmprahanPolri as $key2 => $val) {
+            //         echo $key2." ".$val->tunjangan.", pajak : ".$val->pajak."<br>";
+            //     }
+            // }
+            // return Response::json($data, 200, array(), JSON_PRETTY_PRINT);
+            return  ['status' => 'adadata','data' => $data,'bulan' => $listBulan[$bulan],'tahun' => $tahun];
+
+        }
+    }
+    public function apiPerKelasJabatan(Request $request)
+    {
+        $listBulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+        $bulan = $request->bulan;
+        $tahun = $request->tahun;
+        // $satker = "S1";
+        // $jenis_pegawai = "";
+
+        $where['bulan'] = $bulan;
+        $where['tahun'] = $tahun;
+        $cariWaktu = waktu_absensi::where($where);
+        if($cariWaktu->get()->count() == 0)        
+        {
+            return ['status' => 'nodata'];
+        }
+        else
+        {
+            
+            $data = satker::
+                    // withCount(['getDataAmprahanPolri' => function($q) use ($request){
+                    //     $q->whereRaw('LENGTH(amprahan.nip) <= 8')
+                    //     ->where('amprahan.status_dapat','1');
+                    // }])
+                    with(['getDataAmprahanPolri' => function($q) use ($cariWaktu){
+                        $q->whereRaw('LENGTH(amprahan.nip) <= 8')
+                        ->leftJoin('aturan_tunkin_detail',function($q){
+                            $q->on('amprahan.kelas_jab_saat_amprah','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
+                            $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','amprahan.kd_aturan');
+                        })
+                        ->orderBy('amprahan.kelas_jab_saat_amprah','DESC')
+                        ->leftJoin('pegawai','amprahan.nip','=','pegawai.nip')
+                        ->where('amprahan.status_dapat','1')
+                        ->where('amprahan.state_tipikor_saat_amprah','1')
+                        ->where('id_waktu',$cariWaktu->first()->id)
+                        ->select(DB::raw('amprahan.*,tunjangan,pegawai.kawin,pegawai.tanggungan,pegawai.jenis_kelamin,pegawai.gapok,pegawai.tunj_strukfung,pegawai.tunj_lain'));
+                    }])
+                    // ->withCount(['getDataAmprahanPns' => function($q) use ($request){
+                    //     $q->whereRaw('LENGTH(amprahan.nip) > 8')
+                    //     ->where('amprahan.status_dapat','1');
+                    // }])
+                    ->with(['getDataAmprahanPns' => function($q) use ($cariWaktu){
+                        $q->whereRaw('LENGTH(amprahan.nip) > 8')
+                        ->leftJoin('aturan_tunkin_detail',function($q){
+                            $q->on('amprahan.kelas_jab_saat_amprah','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
+                            $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','amprahan.kd_aturan');
+                        })
+                        ->orderBy('amprahan.kelas_jab_saat_amprah','DESC')
+                        ->leftJoin('pegawai','amprahan.nip','=','pegawai.nip')
+                        ->where('amprahan.status_dapat','1')
+                        ->where('amprahan.state_tipikor_saat_amprah','1')
+                        ->where('id_waktu',$cariWaktu->first()->id)
+                        ->select(DB::raw('amprahan.*,tunjangan,pegawai.kawin,pegawai.tanggungan,pegawai.jenis_kelamin,pegawai.gapok,pegawai.tunj_strukfung,pegawai.tunj_lain'));
+                    }])
+
+                    // ->with(['getDataAmprahanTipidkor' => function($q) use ($cariWaktu){
+                    //     // $q->whereRaw('LENGTH(amprahan.nip) > 8')
+                    //     $q->leftJoin('aturan_tunkin_detail',function($q){
+                    //         $q->on('amprahan.kelas_jab_saat_amprah','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
+                    //         $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','amprahan.kd_aturan');
+                    //     })
+                    //     ->orderBy('amprahan.kelas_jab_saat_amprah','DESC')
+                    //     ->leftJoin('pegawai','amprahan.nip','=','pegawai.nip')
+                    //     ->where('amprahan.status_dapat','1')
+                    //     ->where('amprahan.state_tipikor_saat_amprah','1')
+                    //     ->where('id_waktu',$cariWaktu->first()->id)
+                    //     ->select(DB::raw('amprahan.*,tunjangan,pegawai.kawin,pegawai.tanggungan,pegawai.jenis_kelamin,pegawai.gapok,pegawai.tunj_strukfung,pegawai.tunj_lain'));
+                    // }])
+                    ->get();
+
+                    foreach ($data as $key => $value) {  
+                        // $value['listPolri'] = [16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1];
+                        $value['getDataAmprahanPolriGroup'] = $value->getDataAmprahanPolri->groupBy('kelas_jab_saat_amprah');
+                        foreach ($value['getDataAmprahanPolriGroup'] as $key2 => $val) {
+                            foreach ($val as $key3 => $va) {
+                                $va['pajak'] = intval(CH::formulaPPH($va->kawin,$va->tanggungan,$va->jenis_kelamin,$va->gapok,$va->tunj_strukfung,$va->tunjangan,$va->tunj_lain));
+                            }
+                            $val['jumlahOrang'] = $val->count();
+                            $val['tunjangan'] = $val->sum('tunjangan') / $val['jumlahOrang'];
+                            $val['jumlahPajak'] = $val->sum('pajak');
+                            $val['jumlahTunjangan'] = $val->sum('tunjangan');
+                        }
+                        // $value['listPns'] = [16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1];
+                        $value['getDataAmprahanPnsGroup'] = $value->getDataAmprahanPns->groupBy('kelas_jab_saat_amprah');
+                        foreach ($value['getDataAmprahanPnsGroup'] as $key2 => $val) {
+                            foreach ($val as $key3 => $va) {
+                                $va['pajak'] = intval(CH::formulaPPH($va->kawin,$va->tanggungan,$va->jenis_kelamin,$va->gapok,$va->tunj_strukfung,$va->tunjangan,$va->tunj_lain));
+                            }
+                            $val['jumlahOrang'] = $val->count();
+                            $val['tunjangan'] = $val->sum('tunjangan') / $val['jumlahOrang'];
+                            $val['jumlahPajak'] = $val->sum('pajak');
+                            $val['jumlahTunjangan'] = $val->sum('tunjangan');
+                        }
+
+                        //tipidkor
+                        // $value['getDataAmprahanTipidkorGroup'] = $value->getDataAmprahanTipidkor->groupBy('kelas_jab_saat_amprah');
+                        // foreach ($value['getDataAmprahanTipidkorGroup'] as $key2 => $val) {
+                        //     foreach ($val as $key3 => $va) {
+                        //         $va['pajak'] = intval(CH::formulaPPH($va->kawin,$va->tanggungan,$va->jenis_kelamin,$va->gapok,$va->tunj_strukfung,$va->tunjangan,$va->tunj_lain));
+                        //     }
+                        //     $val['jumlahOrang'] = $val->count();
+                        //     $val['tunjangan'] = $val->sum('tunjangan') / $val['jumlahOrang'];
+                        //     $val['jumlahPajak'] = $val->sum('pajak');
+                        //     $val['jumlahTunjangan'] = $val->sum('tunjangan');
+                        // }
                     }
 
                     // return Response::json($data[0]->getDataAmprahanPolriGroup,200,array(),JSON_PRETTY_PRINT);

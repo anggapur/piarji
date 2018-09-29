@@ -746,20 +746,9 @@ class amprahanLaporan extends Controller
             if($request->satker != "")
                 $q2->where('pegawai.kd_satker',$request->satker);
             //cek apakah di requect polri atau pns
-            if($request->jenis_pegawai == "0")
-            {
-                $q2->whereRaw('LENGTH(pegawai.nip) <= 8'); // polri
-                $keanggotaan = "POLRI";
-            }
-            else if($request->jenis_pegawai == "1")
-            {
-                $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
-                $keanggotaan = "PNS";
-            }
-            else
-            {
-                $keanggotaan = "POLRI & PNS";
-            }
+            $getData = CH::queryAmprahByJenisPegawai($q2,$request->jenis_pegawai);
+            $q2 = $getData['query'];
+            $keanggotaan = $getData['keanggotaan'];
 
             $dataSend = [];            
             foreach ($q2->get() as $key => $value) {

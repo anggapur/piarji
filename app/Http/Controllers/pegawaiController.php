@@ -106,6 +106,7 @@ class pegawaiController extends Controller
         $dataInput['kd_gapok'] = "";
         $dataInput['no_rekening'] = $request->no_rekening;
         $dataInput['status_aktif'] = $request->status_aktif;
+        $dataInput['status_tipikor'] = $request->status_tipikor;
         // return $dataInput;   
         $insertPegawai = pegawai::create($dataInput);
 
@@ -307,13 +308,7 @@ class pegawaiController extends Controller
                     if($val->no == null || $val->nipnrp == null)
                         continue;         
 
-                    //cari pegawainya     
-                    if(Auth::user()->level == "operator")               
-                    {
-                        $cariPegawai = pegawai::where('nip',$val->nipnrp)->first()->kd_satker;
-                        if($cariPegawai !== CH::getKdSatker(Auth::user()->kd_satker))
-                            return redirect()->back()->with(['status' => 'danger' , 'message' => 'Gagal Import Data Pegawai, anda mencoba mengupdate pegawai dengan NIP '.$val->nipnrp.' yang bukan pegawai dalam satker anda']);
-                    }
+                    
                     //cari satker                    
                     if(Auth::user()->level == "admin")
                     {
@@ -408,6 +403,14 @@ class pegawaiController extends Controller
                     }
                     else
                     {
+                        //cari pegawainya     
+                        if(Auth::user()->level == "operator")               
+                        {
+                            $cariPegawai = pegawai::where('nip',$val->nipnrp)->first()->kd_satker;
+                            if($cariPegawai !== CH::getKdSatker(Auth::user()->kd_satker))
+                                return redirect()->back()->with(['status' => 'danger' , 'message' => 'Gagal Import Data Pegawai, anda mencoba mengupdate pegawai dengan NIP '.$val->nipnrp.' yang bukan pegawai dalam satker anda']);
+                        }
+                        
                         if(Auth::user()->level == "admin")     
                             $dataUpdate['kd_satker'] = $val->kode_satker;
                         else

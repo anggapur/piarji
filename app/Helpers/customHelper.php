@@ -333,4 +333,68 @@ class customHelper {
         
         return $pph_final;
     }
+
+
+    public static function queryByJenisPegawai($q2,$jenis_pegawai)
+    {
+        if($jenis_pegawai == "0")
+        {
+            $q2->whereRaw('LENGTH(pegawai.nip) <= 8'); // polri
+            $q2->where('absensi.state_tipikor_saat_absensi','0');
+            $keanggotaan = "POLRI";
+        }
+        else if($jenis_pegawai == "1")
+        {
+            $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
+            $q2->where('absensi.state_tipikor_saat_absensi','0');
+            $keanggotaan = "PNS";
+        }
+        else if($jenis_pegawai == "2")
+        {
+            $q2->where('absensi.state_tipikor_saat_absensi','1');
+            $keanggotaan = "TIPIDKOR";
+        }
+        else
+        {
+            $q2->where('absensi.state_tipikor_saat_absensi','0');
+            $keanggotaan = "POLRI & PNS";
+        }
+        return ['query' => $q2, 'keanggotaan' => $keanggotaan];
+
+    }
+    public static function queryAmprahByJenisPegawai($q2,$jenis_pegawai)
+    {
+        if($jenis_pegawai == "0")
+        {
+            $q2->whereRaw('LENGTH(pegawai.nip) <= 8'); // polri
+            $q2->where('amprahan.state_tipikor_saat_amprah','0');
+            $keanggotaan = "POLRI";
+        }
+        else if($jenis_pegawai == "1")
+        {
+            $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
+            $q2->where('amprahan.state_tipikor_saat_amprah','0');
+            $keanggotaan = "PNS";
+        }
+        else if($jenis_pegawai == "2")
+        {
+            $q2->where('amprahan.state_tipikor_saat_amprah','1');
+            $keanggotaan = "TIPIDKOR";
+        }
+        else
+        {
+            $q2->where('amprahan.state_tipikor_saat_amprah','0');
+            $keanggotaan = "POLRI & PNS";
+        }
+        return ['query' => $q2, 'keanggotaan' => $keanggotaan];
+
+    }
+
+    public static function printOptionJenisPegawai()
+    {
+        return '<option value="">Polri & PNS</option>                
+                    <option value="0">Polri</option>                
+                    <option value="1">PNS</option>                
+                    <option value="2">Tipidkor</option>'; 
+    }
 }

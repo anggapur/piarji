@@ -75,6 +75,7 @@ class absensiController extends Controller
         $kdAnakSatker = $request->datas['kodeAnakSatker'];
         $kelasJab = $request->datas['kelasJab'];        
         $statusDapat = $request->datas['statusDapat'];        
+        $stateTipikor = $request->datas['stateTipikor'];
         
         //kode aturan
         $kd_aturan = aturan_tunkin::where('state','1')->first();
@@ -89,6 +90,7 @@ class absensiController extends Controller
             $dataInsert['kd_anak_satker_saat_absensi'] = $kdAnakSatker[$key]['nilai'];
             $dataInsert['kelas_jab_saat_absensi'] = $kelasJab[$key]['nilai'];
             $dataInsert['status_dapat'] = $statusDapat[$key]['nilai'];
+            $dataInsert['state_tipikor_saat_absensi'] = $stateTipikor[$key]['nilai'];
             $dataInsert['id_waktu'] = $data['idBulanTahun'];
             $dataInsert['kd_aturan'] = $kd_aturan->id;
             $dataInsert['kd_satker_saat_absensi'] = CH::getKdSatker(Auth::user()->kd_satker);

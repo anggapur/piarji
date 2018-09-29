@@ -5,7 +5,7 @@
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-12 col-xs-6">
+        <div class="col-lg-12 col-xs-12">
           @if ($errors->any())
               <div class="alert alert-danger">
                   <ul>
@@ -73,6 +73,12 @@
                   <label>Status</label><br>
                   <input type="radio" name="kawin" value="K"> Kawin <br>
                   <input type="radio" name="kawin" value="TK" > Tidak Kawin <br>
+                </div>
+
+                <div class="form-group">
+                  <label>Status Keanggotan Tipikor</label><br>
+                  <input type="radio" name="state_tipikor" value="0" > Bukan Tipikor<br>
+                  <input type="radio" name="state_tipikor" value="1"> Tipikor <br>                  
                 </div>
                 <div class="form-group">        
                   <label>Tanggungan</label>

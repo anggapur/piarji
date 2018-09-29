@@ -144,6 +144,7 @@ Route::group(['middleware' => 'auth'],function(){
 		Route::post('apiLbrKerja','amprahanController@apiLbrKerja')->name('apiLbrKerja');		
 
 		Route::get('laporanAmprahan/perKelasJabatan','amprahanController@perKelasJabatan');
+		Route::post('apiPerKelasJabatan','amprahanController@apiPerKelasJabatan')->name('apiPerKelasJabatan');
 	});
 
 	//Only Operator can access

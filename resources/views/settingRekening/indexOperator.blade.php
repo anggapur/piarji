@@ -5,7 +5,7 @@
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-12 col-xs-6">
+        <div class="col-lg-12 col-xs-12">
          @if (session('status'))
               <div class="alert alert-success">
                   {!! session('message') !!}

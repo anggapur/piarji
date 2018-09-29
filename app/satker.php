@@ -26,4 +26,8 @@ class satker extends Model
     {
         return $this->hasMany('App\amprahan','kd_satker_saat_amprah','kd_satker');
     }
+    public function getDataAmprahanTipidkor()
+    {
+        return $this->hasMany('App\amprahan','kd_satker_saat_amprah','kd_satker');
+    }
 }

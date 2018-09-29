@@ -99,7 +99,68 @@
                     </h5>
                   <h5>Bulan : <span class="waktu"></span></h5>
                   </div>
-               <table border="1" cellpadding="10" id="tableLaporan">
+               <table border="1" cellpadding="10" id="tableLaporan" class="tableTop">
+                 <thead>
+                   <tr>
+                     <th rowspan="2">No</th>
+                     <th rowspan="2">Satker</th>
+                     <th colspan="4">Polri</th>
+                     <th colspan="4">PNS</th>
+                     <th rowspan="2">Bruto</th>
+                     <th rowspan="2">Ket</th>
+                   </tr>
+                   <tr>
+                     <th>Kuat Pers</th>
+                     <th>Jml Bruto</th>
+                     <th>PPH21</th>
+                     <th>Jumlah Dibayarkan</th>
+                     <th>Kuat Pers</th>
+                     <th>Jml Bruto</th>
+                     <th>PPH21</th>
+                     <th>Jumlah Dibayarkan</th>                     
+                   </tr>
+                   <tr>
+                     <th>1</th>
+                     <th>2</th>
+                     <th>3</th>
+                     <th>4</th>
+                     <th>5</th>
+                     <th>6</th>
+                     <th>7</th>
+                     <th>8</th>
+                     <th>9</th>
+                     <th>10</th>
+                     <th>11</th>                     
+                     <th>12</th>                     
+                   </tr>
+                 </thead>
+                 <tbody>
+                   
+                 </tbody>
+               </table> 
+
+               <hr>
+               <div class="headerKU">
+
+                    <div class="leftKU">
+                      <div class="logoPolriLaporan"><img src="{{url('public/asset/Logo-POLRI-bw.png')}}"></div>
+                      <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> BIDANG KEUANGAN</h5>
+                    </div>
+                    <div class="rightKU">
+
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="judulLaporan">
+                    <h5 class="judul">
+                    REKAPITULASI PERMINTAAN TUNJANGAN KINERJA BAGI PENYIDIK TIPIDKOR <span class="keanggotaan"></span> T.A <span class="tahun"></span>
+                    <br>POLDA BALI
+                    </h5>
+                  <h5>Bulan : <span class="waktu"></span></h5>
+                  </div>
+                  
+               <table border="1" cellpadding="10" id="tableLaporan" class="tableBottom">
                  <thead>
                    <tr>
                      <th rowspan="2">No</th>
@@ -256,17 +317,92 @@
                   "tahun" : tahun,
                   "satker" : satker,
                   "jenis_pegawai" : jenis_pegawai,
+                  "stateTipikor" : "0"
                 },
                 success: function(data) {
                   console.log(data);
-                  $('tbody').empty();
+                  $('table.tableTop tbody').empty();
                   if(data.status = "adadata")
                   {
                     $('#printArea').fadeIn("slow");
                     $('.tahun').html(data.tahun);
                     $('.waktu').html(data.bulan+" "+data.tahun);
                   }
-                  i = 1;
+                  printTable(data,"tableTop");
+                }//enf success
+            });//ajax
+
+          $.ajax({
+                type: "POST",                  
+                url: "{{route('apiMintaTunkin')}}",
+                data: 
+                { 
+                  "_token": "{{ csrf_token() }}",
+                  "bulan" : bulan,
+                  "tahun" : tahun,
+                  "satker" : satker,
+                  "jenis_pegawai" : jenis_pegawai,
+                  "stateTipikor" : "1"
+                },
+                success: function(data) {
+                  console.log(data);
+                  $('table.tableBottom tbody').empty();
+                  if(data.status = "adadata")
+                  {
+                    $('#printArea').fadeIn("slow");
+                    $('.tahun').html(data.tahun);
+                    $('.waktu').html(data.bulan+" "+data.tahun);
+                  }
+                  printTable(data,"tableBottom");
+                }//enf success
+            });//ajax
+
+          e.preventDefault();
+        });//form click
+
+        function number_format (number, decimals, decPoint, thousandsSep) { 
+
+          number = (number + '').replace(/[^0-9+\-Ee.]/g, '')
+          var n = !isFinite(+number) ? 0 : +number
+          var prec = !isFinite(+decimals) ? 0 : Math.abs(decimals)
+          var sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep
+          var dec = (typeof decPoint === 'undefined') ? '.' : decPoint
+          var s = ''
+
+          var toFixedFix = function (n, prec) {
+            var k = Math.pow(10, prec)
+            return '' + (Math.round(n * k) / k)
+              .toFixed(prec)
+          }
+
+          // @todo: for IE parseInt(0.55).toFixed(0) = 0;
+          s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.')
+          if (s[0].length > 3) {
+            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep)
+          }
+          if ((s[1] || '').length < prec) {
+            s[1] = s[1] || ''
+            s[1] += new Array(prec - s[1].length + 1).join('0')
+          }
+
+          return s.join(dec)
+        }
+
+
+        function absensiFormulaMath(formula,tunjangan,absensi)
+        {
+          absensiVal = formula.replace('G',tunjangan);
+          absensiVal = absensiVal.replace('H',absensi);
+          absensiVal = eval(absensiVal);
+          return absensiVal;
+        }
+        function getSum(total, num) {
+            return total + num;
+        }
+
+        function printTable(data,tableClass)
+        {
+          i = 1;
 
                   totalGet_data_amprahan_polri_count = 0; 
                   totalBrutoPolri = 0; 
@@ -312,7 +448,7 @@
                             "<td>Rp. "+number_format(brutoPolri+brutoPns,0,",",".")+"</td>"+
                             "<td></td>"+
                             "</tr>";
-                    $('tbody').append(html);
+                    $('table.'+tableClass+' tbody').append(html);
                   }); // end loop
                   html = "<tr>"+
                             "<td colspan='2'>JML SELURUHNYA</td>"+                            
@@ -327,50 +463,8 @@
                             "<td>Rp. "+number_format(totalBrutoPolri+totalBrutoPns,0,",",".")+"</td>"+
                             "<td></td>"+
                             "</tr>";
-                    $('tbody').append(html);
-                }
-            });
-          e.preventDefault();
-        });
-
-        function number_format (number, decimals, decPoint, thousandsSep) { 
-
-          number = (number + '').replace(/[^0-9+\-Ee.]/g, '')
-          var n = !isFinite(+number) ? 0 : +number
-          var prec = !isFinite(+decimals) ? 0 : Math.abs(decimals)
-          var sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep
-          var dec = (typeof decPoint === 'undefined') ? '.' : decPoint
-          var s = ''
-
-          var toFixedFix = function (n, prec) {
-            var k = Math.pow(10, prec)
-            return '' + (Math.round(n * k) / k)
-              .toFixed(prec)
-          }
-
-          // @todo: for IE parseInt(0.55).toFixed(0) = 0;
-          s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.')
-          if (s[0].length > 3) {
-            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep)
-          }
-          if ((s[1] || '').length < prec) {
-            s[1] = s[1] || ''
-            s[1] += new Array(prec - s[1].length + 1).join('0')
-          }
-
-          return s.join(dec)
+                    $('table.'+tableClass+' tbody').append(html);
         }
 
-
-        function absensiFormulaMath(formula,tunjangan,absensi)
-        {
-          absensiVal = formula.replace('G',tunjangan);
-          absensiVal = absensiVal.replace('H',absensi);
-          absensiVal = eval(absensiVal);
-          return absensiVal;
-        }
-        function getSum(total, num) {
-            return total + num;
-        }
    </script>
 @endsection

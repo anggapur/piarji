@@ -129,6 +129,21 @@
                  </tbody>
                </table> 
 
+               <h5>TIPIDKOR</h5>
+              <table border="1" cellpadding="10" id="tableLaporan" class="tableTipidkor">
+                 <thead>
+                   <tr class="row1">
+                     <th rowspan="2">Grade</th>                     
+                   </tr>
+                   <tr class="row2">
+                     
+                   </tr>
+                 </thead>
+                 <tbody>
+                   
+                 </tbody>
+               </table> 
+
 
                <!-- @if($dataTTD->count() != 0)
                <div class="TTDarea row"> 
@@ -348,6 +363,7 @@
 
 
 
+                    //PNS
                   datas = [];
                   totalOrang = [];
                   totalPajak = [];
@@ -442,6 +458,102 @@
                     rowLast+="<th colspan='3'>"+number_format(grandTotalTunkin+grandTotalPajak,0,",",".")+"</th>";
                     rowLast+="</tr>";   
                     $('table.tablePns tbody').append(rowLast);
+
+                    //Tipidkor
+                    datas = [];
+                  totalOrang = [];
+                  totalPajak = [];
+                  totalTunkin = [];
+                  dataRowLast = [];
+                  for(i= 1 ; i <= 16; i++)
+                    {
+                      datas[i] = "<tr> <th>"+i+"</th>";
+                      totalOrang[i] = 0;
+                      totalPajak[i] = 0;
+                      totalTunkin[i] = 0;
+                    }
+                  console.log(data);
+                  $('table.tableTipidkor tbody,table.tableTipidkor tr.row1,table.tableTipidkor tr.row2').empty();
+                    //Tipidkor
+                    $('table.tableTipidkor tr.row1').append('<th rowspan="2">Grade</th>');
+                  if(data.status = "adadata")
+                  {
+                    $('#printArea').fadeIn("slow");
+                    $('.tahun').html(data.tahun);
+                    $('.waktu').html(data.bulan+" "+data.tahun);
+                  }                  
+                  $.each(data.data,function(k,v){//loop1
+                    row1 = "<th colspan='3'>"+v.nm_satker+"</th>";
+                    $('table.tableTipidkor tr.row1').append(row1);
+                    row2 = "<th>KLS JAB</th> <th>Tunkin Rp</th> <th>Pajak</th>";
+                    $('table.tableTipidkor tr.row2').append(row2);
+                    //
+                    dataRowLast[k] = [];
+                    dataRowLast[k][0] = 0;
+                    dataRowLast[k][1] = 0;
+                    dataRowLast[k][2] = 0;
+                    //
+                    for(i= 1 ; i <= 16; i++)
+                    {
+                      jumlahOrang = (typeof v.getDataAmprahanTipidkorGroup[i] === 'undefined') ? 0 : v.getDataAmprahanTipidkorGroup[i]['jumlahOrang'];                        
+                      jumlahTunjangan = (typeof v.getDataAmprahanTipidkorGroup[i] === 'undefined') ? 0 : parseInt(v.getDataAmprahanTipidkorGroup[i]['jumlahTunjangan']); 
+                      jumlahPajak = (typeof v.getDataAmprahanTipidkorGroup[i] === 'undefined') ? 0 : parseInt(v.getDataAmprahanTipidkorGroup[i]['jumlahPajak']); 
+                      //
+                      totalOrang[i] +=jumlahOrang;
+                      totalPajak[i] += jumlahPajak;
+                      totalTunkin[i] +=jumlahTunjangan;
+                      //
+                      datas[i]+="<td>"+jumlahOrang+"</td><td>Rp. "+number_format(jumlahTunjangan,0,",",".")+"</td><td>Rp. "+number_format(jumlahPajak,0,",",".")+"</td>";
+                      dataRowLast[k][0]+= jumlahOrang;
+                      dataRowLast[k][1]+= jumlahTunjangan;
+                      dataRowLast[k][2]+= jumlahPajak;
+
+                    }
+                    // bagian kanan
+
+
+                  });//end loop1
+                  row1 = "<th colspan='3'>Jumlah</th>";
+                    $('table.tableTipidkor tr.row1').append(row1);
+                    row2 = "<th>KLS JAB</th> <th>Tunkin Rp</th> <th>Pajak</th>";
+                    $('table.tableTipidkor tr.row2').append(row2);
+                   for(i= 16 ; i >= 1; i--)
+                    {
+                      datas[i]+="<td>"+totalOrang[i]+"</td><td>Rp. "+number_format(totalTunkin[i],0,",",".")+"</td><td>Rp. "+number_format(totalPajak[i],0,",",".")+"</td>";
+                      datas[i] += "</tr>";
+                      $('table.tableTipidkor tbody').append(datas[i]);
+                    }
+                    console.log(datas); 
+                    //bagian bawah yaitu total
+                    grandTotalKelasJab = 0;
+                    grandTotalTunkin = 0;
+                    grandTotalPajak = 0;
+                    //bagian terbawah
+                    rowLast = "<tr>"+
+                                "<th rowspan='2'>Jumlah</th>";
+                    $.each(dataRowLast, function(k,v){
+                      rowLast+="<th>"+v[0]+"</th><th>"+number_format(v[1],0,",",".")+"</th><th>"+number_format(v[2],0,",",".")+"</th>";
+                      grandTotalKelasJab+=v[0];
+                      grandTotalTunkin+=v[1];
+                      grandTotalPajak+=v[2];
+                    })
+                    rowLast+="<th>"+grandTotalKelasJab+"</th><th>"+number_format(grandTotalTunkin,0,",",".")+"</th><th>"+number_format(grandTotalPajak,0,",",".")+"</th>";
+                    rowLast+="</tr>";   
+                    $('table.tableTipidkor tbody').append(rowLast);
+                    //bagian terbawah banget
+                     grandTotalKelasJab = 0;
+                    grandTotalTunkin = 0;
+                    grandTotalPajak = 0;
+                    rowLast = "<tr>";                                
+                    $.each(dataRowLast, function(k,v){
+                      rowLast+="<th colspan='3'>"+number_format(v[1]+v[2],0,",",".")+"</th>";
+                      grandTotalKelasJab+=v[0];
+                      grandTotalTunkin+=v[1];
+                      grandTotalPajak+=v[2];
+                    })
+                    rowLast+="<th colspan='3'>"+number_format(grandTotalTunkin+grandTotalPajak,0,",",".")+"</th>";
+                    rowLast+="</tr>";   
+                    $('table.tableTipidkor tbody').append(rowLast);
 
                 }//end success
             });

@@ -63,9 +63,7 @@
                 <div class="form-group">
                   <label>Kategori</label>
                   <select class="js-example-basic-single form-control" name="jenis_pegawai">    
-                    <option value="">Polri & PNS</option>                
-                    <option value="0">Polri</option>                
-                    <option value="1">PNS</option>                
+                    {!!CH::printOptionJenisPegawai()!!}              
                   </select>                 
                 </div>  
                 <div class="form-group">

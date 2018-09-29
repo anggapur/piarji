@@ -5,7 +5,7 @@
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-12 col-xs-6">
+        <div class="col-lg-12 col-xs-12">
           @if ($errors->any())
               <div class="alert alert-danger">
                   <ul>

@@ -137,6 +137,8 @@
                             '<td>'+v.nama+
                             '<input type="hidden" name="kd_anak_satker" value="'+v.kd_anak_satker+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '<input type="hidden" name="kelas_jab" value="'+v.kelas_jab+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+
+                            '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             
                             '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+                                                        
                             '</td>'+        
@@ -156,6 +158,8 @@
                             '<td>'+v.nama+
                             '<input type="hidden" name="kd_anak_satker" value="'+v.kd_anak_satker_saat_amprah+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '<input type="hidden" name="kelas_jab" value="'+v.kelas_jab_saat_amprah+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+
+                            '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor_saat_amprah+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
 
                             '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '</td>'+     
@@ -225,6 +229,7 @@
             kodeAnakSatker = []; 
             kelasJab = [];     
             statusDapat = [];
+            stateTipikor = [];
             ar.find('input').each(function(i, el) {    
               if($(el).attr('name') == "absensi1") 
               {
@@ -251,6 +256,14 @@
                   };           
                   kelasJab.push(b);
               }
+               if($(el).attr('name') == "state_tipikor") 
+              {
+                  b = {
+                    "id" : $(el).attr('data'),
+                    "nilai" : $(el).val(),
+                  };           
+                  stateTipikor.push(b);
+              }
               if($(el).attr('name') == "statusDapat") 
               {
                 if($(el).is(":checked"))
@@ -276,6 +289,7 @@
             json_obj.kodeAnakSatker = kodeAnakSatker;
             json_obj.kelasJab = kelasJab;
             json_obj.statusDapat = statusDapat;
+            json_obj.stateTipikor = stateTipikor;
             $('#result-json').val(JSON.stringify(json_obj));
 
             //Kirim data melalui ajax
