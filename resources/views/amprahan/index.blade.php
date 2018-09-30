@@ -107,7 +107,8 @@
       json_obj = { 
         "bulan" : null,
         "tahun" : null,
-        "absensi" : [],                
+        "absensi" : [], 
+        "stateTipikor" : [],               
       };                 
 
         //form bulan tahun
