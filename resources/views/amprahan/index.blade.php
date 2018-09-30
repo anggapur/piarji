@@ -147,11 +147,12 @@
 
                             '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             
-                            '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+                                                        
+                            '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+   
+
+                              '<input type="text" name="status_dapat_input" value="1" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+                                                     
                             '</td>'+        
                             '<td><label class="switch"><input type="checkbox" name="status_dapat" data="'+v.nip+'" onclick="ubahState('+v.nip+')" checked><span class="slider round"></span></label>'+
-
-                              '<input type="text" name="status_dapat_input" value="1" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+  
+								'</td>'+  
 
                         '</tr>';
                    
@@ -173,11 +174,14 @@
                             '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor_saat_amprah+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
 
                             '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+
+                             '<input type="text" name="status_dapat_input" value="'+v.status_dapat+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+
                             '</td>'+     
                                                     
                             '<td> <label class="switch"><input type="checkbox" name="status_dapat" data="'+v.nip+'" onclick="ubahState('+v.nip+')" '+status_dapat+'><span class="slider round"></span></label>'+
 
-                            '<input type="text" name="status_dapat_input" value="'+v.status_dapat+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+                           
                             '</td>'+ 
                         '</tr>';                      
                     }
