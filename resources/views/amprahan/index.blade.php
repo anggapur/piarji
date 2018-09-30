@@ -294,12 +294,12 @@
                     "id" : $(el).attr('data'),
                     "nilai" : $(el).val(),
                   };  
-                statusDapat.push("a-");
+                statusDapat.push(b);
               }
 
             });
             console.log(absensi1);
-            json_obj.absensi[1] = absensi1;            
+            json_obj.absensi[1] = statusDapat;            
             json_obj.kodeAnakSatker = kodeAnakSatker;
             json_obj.kelasJab = kelasJab;
             json_obj.statusDapat = statusDapat;
