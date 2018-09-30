@@ -73,6 +73,8 @@ class amprahanController extends Controller
         $data = $request->datas;
         $data['idBulanTahun'] = $query->id;
 
+        return $request->all();
+        
         $datas = $request->datas['absensi'];
         $kdAnakSatker = $request->datas['kodeAnakSatker'];
         $kelasJab = $request->datas['kelasJab'];        
@@ -173,7 +175,7 @@ return $errorInfo;
             $q = waktu_absensi::create(['bulan' => $request->bulan, 'tahun' => $request->tahun]);
 
             $data = pegawai::where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker)) 
-                    // ->orderBy('kelas_jab','DESC')
+                    ->orderBy('kelas_jab','DESC')
                     ->where('status_aktif','1')        
             ->get();
             return ['keterangan' => 'Tidak Ada Pegawai','data' => $data];
@@ -182,7 +184,7 @@ return $errorInfo;
         {
           $qWaktu = waktu_absensi::where(['bulan' => $request->bulan, 'tahun' => $request->tahun])->first();
             $data =  amprahan::where('amprahan.kd_satker_saat_amprah',CH::getKdSatker(Auth::user()->kd_satker))
-                // ->orderBy('kelas_jab','DESC')
+                ->orderBy('kelas_jab','DESC')
                 ->where('id_waktu',$qWaktu->id)
                 ->leftJoin('pegawai','amprahan.nip','=','pegawai.nip');            
             return ['keterangan' => ' Ada Pegawai','data' => $data->get(),'id_waktu' => $qWaktu->id];
