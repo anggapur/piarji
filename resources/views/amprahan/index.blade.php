@@ -302,6 +302,7 @@
             json_obj.absensi[1] = statusDapat;            
             json_obj.absensi[2] = kelasJab;            
             json_obj.absensi[3] = kodeAnakSatker;            
+            json_obj.absensi[4] = stateTipikor;            
             json_obj.kodeAnakSatker = kodeAnakSatker;
             json_obj.kelasJab = kelasJab;
             json_obj.statusDapat = statusDapat;
