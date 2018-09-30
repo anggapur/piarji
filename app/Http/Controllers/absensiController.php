@@ -234,7 +234,8 @@ return $errorInfo;
             $q = waktu_absensi::create(['bulan' => $request->bulan, 'tahun' => $request->tahun]);
 
             $data = pegawai::where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker)) 
-                    ->where('status_aktif','1')        
+                    ->where('status_aktif','1')  
+                    ->orderBy('kelas_jab','DESC')      
             ->get();
             return ['keterangan' => 'Tidak Ada Pegawai','data' => $data];
         }
@@ -243,6 +244,7 @@ return $errorInfo;
           $qWaktu = waktu_absensi::where(['bulan' => $request->bulan, 'tahun' => $request->tahun])->first();
             $data =  absensi::where('absensi.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))
               ->where('id_waktu',$qWaktu->id)
+              ->orderBy('kelas_jab','DESC')
               ->leftJoin('pegawai','absensi.nip','=','pegawai.nip');            
             return ['keterangan' => ' Ada Pegawai','data' => $data->get(),'id_waktu' => $qWaktu->id];
         }

@@ -133,7 +133,7 @@
                     if(data.keterangan == "Tidak Ada Pegawai")
                     {
                       html = '<tr>'+
-                           '<td>'+v.nip+'</td>'+                         
+                           '<td data-sort="'+k+'">'+v.nip+'</td>'+                         
                             '<td>'+v.nama+
                             '<input type="hidden" name="kd_anak_satker" value="'+v.kd_anak_satker+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '<input type="hidden" name="kelas_jab" value="'+v.kelas_jab+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
@@ -154,7 +154,7 @@
                         status_dapat = "checked";
 
                        html = '<tr>'+
-                           '<td>'+v.nip+'</td>'+                         
+                           '<td data-sort="'+k+'">'+v.nip+'</td>'+                         
                             '<td>'+v.nama+
                             '<input type="hidden" name="kd_anak_satker" value="'+v.kd_anak_satker_saat_amprah+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '<input type="hidden" name="kelas_jab" value="'+v.kelas_jab_saat_amprah+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
