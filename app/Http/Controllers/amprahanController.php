@@ -73,7 +73,7 @@ class amprahanController extends Controller
         $data = $request->datas;
         $data['idBulanTahun'] = $query->id;
 
-        return $request->datas;
+        // return $request->datas;
         
         $datas = $request->datas['absensi'];
         $kdAnakSatker = $request->datas['kodeAnakSatker'];
