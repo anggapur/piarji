@@ -81,6 +81,7 @@ class amprahanController extends Controller
         // $statusDapat = $request->datas['statusDapat'];        
         // $stateTipikor = $request->datas['stateTipikor'];
         
+        foreach ($datas[1] as $key => $value) {
         //kode aturan
         $kd_aturan = aturan_tunkin::where('state','1')->first();
         //proses pemasukan data
@@ -98,8 +99,21 @@ class amprahanController extends Controller
             $querySearch = amprahan::where(['nip' => $value['id'], 'id_waktu' => $data['idBulanTahun']])->get();
             //insert
             if($querySearch->count() == 0)
-                $queryProcess = amprahan::create($dataInsert);
-            else
+            {
+                $queryProcess = amprahan::create(
+                    [
+                        'nip' => $value['id'], 
+                        'id_waktu' => $data['idBulanTahun'],
+                        'kd_aturan' => "0",
+                        'kd_satker_saat_amprah' => "0",
+                        'kd_anak_satker_saat_amprah' => "0",
+                        'kelas_jab_saat_amprah' => "0",
+                        'status_dapat' => "0",
+                        'state_tipikor_saat_amprah' => "0"
+                    ]
+                );
+            }
+            //else
                 $queryProcess = amprahan::where(['nip' => $value['id'], 'id_waktu' => $data['idBulanTahun']])->update($dataInsert);
 
             //cek query executed or not
