@@ -271,6 +271,13 @@ class pegawaiController extends Controller
                 // return $user->nm_pangkat1." - ".$user->nm_pangkat2;
                 
             })
+            ->addColumn('status_aktif', function ($user) {
+                if($user->status_aktif == "0")
+                    return "<span class='label label-danger'>Non-aktif</span>";
+                else if($user->status_aktif == "1")
+                    return "<span class='label label-success'>Aktif</span>";
+                
+            })
             ->addColumn('action', function ($user) {
                 return '<a href="dataPegawai/'.$user->id.'/edit" class="btn btn-warning btn-xs">Edit</a>
                         <form action="'.url('dataPegawai/'.$user->id).'" method="POST">
@@ -281,6 +288,7 @@ class pegawaiController extends Controller
                 // return $user->nm_pangkat1." - ".$user->nm_pangkat2;
                 
             })
+            ->rawColumns(['status_aktif','action'])
             ->make(true);
     }
     public function formImport()

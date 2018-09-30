@@ -40,7 +40,8 @@
                   <th>Satker</th>                  
                   <th>Pangkat</th>                  
                   <th>Jabatan</th>                  
-                  <th>No Rekening</th>                  
+                  <th>No Rekening</th>                    
+                  <th>Status Aktif</th>                    
                   <th>Action</th>                  
                 </tr>
                 
@@ -73,6 +74,7 @@ $(function() {
             { data: 'nm_pangkat', name: 'pangkat.nm_pangkat1' },                        
             { data: 'nm_jabatan', name: 'jabatan.nm_jabatan' },                        
             { data: 'no_rekening', name: 'no_rekening' },                        
+            { data: 'status_aktif', name: 'status_aktif' },                         
             { data: 'action', name: 'action' },                        
                         
             /*{data: 'action', name: 'action', orderable: false, searchable: false}*/
