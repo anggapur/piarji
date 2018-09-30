@@ -224,7 +224,8 @@ class absensiKekuranganController extends Controller
           if($qu->get()->count() == 0)
             $q = waktu_absensi::create(['bulan' => $request->bulan, 'tahun' => $request->tahun]);
 
-            $data = pegawai::where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker)) 
+            $data = pegawai::where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))
+                    ->orderBy('kelas_jab','DESC')
                     ->where('status_aktif','1')        
             ->get();
             return ['keterangan' => 'Tidak Ada Pegawai','data' => $data];
@@ -234,6 +235,7 @@ class absensiKekuranganController extends Controller
           $qWaktu = waktu_absensi::where(['bulan' => $request->bulan, 'tahun' => $request->tahun])->first();
             $data =  absensiKekurangan::where('absensi_kekurangan.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))              
               ->leftJoin('pegawai','absensi_kekurangan.nip','=','pegawai.nip')
+              ->orderBy('kelas_jab','DESC')
               ->where('id_waktu',$qWaktu->id)
               ->select('absensi_kekurangan.*','pegawai.nama');            
             return ['keterangan' => ' Ada Pegawai','data' => $data->get(),'id_waktu' => $qWaktu->id];
