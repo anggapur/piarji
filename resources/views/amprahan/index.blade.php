@@ -286,16 +286,16 @@
             });
             console.log(absensi1);
             // json_obj.absensi[1] = absensi1;            
-            json_obj.absensi[2] = kodeAnakSatker;            
-            json_obj.absensi[3] = kelasJab;            
-            json_obj.absensi[4] = statusDapat;            
-            json_obj.absensi[5] = stateTipikor;            
+            json_obj.absensi[0] = kodeAnakSatker;            
+            json_obj.absensi[1] = kelasJab;            
+            json_obj.absensi[2] = statusDapat;            
+            json_obj.absensi[3] = stateTipikor;            
             json_obj.kodeAnakSatker = kodeAnakSatker;
             json_obj.kelasJab = kelasJab;
             json_obj.statusDapat = statusDapat;
             json_obj.stateTipikor = stateTipikor;
             $('#result-json').val(JSON.stringify(json_obj));
-            
+
             //Kirim data melalui ajax
             console.log(json_obj);
             $.ajax({
