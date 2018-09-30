@@ -392,10 +392,10 @@
 
                       html = '<tr>'+
                                '<td>'+(i)+'</td>'+
-                               '<td>'+v.nama+'</td>'+
-                               '<td>'+v.nm_pangkat1+'</td>'+
+                               '<td class="leftAlign">'+v.nama+'</td>'+
+                               '<td class="leftAlign">'+v.nm_pangkat1+'</td>'+
                                '<td>'+v.nip+'</td>'+
-                               '<td>'+v.nm_jabatan+'</td>'+
+                               '<td class="leftAlign">'+v.nm_jabatan+'</td>'+
                                '<td>'+v.kelas_jab_saat_absensi+'</td>'+
                                '<td>'+number_format(v.tunjangan,0,",",".")+'</td>'+
                                '<td>'+v.absensi1+'</td>'+
