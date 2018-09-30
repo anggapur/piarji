@@ -103,18 +103,11 @@
    <script type="text/javascript">
     var t;
      $(function() {
-
-
       //deklarasi var
       json_obj = { 
         "bulan" : null,
         "tahun" : null,
-        "absensi" : [], 
-        "stateTipikor" : [], 
-        "kodeAnakSatker" : [],
-        "kelasJab" : [],
-        "statusDapat" : [],
-        "stationer" : [],              
+        "absensi" : [],                
       };                 
 
         //form bulan tahun
@@ -139,27 +132,17 @@
                   $.each(data.data,function(k,v){
                     if(data.keterangan == "Tidak Ada Pegawai")
                     {
-                      
-                        status_dapat = "checked";
-
-                       html = '<tr>'+
+                      html = '<tr>'+
                            '<td data-sort="'+k+'">'+v.nip+'</td>'+                         
                             '<td>'+v.nama+
                             '<input type="hidden" name="kd_anak_satker" value="'+v.kd_anak_satker+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '<input type="hidden" name="kelas_jab" value="'+v.kelas_jab+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
 
                             '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
-
-                            '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
-
-                             '<input type="text" name="status_dapat_input" value="1" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
-
-                            '</td>'+     
-                                                    
-                            '<td> <label class="switch"><input type="checkbox" name="status_dapat" data="'+v.nip+'" onclick="ubahState('+v.nip+')" '+status_dapat+'><span class="slider round"></span></label>'+
-
-                           
-                            '</td>'+ 
+                            
+                            '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+                                                        
+                            '</td>'+        
+                            '<td> <label class="switch"><input type="checkbox" name="statusDapat" data="'+v.nip+'" checked><span class="slider round"></span></label></td>'+                      
                         '</tr>';
                    
                     }
@@ -167,7 +150,6 @@
                     {
 
                       status_dapat = "";
-
                       if(v.status_dapat == "1")
                         status_dapat = "checked";
 
@@ -180,15 +162,9 @@
                             '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor_saat_amprah+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
 
                             '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
-
-                             '<input type="text" name="status_dapat_input" value="'+v.status_dapat+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
-
                             '</td>'+     
                                                     
-                            '<td> <label class="switch"><input type="checkbox" name="status_dapat" data="'+v.nip+'" onclick="ubahState('+v.nip+')" '+status_dapat+'><span class="slider round"></span></label>'+
-
-                           
-                            '</td>'+ 
+                            '<td> <label class="switch"><input type="checkbox" name="statusDapat" data="'+v.nip+'" '+status_dapat+'><span class="slider round"></span></label></td>'+
                         '</tr>';                      
                     }
                       $('tbody').append(html);
@@ -288,21 +264,28 @@
                   };           
                   stateTipikor.push(b);
               }
-              if($(el).attr('name') == "status_dapat_input") 
+              if($(el).attr('name') == "statusDapat") 
               {
-                b = {
+                if($(el).is(":checked"))
+                {
+                  b = {
                     "id" : $(el).attr('data'),
-                    "nilai" : $(el).val(),
-                  };  
+                    "nilai" : "1",
+                  };         
+                }
+                else
+                {
+                  b = {
+                    "id" : $(el).attr('data'),
+                    "nilai" : "0",
+                  };    
+                }
                 statusDapat.push(b);
               }
 
             });
             console.log(absensi1);
-            json_obj.absensi[1] = statusDapat;            
-            json_obj.absensi[2] = kelasJab;            
-            json_obj.absensi[3] = kodeAnakSatker;            
-            json_obj.absensi[4] = stateTipikor;            
+            json_obj.absensi[1] = absensi1;            
             json_obj.kodeAnakSatker = kodeAnakSatker;
             json_obj.kelasJab = kelasJab;
             json_obj.statusDapat = statusDapat;
@@ -310,7 +293,6 @@
             $('#result-json').val(JSON.stringify(json_obj));
 
             //Kirim data melalui ajax
-            console.log("send Data");
             console.log(json_obj);
             $.ajax({
                 type: "POST",                  
@@ -319,7 +301,6 @@
                 { 
                   "_token": "{{ csrf_token() }}",
                   "datas" : json_obj,
-                  "statusDapatin" : statusDapat
                 },
                 success: function(data) {
                   console.log(data);
@@ -341,19 +322,6 @@
             kodeAnakSatker = null;
             kelasJab = null;
         });
-
-
     });
-
-function ubahState(nip)
-	{
-		nilai = $('input[data="'+nip+'"][name="status_dapat_input"]').val();
-		if(nilai == "0")
-			$('input[data="'+nip+'"][name="status_dapat_input"]').val("1");
-		else
-			$('input[data="'+nip+'"][name="status_dapat_input"]').val("0");
-
-	}
    </script>
-	
 @endsection
