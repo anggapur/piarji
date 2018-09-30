@@ -108,7 +108,10 @@
         "bulan" : null,
         "tahun" : null,
         "absensi" : [], 
-        "stateTipikor" : [],               
+        "stateTipikor" : [], 
+        "kodeAnakSatker" : [],
+        "kelasJab" : [],
+        "statusDapat" : [],              
       };                 
 
         //form bulan tahun
