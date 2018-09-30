@@ -111,7 +111,7 @@
         "stateTipikor" : [], 
         "kodeAnakSatker" : [],
         "kelasJab" : [],
-        "statusDapat" : [],              
+        "statusDapat" : []              
       };                 
 
         //form bulan tahun
@@ -146,7 +146,7 @@
                             
                             '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+                                                        
                             '</td>'+        
-                            '<td> <label class="switch"><input type="checkbox" name="statusDapat" data="'+v.nip+'" checked><span class="slider round"></span></label></td>'+                      
+                            '<td> <label class="switch"><input type="checkbox" name="status_dapat" data="'+v.nip+'" checked><span class="slider round"></span></label></td>'+                      
                         '</tr>';
                    
                     }
@@ -168,7 +168,7 @@
                             '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '</td>'+     
                                                     
-                            '<td> <label class="switch"><input type="checkbox" name="statusDapat" data="'+v.nip+'" '+status_dapat+'><span class="slider round"></span></label></td>'+
+                            '<td> <label class="switch"><input type="checkbox" name="status_dapat" data="'+v.nip+'" '+status_dapat+'><span class="slider round"></span></label></td>'+
                         '</tr>';                      
                     }
                       $('tbody').append(html);
@@ -268,7 +268,7 @@
                   };           
                   stateTipikor.push(b);
               }
-              if($(el).attr('name') == "statusDapat") 
+              if($(el).attr('name') == "status_dapat") 
               {
                 if($(el).is(":checked"))
                 {
