@@ -285,37 +285,22 @@
 
             });
             console.log(absensi1);
-            // json_obj.absensi[1] = absensi1;            
-            json_obj.absensi[0] = kodeAnakSatker;            
-            json_obj.absensi[1] = kelasJab;            
-            json_obj.absensi[2] = statusDapat;            
-            json_obj.absensi[3] = stateTipikor;            
+            json_obj.absensi[1] = absensi1;            
             json_obj.kodeAnakSatker = kodeAnakSatker;
             json_obj.kelasJab = kelasJab;
             json_obj.statusDapat = statusDapat;
             json_obj.stateTipikor = stateTipikor;
             $('#result-json').val(JSON.stringify(json_obj));
-            dataFinal = [];
-            $.each(kodeAnakSatker,function(k,v){
-            	dataFinal[k] = [];
-            	dataFinal[k]['nrp'] = v.id;
-            	dataFinal[k]['kodeAnakSatker'] = kodeAnakSatker[k]['nilai'];
-            	dataFinal[k]['kelasJab'] = kelasJab[k]['nilai'];
-            	dataFinal[k]['statusDapat'] = statusDapat[k]['nilai'];
-            	dataFinal[k]['stateTipikor'] = stateTipikor[k]['nilai'];
-            });
-            console.log(dataFinal);
+
             //Kirim data melalui ajax
-            // console.log(json_obj);
+            console.log(json_obj);
             $.ajax({
                 type: "POST",                  
                 url: "{{route('amprahan.store')}}",
                 data: 
                 { 
                   "_token": "{{ csrf_token() }}",
-                  "datas" : dataFinal,
-                  "bulan" : bulan,
-                  "tahun" : tahun
+                  "datas" : json_obj,
                 },
                 success: function(data) {
                   console.log(data);
