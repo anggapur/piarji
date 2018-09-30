@@ -310,6 +310,7 @@
                 { 
                   "_token": "{{ csrf_token() }}",
                   "datas" : json_obj,
+                  "statusDapatin" : statusDapat
                 },
                 success: function(data) {
                   console.log(data);
