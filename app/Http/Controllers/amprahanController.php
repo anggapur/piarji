@@ -78,7 +78,7 @@ class amprahanController extends Controller
         $kelasJab = $request->datas['kelasJab'];        
         $statusDapat = $request->datas['statusDapat'];        
         $stateTipikor = $request->datas['stateTipikor'];
-        
+        return $request->datas;
         //kode aturan
         $kd_aturan = aturan_tunkin::where('state','1')->first();
         //proses pemasukan data
@@ -112,7 +112,7 @@ return $errorInfo;
 }
         }
 
-        return ['status' => 'success','kd_aturan' => $kd_aturan];
+        return ['status' => 'success','kd_aturan' => $kd_aturan, 'damn' => $stateTipikor];
     }
 
     /**
