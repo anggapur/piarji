@@ -254,6 +254,7 @@ class pegawaiController extends Controller
             ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
             ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')     
             // ->where('pegawai.status_aktif','1')       
+            ->orderBy('kelas_jab','DESC')
             ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
         }
         else
@@ -263,6 +264,7 @@ class pegawaiController extends Controller
             ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')   
             ->where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker)) 
             // ->where('pegawai.status_aktif','1')        
+            ->orderBy('kelas_jab','DESC')
             ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
         }
         return Datatables::of($q)
