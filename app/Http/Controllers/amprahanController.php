@@ -81,7 +81,7 @@ class amprahanController extends Controller
         // $statusDapat = $request->datas['statusDapat'];        
         // $stateTipikor = $request->datas['stateTipikor'];
         
-        foreach ($datas[1] as $key => $value) {
+        
         //kode aturan
         $kd_aturan = aturan_tunkin::where('state','1')->first();
         //proses pemasukan data
