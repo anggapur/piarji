@@ -305,7 +305,7 @@
             console.log(json_obj);
             $.ajax({
                 type: "POST",                  
-                url: "{{route('amprahan.store')}}",
+                url: "{{route('amprahan.store')}}/",
                 data: 
                 { 
                   "_token": "{{ csrf_token() }}",
