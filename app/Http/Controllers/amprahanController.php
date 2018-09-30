@@ -79,7 +79,7 @@ class amprahanController extends Controller
         // $kdAnakSatker = $request->datas['kodeAnakSatker'];
         // $kelasJab = $request->datas['kelasJab'];        
         // $statusDapat = $request->datas['statusDapat'];        
-        $stateTipikor = $request->datas['stateTipikor'];
+        // $stateTipikor = $request->datas['stateTipikor'];
         
         //kode aturan
         $kd_aturan = aturan_tunkin::where('state','1')->first();
