@@ -293,7 +293,10 @@
             $('#result-json').val(JSON.stringify(json_obj));
 
             //Kirim data melalui ajax
-            console.log(json_obj);
+            // console.log(json_obj);
+            var jsonDataString = JSON.stringify(json_obj);
+            console.log('ahai');
+            console.log(jsonDataString);
             $.ajax({
                 type: "POST",                  
                 url: "{{route('amprahan.store')}}",
