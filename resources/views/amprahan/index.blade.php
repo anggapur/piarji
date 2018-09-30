@@ -293,6 +293,7 @@
             $('#result-json').val(JSON.stringify(json_obj));
 
             //Kirim data melalui ajax
+            console.log("send Data");
             console.log(json_obj);
             $.ajax({
                 type: "POST",                  
