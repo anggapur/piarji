@@ -73,7 +73,7 @@ class amprahanController extends Controller
         $data = $request->datas;
         $data['idBulanTahun'] = $query->id;
 
-        // return $request->all();
+        return $request->all();
 
         $datas = $request->datas['absensi'];
         // $kdAnakSatker = $request->datas['kodeAnakSatker'];
@@ -85,7 +85,7 @@ class amprahanController extends Controller
         $kd_aturan = aturan_tunkin::where('state','1')->first();
         //proses pemasukan data
         foreach ($datas[1] as $key => $value) {
-          try{
+          // try{
             $dataInsert['nip'] = $value['id'];
             $dataInsert['kd_anak_satker_saat_amprah'] = $datas[3][$key]['nilai'];
             $dataInsert['kelas_jab_saat_amprah'] = $datas[2][$key]['nilai'];
@@ -105,13 +105,13 @@ class amprahanController extends Controller
             //cek query executed or not
             // if(!$queryProcess)
             //     return $dataInsert;
-            }
-            catch (\Illuminate\Database\QueryException $exception) {
-    // You can check get the details of the error using `errorInfo`:
-    $errorInfo = $exception->errorInfo;
-return $errorInfo;
-    // Return the response to the client..
-}
+            // }
+            // catch (\Illuminate\Database\QueryException $exception) {
+            //     // You can check get the details of the error using `errorInfo`:
+            //     $errorInfo = $exception->errorInfo;
+            // return $errorInfo;
+            //     // Return the response to the client..
+            // }
         }
 
         return ['status' => 'success','kd_aturan' => $kd_aturan, 'damn' => $request->datas];
