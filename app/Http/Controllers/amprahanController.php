@@ -73,7 +73,7 @@ class amprahanController extends Controller
         $data = $request->datas;
         $data['idBulanTahun'] = $query->id;
 
-        return $request->all();
+        // return $request->all();
 
         $datas = $request->datas['absensi'];
         $kdAnakSatker = $request->datas['kodeAnakSatker'];
@@ -89,7 +89,7 @@ class amprahanController extends Controller
             $dataInsert['nip'] = $value['id'];
             $dataInsert['kd_anak_satker_saat_amprah'] = $kdAnakSatker[$key]['nilai'];
             $dataInsert['kelas_jab_saat_amprah'] = $kelasJab[$key]['nilai'];
-            $dataInsert['status_dapat'] = $statusDapat[$key]['nilai'];
+            $dataInsert['status_dapat'] = $value['nilai'];
             $dataInsert['state_tipikor_saat_amprah'] = $stateTipikor[$key]['nilai'];
             $dataInsert['id_waktu'] = $data['idBulanTahun'];
             $dataInsert['kd_aturan'] = $kd_aturan->id;
