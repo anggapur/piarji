@@ -111,7 +111,8 @@
         "stateTipikor" : [], 
         "kodeAnakSatker" : [],
         "kelasJab" : [],
-        "statusDapat" : []              
+        "statusDapat" : [],
+        "stationer" : [],              
       };                 
 
         //form bulan tahun
