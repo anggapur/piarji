@@ -295,16 +295,27 @@
             json_obj.statusDapat = statusDapat;
             json_obj.stateTipikor = stateTipikor;
             $('#result-json').val(JSON.stringify(json_obj));
-
+            dataFinal = [];
+            $.each(kodeAnakSatker,function(k,v){
+            	dataFinal[k] = [];
+            	dataFinal[k]['nrp'] = v.id;
+            	dataFinal[k]['kodeAnakSatker'] = kodeAnakSatker[k]['nilai'];
+            	dataFinal[k]['kelasJab'] = kelasJab[k]['nilai'];
+            	dataFinal[k]['statusDapat'] = statusDapat[k]['nilai'];
+            	dataFinal[k]['stateTipikor'] = stateTipikor[k]['nilai'];
+            });
+            console.log(dataFinal);
             //Kirim data melalui ajax
-            console.log(json_obj);
+            // console.log(json_obj);
             $.ajax({
                 type: "POST",                  
                 url: "{{route('amprahan.store')}}",
                 data: 
                 { 
                   "_token": "{{ csrf_token() }}",
-                  "datas" : json_obj,
+                  "datas" : dataFinal,
+                  "bulan" : bulan,
+                  "tahun" : tahun
                 },
                 success: function(data) {
                   console.log(data);

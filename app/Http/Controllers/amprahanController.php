@@ -68,13 +68,13 @@ class amprahanController extends Controller
      */
     public function store(Request $request)
     {
-        $where = ['bulan' => $request->datas['bulan'], 'tahun' => $request->datas['tahun']];
+        $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun];
         $query = waktu_absensi::where($where)->first();
         $data = $request->datas;
         $data['idBulanTahun'] = $query->id;
 
         return $request->all();
-        
+
         $datas = $request->datas['absensi'];
         $kdAnakSatker = $request->datas['kodeAnakSatker'];
         $kelasJab = $request->datas['kelasJab'];        
