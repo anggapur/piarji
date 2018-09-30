@@ -73,12 +73,14 @@ class amprahanController extends Controller
         $data = $request->datas;
         $data['idBulanTahun'] = $query->id;
 
+        return $request->datas;
+        
         $datas = $request->datas['absensi'];
         $kdAnakSatker = $request->datas['kodeAnakSatker'];
         $kelasJab = $request->datas['kelasJab'];        
         $statusDapat = $request->datas['statusDapat'];        
         $stateTipikor = $request->datas['stateTipikor'];
-        return $request->datas;
+        
         //kode aturan
         $kd_aturan = aturan_tunkin::where('state','1')->first();
         //proses pemasukan data
