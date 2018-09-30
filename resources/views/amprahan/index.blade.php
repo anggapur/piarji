@@ -139,21 +139,27 @@
                   $.each(data.data,function(k,v){
                     if(data.keterangan == "Tidak Ada Pegawai")
                     {
-                      html = '<tr>'+
+                      
+                        status_dapat = "checked";
+
+                       html = '<tr>'+
                            '<td data-sort="'+k+'">'+v.nip+'</td>'+                         
                             '<td>'+v.nama+
-                            '<input type="hidden" name="kd_anak_satker" value="'+v.kd_anak_satker+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
-                            '<input type="hidden" name="kelas_jab" value="'+v.kelas_jab+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+                            '<input type="hidden" name="kd_anak_satker" value="'+v.kd_anak_satker_saat_amprah+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+                            '<input type="hidden" name="kelas_jab" value="'+v.kelas_jab_saat_amprah+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
 
-                            '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
-                            
-                            '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+   
+                            '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor_saat_amprah+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
 
-                              '<input type="text" name="status_dapat_input" value="1" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+                                                     
-                            '</td>'+        
-                            '<td><label class="switch"><input type="checkbox" name="status_dapat" data="'+v.nip+'" onclick="ubahState('+v.nip+')" checked><span class="slider round"></span></label>'+
-								'</td>'+  
+                            '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
 
+                             '<input type="text" name="status_dapat_input" value="1" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+
+                            '</td>'+     
+                                                    
+                            '<td> <label class="switch"><input type="checkbox" name="status_dapat" data="'+v.nip+'" onclick="ubahState('+v.nip+')" '+status_dapat+'><span class="slider round"></span></label>'+
+
+                           
+                            '</td>'+ 
                         '</tr>';
                    
                     }
