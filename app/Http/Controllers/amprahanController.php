@@ -77,7 +77,7 @@ class amprahanController extends Controller
 
         $datas = $request->datas['absensi'];
         $kdAnakSatker = $request->datas['kodeAnakSatker'];
-        $kelasJab = $request->datas['kelasJab'];        
+        // $kelasJab = $request->datas['kelasJab'];        
         // $statusDapat = $request->datas['statusDapat'];        
         $stateTipikor = $request->datas['stateTipikor'];
         
