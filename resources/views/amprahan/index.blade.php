@@ -103,6 +103,8 @@
    <script type="text/javascript">
     var t;
      $(function() {
+
+
       //deklarasi var
       json_obj = { 
         "bulan" : null,
@@ -147,7 +149,10 @@
                             
                             '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+                                                        
                             '</td>'+        
-                            '<td> <label class="switch"><input type="checkbox" name="status_dapat" data="'+v.nip+'" checked><span class="slider round"></span></label></td>'+                      
+                            '<td><label class="switch"><input type="checkbox" name="status_dapat" data="'+v.nip+'" onclick="ubahState('+v.nip+')" checked><span class="slider round"></span></label>'+
+
+                              '<input type="text" name="status_dapat_input" value="1" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+  
+
                         '</tr>';
                    
                     }
@@ -155,6 +160,7 @@
                     {
 
                       status_dapat = "";
+
                       if(v.status_dapat == "1")
                         status_dapat = "checked";
 
@@ -169,7 +175,10 @@
                             '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '</td>'+     
                                                     
-                            '<td> <label class="switch"><input type="checkbox" name="status_dapat" data="'+v.nip+'" '+status_dapat+'><span class="slider round"></span></label></td>'+
+                            '<td> <label class="switch"><input type="checkbox" name="status_dapat" data="'+v.nip+'" onclick="ubahState('+v.nip+')" '+status_dapat+'><span class="slider round"></span></label>'+
+
+                            '<input type="text" name="status_dapat_input" value="'+v.status_dapat+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+                            '</td>'+ 
                         '</tr>';                      
                     }
                       $('tbody').append(html);
@@ -269,22 +278,12 @@
                   };           
                   stateTipikor.push(b);
               }
-              if($(el).attr('name') == "status_dapat") 
+              if($(el).attr('name') == "status_dapat_input") 
               {
-                if($(el).is(":checked"))
-                {
-                  b = {
+                b = {
                     "id" : $(el).attr('data'),
-                    "nilai" : "1",
-                  };         
-                }
-                else
-                {
-                  b = {
-                    "id" : $(el).attr('data'),
-                    "nilai" : "0",
-                  };    
-                }
+                    "nilai" : $(el).val(),
+                  };  
                 statusDapat.push(b);
               }
 
@@ -328,6 +327,19 @@
             kodeAnakSatker = null;
             kelasJab = null;
         });
+
+
     });
+
+function ubahState(nip)
+	{
+		nilai = $('input[data="'+nip+'"][name="status_dapat_input"]').val();
+		if(nilai == "0")
+			$('input[data="'+nip+'"][name="status_dapat_input"]').val("1");
+		else
+			$('input[data="'+nip+'"][name="status_dapat_input"]').val("0");
+
+	}
    </script>
+	
 @endsection
