@@ -88,7 +88,7 @@ class amprahanController extends Controller
           try{
             $dataInsert['nip'] = $value['id'];
             $dataInsert['kd_anak_satker_saat_amprah'] = $kdAnakSatker[$key]['nilai'];
-            $dataInsert['kelas_jab_saat_amprah'] = $kelasJab[$key]->nilai;
+            $dataInsert['kelas_jab_saat_amprah'] = $datas[2][$key]['nilai'];
             $dataInsert['status_dapat'] = $value['nilai'];
             $dataInsert['state_tipikor_saat_amprah'] = $stateTipikor[$key]['nilai'];
             $dataInsert['id_waktu'] = $data['idBulanTahun'];
