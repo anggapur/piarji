@@ -315,40 +315,49 @@
 
             });
             console.log(absensi1);
-            json_obj.absensi[1] = absensi1;
-            json_obj.absensi[2] = absensi2;
-            json_obj.absensi[3] = absensi3;
-            json_obj.absensi[4] = absensi4;
-            json_obj.kodeAnakSatker = kodeAnakSatker;
-            json_obj.kelasJab = kelasJab;
-            json_obj.statusDapat = statusDapat;
-            json_obj.stateTipikor = stateTipikor;
-            $('#result-json').val(JSON.stringify(json_obj));
+            // json_obj.absensi[1] = absensi1;
+            // json_obj.absensi[2] = absensi2;
+            // json_obj.absensi[3] = absensi3;
+            // json_obj.absensi[4] = absensi4;
+            // json_obj.kodeAnakSatker = kodeAnakSatker;
+            // json_obj.kelasJab = kelasJab;
+            // json_obj.statusDapat = statusDapat;
+            // json_obj.stateTipikor = stateTipikor;
+            // $('#result-json').val(JSON.stringify(json_obj));
 
-            //Kirim data melalui ajax
-            console.log(json_obj);
-            $.ajax({
-                type: "POST",                  
-                url: "{{route('absensi.store')}}",
-                data: 
-                { 
-                  "_token": "{{ csrf_token() }}",
-                  "datas" : json_obj,
-                },
-                success: function(data) {
-                  console.log(data);
-                    if(data.status == "success")
-                    {
-                      $("html,body").scrollTop($("body").scrollTop() + 0);
-                      $('.alert.alert-success').slideDown(200);
-                      setTimeout(function(){ 
-                         $('.alert.alert-success').fadeOut(500);
-                        }, 4000);
-                      
-                    }
-                    $('.showWhenLoading').fadeOut("slow");
-                }
-            });
+            while(absensi1.length){
+              json_obj.absensi[1] = absensi1.splice(0,10);
+              json_obj.absensi[2] = absensi2.splice(0,10);
+              json_obj.absensi[3] = absensi3.splice(0,10);
+              json_obj.absensi[4] = absensi4.splice(0,10);
+              json_obj.kodeAnakSatker = kodeAnakSatker.splice(0,10);
+              json_obj.kelasJab = kelasJab.splice(0,10);
+              json_obj.statusDapat = statusDapat.splice(0,10);
+              json_obj.stateTipikor = stateTipikor.splice(0,10);
+              $.ajax({
+                  type: "POST",                  
+                  url: "{{route('absensi.store')}}",
+                  data: 
+                  { 
+                    "_token": "{{ csrf_token() }}",
+                    "datas" : json_obj,
+                  },
+                  success: function(data) {
+                    console.log(data);
+                      if(data.status == "success")
+                      {
+                        $("html,body").scrollTop($("body").scrollTop() + 0);
+                        $('.alert.alert-success').slideDown(200);
+                        setTimeout(function(){ 
+                           $('.alert.alert-success').fadeOut(500);
+                          }, 4000);
+                        
+                      }
+                      $('.showWhenLoading').fadeOut("slow");
+                  }
+              });
+            }
+            
             //unset data
             absensi1 = null;
             absensi2 = null;
