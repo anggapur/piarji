@@ -8,6 +8,7 @@ use App\satker;
 use Auth;
 use Excel;
 use Validator;
+use CH;
 use App\anak_satker;
 class satkerController extends Controller
 {
@@ -46,6 +47,15 @@ class satkerController extends Controller
      */
     public function store(Request $request)
     {
+          $kd_anak_satker = $request->kd_anak_satker;
+        $nm_anak_satker = $request->nm_anak_satker;
+
+        //anak satker tidk =ak boleh kosong
+
+        if($kd_anak_satker == "")
+        {
+            return redirect()->back()->with(['status' => 'danger' , 'message' => 'Gagal Buat Data, Anak Satker Tidak Boleh Kosong !']);
+        }
 
         //
         $request->validate([
@@ -60,9 +70,8 @@ class satkerController extends Controller
         $data['kd_lokasi'] = "";
         $query = satker::create($data);
 
-        $kd_anak_satker = $request->kd_anak_satker;
-        $nm_anak_satker = $request->nm_anak_satker;
-
+      
+        //input anak satker
         foreach ($kd_anak_satker as $key => $value) {
             $dataInsert['kd_satker'] = $request->kd_satker;
             $dataInsert['kd_anak_satker'] = $value;
@@ -93,6 +102,12 @@ class satkerController extends Controller
      */
     public function edit($id)
     {
+        //cek otoritas operator
+        if(Auth::user()->level == "operator")
+        {
+            if(Auth::user()->kd_satker !== $id)
+                return redirect('404');
+        }
         $data['dataSatker'] = satker::where('id',$id)->first();
         $data['page'] = $this->page;
         $data['subpage'] = "Edit Data Satker";                 
@@ -108,6 +123,16 @@ class satkerController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $kd_anak_satker = $request->kd_anak_satker;
+        $nm_anak_satker = $request->nm_anak_satker;
+
+        //anak satker tidaak boleh kosong
+
+        if($kd_anak_satker == "")
+        {
+            return redirect()->back()->with(['status' => 'danger' , 'message' => 'Gagal Update Data, Anak Satker Tidak Boleh Kosong !']);
+        }
+
         $request->validate([            
             'nm_satker' => 'required',
         ]);
@@ -119,8 +144,7 @@ class satkerController extends Controller
         $kd_satker = satker::where('id',$id)->first()->kd_satker;
         $delete = anak_satker::where('kd_satker',$kd_satker)->delete();
 
-        $kd_anak_satker = $request->kd_anak_satker;
-        $nm_anak_satker = $request->nm_anak_satker;
+        
 
         foreach ($kd_anak_satker as $key => $value) {
             $dataInsert['kd_satker'] = $request->kd_satker;
@@ -258,4 +282,5 @@ class satkerController extends Controller
             }
         }
     }
+  
 }

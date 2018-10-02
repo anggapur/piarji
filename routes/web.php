@@ -86,6 +86,7 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::resource('profile','profileController');
 
 	// Data Satker
+	Route::get('dataSatker/editOwnSatker','satkerController@editOwnSatker');
 	Route::post('dataSatker/importDataSatker','satkerController@importDataSatker');
 	Route::get('dataSatker/importSatker','satkerController@formImport');
 	Route::resource('dataSatker','satkerController');		
