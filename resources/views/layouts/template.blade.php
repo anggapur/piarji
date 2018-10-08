@@ -182,7 +182,7 @@
         <!-- <li class="{{CH::segment(2,['laporanPerSatker'])}}  {{CH::showTo(['admin'])}}"><a href="{{url('laporanAbsensi/laporanPerSatker')}}"><i class="fa fa-book"></i> <span>Laporan Per Satker</span></a></li>    -->
 
         
-         <li class="{{CH::segment(1,['dataSatker'])}}"><a href="{{url('dataSatker/'.Auth::user()->kd_satker.'/edit')}}"><i class="fa fa-book"></i> <span>Edit Data Satker</span></a></li>
+         <li class="{{CH::segment(1,['dataSatker'])}} {{CH::showTo(['operator'])}}"><a href="{{url('dataSatker/'.Auth::user()->kd_satker.'/edit')}}"><i class="fa fa-book"></i> <span>Edit Data Satker</span></a></li>
 
         <!-- Amprahan-->
         <li class="{{CH::segment(1,['amprahan'])}} {{CH::showTo(['operator'])}}"><a href="{{url('amprahan')}}"><i class="fa fa-list-alt"></i> <span>Amprahan Tunkin</span></a></li> 
