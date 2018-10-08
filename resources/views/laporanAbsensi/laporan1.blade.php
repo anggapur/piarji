@@ -157,6 +157,7 @@
                    
                  </tbody>
                </table> 
+               @if(Auth::user()->level == "operator") 
                @if($dataTTD->count() != 0)
                <div class="TTDarea row"> 
                 <div class="TTD1 col-cs-4">
@@ -221,6 +222,7 @@
                 </div>
 
                </div>
+               @endif
                @endif
               </div>             
             </div>   

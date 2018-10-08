@@ -91,10 +91,11 @@
                       SURAT PERNYATAAN  TANGGUNG JAWAB MUTLAK
                     </h3>                    
                   </div>
-                  <div class="bodySPTJM" data-word='{!!collect($dataTTD)->firstWhere("bagian","1")->nilai1!!}'>
+                  <div class="bodySPTJM" @if(Auth::user()->level == "operator") data-word='{!!collect($dataTTD)->firstWhere("bagian","1")->nilai1!!}' @else data-word='' @endif>
                     
                   </div>
                   <div class="bag7">
+                    @if(Auth::user()->level == "operator")
                     <div class="ttdform">
                         <p style="margin-bottom: 0px;">{{collect($dataTTD)->firstWhere('bagian','2')->nilai4}}</p>
                         <p>{{collect($dataTTD)->firstWhere('bagian','2')->nilai1}}</p>
@@ -108,6 +109,7 @@
                         <p style="text-decoration: underline;margin-bottom: 0px;"><b>{{collect($dataTTD)->firstWhere('bagian','2')->nilai2}}</b></p>
                         <p>{{collect($dataTTD)->firstWhere('bagian','2')->nilai3}}</p>
                     </div>
+                    @endif
                     <div class="clearfix"></div>
                   </div>
                </div>
@@ -130,19 +132,7 @@
         
           var prtContent = document.getElementById("printArea");
                     
-          // html = "<html><head><link rel='stylesheet' href='http://localhost/PRG/public/template/style.css' type='text/css' media='all'/></head><body><h1>HAI</h1></body></html>";
-          // console.log(html);
-         /* 
-          var WinPrint = window.open();
-
-          // WinPrint.document.write( "<link rel='stylesheet' href='http://localhost/PRG/public/template/style.css' type='text/css' media='all'/>");
-          WinPrint.document.write(prtContent.innerHTML);
           
-          WinPrint.document.close();
-          WinPrint.focus();
-          WinPrint.print();
-          WinPrint.close();
-          */
           
       }
   </script>

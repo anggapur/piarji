@@ -159,6 +159,7 @@
                    
                  </tbody>
                </table> 
+               @if(Auth::user()->level == "operator")
                @if($dataTTD->count() != 0)
                <div class="TTDarea row"> 
                 <div class="TTD1 col-cs-4">
@@ -224,6 +225,7 @@
 
                </div>
                @endif
+               @endif
               </div>             
             </div>   
           </div>
@@ -245,19 +247,7 @@
 	    	
 	        var prtContent = document.getElementById("printArea");
 	        	        
-	        // html = "<html><head><link rel='stylesheet' href='http://localhost/PRG/public/template/style.css' type='text/css' media='all'/></head><body><h1>HAI</h1></body></html>";
-	        // console.log(html);
-	       /* 
-	        var WinPrint = window.open();
-
-	        // WinPrint.document.write( "<link rel='stylesheet' href='http://localhost/PRG/public/template/style.css' type='text/css' media='all'/>");
-	        WinPrint.document.write(prtContent.innerHTML);
 	        
-	        WinPrint.document.close();
-	        WinPrint.focus();
-	        WinPrint.print();
-	        WinPrint.close();
-          */
 	        
 	    }
 	</script>

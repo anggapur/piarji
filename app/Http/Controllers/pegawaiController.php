@@ -54,6 +54,10 @@ class pegawaiController extends Controller
         $data['subpage'] = "Input Data Personil";         
         $data['pangkat'] = pangkat::all();
         $data['jabatan'] = jabatan::all();
+        if(Auth::user()->level == "admin")
+            $data['dataAnakSatker'] = anak_satker::all();
+        else
+            $data['dataAnakSatker'] = anak_satker::where('kd_satker',CH::getKdSatker(Auth::user()->kd_satker))->get();
         return view($this->mainPage.".create",$data);
     }
 
