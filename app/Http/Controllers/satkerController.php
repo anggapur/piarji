@@ -181,6 +181,7 @@ class satkerController extends Controller
             ->leftJoin('dept','satker.kd_dept','=','dept.kd_dept')
             ->leftJoin('unit','satker.kd_unit','=','unit.kd_unit')
             ->leftJoin('lokasi','satker.kd_lokasi','=','lokasi.kd_lokasi')
+            ->orderBy('satker.id','ASC')
             ->select('satker.id','kd_satker','nm_satker','dept.kd_dept','dept.nm_dept','unit.kd_unit','unit.nm_unit','lokasi.kd_lokasi','nm_lokasi');            
         return Datatables::of($q)
             ->addColumn('kolom_anak_satker', function ($user) {
@@ -197,6 +198,7 @@ class satkerController extends Controller
                 
             })
             ->rawColumns(['kolom_anak_satker', 'action'])
+
             ->make(true);
     }
 
