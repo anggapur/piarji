@@ -262,6 +262,7 @@ return $errorInfo;
                         ->where('id_waktu',$cariWaktu->first()->id)
                         ->select(DB::raw('amprahan.*,tunjangan,pegawai.kawin,pegawai.tanggungan,pegawai.jenis_kelamin,pegawai.gapok,pegawai.tunj_strukfung,pegawai.tunj_lain'));
                     }])
+                    ->orderBy('id','ASC')
                     ->get();
             foreach ($data as $key => $value) {              
                 foreach ($value->getDataAmprahanPolri as $key2 => $val) {
@@ -386,6 +387,7 @@ return $errorInfo;
                         ->where('id_waktu',$cariWaktu->first()->id)
                         ->select(DB::raw('amprahan.*,tunjangan,pegawai.kawin,pegawai.tanggungan,pegawai.jenis_kelamin,pegawai.gapok,pegawai.tunj_strukfung,pegawai.tunj_lain'));
                     }])
+                    ->orderBy('id','ASC')
                     ->get();
 
                     foreach ($data as $key => $value) {  
