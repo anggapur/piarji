@@ -78,7 +78,7 @@ class absensiKekuranganController extends Controller
         $stateTipikor = $request->datas['stateTipikor'];
         
         //kode aturan
-        $kd_aturan = aturan_tunkin::where('state','1')->first();
+        $kd_aturan = aturan_tunkin::where('state','2')->first();
         //proses pemasukan data
         foreach ($datas[1] as $key => $value) {
           try{
