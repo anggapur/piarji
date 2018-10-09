@@ -71,24 +71,26 @@ class absensiKekuranganController extends Controller
         $data = $request->datas;
         $data['idBulanTahun'] = $query->id;
 
-         $datas = $request->datas['absensi'];
+        $datas = $request->datas['absensi'];
         $kdAnakSatker = $request->datas['kodeAnakSatker'];
         $kelasJab = $request->datas['kelasJab'];        
         $statusDapat = $request->datas['statusDapat'];        
-        
+        $stateTipikor = $request->datas['stateTipikor'];
         
         //kode aturan
-        $kd_aturan = aturan_tunkin::where('state','2')->first();
+        $kd_aturan = aturan_tunkin::where('state','1')->first();
         //proses pemasukan data
         foreach ($datas[1] as $key => $value) {
+          try{
             $dataInsert['nip'] = $value['id'];
             $dataInsert['absensi1'] = $value['nilai'];
             $dataInsert['absensi2'] = $datas[2][$key]['nilai'];            
             $dataInsert['absensi3'] = $datas[3][$key]['nilai'];            
-            $dataInsert['absensi4'] = $datas[4][$key]['nilai']; 
+            $dataInsert['absensi4'] = $datas[4][$key]['nilai'];  
             $dataInsert['kd_anak_satker_saat_absensi'] = $kdAnakSatker[$key]['nilai'];
             $dataInsert['kelas_jab_saat_absensi'] = $kelasJab[$key]['nilai'];
-            $dataInsert['status_dapat'] = $statusDapat[$key]['nilai'];           
+            $dataInsert['status_dapat'] = $statusDapat[$key]['nilai'];
+            $dataInsert['state_tipikor_saat_absensi'] = $stateTipikor[$key]['nilai'];
             $dataInsert['id_waktu'] = $data['idBulanTahun'];
             $dataInsert['kd_aturan'] = $kd_aturan->id;
             $dataInsert['kd_satker_saat_absensi'] = CH::getKdSatker(Auth::user()->kd_satker);
@@ -101,8 +103,15 @@ class absensiKekuranganController extends Controller
                 $queryProcess = absensiKekurangan::where(['nip' => $value['id'], 'id_waktu' => $data['idBulanTahun']])->update($dataInsert);
 
             //cek query executed or not
-            if(!$queryProcess)
-                return ['status' => 'failed'];
+            // if(!$queryProcess)
+            //     return $dataInsert;
+            }
+            catch (\Illuminate\Database\QueryException $exception) {
+    // You can check get the details of the error using `errorInfo`:
+    $errorInfo = $exception->errorInfo;
+return $errorInfo;
+    // Return the response to the client..
+}
         }
 
         return ['status' => 'success','kd_aturan' => $kd_aturan];

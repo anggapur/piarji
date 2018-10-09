@@ -22,7 +22,7 @@
             <!-- <form method="POST" action="{{route('absensi.store')}}">   -->
               {{csrf_field()}}
             <div class="box-header">              
-              <h3 class="box-title">Form Absensi Kekurangan</h3>                            
+              <h3 class="box-title">Form Absensi</h3>                            
             </div>
             <div class="box-body">    
               <form class="form-inline" id="formBulanTahun">
@@ -61,11 +61,13 @@
                     <thead>
                         <tr>
                             <th>NIP</th>
-                            <th>Nama</th>
+                            <th>Nama</th>                            
                              @foreach($dataAturanAbsensi as $val)     
                               <th class="col-xs-1 absensiColumn no-sort" style="width:10% !important">{{$val->nama}}</th>                  
                             @endforeach
-                            <th>Status</th>
+                            <th>
+                              Status
+                            </th>
                         </tr>
                     </thead>                   
                     <tbody>
@@ -138,6 +140,7 @@
                             '<td>'+v.nama+
                             '<input type="hidden" name="kd_anak_satker" value="'+v.kd_anak_satker+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '<input type="hidden" name="kelas_jab" value="'+v.kelas_jab+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+                            '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '</td>'+     
                             '<td class="inputColumn"><input type="number" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
                             '<td class="inputColumn"><input type="number" name="absensi2" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
@@ -159,6 +162,7 @@
                             '<td>'+v.nama+
                             '<input type="hidden" name="kd_anak_satker" value="'+v.kd_anak_satker_saat_absensi+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '<input type="hidden" name="kelas_jab" value="'+v.kelas_jab_saat_absensi+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+                            '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor_saat_absensi+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '</td>'+     
                             '<td class="inputColumn"><input type="number" name="absensi1" value="'+v.absensi1+'" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
                             '<td class="inputColumn"><input type="number" name="absensi2" value="'+v.absensi2+'" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
@@ -231,7 +235,8 @@
             absensi4 = [];   
             kodeAnakSatker = []; 
             kelasJab = [];     
-            statusDapat = [];       
+            statusDapat = [];
+            stateTipikor = [];
             ar.find('input').each(function(i, el) {    
               if($(el).attr('name') == "absensi1") 
               {
@@ -281,6 +286,14 @@
                   };           
                   kelasJab.push(b);
               }
+              if($(el).attr('name') == "state_tipikor") 
+              {
+                  b = {
+                    "id" : $(el).attr('data'),
+                    "nilai" : $(el).val(),
+                  };           
+                  stateTipikor.push(b);
+              }
               if($(el).attr('name') == "statusDapat") 
               {
                 if($(el).is(":checked"))
@@ -301,7 +314,7 @@
               }
 
             });
-             console.log(absensi1);
+            console.log(absensi1);
             // json_obj.absensi[1] = absensi1;
             // json_obj.absensi[2] = absensi2;
             // json_obj.absensi[3] = absensi3;
@@ -309,19 +322,18 @@
             // json_obj.kodeAnakSatker = kodeAnakSatker;
             // json_obj.kelasJab = kelasJab;
             // json_obj.statusDapat = statusDapat;
+            // json_obj.stateTipikor = stateTipikor;
             // $('#result-json').val(JSON.stringify(json_obj));
 
-            //Kirim data melalui ajax
-            // console.log(json_obj);
-            while(absensi1.length)
-            {
-              json_obj.absensi[1] = absensi1.slice(0,10);
-              json_obj.absensi[2] = absensi2.slice(0,10);
-              json_obj.absensi[3] = absensi3.slice(0,10);
-              json_obj.absensi[4] = absensi4.slice(0,10);
-              json_obj.kodeAnakSatker = kodeAnakSatker.slice(0,10);
-              json_obj.kelasJab = kelasJab.slice(0,10);
-              json_obj.statusDapat = statusDapat.slice(0,10);
+            while(absensi1.length){
+              json_obj.absensi[1] = absensi1.splice(0,10);
+              json_obj.absensi[2] = absensi2.splice(0,10);
+              json_obj.absensi[3] = absensi3.splice(0,10);
+              json_obj.absensi[4] = absensi4.splice(0,10);
+              json_obj.kodeAnakSatker = kodeAnakSatker.splice(0,10);
+              json_obj.kelasJab = kelasJab.splice(0,10);
+              json_obj.statusDapat = statusDapat.splice(0,10);
+              json_obj.stateTipikor = stateTipikor.splice(0,10);
               $.ajax({
                   type: "POST",                  
                   url: "{{route('absensiKekurangan.store')}}",
@@ -345,13 +357,15 @@
                   }
               });
             }
-              //unset data
-              absensi1 = null;
-              absensi2 = null;
-              absensi3 = null;
-              absensi4 = null;
-          });
-          
+            
+            //unset data
+            absensi1 = null;
+            absensi2 = null;
+            absensi3 = null;
+            absensi4 = null;
+            kodeAnakSatker = null;
+            kelasJab = null;
+        });
     });
    </script>
 @endsection

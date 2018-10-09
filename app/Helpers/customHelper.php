@@ -5,6 +5,7 @@ use Request;
 use Auth;
 use App\satker;
 use App\mutasi;
+use App\TTD;
 class customHelper {
     /**
      * @param int $user_id User-id
@@ -396,5 +397,20 @@ class customHelper {
                     <option value="0">Polri</option>                
                     <option value="1">PNS</option>                
                     <option value="2">Tipidkor</option>'; 
+    }
+    public static function getTTD($halaman,$satker)
+    {
+        if(Auth::user()->level == "operator")
+        {
+            $q = TTD::where(['halaman' => $halaman,'kd_satker' => Auth::user()->kd_satker])->orderBy('bagian','ASC')->get();
+        }
+        else if(Auth::user()->level == "admin")
+        {
+            $satkerId = satker::where('kd_satker',$satker)->first()->id;
+            $q = TTD::where(['kd_satker'=>$satkerId,'halaman' => $halaman])->orderBy('bagian','ASC')->get();
+          
+        }
+ 
+        return $q;
     }
 }

@@ -54,7 +54,7 @@
                 <div class="form-group @if(Auth::user()->level != 'admin') hide @endif">
                   <label>Kode Satker</label>
                   <select class="js-example-basic-single form-control" name="kd_satker">    
-                    <option value="">-</option>                
+                                 
                     @foreach($dataSatker as $val)
                       <option value="{{$val->kd_satker}}">{{$val->kd_satker." - ".$val->nm_satker}}</option>                  
                     @endforeach
@@ -63,9 +63,7 @@
                 <div class="form-group ">
                   <label>Kategori</label>
                   <select class="js-example-basic-single form-control" name="jenis_pegawai">    
-                    <option value="">Polri & PNS</option>                
-                    <option value="0">Polri</option>                
-                    <option value="1">PNS</option>                
+                    {!!CH::printOptionJenisPegawai()!!}             
                   </select>                 
                 </div>  
                 <div class="form-group">
@@ -90,21 +88,21 @@
                   </div>
                   <div class="judulLaporan">
                     <h3 class="judul">
-                      SURAT PERMINTAAN PEMBAYARAN (SPP)
+                      SURAT PERMINTAAN PEMBAYARAN (SPP) KEKURANGAN 
                     </h3>
-                    <h5>Nomor : {{collect($dataTTD)->firstWhere('bagian','4')->nilai1}}</h5>
+                    <h5 class="nomorSurat">Nomor : 4-1</h5>
                   </div>
                   <div class="bag1">
                     <table>
                       <tr>
                         <td>Dari</td>
                         <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','2')->nilai1}}</td>
+                        <td class="dari1">2-1</td>
                       </tr>
                       <tr>
                         <td>Kepada</td>
                         <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','2')->nilai2}}</td>
+                        <td class="kepada1">2-2</td>
                       </tr>
                     </table>
                   </div>
@@ -127,19 +125,19 @@
                       <tr>
                         <td>Untuk</td>
                         <td>:</td>
-                        <td class="mengenai" data-word="{{collect($dataTTD)->firstWhere('bagian','3')->nilai1}}"> <span></span></td>
+                        <td class="mengenai" data-word="3-1"> <span></span></td>
                       </tr>
                       <tr>
                         <td>Kepada</td>
                         <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','3')->nilai2}}</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','3')->nilai4}}</td>
+                        <td class="bag32">3-2</td>
+                        <td class="bag34">3-4</td>
                       </tr>
                       <tr>
                         <td>Alamat</td>
                         <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','3')->nilai3}}</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','3')->nilai5}}</td>
+                        <td class="bag33">3-3</td>
+                        <td class="bag35">3-5</td>
                       </tr>
                     </table>
                   </div>
@@ -187,7 +185,7 @@
                         <td>b.</td>
                         <td>Mengenai</td>
                         <td>:</td>
-                        <td class="mengenai">{{collect($dataTTD)->firstWhere('bagian','3')->nilai1}} <span></span></td>
+                        <td class="mengenai"> <span></span></td>
                       </tr>
                     </table>
                   </div>
@@ -226,17 +224,15 @@
                   </div>
                   <div class="bag6">
                     <div class="ttdform">
-                        <p>{{collect($dataTTD)->firstWhere('bagian','1')->nilai4}}</p>
-                        <p>{{collect($dataTTD)->firstWhere('bagian','1')->nilai1}}</p>
-                        @if(collect($dataTTD)->firstWhere('bagian','1')->image != "")
+                        <p class="waktuTTD">1-4</p>
+                        <p class="jabatanTTD">1-1</p>
+                        
                         <div class="imgWrap">
-                          <img class="imageTTD" src="{{url('public/images/'.collect($dataTTD)->firstWhere('bagian','1')->image)}}">
+                         1-image
                         </div>
-                        @else
-                          <div class="ttdImage"></div>
-                        @endif
-                        <p style="text-decoration: underline;"><b>{{collect($dataTTD)->firstWhere('bagian','1')->nilai2}}</b></p>
-                        <p>{{collect($dataTTD)->firstWhere('bagian','1')->nilai3}}</p>
+                        <div class="ttdImage"></div>
+                        <p style="text-decoration: underline;" class="namaTTD"><b>1-2</b></p>
+                        <p class="pangkatTTD">1-3</p>
                     </div>
                     <div class="clearfix"></div>
                   </div>
@@ -260,7 +256,7 @@
         
           var prtContent = document.getElementById("printArea");
                     
-         
+          
           
       }
   </script>
@@ -276,7 +272,7 @@
 
           $.ajax({
                 type: "POST",                  
-                url: "{{route('pilihBulanTahunLaporanSPPKekurangan')}}",
+                 url: "{{route('pilihBulanTahunLaporanSPPKekurangan')}}",
                 data: 
                 { 
                   "_token": "{{ csrf_token() }}",
@@ -284,10 +280,50 @@
                   "tahun" : tahun,
                   "satker" : satker,
                   "jenis_pegawai" : jenis_pegawai,
+                  "halaman" : "3",
                 },
                 success: function(data) {
                   
-                  console.log(data);
+                  console.log(data.dataTTD);
+                  //loop ttd
+                  $.each(data.dataTTD,function(k,v){
+                    if(v.bagian == "1")
+                    {
+                      $('.waktuTTD').html(v.nilai4);
+                      $('.jabatanTTD').html(v.nilai1);
+                      $('.namaTTD b').html(v.nilai2);
+                      $('.pangkatTTD').html(v.nilai3);
+                      if(v.image == "")
+                      {
+                        $('.imgWrap').hide();
+                        $('.ttdImage').show();
+                      }
+                      else
+                      {
+                        url = "{{url('public/images/')}}/";
+                        $('.imgWrap').show().html('<img class="imageTTD" src="'+url+v.image+'">');
+                        $('.ttdImage').hide();
+                      }
+                    }
+                    else if(v.bagian == "2")
+                    {
+                      $('.dari1').html(v.nilai1);
+                      $('.kepada1').html(v.nilai2);
+                    }
+                    else if(v.bagian == "3")
+                    {
+                      $('.mengenai').attr('data-word',v.nilai1);
+                      $('.bag32').html(v.nilai2);
+                      $('.bag33').html(v.nilai3);
+                      $('.bag34').html(v.nilai4);
+                      $('.bag35').html(v.nilai5);
+
+                    }
+                    else if(v.bagian == "4")
+                    {
+                      $('.nomorSurat').html("Nomor : "+v.nilai1);
+                    }
+                  });
                   if(data.status == "nodata")
                   { 
                     $('.lembarLaporan').fadeOut('slow');
@@ -308,6 +344,7 @@
                   {
                     $('.lembarLaporan').fadeIn("slow");
                     i = 1;
+                    
                     
                     //mengenai
                    mengenaiWord = data.words;                    
