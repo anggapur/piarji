@@ -324,6 +324,7 @@
                       $('.nomorSurat').html("Nomor : "+v.nilai1);
                     }
                   });
+                  
                   if(data.status == "nodata")
                   { 
                     $('.lembarLaporan').fadeOut('slow');

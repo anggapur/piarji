@@ -284,6 +284,7 @@
                 },
                 success: function(data) {
                   
+                  console.log(data);
                   console.log(data.dataTTD);
                   //loop ttd
                   $.each(data.dataTTD,function(k,v){

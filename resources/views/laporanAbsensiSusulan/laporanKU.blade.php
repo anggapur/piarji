@@ -22,7 +22,7 @@
             <!-- <form method="POST" action="{{route('absensi.store')}}">   -->
               {{csrf_field()}}
             <div class="box-header">              
-              <h3 class="box-title">Laporan SPP Polri & PNS</h3>                            
+              <h3 class="box-title">Form Kwitansi Polri/PNS</h3>                            
             </div>
             <div class="box-body">    
               <form class="form-inline" id="formBulanTahun">
@@ -54,7 +54,7 @@
                 <div class="form-group @if(Auth::user()->level != 'admin') hide @endif">
                   <label>Kode Satker</label>
                   <select class="js-example-basic-single form-control" name="kd_satker">    
-                    <option value="">-</option>                
+                                  
                     @foreach($dataSatker as $val)
                       <option value="{{$val->kd_satker}}">{{$val->kd_satker." - ".$val->nm_satker}}</option>                  
                     @endforeach
@@ -63,9 +63,7 @@
                 <div class="form-group ">
                   <label>Kategori</label>
                   <select class="js-example-basic-single form-control" name="jenis_pegawai">    
-                    <option value="">Polri & PNS</option>                
-                    <option value="0">Polri</option>                
-                    <option value="1">PNS</option>                
+                    {!!CH::printOptionJenisPegawai()!!}               
                   </select>                 
                 </div>  
                 <div class="form-group">
@@ -128,63 +126,63 @@
                        <tr>
                         <td>Untuk Pembayaran </td>
                         <td>:</td>
-                        <td colspan="2" class="mengenai" data-word="{{collect($dataTTD)->firstWhere('bagian','3')->nilai1}}"></td>
+                        <td colspan="2" class="mengenai bag31" data-word="3-1"></td>
                       </tr>
                     </table>
                   </div>
                 </div>
                 <div class="footerKU">
                   <div class="leftKU">
-                    <h5 style="margin-bottom:0px; margin-top: 10px;">{{collect($dataTTD)->firstWhere('bagian','1')->nilai4}}</h5>
+                    <h5 style="margin-bottom:0px; margin-top: 10px;" class="bag14">1-4</h5>
                     <h5 style="margin-top:0px;">Yang membayarkan</h5>
                     <div class="space"></div>
                     <table>
                       <tr>
                         <td>Nama</td>
                         <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','1')->nilai2}}</td>
+                        <td class="bag12">1-2</td>
                       </tr>
                       <tr>
                         <td>Pangkat/NRP</td>
                         <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','1')->nilai3}}</td>
+                        <td class="bag13">1-3</td>
                       </tr>
                       <tr>
                         <td>Jabatan</td>
                         <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','1')->nilai1}}</td>
+                        <td class="bag11">1-1</td>
                       </tr>
                       <tr>
                         <td>Alamat</td>
                         <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','1')->nilai5}}</td>
+                        <td class="bag15">1-5</td>
                       </tr>
                     </table>
                   </div>
                   <div class="rightKU">
-                    <h5 style="margin-bottom:0px;">{{collect($dataTTD)->firstWhere('bagian','2')->nilai4}}</h5>
+                    <h5 style="margin-bottom:0px;" class="bag24">2-4</h5>
                     <h5 style="margin-top:0px;">Yang menerima</h5>
                     <div class="space"></div>
                     <table>
                       <tr>
                         <td>Nama</td>
                         <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','2')->nilai2}}</td>
+                        <td class="bag22">2-2</td>
                       </tr>
                       <tr>
                         <td>Pangkat/NRP</td>
                         <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','2')->nilai3}}</td>
+                        <td class="bag23">2-3</td>
                       </tr>
                       <tr>
                         <td>Jabatan</td>
                         <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','2')->nilai1}}</td>
+                        <td class="bag21">2-1</td>
                       </tr>
                       <tr>
                         <td>Alamat</td>
                         <td>:</td>
-                        <td>{{collect($dataTTD)->firstWhere('bagian','2')->nilai5}}</td>
+                        <td class="bag25">2-5</td>
                       </tr>
                     </table>
                   </div>
@@ -212,7 +210,7 @@
         
           var prtContent = document.getElementById("printArea");
                     
-          
+         
           
       }
   </script>
@@ -228,7 +226,7 @@
 
           $.ajax({
                 type: "POST",                  
-                url: "{{route('pilihBulanTahunLaporanKUSusulan')}}",
+                 url: "{{route('pilihBulanTahunLaporanKUSusulan')}}",
                 data: 
                 { 
                   "_token": "{{ csrf_token() }}",
@@ -236,10 +234,37 @@
                   "tahun" : tahun,
                   "satker" : satker,
                   "jenis_pegawai" : jenis_pegawai,
+                  "halaman" : "4",
                 },
                 success: function(data) {
                   
                   console.log(data);
+                  //
+                  //loop ttd
+                  $.each(data.dataTTD,function(k,v){
+                    if(v.bagian == "1")
+                    {
+                      $('.bag11').html(v.nilai1);
+                      $('.bag12').html(v.nilai2);
+                      $('.bag13').html(v.nilai3);
+                      $('.bag14').html(v.nilai4);
+                      $('.bag15').html(v.nilai5);
+                    }
+                    else if(v.bagian == "2")
+                    {
+                      $('.bag21').html(v.nilai1);
+                      $('.bag22').html(v.nilai2);
+                      $('.bag23').html(v.nilai3);
+                      $('.bag24').html(v.nilai4);
+                      $('.bag25').html(v.nilai5);
+                    }
+                    else if(v.bagian == "3")
+                    {
+                      $('.bag31').attr('data-word',v.nilai1);
+                    }
+                    
+                  });
+                  //
                   if(data.status == "nodata")
                   { 
                     $('.lembarLaporanKU').fadeOut('slow');

@@ -54,7 +54,7 @@
                 <div class="form-group @if(Auth::user()->level != 'admin') hide @endif">
                   <label>Kode Satker</label>
                   <select class="js-example-basic-single form-control" name="kd_satker">    
-                    <option value="">-</option>                
+                                 
                     @foreach($dataSatker as $val)
                       <option value="{{$val->kd_satker}}">{{$val->kd_satker." - ".$val->nm_satker}}</option>                  
                     @endforeach
@@ -95,21 +95,21 @@
                     
                   </div>
                   <div class="bag7">
-                    @if(Auth::user()->level == "operator")
+                    
                     <div class="ttdform">
-                        <p style="margin-bottom: 0px;">{{collect($dataTTD)->firstWhere('bagian','2')->nilai4}}</p>
-                        <p>{{collect($dataTTD)->firstWhere('bagian','2')->nilai1}}</p>
-                        @if(collect($dataTTD)->firstWhere('bagian','2')->image != "")
+                        <p style="margin-bottom: 0px;" class="bag24"></p>
+                        <p class="bag21"></p>
+                       
                         <div class="imgWrap">
-                          <img class="imageTTD" src="{{url('public/images/'.collect($dataTTD)->firstWhere('bagian','2')->image)}}">
+                          
                         </div>
-                        @else
+                        
                           <div class="ttdImage"></div>
-                        @endif
-                        <p style="text-decoration: underline;margin-bottom: 0px;"><b>{{collect($dataTTD)->firstWhere('bagian','2')->nilai2}}</b></p>
-                        <p>{{collect($dataTTD)->firstWhere('bagian','2')->nilai3}}</p>
+                        
+                        <p style="text-decoration: underline;margin-bottom: 0px;" class="bag22"><b></b></p>
+                        <p class="bag23"></p>
                     </div>
-                    @endif
+                    
                     <div class="clearfix"></div>
                   </div>
                </div>
@@ -156,10 +156,40 @@
                   "tahun" : tahun,
                   "satker" : satker,
                   "jenis_pegawai" : jenis_pegawai,
+                  "halaman":"5",
                 },
                 success: function(data) {
                   
                   console.log(data);
+                  //
+                  $.each(data.dataTTD,function(k,v){
+                    if(v.bagian == "1")
+                    {
+                      $('.bodySPTJM').attr('data-word',v.nilai1);
+                    }
+                    else if(v.bagian == "2")
+                    {
+                      
+                      $('.bag21').html(v.nilai1);
+                      $('.bag22 > b').html(v.nilai2);
+                      $('.bag23').html(v.nilai3);
+                      $('.bag24').html(v.nilai4);
+                      if(v.image !== "")
+                      {
+                         url = '{{url("public/images")}}/';
+                        $('.imgWrap').show().html('<img class="imageTTD" src="'+url+v.image+'">');
+                        $('.ttdImage').hide();
+                       
+                      }
+                      else
+                      {
+                        $('.imgWrap').hide();
+                        $('.ttdImage').show();
+                      }
+                    }
+                  });
+
+                  //
                   if(data.status == "nodata")
                   { 
                     $('.lembarLaporan').fadeOut('slow');

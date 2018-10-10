@@ -441,7 +441,8 @@ class laporanAbsensiKekurangan extends Controller
                         $q->on('absensi_kekurangan.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
                         $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi_kekurangan.kd_aturan');
                     })
-                    ->where('absensi_kekurangan.id_waktu',$query[0]['id']);
+                    ->where('absensi_kekurangan.id_waktu',$query[0]['id'])
+                    ->where('absensi_kekurangan.status_dapat','1');
                     
             }
             else
@@ -455,7 +456,8 @@ class laporanAbsensiKekurangan extends Controller
                         $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi_kekurangan.kd_aturan');
                     })
                     ->where('absensi_kekurangan.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))
-                    ->where('absensi_kekurangan.id_waktu',$query[0]['id']);
+                    ->where('absensi_kekurangan.id_waktu',$query[0]['id'])
+                    ->where('absensi_kekurangan.status_dapat','1');
             }
 
             $q2 //->groupBy('pegawai.kelas_jab')
@@ -583,7 +585,8 @@ class laporanAbsensiKekurangan extends Controller
                         $q->on('absensi_kekurangan.kelas_jab_saat_absensi','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
                         $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi_kekurangan.kd_aturan');
                     })
-                    ->where('absensi_kekurangan.id_waktu',$query[0]['id']);
+                    ->where('absensi_kekurangan.id_waktu',$query[0]['id'])
+                    ->where('absensi_kekurangan.status_dapat','1');
                     
             }
             else
@@ -597,7 +600,8 @@ class laporanAbsensiKekurangan extends Controller
                         $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','absensi_kekurangan.kd_aturan');
                     })
                     ->where('absensi_kekurangan.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))
-                    ->where('absensi_kekurangan.id_waktu',$query[0]['id']);
+                    ->where('absensi_kekurangan.id_waktu',$query[0]['id'])
+                    ->where('absensi_kekurangan.status_dapat','1');
             }
 
             $q2 //->groupBy('pegawai.kelas_jab')
@@ -689,7 +693,7 @@ class laporanAbsensiKekurangan extends Controller
 
             $mengenaiWord=" bulan ".$bulan[$request->bulan]." ".$request->tahun;
 
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $nilaiBalik,'formula' => $formula,'tunkin' => $tunkin,'words' => $mengenaiWord,'anggota'=>$anggota,'satkerNama' => $satkerNama];            
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $nilaiBalik,'formula' => $formula,'tunkin' => $tunkin,'words' => $mengenaiWord,'anggota'=>$anggota,'satkerNama' => $satkerNama,'dataTTD' => CH::getTTD($request->halaman,$request->satker)];            
         }
         else
         {

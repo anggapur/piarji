@@ -689,7 +689,7 @@ class laporanAbsensi extends Controller
 
             $mengenaiWord=" bulan ".$bulan[$request->bulan]." ".$request->tahun;
 
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $nilaiBalik,'formula' => $formula,'tunkin' => $tunkin,'words' => $mengenaiWord,'anggota'=>$anggota,'satkerNama' => $satkerNama];            
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $nilaiBalik,'formula' => $formula,'tunkin' => $tunkin,'words' => $mengenaiWord,'anggota'=>$anggota,'satkerNama' => $satkerNama,'dataTTD' => CH::getTTD($request->halaman,$request->satker)];            
         }
         else
         {
