@@ -379,7 +379,6 @@ class pegawaiController extends Controller
                         $dataInsert[$key]['nip'] = $val->nipnrp;                                                            
                         $dataInsert[$key]['kelas_jab'] = $val->kls_jab;
                         $dataInsert[$key]['kd_gapok'] = "";
-                        $dataInsert[$key]['no_rekening'] = "";
                         $dataInsert[$key]['kawin'] = $val->kawin;
                         $dataInsert[$key]['tanggungan'] = $val->tanggungan;
                         $dataInsert[$key]['jenis_kelamin'] = $val->jenis_kelamin;
@@ -465,7 +464,7 @@ class pegawaiController extends Controller
                         $dataUpdate['nip'] = $val->nipnrp;                                                            
                         $dataUpdate['kelas_jab'] = $val->kls_jab;
                         $dataUpdate['kd_gapok'] = "";
-                        $dataUpdate['no_rekening'] = "";
+                        $dataUpdate['no_rekening'] =  $val->no_rekening;
                         $dataUpdate['kawin'] = $val->kawin;
                         $dataUpdate['tanggungan'] = $val->tanggungan;
                         $dataUpdate['jenis_kelamin'] = $val->jenis_kelamin;
