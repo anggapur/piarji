@@ -304,7 +304,7 @@
 	                  console.log(data);
 	                    if(data.status == "success")
 	                    {
-                          succeed_transfer+=data.sisa_data;
+                          succeed_transfer+=data.data_yang_diproses;
                           console.log("Succes transfer count : "+succeed_transfer);
 	                        if(succeed_transfer == hitungAllData)
                           {
