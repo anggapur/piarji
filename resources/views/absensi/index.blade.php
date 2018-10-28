@@ -331,12 +331,13 @@
               $.ajax({
                   type: "POST",                  
                   url: "{{route('absensi.store')}}",
-                  "sisa_data" : absensi1.length,
+                  
                   data: 
                   { 
                     "_token": "{{ csrf_token() }}",
                     "datas" : json_obj,
                     "datas_status_dapat" : datas_status_dapat,
+                    "sisa_data" : absensi1.length,
                   },
                    success: function(data) {
                     console.log(data);
