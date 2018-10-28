@@ -297,7 +297,7 @@
 	                { 
 	                  "_token": "{{ csrf_token() }}",
 	                  "datas" : json_obj,
-                    "sisa_data" : json_obj.kodeAnakSatker.length,
+                    "sisa_data" : absensi1.length,
 	                },
 	                success: function(data) {
 	                  console.log(data);
