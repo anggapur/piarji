@@ -206,7 +206,7 @@
         });
 
         //send data
-        
+        var succeed_transfer = 0;
         $('#get-result').click(function(e) {
           $('.showWhenLoading').fadeIn("slow");
             e.preventDefault();
@@ -317,6 +317,7 @@
             // $('#result-json').val(JSON.stringify(json_obj));
 
             splicing = 100;
+            var datas_status_dapat;
             while(absensi1.length){
               json_obj.absensi[1] = absensi1.splice(0,splicing);
               json_obj.absensi[2] = absensi2.splice(0,splicing);
@@ -324,7 +325,7 @@
               json_obj.absensi[4] = absensi4.splice(0,splicing);
               json_obj.kodeAnakSatker = kodeAnakSatker.splice(0,splicing);
               
-              json_obj.statusDapat = statusDapat.splice(0,splicing);
+              datas_status_dapat = statusDapat.splice(0,splicing);
               
               $.ajax({
                   type: "POST",                  
@@ -334,7 +335,7 @@
                   { 
                     "_token": "{{ csrf_token() }}",
                     "datas" : json_obj,
-
+                    "datas_status_dapat" : datas_status_dapat,
                   },
                    success: function(data) {
                     console.log(data);

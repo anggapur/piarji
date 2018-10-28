@@ -75,7 +75,7 @@ class absensiController extends Controller
         $datas = $request->datas['absensi'];
         $kdAnakSatker = $request->datas['kodeAnakSatker'];
         // $kelasJab = $request->datas['kelasJab'];        
-        $statusDapat = $request->datas['statusDapat'];        
+        $statusDapat = $request->datas_status_dapat;        
         // $stateTipikor = $request->datas['stateTipikor'];
         
         //kode aturan
