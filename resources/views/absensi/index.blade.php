@@ -316,7 +316,7 @@
             // json_obj.stateTipikor = stateTipikor;
             // $('#result-json').val(JSON.stringify(json_obj));
 
-            splicing = 100;
+            splicing = 80;
             var datas_status_dapat;
             hitungAllData = absensi1.length;
             while(absensi1.length){
