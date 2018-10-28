@@ -323,9 +323,9 @@
               json_obj.absensi[3] = absensi3.splice(0,splicing);
               json_obj.absensi[4] = absensi4.splice(0,splicing);
               json_obj.kodeAnakSatker = kodeAnakSatker.splice(0,splicing);
-              json_obj.kelasJab = kelasJab.splice(0,splicing);
+              
               json_obj.statusDapat = statusDapat.splice(0,splicing);
-              json_obj.stateTipikor = stateTipikor.splice(0,splicing);
+              
               $.ajax({
                   type: "POST",                  
                   url: "{{route('absensi.store')}}",
@@ -334,6 +334,7 @@
                   { 
                     "_token": "{{ csrf_token() }}",
                     "datas" : json_obj,
+
                   },
                    success: function(data) {
                     console.log(data);
