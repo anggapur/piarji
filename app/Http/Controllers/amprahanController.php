@@ -112,7 +112,7 @@ return $errorInfo;
 }
         }
 
-        return ['status' => 'success','kd_aturan' => $kd_aturan];
+        return ['status' => 'success','kd_aturan' => $kd_aturan,'sisa_data' => $request->sisa_data];
     }
 
     /**

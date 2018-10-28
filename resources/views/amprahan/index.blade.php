@@ -82,7 +82,7 @@
       <!-- /.row -->
       <div class="bgBlack showWhenLoading"></div>
     <div class="spinner showWhenLoading">
-      <h3>Menyimpan Absensi</h3>
+      <h3>Menyimpan Amprahan</h3>
       <div class="bounce1"></div>
       <div class="bounce2"></div>
       <div class="bounce3"></div>
@@ -91,8 +91,10 @@
     
    <script type="text/javascript">
     var t;
+    var state_upload = false;
      $(function() {
       //deklarasi var
+      state_upload = false;
       json_obj = { 
         "bulan" : null,
         "tahun" : null,
@@ -204,8 +206,11 @@
         //send data
         
         $('#get-result').click(function(e) {
-          $('.showWhenLoading').fadeIn("slow");
-            e.preventDefault();
+          // alert('Simpan');
+          $('.showWhenLoading').fadeIn();
+          $('.showWhenLoading').css('display','block !important');
+           e.preventDefault();
+          setTimeout(function(){//timeout
             json_obj.bulan = bulan;    
             json_obj.tahun = tahun;  
             ar = $()
@@ -281,12 +286,15 @@
             // json_obj.stateTipikor = stateTipikor;
             // $('#result-json').val(JSON.stringify(json_obj));
             
+      //status uploading
+      
+      splicing = 100;
 			while(absensi1.length) {
-			    json_obj.absensi[1] = absensi1.splice(0,10);
-			    json_obj.kodeAnakSatker = kodeAnakSatker.splice(0,10);
-	            json_obj.kelasJab = kelasJab.splice(0,10);
-	            json_obj.statusDapat = statusDapat.splice(0,10);
-	            json_obj.stateTipikor = stateTipikor.splice(0,10);
+			    json_obj.absensi[1] = absensi1.splice(0,splicing);
+			    json_obj.kodeAnakSatker = kodeAnakSatker.splice(0,splicing);
+	            json_obj.kelasJab = kelasJab.splice(0,splicing);
+	            json_obj.statusDapat = statusDapat.splice(0,splicing);
+	            json_obj.stateTipikor = stateTipikor.splice(0,splicing);
 	            $.ajax({
 	                type: "POST",                  
 	                url: "{{route('amprahan.store')}}",
@@ -294,22 +302,31 @@
 	                { 
 	                  "_token": "{{ csrf_token() }}",
 	                  "datas" : json_obj,
+                    "sisa_data" : absensi1.length,
 	                },
 	                success: function(data) {
 	                  console.log(data);
-	                    if(data.status == "success")
-	                    {
-	                      $("html,body").scrollTop($("body").scrollTop() + 0);
-	                      $('.alert.alert-success').slideDown(200);
-	                      setTimeout(function(){ 
-	                         $('.alert.alert-success').fadeOut(500);
-	                        }, 4000);
-	                      
-	                    }
-	                    $('.showWhenLoading').fadeOut("slow");
+	                   if(data.status == "success")
+                     {
+                       console.log(data.sisa_data);
+                       if(data.sisa_data <= splicing)
+                       {
+                        $("html,body").scrollTop($("body").scrollTop() + 0);
+                        $('.alert.alert-success').slideDown(200);
+                        setTimeout(function(){ 
+                          $('.alert.alert-success').fadeOut(500);
+                          }, 4000);
+                        console.log('Keluart BNerhasil');
+                        // alert('Keluart BNerhasil');
+                         $('.showWhenLoading').fadeOut("slow");
+                       }
+                     }
 	                }
 	            });
+           
 			}
+      
+       
            	
            	
             //Kirim data melalui ajax
@@ -344,6 +361,8 @@
             
             kodeAnakSatker = null;
             kelasJab = null;
+
+          }, 3000);//timeout
         });
     });
    </script>
