@@ -206,6 +206,8 @@
         $('#get-result').click(function(e) {
           $('.showWhenLoading').fadeIn("slow");
             e.preventDefault();
+
+          setTimeout(function(){ //timeout
             json_obj.bulan = bulan;    
             json_obj.tahun = tahun;  
             ar = $()
@@ -281,7 +283,7 @@
             // json_obj.stateTipikor = stateTipikor;
             // $('#result-json').val(JSON.stringify(json_obj));
             
-            splicing = 100;
+      splicing = 100;
 			while(absensi1.length) {
 			    json_obj.absensi[1] = absensi1.splice(0,splicing);
 			    json_obj.kodeAnakSatker = kodeAnakSatker.splice(0,splicing);
@@ -295,20 +297,24 @@
 	                { 
 	                  "_token": "{{ csrf_token() }}",
 	                  "datas" : json_obj,
-                    "sisa_data" : absensi1.length,
+                    "sisa_data" : json_obj.kodeAnakSatker.length,
 	                },
 	                success: function(data) {
 	                  console.log(data);
 	                    if(data.status == "success")
 	                    {
-	                      $("html,body").scrollTop($("body").scrollTop() + 0);
-	                      $('.alert.alert-success').slideDown(200);
-	                      setTimeout(function(){ 
-	                         $('.alert.alert-success').fadeOut(500);
-	                        }, 4000);
+	                        if(data.sisa_data <= splicing)
+                          {
+                              $("html,body").scrollTop($("body").scrollTop() + 0);
+                              $('.alert.alert-success').slideDown(200);
+                              setTimeout(function(){ 
+                              $('.alert.alert-success').fadeOut(500);
+                              }, 4000);
+                              $('.showWhenLoading').fadeOut("slow");
+                          } 
 	                      
 	                    }
-	                    $('.showWhenLoading').fadeOut("slow");
+                       
 	                }
 	            });
 			}
@@ -346,6 +352,7 @@
             
             kodeAnakSatker = null;
             kelasJab = null;
+          },1000);//timeout
         });
     });
    </script>
