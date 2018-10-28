@@ -318,6 +318,7 @@
 
             splicing = 100;
             var datas_status_dapat;
+            hitungAllData = absensi1.length;
             while(absensi1.length){
               json_obj.absensi[1] = absensi1.splice(0,splicing);
               json_obj.absensi[2] = absensi2.splice(0,splicing);
