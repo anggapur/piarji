@@ -202,7 +202,7 @@
         });
 
         //send data
-        
+        var succeed_transfer = 0;
         $('#get-result').click(function(e) {
           $('.showWhenLoading').fadeIn("slow");
             e.preventDefault();
@@ -284,6 +284,7 @@
             // $('#result-json').val(JSON.stringify(json_obj));
             
       splicing = 100;
+      hitungAllData = absensi1.length;
 			while(absensi1.length) {
 			    json_obj.absensi[1] = absensi1.splice(0,splicing);
 			    json_obj.kodeAnakSatker = kodeAnakSatker.splice(0,splicing);
@@ -303,7 +304,9 @@
 	                  console.log(data);
 	                    if(data.status == "success")
 	                    {
-	                        if(data.sisa_data <= splicing)
+                          succeed_transfer+=data.sisa_data;
+                          console.log("Succes transfer count : "+succeed_transfer);
+	                        if(succeed_transfer == hitungAllData)
                           {
                               $("html,body").scrollTop($("body").scrollTop() + 0);
                               $('.alert.alert-success').slideDown(200);
