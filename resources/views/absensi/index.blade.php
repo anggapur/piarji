@@ -316,7 +316,7 @@
             // json_obj.stateTipikor = stateTipikor;
             // $('#result-json').val(JSON.stringify(json_obj));
 
-            splicing = 10;
+            splicing = 20;
             var datas_status_dapat;
             hitungAllData = absensi1.length;
             while(absensi1.length){
@@ -327,7 +327,8 @@
               json_obj.kodeAnakSatker = kodeAnakSatker.splice(0,splicing);
               json_obj.kelasJab = kelasJab.splice(0,splicing);
               json_obj.stateTipikor = stateTipikor.splice(0,splicing);
-              datas_status_dapat = statusDapat.splice(0,splicing);
+              json_obj.statusDapat = statusDapat.splice(0,splicing);
+              // datas_status_dapat = statusDapat.splice(0,splicing);
               
               $.ajax({
                   type: "POST",                  
@@ -337,7 +338,7 @@
                   { 
                     "_token": "{{ csrf_token() }}",
                     "datas" : json_obj,
-                    "datas_status_dapat" : datas_status_dapat,
+                    // "datas_status_dapat" : datas_status_dapat,
                     "sisa_data" : absensi1.length,
                   },
                    success: function(data) {
