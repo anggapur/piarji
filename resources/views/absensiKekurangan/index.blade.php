@@ -29,7 +29,7 @@
                 <div class="form-group">
                   <label>Bulan</label>
                   <select class="form-control" name="bulan">
-                   {!!CH::printBulan()!!}
+                    {!!CH::printBulan()!!}
                   </select>
                 </div>
                 <div class="form-group">
@@ -206,10 +206,12 @@
         });
 
         //send data
-        
+        var succeed_transfer = 0;
         $('#get-result').click(function(e) {
           $('.showWhenLoading').fadeIn("slow");
             e.preventDefault();
+
+          setTimeout(function(){//timeout
             json_obj.bulan = bulan;    
             json_obj.tahun = tahun;  
             ar = $()
@@ -314,35 +316,49 @@
             // json_obj.stateTipikor = stateTipikor;
             // $('#result-json').val(JSON.stringify(json_obj));
 
+            splicing = 20;
+            var datas_status_dapat;
+            hitungAllData = absensi1.length;
             while(absensi1.length){
-              json_obj.absensi[1] = absensi1.splice(0,10);
-              json_obj.absensi[2] = absensi2.splice(0,10);
-              json_obj.absensi[3] = absensi3.splice(0,10);
-              json_obj.absensi[4] = absensi4.splice(0,10);
-              json_obj.kodeAnakSatker = kodeAnakSatker.splice(0,10);
-              json_obj.kelasJab = kelasJab.splice(0,10);
-              json_obj.statusDapat = statusDapat.splice(0,10);
-              json_obj.stateTipikor = stateTipikor.splice(0,10);
+              json_obj.absensi[1] = absensi1.splice(0,splicing);
+              json_obj.absensi[2] = absensi2.splice(0,splicing);
+              json_obj.absensi[3] = absensi3.splice(0,splicing);
+              json_obj.absensi[4] = absensi4.splice(0,splicing);
+              json_obj.kodeAnakSatker = kodeAnakSatker.splice(0,splicing);
+              json_obj.kelasJab = kelasJab.splice(0,splicing);
+              json_obj.stateTipikor = stateTipikor.splice(0,splicing);
+              json_obj.statusDapat = statusDapat.splice(0,splicing);
+              // datas_status_dapat = statusDapat.splice(0,splicing);
+              
               $.ajax({
                   type: "POST",                  
                   url: "{{route('absensiKekurangan.store')}}",
+                  
                   data: 
                   { 
                     "_token": "{{ csrf_token() }}",
                     "datas" : json_obj,
+                    // "datas_status_dapat" : datas_status_dapat,
+                    "sisa_data" : absensi1.length,
                   },
-                  success: function(data) {
+                   success: function(data) {
                     console.log(data);
                       if(data.status == "success")
                       {
-                        $("html,body").scrollTop($("body").scrollTop() + 0);
-                        $('.alert.alert-success').slideDown(200);
-                        setTimeout(function(){ 
-                           $('.alert.alert-success').fadeOut(500);
-                          }, 4000);
+                          succeed_transfer+=data.data_yang_diproses;
+                          console.log("Succes transfer count : "+succeed_transfer);
+                          if(succeed_transfer == hitungAllData)
+                          {
+                              $("html,body").scrollTop($("body").scrollTop() + 0);
+                              $('.alert.alert-success').slideDown(200);
+                              setTimeout(function(){ 
+                              $('.alert.alert-success').fadeOut(500);
+                              }, 4000);
+                              $('.showWhenLoading').fadeOut("slow");
+                          } 
                         
                       }
-                      $('.showWhenLoading').fadeOut("slow");
+                       
                   }
               });
             }
@@ -354,6 +370,7 @@
             absensi4 = null;
             kodeAnakSatker = null;
             kelasJab = null;
+          },1000);
         });
     });
    </script>

@@ -66,6 +66,7 @@ class absensiKekuranganController extends Controller
     public function store(Request $request)
     {
         //
+      $count = 0;
         $where = ['bulan' => $request->datas['bulan'], 'tahun' => $request->datas['tahun']];
         $query = waktu_absensi::where($where)->first();
         $data = $request->datas;
@@ -101,7 +102,7 @@ class absensiKekuranganController extends Controller
                 $queryProcess = absensiKekurangan::create($dataInsert);
             else
                 $queryProcess = absensiKekurangan::where(['nip' => $value['id'], 'id_waktu' => $data['idBulanTahun']])->update($dataInsert);
-
+            $count++;
             //cek query executed or not
             // if(!$queryProcess)
             //     return $dataInsert;
@@ -114,7 +115,7 @@ return $errorInfo;
 }
         }
 
-        return ['status' => 'success','kd_aturan' => $kd_aturan];
+        return ['status' => 'success','kd_aturan' => $kd_aturan,'sisa_data' => $request->sisa_data,'data_yang_diproses' => $count];
     }
 
     /**
