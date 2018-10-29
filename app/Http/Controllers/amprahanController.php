@@ -89,8 +89,8 @@ class amprahanController extends Controller
             $dataInsert['kd_anak_satker_saat_amprah'] = $kdAnakSatker[$key]['nilai'];
             $dataInsert['kelas_jab_saat_amprah'] = $kelasJab[$key]['nilai'];
             $dataInsert['status_dapat'] = $statusDapat[$key]['nilai'];
-            //$dataInsert['state_tipikor_saat_amprah'] = $stateTipikor[$key]['nilai'];
-            $dataInsert['state_tipikor_saat_amprah'] = pegawai::where('nip',$value['id'])->first()->state_tipikor;
+            $dataInsert['state_tipikor_saat_amprah'] = $stateTipikor[$key]['nilai'];
+            // $dataInsert['state_tipikor_saat_amprah'] = pegawai::where('nip',$value['id'])->first()->state_tipikor;
             $dataInsert['id_waktu'] = $data['idBulanTahun'];
             $dataInsert['kd_aturan'] = $kd_aturan->id;
             $dataInsert['kd_satker_saat_amprah'] = CH::getKdSatker(Auth::user()->kd_satker);

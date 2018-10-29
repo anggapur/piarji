@@ -82,7 +82,7 @@
       <!-- /.row -->
       <div class="bgBlack showWhenLoading"></div>
     <div class="spinner showWhenLoading">
-      <h3>Menyimpan Absensi</h3>
+      <h3>Menyimpan Amprahan</h3>
       <div class="bounce1"></div>
       <div class="bounce2"></div>
       <div class="bounce3"></div>
@@ -283,7 +283,7 @@
             // json_obj.stateTipikor = stateTipikor;
             // $('#result-json').val(JSON.stringify(json_obj));
             
-      splicing = 100;
+      splicing = 30;
       hitungAllData = absensi1.length;
 			while(absensi1.length) {
 			    json_obj.absensi[1] = absensi1.splice(0,splicing);
