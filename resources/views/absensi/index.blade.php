@@ -316,7 +316,7 @@
             // json_obj.stateTipikor = stateTipikor;
             // $('#result-json').val(JSON.stringify(json_obj));
 
-            splicing = 80;
+            splicing = 10;
             var datas_status_dapat;
             hitungAllData = absensi1.length;
             while(absensi1.length){
@@ -325,7 +325,8 @@
               json_obj.absensi[3] = absensi3.splice(0,splicing);
               json_obj.absensi[4] = absensi4.splice(0,splicing);
               json_obj.kodeAnakSatker = kodeAnakSatker.splice(0,splicing);
-              
+              json_obj.kelasJab = kelasJab.splice(0,splicing);
+              json_obj.stateTipikor = stateTipikor.splice(0,splicing);
               datas_status_dapat = statusDapat.splice(0,splicing);
               
               $.ajax({
