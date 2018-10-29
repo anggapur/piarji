@@ -322,7 +322,8 @@
                     yangDibayarTotal = 0;                    
 
                     console.log('KKK:'+kodeSatker);
-                    $.each(data.dataAbsensi,function(k,v){                      
+                    $.each(data.dataAbsensi,function(k,v){        
+                      console.log("koko : "+v);              
                       absensVal[1] = parseInt(absensiFormulaMath(formula1,parseInt(v.tunjangan),v.absensi1));
                       absensVal[2] = parseInt(absensiFormulaMath(formula2,parseInt(v.tunjangan),v.absensi2));
                       absensVal[3] = parseInt(absensiFormulaMath(formula3,parseInt(v.tunjangan),v.absensi3));
