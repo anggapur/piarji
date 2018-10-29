@@ -187,7 +187,7 @@ class satkerController extends Controller
             ->addColumn('kolom_anak_satker', function ($user) {
                 $returnVal = "";
                 foreach ($user->getAnakSatker as $key => $value) {
-                    $returnVal.='<span class="label label-default" style="margin-right:10px;">'.$value->kd_anak_satker.'-'.$value->nm_anak_satker.'</span>';
+                    $returnVal.='<div class="label label-default" style="margin-right:10px;">'.$value->kd_anak_satker.'-'.$value->nm_anak_satker.'</div><br>';
                 }
                 return $returnVal;
                 

@@ -755,7 +755,7 @@ class laporanAbsensi extends Controller
                     ->orderBy('absensi.kd_satker_saat_absensi','ASC')
                     ->orderBy('absensi.kd_anak_satker_saat_absensi','ASC')
                     ->orderBy('absensi.kelas_jab_saat_absensi','DESC')
-                    ->select('absensi.*','pegawai.*','pangkat.*','jabatan.*','satker.*','anak_satker.nm_anak_satker','aturan_tunkin_detail.*');   
+                    ->select('absensi.*','pegawai.*','pangkat.*','jabatan.*','satker.*','anak_satker.*','aturan_tunkin_detail.*');   
             }
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
