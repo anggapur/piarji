@@ -68,7 +68,7 @@
                   <div class="headerKU">
                     <div class="leftKU">
                       <div class="logoPolriLaporan"><img src="{{url('public/asset/Logo-POLRI-bw.png')}}"></div>
-                      <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> BIDANG KEUANGAN</h5>
+                      <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> <span class="satkerNama"></span></h5>
                     </div>
                     <div class="rightKU">
                       
@@ -272,7 +272,7 @@
                   "halaman" : "3",
                 },
                 success: function(data) {
-                  
+                  $('.satkerNama').html(data.selectedSatker.nm_satker);
                   console.log(data.dataTTD);
                   //loop ttd
                   $.each(data.dataTTD,function(k,v){

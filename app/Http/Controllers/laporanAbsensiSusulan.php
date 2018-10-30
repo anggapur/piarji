@@ -339,7 +339,7 @@ class laporanAbsensiSusulan extends Controller
                     ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan , absensi_susulan.*')); 
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
-                $q2->where('pegawai.kd_satker',$request->satker);
+                $q2->where('absensi_susulan.kd_satker_saat_absensi',$request->satker);
             //cek apakah di requect polri atau pns
             $keanggotaan = "POLRI & PNS";
             if($request->jenis_pegawai == "0")
@@ -410,8 +410,15 @@ class laporanAbsensiSusulan extends Controller
                 }
             }
 
-
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $returnVal,'formula' => $formula,'tunkin' => $tunkin, 'bulan' => $bulan[$request->bulan] ,'tahun' => $request->tahun,'keanggotaan' => $keanggotaan];            
+            //
+            if(Auth::user()->level == "operator")
+                $selectedSatker = satker::where('kd_satker',CH::getKdSatker(Auth::user()->kd_satker))->first();
+            else if($request->satker != "")
+                $selectedSatker = satker::where('kd_satker',$request->satker)->first();
+            else
+                $selectedSatker['nm_satker'] = "";
+            //
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $returnVal,'formula' => $formula,'tunkin' => $tunkin, 'bulan' => $bulan[$request->bulan] ,'tahun' => $request->tahun,'keanggotaan' => $keanggotaan,'selectedSatker' => $selectedSatker];            
         }
         else
         {
@@ -468,7 +475,7 @@ class laporanAbsensiSusulan extends Controller
                     ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan, absensi_susulan.*')); 
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
-                $q2->where('pegawai.kd_satker',$request->satker);
+                $q2->where('absensi_susulan.kd_satker_saat_absensi',$request->satker);
             //cek apakah di requect polri atau pns
             if($request->jenis_pegawai == "0")
                 $q2->whereRaw('LENGTH(pegawai.nip) <= 8'); // polri
@@ -551,8 +558,15 @@ class laporanAbsensiSusulan extends Controller
             }
 
             $mengenaiWord=" bulan ".$bulan[$request->bulan]." ".$request->tahun;
-
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $returnVal,'formula' => $formula,'tunkin' => $tunkin,'words' => $mengenaiWord,'anggota' => $anggota,'satkerNama'=>$satkerNama,'dataTTD' => CH::getTTD($request->halaman,$request->satker)];            
+            //
+            if(Auth::user()->level == "operator")
+                $selectedSatker = satker::where('kd_satker',CH::getKdSatker(Auth::user()->kd_satker))->first();
+            else if($request->satker != "")
+                $selectedSatker = satker::where('kd_satker',$request->satker)->first();
+            else
+                $selectedSatker['nm_satker'] = "";
+            //
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $returnVal,'formula' => $formula,'tunkin' => $tunkin,'words' => $mengenaiWord,'anggota' => $anggota,'satkerNama'=>$satkerNama,'dataTTD' => CH::getTTD($request->halaman,$request->satker),'selectedSatker' => $selectedSatker];            
         }
         else
         {
@@ -608,7 +622,7 @@ class laporanAbsensiSusulan extends Controller
                     ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan , absensi_susulan.*')); 
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
-                $q2->where('pegawai.kd_satker',$request->satker);
+                $q2->where('absensi_susulan.kd_satker_saat_absensi',$request->satker);
             //cek apakah di requect polri atau pns
             if($request->jenis_pegawai == "0")
                 $q2->whereRaw('LENGTH(pegawai.nip) <= 8'); // polri
@@ -690,8 +704,15 @@ class laporanAbsensiSusulan extends Controller
             }
 
             $mengenaiWord=" bulan ".$bulan[$request->bulan]." ".$request->tahun;
-
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $nilaiBalik,'formula' => $formula,'tunkin' => $tunkin,'words' => $mengenaiWord,'anggota'=>$anggota,'satkerNama' => $satkerNama,'dataTTD' => CH::getTTD($request->halaman,$request->satker)];            
+            //
+            if(Auth::user()->level == "operator")
+                $selectedSatker = satker::where('kd_satker',CH::getKdSatker(Auth::user()->kd_satker))->first();
+            else if($request->satker != "")
+                $selectedSatker = satker::where('kd_satker',$request->satker)->first();
+            else
+                $selectedSatker['nm_satker'] = "";
+            //
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $nilaiBalik,'formula' => $formula,'tunkin' => $tunkin,'words' => $mengenaiWord,'anggota'=>$anggota,'satkerNama' => $satkerNama,'dataTTD' => CH::getTTD($request->halaman,$request->satker),'selectedSatker' => $selectedSatker];            
         }
         else
         {
@@ -760,7 +781,7 @@ class laporanAbsensiSusulan extends Controller
             }
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
-                $q2->where('pegawai.kd_satker',$request->satker);
+                $q2->where('absensi_susulan.kd_satker_saat_absensi',$request->satker);
             //cek apakah di requect polri atau pns
             if($request->jenis_pegawai == "0")
             {
@@ -783,7 +804,15 @@ class laporanAbsensiSusulan extends Controller
                 $dataSend[$key]['pajak'] = CH::formulaPPH($value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$value->tunjangan,$value->tunj_lain);
             }
             $satker = satker::select('kd_satker','nm_satker')->get();
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $dataSend,'formula' => $formula , 'bulan' => $bulan[$request->bulan] ,'tahun' => $request->tahun ,'keanggotaan' => $keanggotaan ,'satker' => $satker];            
+            //
+            if(Auth::user()->level == "operator")
+                $selectedSatker = satker::where('kd_satker',CH::getKdSatker(Auth::user()->kd_satker))->first();
+            else if($request->satker != "")
+                $selectedSatker = satker::where('kd_satker',$request->satker)->first();
+            else
+                $selectedSatker['nm_satker'] = "";
+            //
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $dataSend,'formula' => $formula , 'bulan' => $bulan[$request->bulan] ,'tahun' => $request->tahun ,'keanggotaan' => $keanggotaan ,'satker' => $satker,'selectedSatker' => $selectedSatker];            
         }
         else
         {

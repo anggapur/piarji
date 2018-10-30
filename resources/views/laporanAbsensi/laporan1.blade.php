@@ -71,7 +71,7 @@
 
                     <div class="leftKU">
                       <div class="logoPolriLaporan"><img src="{{url('public/asset/Logo-POLRI-bw.png')}}"></div>
-                      <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> BIDANG KEUANGAN</h5>
+                      <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> <span class="satkerName"></span></h5>
                     </div>
                     <div class="rightKU">
 
@@ -84,6 +84,7 @@
                     DAFTAR PEMBAYARAN TUNJANGAN KINERJA <span class="keanggotaan"></span> T.A <span class="tahun"></span>
                     </h5>
                   <h5>Bulan : <span class="waktu"></span></h5>
+                  <h5 class="satkerName"></h5>
                   </div>
                <table border="1" cellpadding="10" id="tableLaporan">
                  <thead>
@@ -220,7 +221,13 @@
         </div>        
       </div>
       <!-- /.row -->
-      
+       <div class="bgBlack showWhenLoading"></div>
+    <div class="spinner showWhenLoading">
+      <h3>Menampilkan Laporan</h3>
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
     </section>
     
     <script type="text/javascript">
@@ -241,7 +248,8 @@
    <script type="text/javascript">
       //alert(parseInt(1000.4));
       //form bulan tahun
-        $('#formBulanTahun').submit(function(e){          
+        $('#formBulanTahun').submit(function(e){     
+        $('.showWhenLoading').fadeIn("slow");     
           bulan = $(this).find("select[name='bulan']").val();
           tahun = $(this).find("select[name='tahun']").val();
           satker = $(this).find("select[name='kd_satker']").val();
@@ -267,9 +275,12 @@
                   "jenis_pegawai" : jenis_pegawai,
                 },
                 success: function(data) {
+                  //print satker
+                  $('.satkerName').html(data.selectedSatker.nm_satker);
                   console.log(data);
                   if(data.status == "nodata")
                   { 
+                    $('.showWhenLoading').fadeOut("slow");
                     $('#printArea').fadeOut('slow');
                     $('#message').fadeIn("slow").html('Belum Ada Data Absensi');
                     setTimeout(function(){
@@ -278,6 +289,7 @@
                   }
                   if(data.dataAbsensi.length == 0)
                   { 
+                    $('.showWhenLoading').fadeOut("slow");
                     $('#printArea').fadeOut('slow');
                     $('#message').fadeIn("slow").html('Belum Ada Data Absensi');
                     setTimeout(function(){
@@ -323,7 +335,7 @@
 
                     console.log('KKK:'+kodeSatker);
                     $.each(data.dataAbsensi,function(k,v){        
-                       console.log("koko : "+v.nm_anak_satker);              
+                       // console.log("koko : "+v.nm_anak_satker);              
                       absensVal[1] = parseInt(absensiFormulaMath(formula1,parseInt(v.tunjangan),v.absensi1));
                       absensVal[2] = parseInt(absensiFormulaMath(formula2,parseInt(v.tunjangan),v.absensi2));
                       absensVal[3] = parseInt(absensiFormulaMath(formula3,parseInt(v.tunjangan),v.absensi3));
@@ -426,7 +438,9 @@
                       potonganPPH21 += parseInt(tPPH21);
                       yangDibayarTotal += parseInt(yangDiterima);
 
-                    });
+                    });//EACH
+                    console.log('end each');
+                    $('.showWhenLoading').fadeOut("slow");
 
                     //insert jumlah
                      html = '<tr><td colspan="6">Jumlah</td>'+
@@ -453,7 +467,7 @@
             });
           e.preventDefault();
         });
-
+    
         function number_format (number, decimals, decPoint, thousandsSep) { 
 
           number = (number + '').replace(/[^0-9+\-Ee.]/g, '')

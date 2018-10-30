@@ -69,7 +69,7 @@
                     <div class="headerKU">
                       <div class="leftKU">
                         <div class="logoPolriLaporan"><img src="{{url('public/asset/Logo-POLRI-bw.png')}}"></div>
-                        <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> BIDANG KEUANGAN</h5>
+                        <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> <span class="satkerName"></span></h5>
                       </div>
                       <div class="rightKU">
 
@@ -82,6 +82,7 @@
                       REKAPITULASI DAFTAR PEMBAYARAN TUNJANGAN KINERJA ANGGOTA <span class="keanggotaan"></span>
                       </h5>
                     <h5>Bulan : <span class="waktu"></span></h5>
+                    <h5 class="satkerName"></h5>
                     </div>
 
                    <table border="1" cellpadding="10" id="tableLaporan">
@@ -213,6 +214,8 @@
                   "jenis_pegawai" : jenis_pegawai,
                 },
                 success: function(data) {
+                   //print satker
+                  $('.satkerName').html(data.selectedSatker.nm_satker);
                   console.log('this is data');
                   console.log(data);
                   if(data.status == "nodata")
