@@ -431,3 +431,6 @@ input:checked + .slider:before {
 .leftAlign{
   text-align: left !important;
 }
+.pagebreak { page-break-before: always; } 
+table { page-break-inside:auto }
+   tr    { page-break-inside:avoid; page-break-after:auto }
