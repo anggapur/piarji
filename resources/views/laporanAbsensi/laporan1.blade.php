@@ -43,7 +43,7 @@
                 <div class="form-group @if(Auth::user()->level != 'admin') hide @endif">
                   <label>Kode Satker</label>
                   <select class="js-example-basic-single form-control" name="kd_satker">    
-                    <option value="">-</option>                
+                    <!-- <option value="">-</option>                 -->
                     @foreach($dataSatker as $val)
                       <option value="{{$val->kd_satker}}">{{$val->kd_satker." - ".$val->nm_satker}}</option>                  
                     @endforeach
