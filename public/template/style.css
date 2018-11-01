@@ -434,3 +434,8 @@ input:checked + .slider:before {
 .pagebreak { page-break-before: always; } 
 table { page-break-inside:auto }
    tr    { page-break-inside:avoid; page-break-after:auto }
+
+
+.hoverCursor{
+  cursor: pointer;
+}

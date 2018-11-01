@@ -50,10 +50,17 @@
                     <thead>
                         <tr>
                             <th>NIP</th>
-                            <th>Nama</th>                                                        
+                            <th>Nama</th> 
+                               <th>
+                              Kelas Jabatan
+                            </th>                                                       
                             <th>
-                              Status
+                              Status Dapat
                             </th>
+                            <th>
+                              State Tipidkor
+                            </th>
+                         
                         </tr>
                     </thead>                   
                     <tbody>
@@ -88,10 +95,81 @@
       <div class="bounce3"></div>
     </div>
     </section>
-    
+    <!-- Modal -->
+    <div class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form id="formUpdateKelasJabatan">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Edit Data Personil Untuk Amparahan</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>NIP</label>
+                <input type="number" name="" readonly="readonly" value="" id="modalNip" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Nama</label>
+                <input type="text" name="" readonly="readonly" value="" id="modalNama" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Kelas Jabatan</label>
+                <select class="form-control" id="modalKelasJabatan" data="">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" >Update Data Amprahan</button>
+            </div>
+          </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- End Modal -->
    <script type="text/javascript">
     var t;
+    function ubahKelasJab(nip,nama)
+    {
+      // alert(nip);
+      kelas_jab = $('input[name="kelas_jab"][data="'+nip+'"]').val();
+      $('#modalNip').val(nip);
+      $('#modalNama').val(nama);
+      $('#modalKelasJabatan').val(kelas_jab);
+      $('#modalKelasJabatan').attr('data',nip);
+      $('.modal').modal('show');
+    }
+
      $(function() {
+      //update data kelas jabatan
+      $('#formUpdateKelasJabatan').submit(function(e){
+        dataNip = $('#modalKelasJabatan').attr('data');
+        dataKelasJabatan = $('#modalKelasJabatan').val();
+        // alert(dataNip+" "+dataKelasJabatan);
+        //update datanya 
+        // alert('.hoverCursor[data="'+dataNip+'"]');
+        $('.hoverCursor[data="'+dataNip+'"]').html(dataKelasJabatan);
+        $('input[name="kelas_jab"][data="'+dataNip+'"]').val(dataKelasJabatan);
+        $('.modal').modal('hide');
+        e.preventDefault();
+      });
       //deklarasi var
       json_obj = { 
         "bulan" : null,
@@ -121,17 +199,23 @@
                   $.each(data.data,function(k,v){
                     if(data.keterangan == "Tidak Ada Pegawai")
                     {
+
+                      state_tipi = "";
+                      if(v.state_tipikor == "1")
+                        state_tipi = "checked"
                       html = '<tr>'+
                            '<td data-sort="'+k+'">'+v.nip+'</td>'+                         
                             '<td>'+v.nama+
                             '<input type="hidden" name="kd_anak_satker" value="'+v.kd_anak_satker+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '<input type="hidden" name="kelas_jab" value="'+v.kelas_jab+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
 
-                            '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+                            // '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             
                             '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+                                                        
-                            '</td>'+        
+                            '</td>'+ 
+                            '<td> <a class="hoverCursor" data="'+v.nip+'" onclick="ubahKelasJab(`'+v.nip+'`,`'+v.nama+'`)">'+v.kelas_jab+'</a></td>'+       
                             '<td> <label class="switch"><input type="checkbox" name="statusDapat" data="'+v.nip+'" checked><span class="slider round"></span></label></td>'+                      
+                            '<td> <label class="switch"><input type="checkbox" name="state_tipikor" data="'+v.nip+'" '+state_tipi+'><span class="slider round"></span></label></td>'+                   
                         '</tr>';
                    
                     }
@@ -142,18 +226,23 @@
                       if(v.status_dapat == "1")
                         status_dapat = "checked";
 
+                      state_tipi = "";
+                      if(v.state_tipikor_saat_amprah == "1")
+                        state_tipi = "checked"
+                      
                        html = '<tr>'+
                            '<td data-sort="'+k+'">'+v.nip+'</td>'+                         
                             '<td>'+v.nama+
                             '<input type="hidden" name="kd_anak_satker" value="'+v.kd_anak_satker_saat_amprah+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '<input type="hidden" name="kelas_jab" value="'+v.kelas_jab_saat_amprah+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
 
-                            '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor_saat_amprah+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
+                            // '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor_saat_amprah+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
 
                             '<input type="hidden" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '</td>'+     
-                                                    
+                             '<td> <a class="hoverCursor" data="'+v.nip+'" onclick="ubahKelasJab(`'+v.nip+'`,`'+v.nama+'`)">'+v.kelas_jab_saat_amprah+'</a></td>'+                        
                             '<td> <label class="switch"><input type="checkbox" name="statusDapat" data="'+v.nip+'" '+status_dapat+'><span class="slider round"></span></label></td>'+
+                            '<td> <label class="switch"><input type="checkbox" name="state_tipikor" data="'+v.nip+'" '+state_tipi+'><span class="slider round"></span></label></td>'+
                         '</tr>';                      
                     }
                       $('tbody').append(html);
@@ -249,10 +338,20 @@
               }
                if($(el).attr('name') == "state_tipikor") 
               {
-                  b = {
-                    "id" : $(el).attr('data'),
-                    "nilai" : $(el).val(),
-                  };           
+                  if($(el).is(":checked"))
+                  {
+                    b = {
+                      "id" : $(el).attr('data'),
+                      "nilai" : "1",
+                    };         
+                  }
+                  else
+                  {
+                    b = {
+                      "id" : $(el).attr('data'),
+                      "nilai" : "0",
+                    };    
+                  }         
                   stateTipikor.push(b);
               }
               if($(el).attr('name') == "statusDapat") 

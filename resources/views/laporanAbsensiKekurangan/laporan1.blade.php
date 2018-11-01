@@ -481,21 +481,21 @@
                     });//EACH
                     
                     templateAppend+= '<tr><td colspan="6">Jumlah Per Halaman</td>'+
-                                  '<td>'+number_format(tunjanganKinerjaTotal,0,",",".")+'</td>'+
+                                  '<td>'+number_format(tunjanganKinerjaTotalPerHalaman,0,",",".")+'</td>'+
                                   '<td>'+absensi1total+'</td>'+
-                                  '<td>'+number_format(uang1total,0,",",".")+'</td>'+
+                                  '<td>'+number_format(uang1totalPerHalaman,0,",",".")+'</td>'+
                                   '<td>'+absensi2total+'</td>'+
-                                  '<td>'+number_format(uang2total,0,",",".")+'</td>'+
+                                  '<td>'+number_format(uang2totalPerHalaman,0,",",".")+'</td>'+
                                   '<td>'+absensi3total+'</td>'+
-                                  '<td>'+number_format(uang3total,0,",",".")+'</td>'+
+                                  '<td>'+number_format(uang3totalPerHalaman,0,",",".")+'</td>'+
                                   '<td>'+absensi4total+'</td>'+
-                                  '<td>'+number_format(uang4total,0,",",".")+'</td>'+
-                                  '<td>'+number_format(jumlahPenguranganTotal,0,",",".")+'</td>'+
-                                  '<td>'+number_format(tunjanganYangDiterimaTotal,0,",",".")+'</td>'+
-                                  '<td>'+number_format(tPPH21Total,0,",",".")+'</td>'+
-                                  '<td>'+number_format(terimaBrutoTotal,0,",",".")+'</td>'+
-                                  '<td>'+number_format(potonganPPH21,0,",",".")+'</td>'+
-                                  '<td>'+number_format(yangDibayarTotal,0,",",".")+'</td>'+
+                                  '<td>'+number_format(uang4totalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+number_format(jumlahPenguranganTotalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+number_format(tunjanganYangDiterimaTotalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+number_format(tPPH21TotalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+number_format(terimaBrutoTotalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+number_format(potonganPPH21PerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+number_format(yangDibayarTotalPerHalaman,0,",",".")+'</td>'+
                                   '<td>-</td>'+
                                   '</tr>';
   
