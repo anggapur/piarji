@@ -291,7 +291,7 @@
                        '<input type="hidden" name="kd_anak_satker['+dataNip+']" value="'+dataAnakSatker+'" data="'+dataNip+'" class="form-control" style="width:100px;" required />'+
                             '<input type="hidden" name="kelas_jab['+dataNip+']" value="'+dataKelasJab+'" data="'+dataNip+'" class="form-control" style="width:100px;" required />'+
                       '</td>'+
-                      '<td> <a class="hoverCursor" data="'+v.dataNip+'" onclick="ubahKelasJab(`'+dataNip+'`,`'+dataNama+'`)">'+dataKelasJab+'</a></td>'+
+                      '<td> <a class="hoverCursor" data="'+dataNip+'" onclick="ubahKelasJab(`'+dataNip+'`,`'+dataNama+'`)">'+dataKelasJab+'</a></td>'+
                       '<td><input type="number" min="0" name="absensi1['+dataNip+']" class="form-control" value="0"></td>'+
                       '<td><input type="number" min="0" name="absensi2['+dataNip+']" class="form-control" value="0"></td>'+
                       '<td><input type="number" min="0" name="absensi3['+dataNip+']" class="form-control" value="0"></td>'+
