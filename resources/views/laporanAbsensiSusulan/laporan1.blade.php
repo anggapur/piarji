@@ -278,7 +278,7 @@
                 },
                 success: function(data) {
                   //print satker
-                  $('.satkerName').html(data.selectedSatker.nm_satker);
+                  
                   console.log(data);
                   if(data.status == "nodata")
                   { 
@@ -300,6 +300,7 @@
                   }
                   else if(data.status == "success")
                   {
+                    $('.satkerName').html(data.selectedSatker.nm_satker);
                     $('.tablePlace').empty();
                     $('.keanggotaan').html(data.keanggotaan);
                     i = 1;

@@ -427,6 +427,11 @@ class customHelper {
                     <option value="10">Oktober</option>
                     <option value="11">November</option>
                     <option value="12">Desember</option>
-                    <option value="13">Ke-13</option>';
+                    <option value="13">Ke-13</option>
+                    <option value="14">Ke-14</option>';
+    }
+    public static function listBulan()
+    {
+        return ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember','Ke-13','Ke-14'];
     }
 }

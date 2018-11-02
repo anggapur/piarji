@@ -287,7 +287,7 @@ class laporanAbsensi extends Controller
     public function pilihBulanTahunB(Request $request)
     {
         //cari data yang sesuai
-        $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        $bulan = CH::listBulan();
         $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun];
         $query = waktu_absensi::where($where)->get();
         $formula = aturan_absensi::orderBy('id','ASC')->get();
@@ -418,7 +418,7 @@ class laporanAbsensi extends Controller
     public function pilihBulanTahunSPP(Request $request)
     {
         //cari data yang sesuai       
-        $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        $bulan = CH::listBulan();
         //cari data yang sesuai
         $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun];
         $query = waktu_absensi::where($where)->get();
@@ -569,7 +569,7 @@ class laporanAbsensi extends Controller
 
     public function pilihBulanTahunKU(Request $request)
     {
-        $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        $bulan = CH::listBulan();
         //cari data yang sesuai
         $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun];
         $query = waktu_absensi::where($where)->get();
@@ -721,7 +721,7 @@ class laporanAbsensi extends Controller
     public function pilihBulanTahun(Request $request)
     {
         //cari data yang sesuai
-        $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        $bulan = CH::listBulan();
         $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun];
         $query = waktu_absensi::where($where)->get();
         $formula = aturan_absensi::orderBy('id','ASC')->get();
@@ -823,7 +823,7 @@ class laporanAbsensi extends Controller
     }
     public function apiLihatAmprah($bulan,$tahun,$jenis_pegawai)
     {        
-        $listBulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        $listBulan = CH::listBulan();
 
         // $bulan = $request->bulan;
         // $tahun = $request->tahun;
