@@ -330,8 +330,9 @@ class laporanAbsensiKekurangan extends Controller
             }
 
             $q2 //->groupBy('pegawai.kelas_jab')
-                    ->orderBy('pegawai.kelas_jab','DESC')   
-                    ->orderBy('pegawai.kd_satker','ASC')
+                    ->orderBy('absensi_kekurangan.kd_satker_saat_absensi','ASC')
+                    ->orderBy('absensi_kekurangan.kd_anak_satker_saat_absensi','ASC')
+                    ->orderBy('absensi_kekurangan.kelas_jab_saat_absensi','DESC')
                     ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan ,absensi_kekurangan.*')); 
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
@@ -468,8 +469,9 @@ class laporanAbsensiKekurangan extends Controller
             }
 
             $q2 //->groupBy('pegawai.kelas_jab')
-                    ->orderBy('pegawai.kelas_jab','DESC')   
-                    ->orderBy('pegawai.kd_satker','ASC')
+                    ->orderBy('absensi_kekurangan.kd_satker_saat_absensi','ASC')
+                    ->orderBy('absensi_kekurangan.kd_anak_satker_saat_absensi','ASC')
+                    ->orderBy('absensi_kekurangan.kelas_jab_saat_absensi','DESC')
                     ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan, absensi_kekurangan.*')); 
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
@@ -619,8 +621,9 @@ class laporanAbsensiKekurangan extends Controller
             }
 
             $q2 //->groupBy('pegawai.kelas_jab')
-                    ->orderBy('pegawai.kelas_jab','DESC')   
-                    ->orderBy('pegawai.kd_satker','ASC')
+                    ->orderBy('absensi_kekurangan.kd_satker_saat_absensi','ASC')
+                    ->orderBy('absensi_kekurangan.kd_anak_satker_saat_absensi','ASC')
+                    ->orderBy('absensi_kekurangan.kelas_jab_saat_absensi','DESC')
                     ->selectRaw(DB::raw('pegawai.* ,  aturan_tunkin_detail.tunjangan, absensi_kekurangan.*')); 
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")

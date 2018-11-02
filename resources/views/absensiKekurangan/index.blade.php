@@ -452,6 +452,7 @@
                               $('.alert.alert-success').fadeOut(500);
                               }, 4000);
                               $('.showWhenLoading').fadeOut("slow");
+                              succeed_transfer =0;
                           } 
                         
                       }
