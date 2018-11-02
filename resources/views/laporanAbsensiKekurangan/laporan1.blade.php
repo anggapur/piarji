@@ -300,6 +300,7 @@
                   }
                   else if(data.status == "success")
                   {
+                    noUrut = 1;
                     $('.satkerName').html(data.selectedSatker.nm_satker);
                     $('.tablePlace').empty();
                     $('.keanggotaan').html(data.keanggotaan);
@@ -313,6 +314,19 @@
                     titleExcel+="DAFTAR PEMBAYARAN TUNJANGAN KINERJA POLRI & PNS T.A 2018 \nBULAN "+data.bulan+" TAHUN "+data.tahun+" \nSATKER "+data.selectedSatker.nm_satker;
 
                     dataExport = [];
+
+                    dataExport.push([{"text":titleExcel}]);
+                    dataExport.push([{"text":""}]);
+                    dataExport.push([{"text":""}]);
+
+                    singleDataExport.push({"text":"No Urut"});
+                    singleDataExport.push({"text":"NRP"});
+                    singleDataExport.push({"text":"Nama"});
+                    singleDataExport.push({"text":"Yang DIterima "});
+                    singleDataExport.push({"text":"No Rekening"});
+                    dataExport.push(singleDataExport);
+                    singleDataExport = [];
+
                     console.log(data.formula);
                     formula1 = data.formula[0]['rumus'];
                     formula2 = data.formula[1]['rumus'];
@@ -447,10 +461,11 @@
                                '<td class="wrapper_ttd_field"> <div class="ttd_field">'+(i++)+'</div><span class="no_rekening_field">'+v.no_rekening+'</span></td>'+
                              '</tr>';
                       //insert dataExport
-                      singleDataExport['NRP'] = "\t"+v.nip.toString();
-                      singleDataExport['Nama'] = v.nama;
-                      singleDataExport['Tunjangan Yang Diterima'] = yangDiterima;
-                      singleDataExport['No Rekening'] = "\t"+v.no_rekening.toString();
+                      singleDataExport.push({"text":noUrut++});
+                      singleDataExport.push({"text":"\t"+v.nip.toString()});
+                      singleDataExport.push({"text":v.nama});
+                      singleDataExport.push({"text":yangDiterima});
+                      singleDataExport.push({"text":"\t"+v.no_rekening.toString()});
                       dataExport.push(singleDataExport);
                       singleDataExport = [];
 
@@ -539,6 +554,8 @@
                     $('.showWhenLoading').fadeOut("slow");
                     console.log(dataExport);
                     
+
+                    
                   }
                 }
             });
@@ -546,7 +563,18 @@
         });
         function exportDataBank()
         {
-          JSONToCSVConvertor(dataExport, titleExcel, true);
+          // JSONToCSVConvertor(dataExport, titleExcel, true);
+          var tableData = [
+            {
+                "sheetName": "Sheet1",
+                "data": dataExport
+            }
+          ];
+          console.log(tableData[0].data);
+          var options = {
+              fileName: titleExcel
+          };
+          Jhxlsx.export(tableData, options);
         }
         function number_format (number, decimals, decPoint, thousandsSep) { 
 
@@ -652,7 +680,7 @@
 
           //set the visibility hidden so it will not effect on your web-layout
           link.style = "visibility:hidden";
-          link.download = fileName + ".csv";
+          link.download = fileName + ".xlsx";
 
           //this part will append the anchor tag and remove it after automatic click
           document.body.appendChild(link);

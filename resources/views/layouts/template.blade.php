@@ -46,6 +46,10 @@
 
   <!-- jQuery 3 -->
 <script src="{{ asset('public/template/bower_components/jquery/dist/jquery.min.js')}}"></script>
+<!-- Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.4/xlsx.core.min.js"></script>
+        <script src="{{asset('public/js/FileSaver.js')}}"></script>
+        <script src="{{asset('public/js/jhxlsx.js')}}"></script>
 <!-- CKEDITOR -->
 <script src="//cdn.ckeditor.com/4.10.0/full/ckeditor.js"></script>
 <!-- HTML to PDF -->
