@@ -1,6 +1,7 @@
 @extends('layouts.template')
 
 @section('content')
+<div id="dvjson"></div>
     <!-- Main content -->
     <section class="content">
       <!-- Small boxes (Stat box) -->
@@ -58,6 +59,7 @@
                 <div class="form-group">
                   <input type="submit" name="submitBulanTahun" value="Pilih" class="btn btn-success" id="btnPilih">
                   <button type="button" class="btn btn-default" onClick="printReport()">Print</button>
+                  <button type="button" class="btn btn-primary" onClick="exportDataBank()">Export Data Untuk Bank</button>
                 </div>
               </form>
               </div>
@@ -173,19 +175,19 @@
     <script type="text/javascript">
 	    function printReport()
 	    {
-	    	
           //$('#btnPilih').click();
           setTimeout(function(){
             window.print();
           },1000);
 	    	
-	        var prtContent = document.getElementById("printArea");
-	        	        
-	       
+	        var prtContent = document.getElementById("printArea");      
 	    }
 	</script>
 
    <script type="text/javascript">
+    titleExcel = "";
+     dataExport = [];
+      singleDataExport = [];
     var templateAtas = '<table border="1" cellpadding="10" id="tableLaporan">'+
                  '<thead>'+
                   '<tr>'+
@@ -306,7 +308,10 @@
 
                     $('.waktu').html(data.bulan+" "+data.tahun);
                     $('.tahun').html(data.tahun);
+                    titleExcel="";
+                    titleExcel+="DAFTAR PEMBAYARAN TUNJANGAN KINERJA POLRI & PNS T.A 2018 \nBULAN "+data.bulan+" TAHUN "+data.tahun+" \nSATKER "+data.selectedSatker.nm_satker;
 
+                    dataExport = [];
                     console.log(data.formula);
                     formula1 = data.formula[0]['rumus'];
                     formula2 = data.formula[1]['rumus'];
@@ -440,7 +445,15 @@
                                '<td>'+number_format(yangDiterima,0,",",".")+'</td>'+
                                '<td class="wrapper_ttd_field"> <div class="ttd_field">'+(i++)+'</div><span class="no_rekening_field">'+v.no_rekening+'</span></td>'+
                              '</tr>';
-                      
+                      //insert dataExport
+                      singleDataExport['NRP'] = "\t"+v.nip.toString();
+                      singleDataExport['Nama'] = v.nama;
+                      singleDataExport['Tunjangan Yang Diterima'] = yangDiterima;
+                      singleDataExport['No Rekening'] = "\t"+v.no_rekening.toString();
+                      dataExport.push(singleDataExport);
+                      singleDataExport = [];
+
+                      //
                       kodeSatker = v.kd_satker_saat_absensi;
                       kodeAnakSatker = v.kd_anak_satker_saat_absensi;
                       tunjanganKinerjaTotal+= parseInt(v.tunjangan);
@@ -523,13 +536,17 @@
                     templateAppend = "";
                     console.log('end each');
                     $('.showWhenLoading').fadeOut("slow");
-
+                    console.log(dataExport);
+                    
                   }
                 }
             });
           e.preventDefault();
         });
-    
+        function exportDataBank()
+        {
+          JSONToCSVConvertor(dataExport, titleExcel, true);
+        }
         function number_format (number, decimals, decPoint, thousandsSep) { 
 
           number = (number + '').replace(/[^0-9+\-Ee.]/g, '')
@@ -568,6 +585,78 @@
         }
         function getSum(total, num) {
             return total + num;
+        }
+        function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
+          //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+          var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+
+          var CSV = '';
+          //Set Report title in first row or line
+
+          CSV += ReportTitle + '\r\n\n';
+
+          //This condition will generate the Label/Header
+          if (ShowLabel) {
+            var row = "";
+
+            //This loop will extract the label from 1st index of on array
+            for (var index in arrData[0]) {
+
+              //Now convert each value to string and comma-seprated
+              row += index + ',';
+            }
+
+            row = row.slice(0, -1);
+
+            //append Label row with line break
+            CSV += row + '\r\n';
+          }
+
+          //1st loop is to extract each row
+          for (var i = 0; i < arrData.length; i++) {
+            var row = "";
+
+            //2nd loop will extract each column and convert it in string comma-seprated
+            for (var index in arrData[i]) {
+              row += '"' + arrData[i][index] + '",';
+            }
+
+            row.slice(0, row.length - 1);
+
+            //add a line break after each row
+            CSV += row + '\r\n';
+          }
+
+          if (CSV == '') {
+            alert("Invalid data");
+            return;
+          }
+
+          //Generate a file name
+          var fileName = "MyReport_";
+          //this will remove the blank-spaces from the title and replace it with an underscore
+          fileName += ReportTitle.replace(/ /g, "_");
+
+          //Initialize file format you want csv or xls
+          var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+
+          // Now the little tricky part.
+          // you can use either>> window.open(uri);
+          // but this will not work in some browsers
+          // or you will not get the correct file extension    
+
+          //this trick will generate a temp <a /> tag
+          var link = document.createElement("a");
+          link.href = uri;
+
+          //set the visibility hidden so it will not effect on your web-layout
+          link.style = "visibility:hidden";
+          link.download = fileName + ".csv";
+
+          //this part will append the anchor tag and remove it after automatic click
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         }
    </script>
 @endsection
