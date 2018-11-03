@@ -231,7 +231,7 @@
                         '<td><input type="number" min="0" name="absensi3['+v.nip+']" class="form-control" value="'+v.absensi3+'"></td>'+
                         '<td><input type="number" min="0" name="absensi4['+v.nip+']" class="form-control" value="'+v.absensi4+'"></td>'+
                         '<td>'+
-                          '<a  class="btn btn-danger btn-xs" class"deleteField" onclick="deleteField('+v.nip+')">Hapus</a>'+
+                          '<a  class="btn btn-danger btn-xs" class"deleteField" onclick="deleteField(`'+v.nip+'`)">Hapus</a>'+
                         '</td>'+
                       '</tr>';
                       $('tbody').append(html);
@@ -297,7 +297,7 @@
                       '<td><input type="number" min="0" name="absensi3['+dataNip+']" class="form-control" value="0"></td>'+
                       '<td><input type="number" min="0" name="absensi4['+dataNip+']" class="form-control" value="0"></td>'+
                       '<td>'+
-                        '<a  class="btn btn-danger btn-xs" class"deleteField" onclick="deleteField('+dataNip+')">Hapus</a>'+
+                        '<a  class="btn btn-danger btn-xs" class"deleteField" onclick="deleteField(`'+dataNip+'`)">Hapus</a>'+
                       '</td>'+
                     '</tr>';
             $('tbody').append(html);

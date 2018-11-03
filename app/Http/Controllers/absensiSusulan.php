@@ -59,6 +59,7 @@ class absensiSusulan extends Controller
                     ->where('kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))->delete();
 
         
+        if($request->absensi1 != "") :
         foreach ($request->absensi1 as $key => $value) {
             // $cari = absensi_susulan::where('nip',$key)
             //         ->where('id_waktu',$request->waktu_absensi)
@@ -88,7 +89,7 @@ class absensiSusulan extends Controller
             //     $update = $cari->update($dataUpdate);
             // }
         }
-        
+        endif;
         $query = absensi_susulan::insert($dataInsert);
         if($query)
             return redirect('absensiSusulan')->with(['status' => 'success' , 'message' => 'Berhasil buat absensi susulan']);
