@@ -128,7 +128,7 @@
                  </tbody>
                </table> 
 
-               <hr>
+               <div class="pagebreak"></div>
                <div class="headerKU">
 
                     <div class="leftKU">

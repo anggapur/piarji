@@ -13,6 +13,7 @@ use App\absensi;
 use App\aturan_tunkin;
 use App\aturan_tunkin_detail;
 use App\satker;
+use App\anak_satker;
 use App\TTD;
 use DB;
 class laporanAbsensiKekurangan extends Controller
@@ -80,6 +81,10 @@ class laporanAbsensiKekurangan extends Controller
         if(Auth::user()->level == "admin")
             $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')->get();
 
+        if(Auth::user()->level == "admin")
+            $data['dataAnakSatker'] = anak_satker::all();
+        else
+            $data['dataAnakSatker'] = anak_satker::where('kd_satker',CH::getKdSatker(Auth::user()->kd_satker))->get();
         return view($this->mainPage.".laporan1",$data);
     }
 
@@ -788,6 +793,8 @@ class laporanAbsensiKekurangan extends Controller
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
                 $q2->where('absensi_kekurangan.kd_satker_saat_absensi',$request->satker);
+            if($request->anakSatker != "all")
+                $q2->where('absensi_kekurangan.kd_anak_satker_saat_absensi',$request->anakSatker);
             //cek apakah di requect polri atau pns
             if($request->jenis_pegawai == "0")
             {

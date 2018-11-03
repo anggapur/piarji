@@ -11,6 +11,7 @@ use App\aturan_absensi;
 use App\waktu_absensi;
 use App\aturan_tunkin;
 use App\absensiKekurangan;
+use App\anak_satker;
 class absensiKekuranganController extends Controller
 {
     /**
@@ -39,6 +40,7 @@ class absensiKekuranganController extends Controller
             ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
         }
         $data['pegawai'] = $q->get();
+        $data['anakSatker'] = anak_satker::where('kd_satker',CH::getKdSatker(Auth::user()->kd_satker))->get();
         //waktu absensi
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
@@ -236,9 +238,11 @@ return $errorInfo;
 
             $data = pegawai::where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker))
                     ->orderBy('kelas_jab','DESC')
-                    ->where('status_aktif','1')        
-            ->get();
-            return ['keterangan' => 'Tidak Ada Pegawai','data' => $data];
+                    ->where('status_aktif','1');
+            //kalau ada anak atkernya
+            if($request->anak_satker !== "all")
+                $data->where('pegawai.kd_anak_satker',$request->anak_satker);
+            return ['keterangan' => 'Tidak Ada Pegawai','data' => $data->get()];
         }
         else if($query->get()->count() > 0)
         {
@@ -247,7 +251,10 @@ return $errorInfo;
               ->leftJoin('pegawai','absensi_kekurangan.nip','=','pegawai.nip')
               ->orderBy('kelas_jab','DESC')
               ->where('id_waktu',$qWaktu->id)
-              ->select('absensi_kekurangan.*','pegawai.nama');            
+              ->select('absensi_kekurangan.*','pegawai.nama');     
+          //kalau ada anak atkernya
+          if($request->anak_satker !== "all")
+                $data->where('absensi_kekurangan.kd_anak_satker_saat_absensi',$request->anak_satker);        
             return ['keterangan' => ' Ada Pegawai','data' => $data->get(),'id_waktu' => $qWaktu->id];
         }
         else

@@ -13,6 +13,7 @@ use App\absensi;
 use App\aturan_tunkin;
 use App\aturan_tunkin_detail;
 use App\satker;
+use App\anak_satker;
 use App\TTD;
 use DB;
 use Response;
@@ -36,6 +37,7 @@ class laporanAbsensi extends Controller
         $data['dataSatker'] = [];
         if(Auth::user()->level == "admin")
             $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')->get();
+
 
         return view($this->mainPage.".laporanPerSatker",$data);
     }
@@ -76,6 +78,11 @@ class laporanAbsensi extends Controller
         $data['dataSatker'] = [];
         if(Auth::user()->level == "admin")
             $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')->get();
+
+        if(Auth::user()->level == "admin")
+            $data['dataAnakSatker'] = anak_satker::all();
+        else
+            $data['dataAnakSatker'] = anak_satker::where('kd_satker',CH::getKdSatker(Auth::user()->kd_satker))->get();
 
         return view($this->mainPage.".laporan1",$data);
     }
@@ -780,6 +787,8 @@ class laporanAbsensi extends Controller
             //cek apakah ada request berdasarkan satker
             if($request->satker != "")
                 $q2->where('absensi.kd_satker_saat_absensi',$request->satker);
+            if($request->anakSatker != "all")
+                $q2->where('absensi.kd_anak_satker_saat_absensi',$request->anakSatker);
             //cek apakah di requect polri atau pns
             $getData = CH::queryByJenisPegawai($q2,$request->jenis_pegawai);
             $q2 = $getData['query'];

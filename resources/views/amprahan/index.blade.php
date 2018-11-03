@@ -41,6 +41,15 @@
                   </select>
                 </div>
                 <div class="form-group">
+                  <label>Anak Satker</label>
+                  <select class="form-control" name="kd_anak_satker">
+                    <option value="all"> Semua </option>
+                    @foreach($anakSatker as $val)
+                      <option value="{{$val->kd_anak_satker}}">{{$val->kd_anak_satker}} - {{$val->nm_anak_satker}}</option>
+                    @endforeach
+                  </select>
+                </div>
+                <div class="form-group">
                   <input type="submit" name="submitBulanTahun" value="Pilih" class="btn btn-success" id="btnPilih">
                 </div>
               </form>
@@ -181,6 +190,7 @@
         $('#formBulanTahun').submit(function(e){
           bulan = $(this).find("select[name='bulan']").val();
           tahun = $(this).find("select[name='tahun']").val();
+          anakSatker = $(this).find("select[name='kd_anak_satker']").val();
           $('#formAbsensi').fadeIn('slow');
           $('#formBulanTahun').find('select,input').attr('disabled','disabled');
 
@@ -192,6 +202,7 @@
                   "_token": "{{ csrf_token() }}",
                   "bulan" : bulan,
                   "tahun" : tahun,
+                  "anak_satker" : anakSatker,
                 },
                 success: function(data){
                   console.log(data);

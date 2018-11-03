@@ -44,12 +44,33 @@
                 <div class="form-group @if(Auth::user()->level != 'admin') hide @endif">
                   <label>Kode Satker</label>
                   <select class="js-example-basic-single form-control" name="kd_satker">    
-                    <!-- <option value="">-</option>                 -->
+                    <option value="">Pilih Satker</option>                  
                     @foreach($dataSatker as $val)
                       <option value="{{$val->kd_satker}}">{{$val->kd_satker." - ".$val->nm_satker}}</option>                  
                     @endforeach
                   </select>                 
-                </div>              
+                </div>  
+                @if(Auth::user()->level == "operator")  
+                <div class="form-group">
+                  <label>Kode Anak Satker</label>
+                  <select class="js-example-basic-single form-control" name="kd_anak_satker">    
+                    <option value="all">Semua</option>                
+                    @foreach($dataAnakSatker as $val)
+                      <option value="{{$val->kd_anak_satker}}" data-satker="{{$val->kd_satker}}">{{$val->kd_anak_satker." - ".$val->nm_anak_satker}}</option>                  
+                    @endforeach
+                  </select>                 
+                </div> 
+                @else
+                <div class="form-group" id="anakSatkerAdmin">
+                  <label>Kode Anak Satker</label>
+                  <select class=" form-control" name="kd_anak_satker">    
+                    <option value="all">Semua</option>                
+                    @foreach($dataAnakSatker as $val)
+                      <option value="{{$val->kd_anak_satker}}" data-satker="{{$val->kd_satker}}">{{$val->kd_anak_satker." - ".$val->nm_anak_satker}}</option>                  
+                    @endforeach
+                  </select>                 
+                </div> 
+                @endif                 
                 <div class="form-group ">
                   <label>Kategori</label>
                   <select class="js-example-basic-single form-control" name="jenis_pegawai">    
@@ -185,6 +206,15 @@
   </script>
 
    <script type="text/javascript">
+    $(document).ready(function(){
+      $('#anakSatkerAdmin select[name="kd_anak_satker"]').find('option').not('[value="all"]').hide();
+      $('select[name="kd_satker"]').change(function(){
+        $('#anakSatkerAdmin select[name="kd_anak_satker"]').find('option').not('[value="all"]').hide();
+        kd_satker = $(this).val();
+        $('#anakSatkerAdmin select[name="kd_anak_satker"]').val("all");
+        $('#anakSatkerAdmin select[name="kd_anak_satker"]').find('option[data-satker="'+kd_satker+'"]').show();
+      });
+    });
     titleExcel = "";
      dataExport = [];
       singleDataExport = [];
@@ -255,6 +285,7 @@
           bulan = $(this).find("select[name='bulan']").val();
           tahun = $(this).find("select[name='tahun']").val();
           satker = $(this).find("select[name='kd_satker']").val();
+          anakSatker = $(this).find("select[name='kd_anak_satker']").val();
           jenis_pegawai = $(this).find("select[name='jenis_pegawai']").val();
           
           //ubah nama th
@@ -274,6 +305,7 @@
                   "bulan" : bulan,
                   "tahun" : tahun,
                   "satker" : satker,
+                  "anakSatker" : anakSatker,
                   "jenis_pegawai" : jenis_pegawai,
                 },
                 success: function(data) {

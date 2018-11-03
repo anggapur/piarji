@@ -11,6 +11,7 @@ use App\aturan_absensi;
 use App\waktu_absensi;
 use App\aturan_tunkin;
 use App\absensi;
+use App\anak_satker;
 class absensiController extends Controller
 {
     /**
@@ -39,6 +40,7 @@ class absensiController extends Controller
             ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
         }
         $data['pegawai'] = $q->get();
+        $data['anakSatker'] = anak_satker::where('kd_satker',CH::getKdSatker(Auth::user()->kd_satker))->get();
         //waktu absensi
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;        
         $data['dataAturanAbsensi'] = aturan_absensi::all();
@@ -237,10 +239,12 @@ return $errorInfo;
             $q = waktu_absensi::create(['bulan' => $request->bulan, 'tahun' => $request->tahun]);
 
             $data = pegawai::where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker)) 
-                    ->where('status_aktif','1')  
-                    ->orderBy('kelas_jab','DESC')      
-            ->get();
-            return ['keterangan' => 'Tidak Ada Pegawai','data' => $data];
+                    ->where('status_aktif','1') 
+                    ->orderBy('kelas_jab','DESC');      
+            //kalau ada anak atkernya
+            if($request->anak_satker !== "all")
+                $data->where('pegawai.kd_anak_satker',$request->anak_satker);
+            return ['keterangan' => 'Tidak Ada Pegawai','data' => $data->get(),'req' => $request->all()];
         }
         else if($query->get()->count() > 0)
         {
@@ -248,8 +252,11 @@ return $errorInfo;
             $data =  absensi::where('absensi.kd_satker_saat_absensi',CH::getKdSatker(Auth::user()->kd_satker))
               ->where('id_waktu',$qWaktu->id)
               ->orderBy('kelas_jab','DESC')
-              ->leftJoin('pegawai','absensi.nip','=','pegawai.nip');            
-            return ['keterangan' => ' Ada Pegawai','data' => $data->get(),'id_waktu' => $qWaktu->id];
+              ->leftJoin('pegawai','absensi.nip','=','pegawai.nip');  
+              //kalau ada anak atkernya
+            if($request->anak_satker !== "all")
+                $data->where('absensi.kd_anak_satker_saat_absensi',$request->anak_satker);          
+            return ['keterangan' => ' Ada Pegawai','data' => $data->get(),'id_waktu' => $qWaktu->id,'req' => $request->all()];
         }
         else
         {
