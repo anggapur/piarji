@@ -173,7 +173,7 @@ class aturanTunkinController extends Controller
     {
         //
         $find = aturan_tunkin::where('id',$id)->first();
-        if($find->state == "1")
+        if($find->state == "1" || $find->state == "2")
             return redirect()->back()->with(['status' => 'danger' , 'message' => 'Tidak Bisa Menghapus Aturan Dengan Status Aktif']);
         //apakah digunakan
         $find2 = absensi::where('kd_aturan',$id)->get();
