@@ -73,17 +73,70 @@ class customHelper {
     {
       return number_format($val,0,',','.');
     }
-    public static function formulaPPH($kawin,$tanggungan,$jenis_kelamin,$gapok,$tunj_strukfung,$tunkin,$tunj_lain)
+    public static function formulaPPH($nrp,$kawin,$tanggungan,$jenis_kelamin,$gapok,$tunj_strukfung,$tunkin,$tunj_lain)
     {
-       $tanggunganArray = ['18','38','48','0','0','0','0','0','0','0','0','0'];
-        if($tanggungan > 2)
-            $nilaiTanggungan = 48;
-        else
-            $nilaiTanggungan = $tanggunganArray[$tanggungan];
+       $nilaiTanggungan = 0;
+            if(strlen($nrp) <= 8)
+            {
+                // POLRI
+                if($kawin == "K")
+                {
+                    if($tanggungan == 0)
+                        $nilaiTanggungan = 28;
+                    else if($tanggungan == 1)
+                        $nilaiTanggungan = 38;
+                    else if($tanggungan == 2)
+                        $nilaiTanggungan = 48;
+                    else 
+                        $nilaiTanggungan = 48;
+                }
+                else if($kawin == "TK")
+                {
+                    if($tanggungan == 0)
+                        $nilaiTanggungan = 18;
+                    else if($tanggungan == 1)
+                        $nilaiTanggungan = 28;
+                    else if($tanggungan == 2)
+                        $nilaiTanggungan = 38;
+                    else 
+                        $nilaiTanggungan = 38;
+                }
+            }
+            else
+            {
+                //PNS
+                if($kawin == "K")
+                {
+                    if($tanggungan == 0)
+                        $nilaiTanggungan = 20;
+                    else if($tanggungan == 1)
+                        $nilaiTanggungan = 30;
+                    else if($tanggungan == 2)
+                        $nilaiTanggungan = 40;
+                    else 
+                        $nilaiTanggungan = 40;
+                }
+                else if($kawin == "TK")
+                {
+                    if($tanggungan == 0)
+                        $nilaiTanggungan = 10;
+                    else if($tanggungan == 1)
+                        $nilaiTanggungan = 20;
+                    else if($tanggungan == 2)
+                        $nilaiTanggungan = 30;
+                    else 
+                        $nilaiTanggungan = 30;
+                }
+            }
         //$query = pegawai::where('nip','81051411')->first();
 
         $gapok = $gapok;
-        $tunjangan_istri = (10/100)*$gapok;
+        //tunjangan istri
+        if($kawin == "K")
+            $tunjangan_istri = (10/100)*$gapok;
+        else 
+            $tunjangan_istri = 0;
+
         $tunjangan_anak = $tanggungan*0.02*$gapok;
         $jumlah_gaji_tunjangan_keluarga = $gapok+$tunjangan_istri+$tunjangan_anak;
         $tunjangan_strukfung = $tunj_strukfung;
@@ -102,8 +155,6 @@ class customHelper {
         $ptkp = 1;
         if($jenis_kelamin == "P" AND $kawin == "K")
             $ptkp = 54000000;
-        else if($kawin == 0 AND $tanggungan == 0)
-            $ptkp = 1;
         else if($kawin == "K" AND $tanggungan == 0)
             $ptkp = 58500000;
         else if($kawin == "K" AND $tanggungan == 1)
@@ -120,6 +171,8 @@ class customHelper {
             $ptkp = 63000000;
         else if($kawin == "TK" AND $tanggungan == 3)
             $ptkp = 67500000;
+        else if($kawin == 0 AND $tanggungan == 0)
+            $ptkp = 1;
 
         $pkp_setahun = ($jumlah_ph_netto<$ptkp) ? 0:$jumlah_ph_netto-$ptkp;
 
@@ -162,7 +215,6 @@ class customHelper {
         
         $pph_pasal_21_sebulan = $pph_pasal_21_setahun/12;
         $pph_final = $pph_21_per_bulan  - $pph_pasal_21_sebulan;
-
         /*
         echo $tanggung."<br>";
         echo "Gaji Pokok : ".$gapok."<br>";
@@ -203,17 +255,71 @@ class customHelper {
     }
 
 
-     public static function formulaPPHPrint($kawin,$tanggungan,$jenis_kelamin,$gapok,$tunj_strukfung,$tunkin,$tunj_lain)
+     public static function formulaPPHPrint($nrp,$kawin,$tanggungan,$jenis_kelamin,$gapok,$tunj_strukfung,$tunkin,$tunj_lain)
     {
-        $tanggunganArray = ['18','38','48','0','0','0','0','0','0','0','0','0'];
-        if($tanggungan > 2)
-            $nilaiTanggungan = 48;
-        else
-            $nilaiTanggungan = $tanggunganArray[$tanggungan];
+
+        $nilaiTanggungan = 0;
+            if(strlen($nrp) <= 8)
+            {
+                // POLRI
+                if($kawin == "K")
+                {
+                    if($tanggungan == 0)
+                        $nilaiTanggungan = 28;
+                    else if($tanggungan == 1)
+                        $nilaiTanggungan = 38;
+                    else if($tanggungan == 2)
+                        $nilaiTanggungan = 48;
+                    else 
+                        $nilaiTanggungan = 48;
+                }
+                else if($kawin == "TK")
+                {
+                    if($tanggungan == 0)
+                        $nilaiTanggungan = 18;
+                    else if($tanggungan == 1)
+                        $nilaiTanggungan = 28;
+                    else if($tanggungan == 2)
+                        $nilaiTanggungan = 38;
+                    else 
+                        $nilaiTanggungan = 38;
+                }
+            }
+            else
+            {
+                //PNS
+                if($kawin == "K")
+                {
+                    if($tanggungan == 0)
+                        $nilaiTanggungan = 20;
+                    else if($tanggungan == 1)
+                        $nilaiTanggungan = 30;
+                    else if($tanggungan == 2)
+                        $nilaiTanggungan = 40;
+                    else 
+                        $nilaiTanggungan = 40;
+                }
+                else if($kawin == "TK")
+                {
+                    if($tanggungan == 0)
+                        $nilaiTanggungan = 10;
+                    else if($tanggungan == 1)
+                        $nilaiTanggungan = 20;
+                    else if($tanggungan == 2)
+                        $nilaiTanggungan = 30;
+                    else 
+                        $nilaiTanggungan = 30;
+                }
+            }
         //$query = pegawai::where('nip','81051411')->first();
 
         $gapok = $gapok;
-        $tunjangan_istri = (10/100)*$gapok;
+        //tunjangan istri
+        if($kawin == "K")
+            $tunjangan_istri = (10/100)*$gapok;
+        else 
+            $tunjangan_istri = 0;
+
         $tunjangan_anak = $tanggungan*0.02*$gapok;
         $jumlah_gaji_tunjangan_keluarga = $gapok+$tunjangan_istri+$tunjangan_anak;
         $tunjangan_strukfung = $tunj_strukfung;
@@ -232,8 +338,6 @@ class customHelper {
         $ptkp = 1;
         if($jenis_kelamin == "P" AND $kawin == "K")
             $ptkp = 54000000;
-        else if($kawin == 0 AND $tanggungan == 0)
-            $ptkp = 1;
         else if($kawin == "K" AND $tanggungan == 0)
             $ptkp = 58500000;
         else if($kawin == "K" AND $tanggungan == 1)
@@ -250,6 +354,8 @@ class customHelper {
             $ptkp = 63000000;
         else if($kawin == "TK" AND $tanggungan == 3)
             $ptkp = 67500000;
+        else if($kawin == 0 AND $tanggungan == 0)
+            $ptkp = 2;
 
         $pkp_setahun = ($jumlah_ph_netto<$ptkp) ? 0:$jumlah_ph_netto-$ptkp;
 

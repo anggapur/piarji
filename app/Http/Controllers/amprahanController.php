@@ -275,10 +275,10 @@ return $errorInfo;
                     ->get();
             foreach ($data as $key => $value) {              
                 foreach ($value->getDataAmprahanPolri as $key2 => $val) {
-                    $val['pajak'] = intval(CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    $val['pajak'] = intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
                 }
                 foreach ($value->getDataAmprahanPns as $key2 => $val) {
-                    $val['pajak'] = intval(CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    $val['pajak'] = intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
                 }
                 $value['sumPajakPolri'] = $value->getDataAmprahanPolri->sum('pajak');
                 $value['sumDibayarkanPolri'] = $value->getDataAmprahanPolri->sum('tunjangan');
@@ -404,7 +404,7 @@ return $errorInfo;
                         $value['getDataAmprahanPolriGroup'] = $value->getDataAmprahanPolri->groupBy('kelas_jab_saat_amprah');
                         foreach ($value['getDataAmprahanPolriGroup'] as $key2 => $val) {
                             foreach ($val as $key3 => $va) {
-                                $va['pajak'] = intval(CH::formulaPPH($va->kawin,$va->tanggungan,$va->jenis_kelamin,$va->gapok,$va->tunj_strukfung,$va->tunjangan,$va->tunj_lain));
+                                $va['pajak'] = intval(CH::formulaPPH($va->nip,$va->kawin,$va->tanggungan,$va->jenis_kelamin,$va->gapok,$va->tunj_strukfung,$va->tunjangan,$va->tunj_lain));
                             }
                             $val['jumlahOrang'] = $val->count();
                             $val['tunjangan'] = $val->sum('tunjangan') / $val['jumlahOrang'];
@@ -415,7 +415,7 @@ return $errorInfo;
                         $value['getDataAmprahanPnsGroup'] = $value->getDataAmprahanPns->groupBy('kelas_jab_saat_amprah');
                         foreach ($value['getDataAmprahanPnsGroup'] as $key2 => $val) {
                             foreach ($val as $key3 => $va) {
-                                $va['pajak'] = intval(CH::formulaPPH($va->kawin,$va->tanggungan,$va->jenis_kelamin,$va->gapok,$va->tunj_strukfung,$va->tunjangan,$va->tunj_lain));
+                                $va['pajak'] = intval(CH::formulaPPH($va->nip,$va->kawin,$va->tanggungan,$va->jenis_kelamin,$va->gapok,$va->tunj_strukfung,$va->tunjangan,$va->tunj_lain));
                             }
                             $val['jumlahOrang'] = $val->count();
                             $val['tunjangan'] = $val->sum('tunjangan') / $val['jumlahOrang'];
@@ -427,7 +427,7 @@ return $errorInfo;
                         $value['getDataAmprahanTipidkorGroup'] = $value->getDataAmprahanTipidkor->groupBy('kelas_jab_saat_amprah');
                         foreach ($value['getDataAmprahanTipidkorGroup'] as $key2 => $val) {
                             foreach ($val as $key3 => $va) {
-                                $va['pajak'] = intval(CH::formulaPPH($va->kawin,$va->tanggungan,$va->jenis_kelamin,$va->gapok,$va->tunj_strukfung,$va->tunjangan,$va->tunj_lain));
+                                $va['pajak'] = intval(CH::formulaPPH($va->nip,$va->kawin,$va->tanggungan,$va->jenis_kelamin,$va->gapok,$va->tunj_strukfung,$va->tunjangan,$va->tunj_lain));
                             }
                             $val['jumlahOrang'] = $val->count();
                             $val['tunjangan'] = $val->sum('tunjangan') / $val['jumlahOrang'];
@@ -533,7 +533,7 @@ return $errorInfo;
                         $value['getDataAmprahanPolriGroup'] = $value->getDataAmprahanPolri->groupBy('kelas_jab_saat_amprah');
                         foreach ($value['getDataAmprahanPolriGroup'] as $key2 => $val) {
                             foreach ($val as $key3 => $va) {
-                                $va['pajak'] = intval(CH::formulaPPH($va->kawin,$va->tanggungan,$va->jenis_kelamin,$va->gapok,$va->tunj_strukfung,$va->tunjangan,$va->tunj_lain));
+                                $va['pajak'] = intval(CH::formulaPPH($va->nip,$va->kawin,$va->tanggungan,$va->jenis_kelamin,$va->gapok,$va->tunj_strukfung,$va->tunjangan,$va->tunj_lain));
                             }
                             $val['jumlahOrang'] = $val->count();
                             $val['tunjangan'] = $val->sum('tunjangan') / $val['jumlahOrang'];
@@ -544,7 +544,7 @@ return $errorInfo;
                         $value['getDataAmprahanPnsGroup'] = $value->getDataAmprahanPns->groupBy('kelas_jab_saat_amprah');
                         foreach ($value['getDataAmprahanPnsGroup'] as $key2 => $val) {
                             foreach ($val as $key3 => $va) {
-                                $va['pajak'] = intval(CH::formulaPPH($va->kawin,$va->tanggungan,$va->jenis_kelamin,$va->gapok,$va->tunj_strukfung,$va->tunjangan,$va->tunj_lain));
+                                $va['pajak'] = intval(CH::formulaPPH($va->nip,$va->kawin,$va->tanggungan,$va->jenis_kelamin,$va->gapok,$va->tunj_strukfung,$va->tunjangan,$va->tunj_lain));
                             }
                             $val['jumlahOrang'] = $val->count();
                             $val['tunjangan'] = $val->sum('tunjangan') / $val['jumlahOrang'];

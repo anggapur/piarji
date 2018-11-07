@@ -111,6 +111,6 @@ class HomeController extends Controller
                 ->where('state','1')
                 ->first();
                 // return $query;
-        echo CH::formulaPPHPrint($query->kawin,$query->tanggungan,$query->jenis_kelamin,$query->gapok,$query->tunj_strukfung,$query->tunjangan,$query->tunj_lain);
+        echo CH::formulaPPHPrint($query->nrp,$query->kawin,$query->tanggungan,$query->jenis_kelamin,$query->gapok,$query->tunj_strukfung,$query->tunjangan,$query->tunj_lain);
     }
 }

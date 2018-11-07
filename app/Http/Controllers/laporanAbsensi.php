@@ -377,14 +377,14 @@ class laporanAbsensi extends Controller
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['kelas_jab'] = $val->kelas_jab_saat_absensi;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['count_orang'] +=1;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan'] = $val->tunjangan;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] += intval(CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] += intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
                 }
                 else
                 {
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['kelas_jab'] = $val->kelas_jab_saat_absensi;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['count_orang'] = 1;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan'] = $val->tunjangan;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] = intval(CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] = intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
 
                 }
             }
@@ -508,14 +508,14 @@ class laporanAbsensi extends Controller
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['kelas_jab'] = $val->kelas_jab_saat_absensi;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['count_orang'] +=1;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan'] = $val->tunjangan;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] += intval(CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] += intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
                 }
                 else
                 {
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['kelas_jab'] = $val->kelas_jab_saat_absensi;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['count_orang'] = 1;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan'] = $val->tunjangan;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] = intval(CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] = intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
                 }
             }
 
@@ -659,14 +659,14 @@ class laporanAbsensi extends Controller
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['kelas_jab'] = $val->kelas_jab_saat_absensi;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['count_orang'] +=1;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan'] = $val->tunjangan;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] += intval(CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] += intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
                 }
                 else
                 {
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['kelas_jab'] = $val->kelas_jab_saat_absensi;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['count_orang'] = 1;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan'] = $val->tunjangan;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] = intval(CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] = intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
                 }
             }
 
@@ -797,7 +797,7 @@ class laporanAbsensi extends Controller
             $dataSend = [];            
             foreach ($q2->get() as $key => $value) {
                 $dataSend[$key] = $value;
-                $dataSend[$key]['pajak'] = CH::formulaPPH($value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$value->tunjangan,$value->tunj_lain);
+                $dataSend[$key]['pajak'] = CH::formulaPPH($value->nip,$value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$value->tunjangan,$value->tunj_lain);
             }
             $satker = satker::select('kd_satker','nm_satker')->get();
             //
@@ -889,10 +889,10 @@ class laporanAbsensi extends Controller
                     ->get();
             foreach ($data as $key => $value) {              
                 foreach ($value->getDataAmprahanPolri as $key2 => $val) {
-                    $val['pajak'] = intval(CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    $val['pajak'] = intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
                 }
                 foreach ($value->getDataAmprahanPns as $key2 => $val) {
-                    $val['pajak'] = intval(CH::formulaPPH($val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    $val['pajak'] = intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
                 }
                 $value['sumPajakPolri'] = $value->getDataAmprahanPolri->sum('pajak');
                 $value['sumDibayarkanPolri'] = $value->getDataAmprahanPolri->sum('tunjangan');

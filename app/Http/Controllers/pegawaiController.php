@@ -312,6 +312,7 @@ class pegawaiController extends Controller
         if($request->hasFile('file')){
             $path = $request->file('file')->getRealPath();
             $data = Excel::load($path, function($reader){})->get();
+            // return $data;
             if(!empty($data) && $data->count()){
                 $dataInsert = [];
                 //return $data;
