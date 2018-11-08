@@ -96,6 +96,7 @@
                       <th>NIP</th>
                       <th>Nama</th>
                       <th>Kelas Jabatan</th>
+                      <th>Anak Satker</th>
                       @foreach($fieldAbsensi as $val)
                       <th style="width:100px;">{{$val->nama}}</th>
                       @endforeach
@@ -117,14 +118,15 @@
       <!-- /.row -->
       
     </section>
+
     <!-- Modal -->
-    <div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal fade" tabindex="-1" role="dialog" id="modalFormKelasJabatan">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <form id="formUpdateKelasJabatan">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Edit Data Personil Untuk Absensi Susulan</h4>
+              <h4 class="modal-title">Edit Data Personil Untuk Absensi</h4>
             </div>
             <div class="modal-body">
               <div class="form-group">
@@ -159,40 +161,100 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" >Update Data Amprahan</button>
+              <button type="submit" class="btn btn-primary" >Update</button>
             </div>
           </form>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     <!-- End Modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="modalFormAnakSatker">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form id="formUpdateAnakSatker">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Edit Data Anak Satker Personil Untuk Absensi</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>NIP</label>
+                <input type="number" name="" readonly="readonly" value="" id="modalNip2" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Nama</label>
+                <input type="text" name="" readonly="readonly" value="" id="modalNama2" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Anak Satker</label>
+                <select class="form-control" id="modalAnakSatker" data="">
+                   @foreach($anakSatker as $val)
+                    <option value="{{$val->kd_anak_satker}}">{{$val->kd_anak_satker}} - {{$val->nm_anak_satker}}</option>
+                   @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" >Update</button>
+            </div>
+          </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <!-- /.content -->
     <script type="text/javascript">
-       function ubahKelasJab(nip,nama)
-      {
-        // alert(nip);
-        kelas_jab = $('input[name="kelas_jab['+nip+']"][data="'+nip+'"]').val();
-        $('#modalNip').val(nip);
-        $('#modalNama').val(nama);
-        $('#modalKelasJabatan').val(kelas_jab);
-        $('#modalKelasJabatan').attr('data',nip);
-        $('.modal').modal('show');
-      }
+      function ubahKelasJab(nip,nama)
+    {
+      // alert(nip);
+      kelas_jab = $('input[name="kelas_jab['+nip+']"][data="'+nip+'"]').val();
+      $('#modalNip').val(nip);
+      $('#modalNama').val(nama);
+      $('#modalKelasJabatan').val(kelas_jab);
+      $('#modalKelasJabatan').attr('data',nip);
+      $('#modalFormKelasJabatan').modal('show');
+    }
+    function ubahAnakSatker(nip,nama)
+    {
+      // alert(nip);
+      kd_anak_satker = $('input[name="kd_anak_satker['+nip+']"][data="'+nip+'"]').val();
+      // alert(kd_anak_satker);
+      $('#modalNip2').val(nip);
+      $('#modalNama2').val(nama);
+      $('#modalAnakSatker').val(kd_anak_satker);
+      $('#modalAnakSatker').attr('data',nip);
+      $('#modalFormAnakSatker').modal('show');
+    }
 
       $('.cond2, .cond3').attr('disabled','disabled');
       dataPegawaiTerpilih = [];
       $(document).ready(function(){
-        $('#formUpdateKelasJabatan').submit(function(e){
-          dataNip = $('#modalKelasJabatan').attr('data');
-          dataKelasJabatan = $('#modalKelasJabatan').val();
-          // alert(dataNip+" "+dataKelasJabatan);
-          //update datanya 
-          // alert('.hoverCursor[data="'+dataNip+'"]');
-          $('.hoverCursor[data="'+dataNip+'"]').html(dataKelasJabatan);
-          $('input[name="kelas_jab['+dataNip+']"][data="'+dataNip+'"]').val(dataKelasJabatan);
-          $('.modal').modal('hide');
-          e.preventDefault();
-        });
+        //update data kelas jabatan
+      $('#formUpdateKelasJabatan').submit(function(e){
+        dataNip = $('#modalKelasJabatan').attr('data');
+        dataKelasJabatan = $('#modalKelasJabatan').val();
+        // alert(dataNip+" "+dataKelasJabatan);
+        //update datanya 
+        // alert('.hoverCursor[data="'+dataNip+'"]');
+        $('.hoverCursor[data="'+dataNip+'"]').html(dataKelasJabatan);
+        $('input[name="kelas_jab['+dataNip+']"][data="'+dataNip+'"]').val(dataKelasJabatan);
+        $('#modalFormKelasJabatan').modal('hide');
+        e.preventDefault();
+      });
+      //
+      $('#formUpdateAnakSatker').submit(function(e){
+        dataNip = $('#modalAnakSatker').attr('data');
+        dataAnakSatker = $('#modalAnakSatker').val();
+        // alert(dataNip+" "+dataKelasJabatan);
+        //update datanya 
+        // alert('.hoverCursor[data="'+dataNip+'"]');
+        $('.hoverCursor2[data="'+dataNip+'"]').html(dataAnakSatker);
+        $('input[name="kd_anak_satker['+dataNip+']"][data="'+dataNip+'"]').val(dataAnakSatker);
+        $('#modalFormAnakSatker').modal('hide');
+        e.preventDefault();
+      });
         //tahun
         $('#btnPilih').click(function(){
           
@@ -226,6 +288,7 @@
                             '<input type="hidden" name="kelas_jab['+v.nip+']" value="'+v.kelas_jab_saat_absensi+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                         '</td>'+
                         '<td> <a class="hoverCursor" data="'+v.nip+'" onclick="ubahKelasJab(`'+v.nip+'`,`'+v.nama+'`)">'+v.kelas_jab_saat_absensi+'</a></td>'+
+                        '<td> <a class="hoverCursor2" data="'+v.nip+'" onclick="ubahAnakSatker(`'+v.nip+'`,`'+v.nama+'`)">'+v.kd_anak_satker_saat_absensi+'</a></td>'+  
                         '<td><input type="number" min="0" name="absensi1['+v.nip+']" class="form-control" value="'+v.absensi1+'"></td>'+
                         '<td><input type="number" min="0" name="absensi2['+v.nip+']" class="form-control" value="'+v.absensi2+'"></td>'+
                         '<td><input type="number" min="0" name="absensi3['+v.nip+']" class="form-control" value="'+v.absensi3+'"></td>'+
@@ -292,6 +355,7 @@
                             '<input type="hidden" name="kelas_jab['+dataNip+']" value="'+dataKelasJab+'" data="'+dataNip+'" class="form-control" style="width:100px;" required />'+
                       '</td>'+
                       '<td> <a class="hoverCursor" data="'+dataNip+'" onclick="ubahKelasJab(`'+dataNip+'`,`'+dataNama+'`)">'+dataKelasJab+'</a></td>'+
+                      '<td> <a class="hoverCursor2" data="'+dataNip+'" onclick="ubahAnakSatker(`'+dataNip+'`,`'+dataNama+'`)">'+dataAnakSatker+'</a></td>'+  
                       '<td><input type="number" min="0" name="absensi1['+dataNip+']" class="form-control" value="0"></td>'+
                       '<td><input type="number" min="0" name="absensi2['+dataNip+']" class="form-control" value="0"></td>'+
                       '<td><input type="number" min="0" name="absensi3['+dataNip+']" class="form-control" value="0"></td>'+

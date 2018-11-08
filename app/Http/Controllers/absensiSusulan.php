@@ -11,6 +11,7 @@ use App\aturan_absensi;
 use App\waktu_absensi;
 use App\aturan_tunkin;
 use App\absensiSusulan as absensi_susulan;
+use App\anak_satker;
 class absensiSusulan extends Controller
 {
     /**
@@ -30,6 +31,7 @@ class absensiSusulan extends Controller
                                 ->get();         
         $data['fieldAbsensi'] = aturan_absensi::all();
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;    
+        $data['anakSatker'] = anak_satker::where('kd_satker',CH::getKdSatker(Auth::user()->kd_satker))->get();
         return view($this->mainPage.".create",$data);
     }
 

@@ -61,6 +61,7 @@
                             <th>NIP</th>
                             <th>Nama</th>                            
                             <th>Kelas Jabatan</th>                            
+                            <th>Anak Satker</th>                            
                              @foreach($dataAturanAbsensi as $val)     
                               <th class="col-xs-1 absensiColumn no-sort" style="width:10% !important">{{$val->nama}}</th>                  
                             @endforeach
@@ -106,13 +107,13 @@
     </section>
 
     <!-- Modal -->
-    <div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal fade" tabindex="-1" role="dialog" id="modalFormKelasJabatan">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <form id="formUpdateKelasJabatan">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Edit Data Personil Untuk Kekurangan</h4>
+              <h4 class="modal-title">Edit Data Personil Untuk Absensi</h4>
             </div>
             <div class="modal-body">
               <div class="form-group">
@@ -154,6 +155,42 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     <!-- End Modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="modalFormAnakSatker">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form id="formUpdateAnakSatker">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Edit Data Anak Satker Personil Untuk Absensi</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>NIP</label>
+                <input type="number" name="" readonly="readonly" value="" id="modalNip2" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Nama</label>
+                <input type="text" name="" readonly="readonly" value="" id="modalNama2" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Anak Satker</label>
+                <select class="form-control" id="modalAnakSatker" data="">
+                   @foreach($anakSatker as $val)
+                    <option value="{{$val->kd_anak_satker}}">{{$val->kd_anak_satker}} - {{$val->nm_anak_satker}}</option>
+                   @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" >Update</button>
+            </div>
+          </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     
    <script type="text/javascript">
     var t;
@@ -165,7 +202,17 @@
       $('#modalNama').val(nama);
       $('#modalKelasJabatan').val(kelas_jab);
       $('#modalKelasJabatan').attr('data',nip);
-      $('.modal').modal('show');
+      $('#modalFormKelasJabatan').modal('show');
+    }
+    function ubahAnakSatker(nip,nama)
+    {
+      // alert(nip);
+      kd_anak_satker = $('input[name="kd_anak_satker"][data="'+nip+'"]').val();
+      $('#modalNip2').val(nip);
+      $('#modalNama2').val(nama);
+      $('#modalAnakSatker').val(kd_anak_satker);
+      $('#modalAnakSatker').attr('data',nip);
+      $('#modalFormAnakSatker').modal('show');
     }
      $(function() {
       //update data kelas jabatan
@@ -177,7 +224,19 @@
         // alert('.hoverCursor[data="'+dataNip+'"]');
         $('.hoverCursor[data="'+dataNip+'"]').html(dataKelasJabatan);
         $('input[name="kelas_jab"][data="'+dataNip+'"]').val(dataKelasJabatan);
-        $('.modal').modal('hide');
+        $('#modalFormKelasJabatan').modal('hide');
+        e.preventDefault();
+      });
+      //
+      $('#formUpdateAnakSatker').submit(function(e){
+        dataNip = $('#modalAnakSatker').attr('data');
+        dataAnakSatker = $('#modalAnakSatker').val();
+        // alert(dataNip+" "+dataKelasJabatan);
+        //update datanya 
+        // alert('.hoverCursor[data="'+dataNip+'"]');
+        $('.hoverCursor2[data="'+dataNip+'"]').html(dataAnakSatker);
+        $('input[name="kd_anak_satker"][data="'+dataNip+'"]').val(dataAnakSatker);
+        $('#modalFormAnakSatker').modal('hide');
         e.preventDefault();
       });
       //deklarasi var
@@ -222,6 +281,7 @@
                             // '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '</td>'+  
                             '<td> <a class="hoverCursor" data="'+v.nip+'" onclick="ubahKelasJab(`'+v.nip+'`,`'+v.nama+'`)">'+v.kelas_jab+'</a></td>'+       
+                            '<td> <a class="hoverCursor2" data="'+v.nip+'" onclick="ubahAnakSatker(`'+v.nip+'`,`'+v.nama+'`)">'+v.kd_anak_satker+'</a></td>'+       
                             '<td class="inputColumn"><input type="number" name="absensi1" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
                             '<td class="inputColumn"><input type="number" name="absensi2" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
                             '<td class="inputColumn"><input type="number" name="absensi3" value="0" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
@@ -250,6 +310,7 @@
                             // '<input type="hidden" name="state_tipikor" value="'+v.state_tipikor_saat_absensi+'" data="'+v.nip+'" class="form-control" style="width:100px;" required />'+
                             '</td>'+ 
                             '<td> <a class="hoverCursor" data="'+v.nip+'" onclick="ubahKelasJab(`'+v.nip+'`,`'+v.nama+'`)">'+v.kelas_jab_saat_absensi+'</a></td>'+       
+                            '<td> <a class="hoverCursor2" data="'+v.nip+'" onclick="ubahAnakSatker(`'+v.nip+'`,`'+v.nama+'`)">'+v.kd_anak_satker_saat_absensi+'</a></td>'+       
                             '<td class="inputColumn"><input type="number" name="absensi1" value="'+v.absensi1+'" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
                             '<td class="inputColumn"><input type="number" name="absensi2" value="'+v.absensi2+'" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
                             '<td class="inputColumn"><input type="number" name="absensi3" value="'+v.absensi3+'" data="'+v.nip+'" class="form-control" style="width:100px;" required /></td>'+                             
@@ -464,6 +525,7 @@
                               }, 4000);
                               $('.showWhenLoading').fadeOut("slow");
                               succeed_transfer =0;
+                              // alert(succeed_transfer);
                           } 
                         
                       }

@@ -436,6 +436,6 @@ table { page-break-inside:auto }
    tr    { page-break-inside:avoid; page-break-after:auto }
 
 
-.hoverCursor{
+.hoverCursor, .hoverCursor2{
   cursor: pointer;
 }
