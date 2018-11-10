@@ -48,7 +48,7 @@
                           <input type="hidden" name="_method" value="DELETE">
                           <button type="submit" class=" btn btn-danger btn-xs"><i class="fa fa-trash"></i> Hapus</button>
                         </form>
-                        <a href="{{url('settingUser/'.$val->id.'/edit')}}" class="btn btn-warning btn-xs"><i class="fa fa-trash"></i> Edit</a>
+                        <a href="{{url('settingUser/'.$val->id.'/edit')}}" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i> Edit</a>
                       </td>
                     </tr>       
                   @endforeach        

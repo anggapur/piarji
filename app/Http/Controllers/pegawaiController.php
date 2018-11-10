@@ -309,6 +309,7 @@ class pegawaiController extends Controller
         $gagal = "";
         $updateCount = 0;
         $insertCount = 0;
+        $errorsMessage = "";
         if($request->hasFile('file')){
             $path = $request->file('file')->getRealPath();
             $data = Excel::load($path, function($reader){})->get();
@@ -328,11 +329,15 @@ class pegawaiController extends Controller
                     if(Auth::user()->level == "admin")
                     {
                         $cariSatker = satker::where('kd_satker',$val->kode_satker)->get();
-                        if($cariSatker->count() == 0)     
+                        if($cariSatker->count() == 0)   
+                        {  
                             return redirect('pegawaiSetting/importPegawai')->with(['status' => 'danger' ,'message' => 'Gagal Import Data Pegawai, Kode Satker :'.$val->kode_satker.' tidak terdaftar']);
+                        }
                         $cariAnakSatker = anak_satker::where(['kd_satker' => $val->kode_satker , 'kd_anak_satker' => $val->anak_satker])->get();
                         if($cariAnakSatker->count() == 0)
+                        {
                             return redirect('pegawaiSetting/importPegawai')->with(['status' => 'danger' ,'message' => 'Gagal Import Data Pegawai, Kode Satker :'.$val->kode_satker.' Anak Satker : '.$val->anak_satker.' tidak terdaftar']);                        
+                        }
 
                     }
                     
@@ -420,9 +425,16 @@ class pegawaiController extends Controller
                         //cari pegawainya     
                         if(Auth::user()->level == "operator")               
                         {
-                            $cariPegawai = pegawai::where('nip',$val->nipnrp)->first()->kd_satker;
-                            if($cariPegawai !== CH::getKdSatker(Auth::user()->kd_satker))
-                                return redirect()->back()->with(['status' => 'danger' , 'message' => 'Gagal Import Data Pegawai, anda mencoba mengupdate pegawai dengan NIP '.$val->nipnrp.' yang bukan pegawai dalam satker anda']);
+                            $cariPegawai = pegawai::where('nip',$val->nipnrp)
+                                            ->leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
+                                            ->first();
+                            if($cariPegawai->kd_satker !== CH::getKdSatker(Auth::user()->kd_satker))
+                            {
+                                // return redirect()->back()->with(['status' => 'danger' , 'message' => 'Gagal Import Data Pegawai, anda mencoba mengupdate pegawai dengan NIP '.$val->nipnrp.' yang bukan pegawai dalam satker anda']);
+                                $mes = '<li>Gagal Import Data Pegawai, anda mencoba mengupdate pegawai dengan NIP '.$val->nipnrp.' yang bukan pegawai dalam satker anda ('.$cariPegawai->kd_satker.' - '.$cariPegawai->nm_satker.')</li>';
+                                $errorsMessage.=$mes;
+                                continue;
+                            }
                         }
                         
                         if(Auth::user()->level == "admin")     
@@ -479,7 +491,7 @@ class pegawaiController extends Controller
                 }
                 // $insert = pegawai::insert($dataInsert);
                 if($insert || $update)
-                    return redirect('pegawaiSetting/importPegawai')->with(['status' => 'success' ,'message' => 'Berhasil Import Data Pegawai. Insert Data Baru '.$insertCount.' , Update Data '.$updateCount]);
+                    return redirect('pegawaiSetting/importPegawai')->with(['status' => 'success' ,'message' => 'Berhasil Import Data Pegawai. Insert Data Baru '.$insertCount.' , Update Data '.$updateCount,'errorsMessage' => $errorsMessage]);
             }
             else
             {

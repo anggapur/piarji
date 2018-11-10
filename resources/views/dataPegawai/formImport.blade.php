@@ -6,6 +6,13 @@
       <!-- Small boxes (Stat box) -->
       <div class="row">
         <div class="col-lg-12 col-xs-12">
+          @if(session('status') AND session('errorsMessage') !== "")
+            <div class="alert alert-danger">
+                <ul>
+                   {!!session('errorsMessage')!!}
+                </ul>
+            </div>
+          @endif
           @if ($errors->any())
               <div class="alert alert-danger">
                   <ul>
@@ -39,6 +46,9 @@
                       <div class="form-group">
                         <a href="{{url('download\dataimportpegawai.xlsx')}}">Contoh Format Data Import</a>
                       </div>
+                      <p>
+                        <b>NB : Disarankan perimport data pegawai maksimal 800 data</b>
+                      </p>
                       <div class="form-group">                         
                           <button type="submit" class="btn btn-primary">Import Data  Personil</button>                        
                       </div>
