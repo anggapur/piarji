@@ -75,7 +75,7 @@ class customHelper {
     }
     public static function formulaPPH($nrp,$kawin,$tanggungan,$jenis_kelamin,$gapok,$tunj_strukfung,$tunkin,$tunj_lain)
     {
-       $nilaiTanggungan = 0;
+        $nilaiTanggungan = 0;
             if(strlen($nrp) <= 8)
             {
                 // POLRI
@@ -172,7 +172,7 @@ class customHelper {
         else if($kawin == "TK" AND $tanggungan == 3)
             $ptkp = 67500000;
         else if($kawin == 0 AND $tanggungan == 0)
-            $ptkp = 1;
+            $ptkp = 2;
 
         $pkp_setahun = ($jumlah_ph_netto<$ptkp) ? 0:$jumlah_ph_netto-$ptkp;
 
@@ -215,6 +215,12 @@ class customHelper {
         
         $pph_pasal_21_sebulan = $pph_pasal_21_setahun/12;
         $pph_final = $pph_21_per_bulan  - $pph_pasal_21_sebulan;
+        $pph_final = floor($pph_final);
+        if (substr($pph_final,-3)<=499){
+            $pph_final=round($pph_final,-3);
+        } else {
+            $pph_final=round($pph_final,-3)-1000;
+        } 
         /*
         echo $tanggung."<br>";
         echo "Gaji Pokok : ".$gapok."<br>";
@@ -398,6 +404,12 @@ class customHelper {
         
         $pph_pasal_21_sebulan = $pph_pasal_21_setahun/12;
         $pph_final = $pph_21_per_bulan  - $pph_pasal_21_sebulan;
+        $pph_final = floor($pph_final);
+        if (substr($pph_final,-3)<=499){
+            $pph_final=round($pph_final,-3);
+        } else {
+            $pph_final=round($pph_final,-3)-1000;
+        } 
 
         
         echo $tanggungan."<br>";
