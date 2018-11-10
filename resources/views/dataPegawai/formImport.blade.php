@@ -6,7 +6,7 @@
       <!-- Small boxes (Stat box) -->
       <div class="row">
         <div class="col-lg-12 col-xs-12">
-          @if(session('status') AND session('errorsMessage') !== "")
+          @if(session('status') AND session('errorsMessage') != "")
             <div class="alert alert-danger">
                 <ul>
                    {!!session('errorsMessage')!!}
