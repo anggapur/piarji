@@ -174,6 +174,15 @@ class satkerController extends Controller
     public function destroy($id)
     {
         //
+        if(Auth::user()->level !== "admin")
+            return redirect('404');
+        
+        $q = satker::where('id',$id)->first();
+        $query = satker::where('id',$id)->delete();
+        if($query)
+        {
+            return redirect($this->mainPage)->with(['status' => 'success' ,'message' => 'Berhasil Hapus Satker <b>'.$q->nm_satker.'</b>']);
+        }
     }
     public function anyData()
     {
@@ -193,7 +202,8 @@ class satkerController extends Controller
                 
             })
             ->addColumn('action', function ($user) {
-                return '<a href="'.url('dataSatker/'.$user->id).'/edit" class="btn btn-xs btn-warning"> Edit</a>';
+                return '<a href="'.url('dataSatker/'.$user->id).'/edit" class="btn btn-xs btn-warning"> Edit</a>'.
+                        '<button class="btn btn-danger btn-xs" data-nama-satker="'.$user->nm_satker.'" data-id="'.$user->id.'" onclick="modalDelete('.$user->id.')">Hapus </button>';
 
                 
             })

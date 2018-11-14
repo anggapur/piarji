@@ -48,6 +48,28 @@
       
     </section>
     <!-- /.content -->
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="modalDelete">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form method="POST">
+            <input type="hidden" name="_method" value="DELETE">
+            {{csrf_field()}}
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Hapus Satker</h4>
+            </div>
+            <div class="modal-body">
+              <p>Apakah anda yakin akan menhapus satker <b class="namaSatker"></b></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-danger">Hapus Data Satker</button>
+            </div>
+          </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <script>
 $(function() {
     $('#example1').DataTable({
@@ -63,5 +85,16 @@ $(function() {
         ]
     });
 });
+
+function modalDelete(id)
+{
+  src = "{{url('dataSatker')}}/"+id;
+   $('form').attr('action',src);
+ 
+  dataNamaSatker = $('button[data-id="'+id+'"]').attr('data-nama-satker');
+  $('.namaSatker').html(dataNamaSatker);
+  $('#modalDelete').modal('toggle');
+
+}
 </script>
 @endsection

@@ -108,7 +108,13 @@
         </div>        
       </div>
       <!-- /.row -->
-      
+       <div class="bgBlack showWhenLoading"></div>
+    <div class="spinner showWhenLoading">
+      <h3>Menampilkan Laporan</h3>
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
     </section>
     <script type="text/javascript">
       function printReport()
@@ -128,7 +134,8 @@
    <script type="text/javascript">
       //form bulan tahun
 
-        $('#formBulanTahun').submit(function(e){          
+        $('#formBulanTahun').submit(function(e){  
+        $('.showWhenLoading').fadeIn("slow");          
           bulan = $(this).find("select[name='bulan']").val();
           tahun = $(this).find("select[name='tahun']").val();
           satker = $(this).find("select[name='kd_satker']").val();
@@ -181,6 +188,7 @@
                   //
                   if(data.status == "nodata")
                   { 
+                    $('.showWhenLoading').fadeOut("slow");
                     $('.lembarLaporan').fadeOut('slow');
                     $('#message').fadeIn("slow").html('Belum Ada Data Absensi');
                     setTimeout(function(){
@@ -189,6 +197,7 @@
                   }
                   if(data.dataAbsensi.length == 0)
                   { 
+                    $('.showWhenLoading').fadeOut("slow");
                     $('.lembarLaporan').fadeOut('slow');
                     $('#message').fadeIn("slow").html('Belum Ada Data Absensi');
                     setTimeout(function(){
@@ -259,6 +268,7 @@
                     insertWord = insertWord.replace('[nominalHuruf]','('+terbilang(Math.ceil(jml12))+')');
                     $('.bodySPTJM').html(insertWord);
 
+                    $('.showWhenLoading').fadeOut("slow");
                   }
                 }
             });

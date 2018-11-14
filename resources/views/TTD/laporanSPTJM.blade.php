@@ -46,6 +46,8 @@
                     <span>*Dapat Menggunakan [bulan] agar bulan yang dicetak secara otomatis</span><br>
                     <span>*Dapat Menggunakan [anggota] agar anggota dicetak secara otomatis</span><br>
                     <span>*Dapat Menggunakan [satker] agar satker dicetak secara otomatis</span><br>
+                    <span>*Dapat Menggunakan [nominalAngka] agar nominal uang dalam bentuk angka dicetak secara otomatis</span><br>
+                    <span>*Dapat Menggunakan [nominalHuruf] agar nominal uang dalam bentuk huruf dicetak secara otomatis</span><br>
                   </div>                                     
                 </div>
 
