@@ -21,6 +21,8 @@ class satkerController extends Controller
     public $page = "Data Satker";
     public function index()
     {
+        if(Auth::user()->level !== "admin")
+            return redirect("404");
         $data['page'] = $this->page;
         $data['subpage'] = "List Satker";    
         return view($this->mainPage.".index",$data);
@@ -154,7 +156,11 @@ class satkerController extends Controller
         }
 
         if($query)
-            return redirect($this->mainPage)->with(['status' => 'success' ,'message' => 'Berhasil Update Satker']);
+            if(Auth::user()->level == "admin")
+                return redirect($this->mainPage)->with(['status' => 'success' ,'message' => 'Berhasil Update Satker']);
+            else if(Auth::user()->level == "operator")
+                return redirect()->back()->with(['status' => 'success' ,'message' => 'Berhasil Update Satker']);
+
     }
 
     /**
