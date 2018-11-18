@@ -71,7 +71,7 @@
 
                     <div class="leftKU">
                       <div class="logoPolriLaporan"><img src="{{url('public/asset/Logo-POLRI-bw.png')}}"></div>
-                      <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> BIDANG KEUANGAN</h5>
+                      <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> <span class="satkerName"></span></h5>
                     </div>
                     <div class="rightKU">
 
@@ -84,6 +84,7 @@
                     DAFTAR PERMINTAAN TUNJANGAN KINERJA <span class="keanggotaan"></span> T.A <span class="tahun"></span>
                     </h5>
                   <h5>Bulan : <span class="waktu"></span></h5>
+                   <h5 class="satkerName"></h5>
                   </div>
                <table border="1" cellpadding="10" id="tableLaporan">
                  <thead>
@@ -242,7 +243,7 @@
                   }
                   else if(data.status == "success")
                   {
-
+                    $('.satkerName').html(data.selectedSatker.nm_satker);
                     $('.keanggotaan').html(data.keanggotaan);
                     i = 1;
                     $('#printArea').fadeIn('slow');

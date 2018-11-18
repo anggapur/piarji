@@ -112,6 +112,7 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::post('pegawaiSetting/importDataPegawai','pegawaiController@importDataPegawai');
 	Route::resource('dataPegawai','pegawaiController');
 	Route::get('getDataPegawai','pegawaiController@anyData')->name('getDataPegawai');
+	Route::post('getDataPegawaiTry','pegawaiController@anyDataTry')->name('getDataPegawaiTry');
 
 	Route::get('settingRekening/importForm','settingRekening@importForm');
 	Route::post('settingRekening/importrekening','settingRekening@importrekening');

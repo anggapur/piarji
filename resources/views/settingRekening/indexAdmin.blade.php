@@ -39,7 +39,7 @@
                   <th>Nama Pegawai</th>                  
                   <th>Satker</th>                  
                   <th>Pangkat</th>                  
-                  <th>Jabatan</th>                  
+                  <!-- <th>Jabatan</th>                   -->
                   <th>No Rekening</th>                  
                   <th>Status Aktif</th>                  
                   <th>Action</th>                  
@@ -76,7 +76,7 @@ $(function() {
             { data: 'nama', name: 'nama' },                        
             { data: 'nm_satker', name: 'satker.nm_satker' },                        
             { data: 'nm_pangkat', name: 'pangkat.nm_pangkat1' },                        
-            { data: 'nm_jabatan', name: 'jabatan.nm_jabatan' },                        
+            // { data: 'nm_jabatan', name: 'jabatan.nm_jabatan' },                        
             { data: 'no_rekening', name: 'no_rekening' },                        
             { data: 'status_aktif', name: 'status_aktif' },                        
             { data: 'action', name: 'action' },                        
@@ -104,8 +104,14 @@ $(function() {
             } );
         }
     });
-});
 
+
+
+});
+function showAlert()
+{
+  //alert('Gagaga');
+}
 
 </script>
 @endsection

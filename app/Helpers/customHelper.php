@@ -6,6 +6,7 @@ use Auth;
 use App\satker;
 use App\mutasi;
 use App\TTD;
+use CH;
 class customHelper {
     /**
      * @param int $user_id User-id
@@ -336,6 +337,8 @@ class customHelper {
         $jumlah_penghasilan_bruto = $jumlah_gaji_tunjangan_keluarga+$tunjangan_strukfung+$tunjangan_beras+$tunkin+$tunjangan_lain;
 
         $biaya_jabatan = ($jumlah_penghasilan_bruto*(5/100) > 500000) ? 500000 : ($jumlah_penghasilan_bruto*(5/100));
+        
+
         $iuran_pensiun = $jumlah_gaji_tunjangan_keluarga*(4.75/100);
         $jumlah_pengurang = $biaya_jabatan+$iuran_pensiun;
         $jumlah_penghasilan_netto = $jumlah_penghasilan_bruto-$jumlah_pengurang;
@@ -364,6 +367,7 @@ class customHelper {
             $ptkp = 2;
 
         $pkp_setahun = ($jumlah_ph_netto<$ptkp) ? 0:$jumlah_ph_netto-$ptkp;
+        $pkp_setahun = CH::dibulatkanKebawah($pkp_setahun);
 
         if($pkp_setahun > 500000000)
             $pph_21_terutang = 95000000+300*(($pkp_setahun-500000000)/1000);
@@ -381,35 +385,35 @@ class customHelper {
         $gaji_kotor_bulanan = $jumlah_gaji_tunjangan_keluarga+$tunjangan_strukfung+$tunjangan_beras+$tunkin+$tunjangan_lain;
 
         $biaya_jabatan   = ($gaji_kotor_bulanan*(0.05) > 500000) ? 500000:($gaji_kotor_bulanan*(5/100));
+        $biaya_jabatan = CH::dibulatkanKebawah($biaya_jabatan);
 
         $gaji_kotor_bulanan2 = $jumlah_gaji_tunjangan_keluarga+$tunjangan_strukfung+$tunjangan_beras+$tunjangan_lain;
 
         $biaya_jabatan2   = ($gaji_kotor_bulanan2*0.05 > 500000) ? 500000:($gaji_kotor_bulanan2*(5/100));
+        $biaya_jabatan2 = floor($biaya_jabatan2);
 
         $iuran_pensiun = $iuran_pensiun;
+        $iuran_pensiun = floor($iuran_pensiun);
+
         $jumlah_pengurang_hijau = $biaya_jabatan2+$iuran_pensiun;
         $penghasilan_netto_hijau = $gaji_kotor_bulanan2-$jumlah_pengurang_hijau;
         $peng_netto_setahun = $penghasilan_netto_hijau*12;
         $ptkp = $ptkp;
         $pkp = ($peng_netto_setahun < $ptkp) ? 0:($peng_netto_setahun-$ptkp) ;
+        $pkp = CH::dibulatkanKebawah($pkp);
 
         if($pkp > 500000000)
-            $pph_pasal_21_setahun  = 95000000+300*(($pkp-500000000)/1000);
+            $pph_pasal_21_setahun  = floor(95000000+300*(($pkp-500000000)/1000));
         else if($pkp > 250000000)
-            $pph_pasal_21_setahun = 32500000+250*(($pkp-250000000)/1000);
+            $pph_pasal_21_setahun = floor(32500000+250*(($pkp-250000000)/1000));
         else if($pkp > 50000000)
-            $pph_pasal_21_setahun = 2500000+150*(($pkp-50000000)/1000);
+            $pph_pasal_21_setahun = floor(2500000+150*(($pkp-50000000)/1000));
         else
-            $pph_pasal_21_setahun = 50*($pkp/1000);
+            $pph_pasal_21_setahun = floor(50*($pkp/1000));
         
-        $pph_pasal_21_sebulan = $pph_pasal_21_setahun/12;
-        $pph_final = $pph_21_per_bulan  - $pph_pasal_21_sebulan;
-        $pph_final = floor($pph_final);
-        if (substr($pph_final,-3)<=499){
-            $pph_final=round($pph_final,-3);
-        } else {
-            $pph_final=round($pph_final,-3)-1000;
-        } 
+        $pph_pasal_21_sebulan = floor($pph_pasal_21_setahun/12);
+        $pph_final = floor($pph_21_per_bulan  - $pph_pasal_21_sebulan);
+       
 
         
         echo $tanggungan."<br>";
@@ -437,21 +441,30 @@ class customHelper {
         echo "pph 21 per bulan ".floor($pph_21_per_bulan)."<br>";
         echo "<hr>";
         echo "Gaji Kotor Bulanan ".$gaji_kotor_bulanan2."<br>";
-        echo "biaya_jabatan".$gaji_kotor_bulanan2*0.05."<br>";
+        echo "biaya_jabatan".$biaya_jabatan2."<br>";
         echo "Iuran pensiun ".$iuran_pensiun."<br>";
         echo "Jumlah pengurang ".$jumlah_pengurang_hijau."<br>";
         echo "Penghasilan Netto ".$penghasilan_netto_hijau."<br>";
-        echo "Gaji Kotor Bulanan ".$peng_netto_setahun."<br>";
-        echo "Gaji Kotor Bulanan ".$ptkp."<br>";
-        echo "Gaji Kotor Bulanan ".$pkp."<br>";
-        echo "Gaji Kotor Bulanan ".$pph_pasal_21_setahun."<br>";
-        echo "Gaji Kotor Bulanan ".$pph_pasal_21_sebulan."<br>";
-        echo "Gaji Kotor Bulanan ".$pph_final."<br>";
+        echo "Peng Netto Setahun ".$peng_netto_setahun."<br>";
+        echo "PTKP ".$ptkp."<br>";
+        echo "PKP ".$pkp."<br>";
+        echo "PPH 21 Setahun ".$pph_pasal_21_setahun."<br>";
+        echo "PPH 21 sebulan ".$pph_pasal_21_sebulan."<br>";
+        echo "PPH FINAL ".$pph_final."<br>";
         
         return $pph_final;
     }
 
-
+    public static function dibulatkanKebawah($pkp_setahun)
+    {
+        $pkp_setahun = floor($pkp_setahun);
+        if (substr($pkp_setahun,-3)<=499){
+            $pkp_setahun=round($pkp_setahun,-3);
+        } else {
+            $pkp_setahun=round($pkp_setahun,-3)-1000;
+        } 
+        return $pkp_setahun;
+    }
     public static function queryByJenisPegawai($q2,$jenis_pegawai)
     {
         if($jenis_pegawai == "0")

@@ -756,7 +756,15 @@ class amprahanLaporan extends Controller
                 $dataSend[$key]['pajak'] = CH::formulaPPH($value->nip,$value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$value->tunjangan,$value->tunj_lain);
             }
             $satker = satker::select('kd_satker','nm_satker')->get();
-            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $dataSend,'formula' => $formula , 'bulan' => $bulan[$request->bulan] ,'tahun' => $request->tahun ,'keanggotaan' => $keanggotaan ,'satker' => $satker];            
+
+            //
+            if(Auth::user()->level == "operator")
+                $selectedSatker = satker::where('kd_satker',CH::getKdSatker(Auth::user()->kd_satker))->first();
+            else if($request->satker != "")
+                $selectedSatker = satker::where('kd_satker',$request->satker)->first();
+            else
+                $selectedSatker['nm_satker'] = "";
+            return ['idBulanTahun' => $query[0]['id'],'status' => 'success','dataAbsensi' => $dataSend,'formula' => $formula , 'bulan' => $bulan[$request->bulan] ,'tahun' => $request->tahun ,'keanggotaan' => $keanggotaan ,'satker' => $satker,'selectedSatker' => $selectedSatker];            
         }
         else
         {

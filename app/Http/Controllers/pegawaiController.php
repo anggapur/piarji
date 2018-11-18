@@ -256,21 +256,25 @@ class pegawaiController extends Controller
         {
             $q = pegawai::leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
             ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
-            ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')     
+            // ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')     
             // ->where('pegawai.status_aktif','1')       
             ->orderBy('kelas_jab','DESC')
-            ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
+            ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2');
         }
         else
         {
             $q = pegawai::leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
             ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
-            ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')   
+            // ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')   
             ->where('pegawai.kd_satker',CH::getKdSatker(Auth::user()->kd_satker)) 
             // ->where('pegawai.status_aktif','1')        
             ->orderBy('kelas_jab','DESC')
-            ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan');
+            ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2');
         }
+        // $q = pegawai::leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
+        //     ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat') 
+        //     // ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan') 
+        //     ;
         return Datatables::of($q)
             ->addColumn('nm_pangkat', function ($user) {
                 return $user->nm_pangkat2;
@@ -279,9 +283,9 @@ class pegawaiController extends Controller
             })
             ->addColumn('status_aktif', function ($user) {
                 if($user->status_aktif == "0")
-                    return "<span class='label label-danger'>Non-aktif</span>";
+                    return "<span class='label label-danger' onmouseover='showAlert()'>Non-aktif</span>";
                 else if($user->status_aktif == "1")
-                    return "<span class='label label-success'>Aktif</span>";
+                    return "<span class='label label-success' onmouseover='showAlert()'>Aktif</span>";
                 
             })
             ->addColumn('action', function ($user) {
@@ -296,6 +300,85 @@ class pegawaiController extends Controller
             })
             ->rawColumns(['status_aktif','action'])
             ->make(true);
+    }
+
+    public function anyDataTry(Request $request)
+    {
+       $columns = array(
+            0 => 'id',
+            1 => 'title',
+        );
+        $totalTitles = pegawai::count();
+        $totalFiltered = $totalTitles;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if (empty($request->input('search.value'))) {
+            $titles = 
+                pegawai::leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
+                ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
+                ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')     
+                // ->where('pegawai.status_aktif','1')       
+                ->orderBy('kelas_jab','DESC')
+                ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan')
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->get();
+        } else {
+            $search = $request->input('search.value');
+
+            $titles = pegawai::where('nama', 'LIKE', "%{$search}%")
+                
+                ->leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
+                ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
+                ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')     
+                // ->where('pegawai.status_aktif','1')       
+                ->orderBy('kelas_jab','DESC')
+                ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan')
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->get();
+
+            $totalFiltered = pegawai::where('nama', 'LIKE', "%{$search}%")
+                
+                ->leftJoin('satker','pegawai.kd_satker','=','satker.kd_satker')
+                ->leftJoin('pangkat','pegawai.kd_pangkat','=','pangkat.kd_pangkat')            
+                ->leftJoin('jabatan','pegawai.kd_jab','=','jabatan.kd_jabatan')     
+                // ->where('pegawai.status_aktif','1')       
+                ->orderBy('kelas_jab','DESC')
+                ->select('pegawai.*','satker.nm_satker','nm_pangkat1','nm_pangkat2','nm_jabatan')
+               
+                ->count();
+        }
+
+        $data = array();
+        if (!empty($titles)) {
+            $count = 1;
+            foreach ($titles as $title) {
+
+                $nestedData['id'] = $count;
+                $nestedData['nama'] = $title->nama;
+                $nestedData['action'] = '<button type="button" class="btn btn-primary" onclick="" title="Edit">
+                                        </button>
+                                        <button type="button" style="margin-left:5px;" class="btn btn-primary" onclick="" title="Delete">
+                                        </button>';
+                $data[] = $nestedData;
+                $count++;
+            }
+        }
+
+        $json_data = array(
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($totalTitles),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data,
+        );
+        echo json_encode($json_data);
     }
     public function formImport()
     {
