@@ -229,6 +229,10 @@ return $errorInfo;
     {
         //cari data yang sesuai
         $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun,'absensi.kd_satker_saat_absensi' => CH::getKdSatker(Auth::user()->kd_satker)];
+        //anak satker
+        if($request->anak_satker !== "all")
+            $where['absensi.kd_anak_satker_saat_absensi'] = $request->anak_satker;
+        //
         $query = waktu_absensi::where($where)->join('absensi','waktu_absensi.id','=','absensi.id_waktu');
         if($query->get()->count() == 0)
         {

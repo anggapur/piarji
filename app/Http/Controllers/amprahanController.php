@@ -168,6 +168,10 @@ return $errorInfo;
     {
         //cari data yang sesuai
         $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun,'amprahan.kd_satker_saat_amprah' => CH::getKdSatker(Auth::user()->kd_satker)];
+        //
+        if($request->anak_satker !== "all")
+            $where['amprahan.kd_anak_satker_saat_amprah'] = $request->anak_satker; 
+        //
         $query = waktu_absensi::where($where)->join('amprahan','waktu_absensi.id','=','amprahan.id_waktu');
         if($query->get()->count() == 0)
         {
