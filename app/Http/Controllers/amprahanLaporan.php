@@ -686,7 +686,7 @@ class amprahanLaporan extends Controller
     public function pilihBulanTahun(Request $request)
     {
         //cari data yang sesuai
-        $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+        $bulan = CH::listBulan();
         $where = ['bulan' => $request->bulan, 'tahun' => $request->tahun];
         $query = waktu_absensi::where($where)->get();
         $formula = aturan_absensi::orderBy('id','ASC')->get();
