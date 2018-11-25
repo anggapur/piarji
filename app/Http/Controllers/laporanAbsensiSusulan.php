@@ -870,6 +870,7 @@ class laporanAbsensiSusulan extends Controller
                 $q2->where('absensi_susulan.kd_satker_saat_absensi',$request->satker);
             if($request->anakSatker != "all")
                 $q2->where('absensi_susulan.kd_anak_satker_saat_absensi',$request->anakSatker);
+
             //cek apakah di requect polri atau pns
             if($request->jenis_pegawai == "0")
             {
@@ -895,6 +896,7 @@ class laporanAbsensiSusulan extends Controller
                 $dataSend[$key]['absensiValue4'] = CH::absensiFormulaMath($formula[3]['rumus'],$value->tunjangan,$value->absensi4);
                 $dataSend[$key]['jumlahPengurangan'] = intval($dataSend[$key]['absensiValue1']+$dataSend[$key]['absensiValue2']+$dataSend[$key]['absensiValue3']+$dataSend[$key]['absensiValue4']);
                 $jadiTunjangan = $value->tunjangan-$dataSend[$key]['jumlahPengurangan'];
+                $dataSend[$key]['pajakAwal'] = CH::formulaPPH($value->nip,$value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$value->tunjangan,$value->tunj_lain);
                 $dataSend[$key]['pajak'] = CH::formulaPPH($value->nip,$value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$jadiTunjangan,$value->tunj_lain);
             }
             $satker = satker::select('kd_satker','nm_satker')->get();

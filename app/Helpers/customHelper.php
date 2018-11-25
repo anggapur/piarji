@@ -487,6 +487,10 @@ class customHelper {
             $q2->where('absensi.state_tipikor_saat_absensi','1');
             $keanggotaan = "TIPIDKOR";
         }
+        else if($jenis_pegawai == "all")
+        {
+            $keanggotaan = "ALL";
+        }
         else
         {
             $q2->where('absensi.state_tipikor_saat_absensi','0');

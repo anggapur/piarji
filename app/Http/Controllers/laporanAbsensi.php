@@ -880,6 +880,7 @@ class laporanAbsensi extends Controller
                 $dataSend[$key]['absensiValue4'] = CH::absensiFormulaMath($formula[3]['rumus'],$value->tunjangan,$value->absensi4);
                 $dataSend[$key]['jumlahPengurangan'] = intval($dataSend[$key]['absensiValue1']+$dataSend[$key]['absensiValue2']+$dataSend[$key]['absensiValue3']+$dataSend[$key]['absensiValue4']);
                 $jadiTunjangan = $value->tunjangan-$dataSend[$key]['jumlahPengurangan'];
+                $dataSend[$key]['pajakAwal'] = CH::formulaPPH($value->nip,$value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$value->tunjangan,$value->tunj_lain);
                 $dataSend[$key]['pajak'] = CH::formulaPPH($value->nip,$value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$jadiTunjangan,$value->tunj_lain);
             }
             $satker = satker::select('kd_satker','nm_satker')->get();
@@ -937,36 +938,60 @@ class laporanAbsensi extends Controller
         {
             
             $data = satker::
-                    withCount(['getDataAmprahanPolri' => function($q) use ($cariWaktu){
+                    withCount(['getDataAmprahanPolri' => function($q) use ($cariWaktu,$jenis_pegawai){
                         $q->whereRaw('LENGTH(amprahan.nip) <= 8')
-                        ->where('amprahan.status_dapat','1')
-                        ->where('id_waktu',$cariWaktu->first()->id);
+                        ->where('amprahan.status_dapat','1');
+
+                        if($jenis_pegawai == "2")
+                            $q->where('state_tipikor_saat_amprah','1');
+                        else
+                            $q->where('state_tipikor_saat_amprah','0');
+
+                        $q->where('id_waktu',$cariWaktu->first()->id);
                     }])
-                    ->with(['getDataAmprahanPolri' => function($q) use ($cariWaktu){
+                    ->with(['getDataAmprahanPolri' => function($q) use ($cariWaktu,$jenis_pegawai){
                         $q->whereRaw('LENGTH(amprahan.nip) <= 8')
                         ->leftJoin('aturan_tunkin_detail',function($q){
                             $q->on('amprahan.kelas_jab_saat_amprah','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
                             $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','amprahan.kd_aturan');
                         })
                         ->leftJoin('pegawai','amprahan.nip','=','pegawai.nip')
-                        ->where('amprahan.status_dapat','1')
-                        ->where('id_waktu',$cariWaktu->first()->id)
+                        ->where('amprahan.status_dapat','1');
+
+                        if($jenis_pegawai == "2")
+                            $q->where('state_tipikor_saat_amprah','1');
+                        else
+                            $q->where('state_tipikor_saat_amprah','0');
+
+                        $q->where('id_waktu',$cariWaktu->first()->id)
                         ->select(DB::raw('amprahan.*,tunjangan,pegawai.kawin,pegawai.tanggungan,pegawai.jenis_kelamin,pegawai.gapok,pegawai.tunj_strukfung,pegawai.tunj_lain'));
                     }])
-                    ->withCount(['getDataAmprahanPns' => function($q) use ($cariWaktu){
+                    ->withCount(['getDataAmprahanPns' => function($q) use ($cariWaktu,$jenis_pegawai){
                         $q->whereRaw('LENGTH(amprahan.nip) > 8')
-                        ->where('amprahan.status_dapat','1')
-                        ->where('id_waktu',$cariWaktu->first()->id);
+                        ->where('amprahan.status_dapat','1');
+
+                        if($jenis_pegawai == "2")
+                            $q->where('state_tipikor_saat_amprah','1');
+                        else
+                            $q->where('state_tipikor_saat_amprah','0');
+
+                        $q->where('id_waktu',$cariWaktu->first()->id);
                     }])
-                    ->with(['getDataAmprahanPns' => function($q) use ($cariWaktu){
+                    ->with(['getDataAmprahanPns' => function($q) use ($cariWaktu,$jenis_pegawai){
                         $q->whereRaw('LENGTH(amprahan.nip) > 8')
                         ->leftJoin('aturan_tunkin_detail',function($q){
                             $q->on('amprahan.kelas_jab_saat_amprah','=','aturan_tunkin_detail.kelas_jabatan'); // ini minta diganti juga
                             $q->on('aturan_tunkin_detail.id_aturan_tunkin','=','amprahan.kd_aturan');
                         })
                         ->leftJoin('pegawai','amprahan.nip','=','pegawai.nip')
-                        ->where('amprahan.status_dapat','1')
-                        ->where('id_waktu',$cariWaktu->first()->id)
+                        ->where('amprahan.status_dapat','1');
+
+                        if($jenis_pegawai == "2")
+                            $q->where('state_tipikor_saat_amprah','1');
+                        else
+                            $q->where('state_tipikor_saat_amprah','0');
+
+                        $q->where('id_waktu',$cariWaktu->first()->id)
                         ->select(DB::raw('amprahan.*,tunjangan,pegawai.kawin,pegawai.tanggungan,pegawai.jenis_kelamin,pegawai.gapok,pegawai.tunj_strukfung,pegawai.tunj_lain'));
                     }])
                     ->get();
@@ -1002,6 +1027,10 @@ class laporanAbsensi extends Controller
             $nilaiBalik = [];
             foreach ($data as $key => $value) {                
                 if($jenis_pegawai == "")
+                    $nilaiBalik[$value->kd_satker] = $value->brutoPolri + $value->brutoPns;
+                else if($jenis_pegawai == "all")
+                    $nilaiBalik[$value->kd_satker] = $value->brutoPolri + $value->brutoPns;
+                else if($jenis_pegawai == "2")
                     $nilaiBalik[$value->kd_satker] = $value->brutoPolri + $value->brutoPns;
                 else if($jenis_pegawai == "0")
                     $nilaiBalik[$value->kd_satker] = $value->brutoPolri;

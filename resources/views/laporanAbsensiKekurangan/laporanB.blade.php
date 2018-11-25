@@ -55,6 +55,7 @@
                     <option value="">Polri & PNS</option>                
                     <option value="0">Polri</option>                
                     <option value="1">PNS</option>                
+                    <option value="2">Tipidkor</option>                
                   </select>                 
                 </div>  
                 <div class="form-group">

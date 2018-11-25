@@ -347,12 +347,28 @@ class laporanAbsensiKekurangan extends Controller
             if($request->jenis_pegawai == "0")
             {
                 $q2->whereRaw('LENGTH(pegawai.nip) <= 8'); // polri
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','0');
                 $keanggotaan = "POLRI";
             }
             else if($request->jenis_pegawai == "1")
             {
                 $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','0');
                 $keanggotaan = "PNS";
+            }
+            else if($request->jenis_pegawai == "2")
+            {
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','1');
+                $keanggotaan = "TIPIDKOR";
+            }
+            else if($request->jenis_pegawai == "all")
+            {
+                $keanggotaan = "ALL";
+            }
+            else
+            {
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','0');
+                $keanggotaan = "POLRI & PNS";
             }
 
             //cari aturan tunkin detail
@@ -508,9 +524,31 @@ class laporanAbsensiKekurangan extends Controller
                 $q2->where('absensi_kekurangan.kd_satker_saat_absensi',$request->satker);
             //cek apakah di requect polri atau pns
             if($request->jenis_pegawai == "0")
+            {
                 $q2->whereRaw('LENGTH(pegawai.nip) <= 8'); // polri
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','0');
+                $keanggotaan = "POLRI";
+            }
             else if($request->jenis_pegawai == "1")
+            {
                 $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','0');
+                $keanggotaan = "PNS";
+            }
+            else if($request->jenis_pegawai == "2")
+            {
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','1');
+                $keanggotaan = "TIPIDKOR";
+            }
+            else if($request->jenis_pegawai == "all")
+            {
+                $keanggotaan = "ALL";
+            }
+            else
+            {
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','0');
+                $keanggotaan = "POLRI & PNS";
+            }
 
             //cari aturan tunkin detail
             $tunkin = aturan_tunkin_detail::leftJoin('aturan_tunkin','aturan_tunkin_detail.id_aturan_tunkin','=','aturan_tunkin.id')->where('state','1')->orderBy('kelas_jabatan','DESC')->get();       
@@ -684,9 +722,31 @@ class laporanAbsensiKekurangan extends Controller
                 $q2->where('absensi_kekurangan.kd_satker_saat_absensi',$request->satker);
             //cek apakah di requect polri atau pns
             if($request->jenis_pegawai == "0")
+            {
                 $q2->whereRaw('LENGTH(pegawai.nip) <= 8'); // polri
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','0');
+                $keanggotaan = "POLRI";
+            }
             else if($request->jenis_pegawai == "1")
+            {
                 $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','0');
+                $keanggotaan = "PNS";
+            }
+            else if($request->jenis_pegawai == "2")
+            {
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','1');
+                $keanggotaan = "TIPIDKOR";
+            }
+            else if($request->jenis_pegawai == "all")
+            {
+                $keanggotaan = "ALL";
+            }
+            else
+            {
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','0');
+                $keanggotaan = "POLRI & PNS";
+            }
 
             //cari aturan tunkin detail
             $tunkin = aturan_tunkin_detail::leftJoin('aturan_tunkin','aturan_tunkin_detail.id_aturan_tunkin','=','aturan_tunkin.id')->where('state','1')->orderBy('kelas_jabatan','DESC')->get();       
@@ -874,15 +934,27 @@ class laporanAbsensiKekurangan extends Controller
             if($request->jenis_pegawai == "0")
             {
                 $q2->whereRaw('LENGTH(pegawai.nip) <= 8'); // polri
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','0');
                 $keanggotaan = "POLRI";
             }
             else if($request->jenis_pegawai == "1")
             {
                 $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','0');
                 $keanggotaan = "PNS";
+            }
+            else if($request->jenis_pegawai == "2")
+            {
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','1');
+                $keanggotaan = "TIPIDKOR";
+            }
+            else if($request->jenis_pegawai == "all")
+            {
+                $keanggotaan = "ALL";
             }
             else
             {
+                $q2->where('absensi_kekurangan.state_tipikor_saat_absensi','0');
                 $keanggotaan = "POLRI & PNS";
             }
 
@@ -895,6 +967,7 @@ class laporanAbsensiKekurangan extends Controller
                 $dataSend[$key]['absensiValue4'] = CH::absensiFormulaMath($formula[3]['rumus'],$value->tunjangan,$value->absensi4);
                 $dataSend[$key]['jumlahPengurangan'] = intval($dataSend[$key]['absensiValue1']+$dataSend[$key]['absensiValue2']+$dataSend[$key]['absensiValue3']+$dataSend[$key]['absensiValue4']);
                 $jadiTunjangan = $value->tunjangan-$dataSend[$key]['jumlahPengurangan'];
+                $dataSend[$key]['pajakAwal'] = CH::formulaPPH($value->nip,$value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$value->tunjangan,$value->tunj_lain);
                 $dataSend[$key]['pajak'] = CH::formulaPPH($value->nip,$value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$jadiTunjangan,$value->tunj_lain);
             }
             $satker = satker::select('kd_satker','nm_satker')->get();
