@@ -382,15 +382,40 @@ class laporanAbsensiKekurangan extends Controller
                 if (array_key_exists($val->kelas_jab_saat_absensi, $nilaiBalik)) {
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['kelas_jab'] = $val->kelas_jab_saat_absensi;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['count_orang'] +=1;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan'] = $val->tunjangan;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] += intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    
+
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue1'] = CH::absensiFormulaMath($formula[0]['rumus'],$val->tunjangan,$val->absensi1);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue2'] = CH::absensiFormulaMath($formula[1]['rumus'],$val->tunjangan,$val->absensi2);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue3'] = CH::absensiFormulaMath($formula[2]['rumus'],$val->tunjangan,$val->absensi3);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue4'] = CH::absensiFormulaMath($formula[3]['rumus'],$val->tunjangan,$val->absensi4);
+                    $jumlahPengurangan = intval($nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue1']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue2']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue3']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue4']);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['jumlahPengurangan'] += $jumlahPengurangan;
+                    
+
+                    $jadiTunjangan = $val->tunjangan-$jumlahPengurangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['indexTunjangan']= $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan']+= $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjanganNetto']+= $jadiTunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] += CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pphNetto'] += CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$jadiTunjangan,$val->tunj_lain);
                 }
                 else
                 {
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['kelas_jab'] = $val->kelas_jab_saat_absensi;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['count_orang'] = 1;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan'] = $val->tunjangan;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] = intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue1'] = CH::absensiFormulaMath($formula[0]['rumus'],$val->tunjangan,$val->absensi1);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue2'] = CH::absensiFormulaMath($formula[1]['rumus'],$val->tunjangan,$val->absensi2);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue3'] = CH::absensiFormulaMath($formula[2]['rumus'],$val->tunjangan,$val->absensi3);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue4'] = CH::absensiFormulaMath($formula[3]['rumus'],$val->tunjangan,$val->absensi4);
+                    $jumlahPengurangan = intval($nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue1']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue2']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue3']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue4']);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['jumlahPengurangan'] = $jumlahPengurangan;
+                    
+                    $jadiTunjangan = $val->tunjangan-$jumlahPengurangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['indexTunjangan']= $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan']= $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjanganNetto']= $jadiTunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] = CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pphNetto'] = CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$jadiTunjangan,$val->tunj_lain);
 
                 }
             }
@@ -408,7 +433,7 @@ class laporanAbsensiKekurangan extends Controller
                 }
                 if($state == false)
                 {
-                    array_push($returnVal, ['kelas_jab' => $value->kelas_jabatan , 'tunjangan' => $value->tunjangan , 'count_orang' => 0 ,'pph' => '0']);                    
+                    array_push($returnVal, ['jumlahPengurangan'=> 0 ,'kelas_jab' => $value->kelas_jabatan , 'indexTunjangan' => $value->tunjangan , 'count_orang' => 0 ,'pph' => '0']);                     
                 }
             }
 
@@ -511,19 +536,43 @@ class laporanAbsensiKekurangan extends Controller
             $nilaiBalik = [];
             foreach ($q2->get() as $key => $val) {
                 
-                  
                 if (array_key_exists($val->kelas_jab_saat_absensi, $nilaiBalik)) {
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['kelas_jab'] = $val->kelas_jab_saat_absensi;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['count_orang'] +=1;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan'] = $val->tunjangan;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] += intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    
+
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue1'] = CH::absensiFormulaMath($formula[0]['rumus'],$val->tunjangan,$val->absensi1);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue2'] = CH::absensiFormulaMath($formula[1]['rumus'],$val->tunjangan,$val->absensi2);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue3'] = CH::absensiFormulaMath($formula[2]['rumus'],$val->tunjangan,$val->absensi3);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue4'] = CH::absensiFormulaMath($formula[3]['rumus'],$val->tunjangan,$val->absensi4);
+                    $jumlahPengurangan = intval($nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue1']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue2']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue3']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue4']);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['jumlahPengurangan'] += $jumlahPengurangan;
+                    
+
+                    $jadiTunjangan = $val->tunjangan-$jumlahPengurangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['indexTunjangan']= $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan']+= $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjanganNetto']+= $jadiTunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] += CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pphNetto'] += CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$jadiTunjangan,$val->tunj_lain);
                 }
                 else
                 {
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['kelas_jab'] = $val->kelas_jab_saat_absensi;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['count_orang'] = 1;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan'] = $val->tunjangan;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] = intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue1'] = CH::absensiFormulaMath($formula[0]['rumus'],$val->tunjangan,$val->absensi1);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue2'] = CH::absensiFormulaMath($formula[1]['rumus'],$val->tunjangan,$val->absensi2);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue3'] = CH::absensiFormulaMath($formula[2]['rumus'],$val->tunjangan,$val->absensi3);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue4'] = CH::absensiFormulaMath($formula[3]['rumus'],$val->tunjangan,$val->absensi4);
+                    $jumlahPengurangan = intval($nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue1']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue2']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue3']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue4']);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['jumlahPengurangan'] = $jumlahPengurangan;
+                    
+                    $jadiTunjangan = $val->tunjangan-$jumlahPengurangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['indexTunjangan']= $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan']= $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjanganNetto']= $jadiTunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] = CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pphNetto'] = CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$jadiTunjangan,$val->tunj_lain);
 
                 }
             }
@@ -666,15 +715,41 @@ class laporanAbsensiKekurangan extends Controller
                 if (array_key_exists($val->kelas_jab_saat_absensi, $nilaiBalik)) {
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['kelas_jab'] = $val->kelas_jab_saat_absensi;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['count_orang'] +=1;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan'] = $val->tunjangan;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] += intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    
+
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue1'] = CH::absensiFormulaMath($formula[0]['rumus'],$val->tunjangan,$val->absensi1);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue2'] = CH::absensiFormulaMath($formula[1]['rumus'],$val->tunjangan,$val->absensi2);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue3'] = CH::absensiFormulaMath($formula[2]['rumus'],$val->tunjangan,$val->absensi3);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue4'] = CH::absensiFormulaMath($formula[3]['rumus'],$val->tunjangan,$val->absensi4);
+                    $jumlahPengurangan = intval($nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue1']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue2']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue3']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue4']);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['jumlahPengurangan'] += $jumlahPengurangan;
+                    
+
+                    $jadiTunjangan = $val->tunjangan-$jumlahPengurangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['indexTunjangan']= $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan']+= $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjanganNetto']+= $jadiTunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] += CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pphNetto'] += CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$jadiTunjangan,$val->tunj_lain);
                 }
                 else
                 {
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['kelas_jab'] = $val->kelas_jab_saat_absensi;
                     $nilaiBalik[$val->kelas_jab_saat_absensi]['count_orang'] = 1;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan'] = $val->tunjangan;
-                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] = intval(CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain));
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue1'] = CH::absensiFormulaMath($formula[0]['rumus'],$val->tunjangan,$val->absensi1);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue2'] = CH::absensiFormulaMath($formula[1]['rumus'],$val->tunjangan,$val->absensi2);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue3'] = CH::absensiFormulaMath($formula[2]['rumus'],$val->tunjangan,$val->absensi3);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue4'] = CH::absensiFormulaMath($formula[3]['rumus'],$val->tunjangan,$val->absensi4);
+                    $jumlahPengurangan = intval($nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue1']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue2']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue3']+$nilaiBalik[$val->kelas_jab_saat_absensi]['absensiValue4']);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['jumlahPengurangan'] = $jumlahPengurangan;
+                    
+                    $jadiTunjangan = $val->tunjangan-$jumlahPengurangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['indexTunjangan']= $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjangan']= $val->tunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['tunjanganNetto']= $jadiTunjangan;
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pph'] = CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$val->tunjangan,$val->tunj_lain);
+                    $nilaiBalik[$val->kelas_jab_saat_absensi]['pphNetto'] = CH::formulaPPH($val->nip,$val->kawin,$val->tanggungan,$val->jenis_kelamin,$val->gapok,$val->tunj_strukfung,$jadiTunjangan,$val->tunj_lain);
+
                 }
             }
 
@@ -813,8 +888,14 @@ class laporanAbsensiKekurangan extends Controller
 
             $dataSend = [];            
             foreach ($q2->get() as $key => $value) {
-                $dataSend[$key] = $value;
-                $dataSend[$key]['pajak'] = CH::formulaPPH($value->nip,$value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$value->tunjangan,$value->tunj_lain);
+               $dataSend[$key] = $value;
+                $dataSend[$key]['absensiValue1'] = CH::absensiFormulaMath($formula[0]['rumus'],$value->tunjangan,$value->absensi1);
+                $dataSend[$key]['absensiValue2'] = CH::absensiFormulaMath($formula[1]['rumus'],$value->tunjangan,$value->absensi2);
+                $dataSend[$key]['absensiValue3'] = CH::absensiFormulaMath($formula[2]['rumus'],$value->tunjangan,$value->absensi3);
+                $dataSend[$key]['absensiValue4'] = CH::absensiFormulaMath($formula[3]['rumus'],$value->tunjangan,$value->absensi4);
+                $dataSend[$key]['jumlahPengurangan'] = intval($dataSend[$key]['absensiValue1']+$dataSend[$key]['absensiValue2']+$dataSend[$key]['absensiValue3']+$dataSend[$key]['absensiValue4']);
+                $jadiTunjangan = $value->tunjangan-$dataSend[$key]['jumlahPengurangan'];
+                $dataSend[$key]['pajak'] = CH::formulaPPH($value->nip,$value->kawin,$value->tanggungan,$value->jenis_kelamin,$value->gapok,$value->tunj_strukfung,$jadiTunjangan,$value->tunj_lain);
             }
             $satker = satker::select('kd_satker','nm_satker')->get();
             //

@@ -364,9 +364,11 @@
                     jml5 = 0;      
                     jml6 = 0;      
                     jml7 = 0;      
+                    jml8 = 0;      
+                    jml9 = 0;      
                     jml10 = 0;      
                     jml11 = 0;      
-                    jml12 = 0;      
+                    jml12 = 0;          
 
                     senilai2 = 0;
                     sprinLalu = 0;
@@ -374,22 +376,24 @@
                     sisaSprint = 0;
                     $.each(data.dataAbsensi,function(k,v){     
 
-                      col5 = (v.tunjangan*v.count_orang);
-                      col6 = v.pph;
-                      col7 = col5+col6;                      
-                      col8 = 0;
-                      col9 = 0;
-                      col10 = col5-col8;
-                      col11 = col6-col9;
-                      col12 = col10+col11;
+                      col5 = (v.count_orang == 0) ? 0 : parseInt(v.tunjangan);
+                      col6 = parseInt(v.pph);
+                      col7 = parseInt(col5)+parseInt(col6);                      
+                      col8 = parseInt(v.jumlahPengurangan);
+                      col10 = (v.count_orang == 0) ? 0 : parseInt(v.tunjanganNetto);
+                      col11 = parseInt(v.pphNetto);;
+                      col12 = parseInt(col10)+parseInt(col11);
+                      col9 = col6 - col11;
                       
                       jml3+=v.count_orang;      
-                      jml5+=col5;      
-                      jml6+=col6;      
-                      jml7+=col7;      
-                      jml10+=col10;      
-                      jml11+=col11;      
-                      jml12+=col12;
+                      jml5+=parseInt(col5);      
+                      jml6+=parseInt(col6);      
+                      jml7+=parseInt(col7);      
+                      jml8+= (isNaN(col8)) ?  0 :parseInt(col8);      
+                      jml9+= (isNaN(col9)) ?  0 :parseInt(col9);      
+                      jml10+= (isNaN(col10)) ?  0 :parseInt(col10);      
+                      jml11+= (isNaN(col11)) ?  0 :parseInt(col11);  
+                      jml12+= (isNaN(col12)) ?  0 :parseInt(col12);
                     });
                     $('.senilai').html("Rp.   "+number_format(Math.ceil(jml12),0,",","."));
                     $('.terbilang').html('('+terbilang(Math.ceil(jml12))+')');

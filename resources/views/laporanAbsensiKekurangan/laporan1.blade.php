@@ -360,10 +360,10 @@
                     singleDataExport = [];
 
                     console.log(data.formula);
-                    formula1 = data.formula[0]['rumus'];
-                    formula2 = data.formula[1]['rumus'];
-                    formula3 = data.formula[2]['rumus'];
-                    formula4 = data.formula[3]['rumus'];
+                    // formula1 = data.formula[0]['rumus'];
+                    // formula2 = data.formula[1]['rumus'];
+                    // formula3 = data.formula[2]['rumus'];
+                    // formula4 = data.formula[3]['rumus'];
                     absensVal = [];
                     kodeSatker = "0";
                     kodeAnakSatker = "0";
@@ -404,11 +404,11 @@
                     console.log('KKK:'+kodeSatker);
                     $.each(data.dataAbsensi,function(k,v){        
                        // console.log("koko : "+v.nm_anak_satker);              
-                      absensVal[1] = parseInt(absensiFormulaMath(formula1,parseInt(v.tunjangan),v.absensi1));
-                      absensVal[2] = parseInt(absensiFormulaMath(formula2,parseInt(v.tunjangan),v.absensi2));
-                      absensVal[3] = parseInt(absensiFormulaMath(formula3,parseInt(v.tunjangan),v.absensi3));
-                      absensVal[4] = parseInt(absensiFormulaMath(formula4,parseInt(v.tunjangan),v.absensi4));
-                      jumlahPengurangan = parseInt(absensVal.reduce(getSum));
+                      absensVal[1] = v.absensiValue1;
+                      absensVal[2] = v.absensiValue2;
+                      absensVal[3] = v.absensiValue3;
+                      absensVal[4] = v.absensiValue4;
+                      jumlahPengurangan = v.jumlahPengurangan;
                       yangDiterima = parseInt(parseInt(v.tunjangan)-parseInt(jumlahPengurangan));
                       tPPH21 = parseInt(v.pajak);
                       terimaBruto = parseInt(parseInt(yangDiterima)+parseInt(tPPH21));                      

@@ -261,43 +261,48 @@
                     absensVal = [];                            
 
                     //dat aawal nomor kelas jabatan atau yan terbesar
-                    awal =  data.tunkin[0];   
+                   awal =  data.tunkin[0];   
                     jml3 = 0;   
                     jml5 = 0;      
                     jml6 = 0;      
                     jml7 = 0;      
+                    jml8 = 0;      
+                    jml9 = 0;      
                     jml10 = 0;      
                     jml11 = 0;      
                     jml12 = 0;      
                     $.each(data.dataAbsensi,function(k,v){     
 
-                      col5 = parseInt(parseInt(v.tunjangan)*v.count_orang);
+                      col5 = (v.count_orang == 0) ? 0 : parseInt(v.tunjangan);
                       col6 = parseInt(v.pph);
                       col7 = parseInt(col5)+parseInt(col6);                      
-                      col8 = 0;
-                      col9 = 0;
-                      col10 = parseInt(col5)-parseInt(col8);
-                      col11 = parseInt(col6)-parseInt(col9);
+                      col8 = parseInt(v.jumlahPengurangan);
+                      col10 = (v.count_orang == 0) ? 0 : parseInt(v.tunjanganNetto);
+                      col11 = parseInt(v.pphNetto);;
                       col12 = parseInt(col10)+parseInt(col11);
+                      col9 = col6 - col11;
                       
                       jml3+=v.count_orang;      
                       jml5+=parseInt(col5);      
                       jml6+=parseInt(col6);      
                       jml7+=parseInt(col7);      
-                      jml10+=parseInt(col10);      
-                      jml11+=parseInt(col11);      
-                      jml12+=parseInt(col12);
+                      jml8+= (isNaN(col8)) ?  0 :parseInt(col8);      
+                      jml9+= (isNaN(col9)) ?  0 :parseInt(col9);      
+                      jml10+= (isNaN(col10)) ?  0 :parseInt(col10);      
+                      jml11+= (isNaN(col11)) ?  0 :parseInt(col11);  
+                      jml12+= (isNaN(col12)) ?  0 :parseInt(col12);
+                      // console.log(jml12+"a");
 
                       html = '<tr>'+
                                '<td>'+(i++)+'</td>'+                               
                                '<td>'+v.kelas_jab+'</td>'+
                                '<td>'+v.count_orang+'</td>'+
-                               '<td>'+number_format(v.tunjangan,0,",",".")+'</td>'+
+                               '<td>'+number_format(v.indexTunjangan,0,",",".")+'</td>'+
                                '<td>'+number_format(parseInt(col5),0,",",".")+'</td>'+
                                '<td>'+number_format(parseInt(col6),0,",",".")+'</td>'+
                                '<td>'+number_format(parseInt(col7),0,",",".")+'</td>'+
-                               '<td>'+col8+'</td>'+
-                               '<td>'+col9+'</td>'+
+                               '<td>'+number_format(parseInt(col8),0,",",".")+'</td>'+
+                               '<td>'+number_format(parseInt(col9),0,",",".")+'</td>'+
                                '<td>'+number_format(parseInt(col10),0,",",".")+'</td>'+
                                '<td>'+number_format(parseInt(col11),0,",",".")+'</td>'+
                                '<td>'+number_format(parseInt(col12),0,",",".")+'</td>'+
@@ -307,22 +312,23 @@
 
                     });
                     //footer jumlah
-                    html = '<tr>'+
+                     html = '<tr>'+
                               '<td colspan="2">Jumlah</td>'+
                               '<td>'+jml3+'</td>'+
                               '<td></td>'+
                               '<td>'+number_format(jml5,0,",",".")+'</td>'+
                               '<td>'+number_format(jml6,0,",",".")+'</td>'+
                               '<td>'+number_format(jml7,0,",",".")+'</td>'+
-                              '<td></td>'+
-                              '<td></td>'+
+                              '<td>'+number_format(jml8,0,",",".")+'</td>'+
+                              '<td>'+number_format(jml9,0,",",".")+'</td>'+
                               '<td>'+number_format(jml10,0,",",".")+'</td>'+
                               '<td>'+number_format(jml11,0,",",".")+'</td>'+
                               '<td>'+number_format(jml12,0,",",".")+'</td>'+
                              '</tr>';
                              //alert(jml12);
                       $('tbody').append(html);
-                      $('.showWhenLoading').fadeOut("slow"); 
+
+                       $('.showWhenLoading').fadeOut("slow");
                   }
                 }
             });

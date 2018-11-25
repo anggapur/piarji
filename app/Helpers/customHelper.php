@@ -566,4 +566,13 @@ class customHelper {
     {
         return ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember','Ke-13','Ke-14'];
     }
+
+    public static function absensiFormulaMath($formula,$tunjangan,$absensi)
+        {
+          $absensiVal = str_replace("G",intval($tunjangan), $formula);
+          $absensiVal = str_replace("H",$absensi,$absensiVal);
+          $absensiVal = eval("return ($absensiVal);");
+          return intval($absensiVal);
+
+        }
 }
