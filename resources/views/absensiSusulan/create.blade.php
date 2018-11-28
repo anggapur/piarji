@@ -69,7 +69,7 @@
                       <select class="js-example-basic-single form-control cond2" name="nip" required>                    
                         <option value="">-</option>
                         @foreach($dataPegawai as $val)
-                          <option value="{{$val->nip}}" data-nama="{{$val->nama}}" data-kd-anak-satker="{{$val->kd_anak_satker}}" data-kelas-jab="{{$val->kelas_jab}}">{{$val->nip." - ".$val->nama}}</option>                                        
+                          <option value="{{$val->nip}}" data-nama="{{$val->nama}}" data-kd-anak-satker="{{$val->kd_anak_satker}}" data-kelas-jab="{{$val->kelas_jab}}" data-state-tipikor="{{$val->state_tipikor}}">{{$val->nip." - ".$val->nama}}</option>                                        
                         @endforeach
                       </select>                 
                     </div>          
@@ -100,6 +100,7 @@
                       @foreach($fieldAbsensi as $val)
                       <th style="width:100px;">{{$val->nama}}</th>
                       @endforeach
+                      <th>Tipidkor</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -275,12 +276,15 @@
                   "tahun" : tahun,
                 },
                 success: function(data) {
+
                   console.log(data);
                  
                       $.each(data.absensi,function(k,v){
                       //insert ke array
                       dataPegawaiTerpilih.push(v.nip);
-
+                      state_tipi = "";
+                      if(v.state_tipikor_saat_absensi == "1")
+                        state_tipi = "checked"
                        html = '<tr data-nip="'+v.nip+'">'+
                         '<td>'+v.nip+'</td>'+
                         '<td>'+v.nama+
@@ -293,6 +297,8 @@
                         '<td><input type="number" min="0" name="absensi2['+v.nip+']" class="form-control" value="'+v.absensi2+'"></td>'+
                         '<td><input type="number" min="0" name="absensi3['+v.nip+']" class="form-control" value="'+v.absensi3+'"></td>'+
                         '<td><input type="number" min="0" name="absensi4['+v.nip+']" class="form-control" value="'+v.absensi4+'"></td>'+
+                        '<td> <label class="switch"><input type="checkbox" onclick="changeSlider('+v.nip+')" data="'+v.nip+'" '+state_tipi+'><span class="slider round"></span></label>'+
+                         '<input type="hidden" value="'+v.state_tipikor_saat_absensi+'" name="state_tipikor['+v.nip+']"></td>'+
                         '<td>'+
                           '<a  class="btn btn-danger btn-xs" class"deleteField" onclick="deleteField(`'+v.nip+'`)">Hapus</a>'+
                         '</td>'+
@@ -330,6 +336,7 @@
           dataNama = $('select[name="nip"]').find(':selected').attr('data-nama');
           dataAnakSatker = $('select[name="nip"]').find(':selected').attr('data-kd-anak-satker');
           dataKelasJab = $('select[name="nip"]').find(':selected').attr('data-kelas-jab');
+          dataStateTipikor = $('select[name="nip"]').find(':selected').attr('data-state-tipikor');
           console.log(dataNip+" "+dataNama);
           
           // dataPegawaiTerpilih[dataNip]['nip'] = dataNip;
@@ -346,6 +353,9 @@
           }
           else
           {
+            state_tipi = "";
+            if(dataStateTipikor == "1")
+              state_tipi = "checked";
             dataPegawaiTerpilih.push(dataNip);
             console.log('tidak ada');
             html = '<tr data-nip="'+dataNip+'">'+
@@ -360,6 +370,9 @@
                       '<td><input type="number" min="0" name="absensi2['+dataNip+']" class="form-control" value="0"></td>'+
                       '<td><input type="number" min="0" name="absensi3['+dataNip+']" class="form-control" value="0"></td>'+
                       '<td><input type="number" min="0" name="absensi4['+dataNip+']" class="form-control" value="0"></td>'+
+            
+                      '<td><label class="switch"><input type="checkbox" onclick="changeSlider('+dataNip+')" name="" data="'+dataNip+'" '+state_tipi+'><span class="slider round"></span></label>'+
+                      '<input type="hidden" value="'+dataStateTipikor+'" name="state_tipikor['+dataNip+']"></td>'+
                       '<td>'+
                         '<a  class="btn btn-danger btn-xs" class"deleteField" onclick="deleteField(`'+dataNip+'`)">Hapus</a>'+
                       '</td>'+
@@ -382,6 +395,16 @@
         $('tr[data-nip="'+nip+'"]').remove();
         return false;
       }
+      function changeSlider(nip)
+      {
+        // alert(nip);
+        valNow = $('input[name="state_tipikor['+nip+']"]').val();
+        if(valNow == "0")
+          $('input[name="state_tipikor['+nip+']"]').val("1");
+        else
+          $('input[name="state_tipikor['+nip+']"]').val("0");
+      }
+     
     </script>
 @endsection
     

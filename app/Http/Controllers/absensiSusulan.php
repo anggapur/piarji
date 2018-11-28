@@ -62,6 +62,7 @@ class absensiSusulan extends Controller
 
         
         if($request->absensi1 != "") :
+            // return $request->all();
         foreach ($request->absensi1 as $key => $value) {
             // $cari = absensi_susulan::where('nip',$key)
             //         ->where('id_waktu',$request->waktu_absensi)
@@ -78,6 +79,7 @@ class absensiSusulan extends Controller
                 $dataInsert[$i]['kd_anak_satker_saat_absensi'] = $request->kd_anak_satker[$key];
                 $dataInsert[$i]['kelas_jab_saat_absensi'] = $request->kelas_jab[$key];
                 $dataInsert[$i]['status_dapat'] = "1";
+                $dataInsert[$i]['state_tipikor_saat_absensi'] = $request->state_tipikor[$key];
                 $dataInsert[$i]['kd_aturan'] = $kd_aturan;
                 $dataInsert[$i]['kd_satker_saat_absensi'] = CH::getKdSatker(Auth::user()->kd_satker);
                 $i++;
@@ -90,7 +92,10 @@ class absensiSusulan extends Controller
             //     $dataUpdate['absensi4'] = $request->absensi4[$key];
             //     $update = $cari->update($dataUpdate);
             // }
+                // echo $request->state_tipikor[$key];
         }
+        // return 0;
+        // return $dataInsert;
         endif;
         $query = absensi_susulan::insert($dataInsert);
         if($query)
