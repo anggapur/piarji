@@ -96,6 +96,9 @@
                      <th rowspan="2">Jabatan</th>
                      <th rowspan="2">Kelas Jabatan</th>
                      <th rowspan="2">T. Kinerja</th>
+                     <th rowspan="2">PPH 21</th>
+                     <th rowspan="2">Bruto</th>
+                     
                      <th rowspan="2">Status</th>
                                          
                    </tr>                  
@@ -276,7 +279,8 @@
                     tPPH21Total =0;
                     terimaBrutoTotal =0;
                     potonganPPH21 = 0;
-                    yangDibayarTotal = 0;                    
+                    yangDibayarTotal = 0;   
+                    jumlahPajak = 0;                 
 
                     console.log('KKK:'+kodeSatker);
                     $.each(data.dataAbsensi,function(k,v){                      
@@ -318,8 +322,8 @@
                                   '</tr>';
                           $('tbody').append(html);
                         }
-                        html = '<tr><td colspan="7" style="text-align:left;text-transform: uppercase;"><b>Satker : '+v.kd_satker_saat_amprah+' - '+v.nm_satker+'</b></td><td></td></tr>';
-                        html+='<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th></tr>';
+                        html = '<tr><td colspan="9" style="text-align:left;text-transform: uppercase;"><b>Satker : '+v.kd_satker_saat_amprah+' - '+v.nm_satker+'</b></td><td></td></tr>';
+                        html+='<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr>';
                         $('tbody').append(html);
 
                         kodeAnakSatker = 0;
@@ -333,7 +337,7 @@
                           awal2 = false;
                         }
                         
-                        html = '<tr><td colspan="7" style="text-align:left;text-transform: uppercase;"><b>Anak Satker : '+v.kd_anak_satker_saat_amprah+' - '+v.nm_anak_satker+'</b></td><td></td></tr>';
+                        html = '<tr><td colspan="9" style="text-align:left;text-transform: uppercase;"><b>Anak Satker : '+v.kd_anak_satker_saat_amprah+' - '+v.nm_anak_satker+'</b></td><td></td></tr>';
                         
                         $('tbody').append(html);
                       }
@@ -342,6 +346,8 @@
                         statusDapat = "Dapat Tunkin";
                       else
                         statusDapat = "Tidak Dapat Tunkin";
+
+                      bruto = parseInt(v.pajak)+parseInt(v.tunjangan);
                       html = '<tr>'+
                                '<td>'+(i++)+'</td>'+
                                '<td class="leftAlign">'+v.nama+'</td>'+
@@ -350,15 +356,24 @@
                                '<td class="leftAlign">'+v.nm_jabatan+'</td>'+
                                '<td>'+v.kelas_jab_saat_amprah+'</td>'+
                                '<td>'+number_format(v.tunjangan,0,",",".")+'</td>'+
+                               '<td>'+number_format(v.pajak,0,",",".")+'</td>'+
+                               '<td>'+number_format(bruto,0,",",".")+'</td>'+
                                '<td>'+statusDapat+'</td>'+                               
                               
                              '</tr>';
                       $('tbody').append(html);
+                      //tambah or sum pajak
+                      
                       
                       if(v.status_dapat == "1")
+                      {
+                        jumlahPajak+=v.pajak;
                         tunjanganKinerjaTotal+= parseInt(v.tunjangan);
+                      }
                       else
+                      {
                         tunjanganKinerjaTotal+= 0;
+                      }
                       
                       kodeSatker = v.kd_satker_saat_amprah;
                       kodeAnakSatker = v.kd_anak_satker_saat_amprah;                      
@@ -382,6 +397,8 @@
                     //insert jumlah
                      html = '<tr><td colspan="6">Jumlah</td>'+
                                   '<td>'+number_format(tunjanganKinerjaTotal,0,",",".")+'</td>'+                                  
+                                  '<td>'+number_format(jumlahPajak,0,",",".")+'</td>'+
+                                  '<td>'+number_format(tunjanganKinerjaTotal+jumlahPajak,0,",",".")+'</td>'+
                                   '<td>-</td>'+
                                   '</tr>';
                           $('tbody').append(html);

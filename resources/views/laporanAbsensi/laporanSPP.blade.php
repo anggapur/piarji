@@ -362,56 +362,47 @@
                     formula4 = data.formula[3]['rumus'];
                     absensVal = [];                            
 
-                    //dat aawal nomor kelas jabatan atau yan terbesar
-                    awal =  data.tunkin[0];   
-                    jml3 = 0;   
-                    jml5 = 0;      
-                    jml6 = 0;      
-                    jml7 = 0;      
-                    jml8 = 0;      
-                    jml9 = 0;      
-                    jml10 = 0;      
-                    jml11 = 0;      
-                    jml12 = 0;       
-
-                    senilai2 = 0;
-                    sprinLalu = 0;
-                    sprinJumlah = 0;
-                    sisaSprint = 0;
-                    $.each(data.dataAbsensi,function(k,v){     
-
-                          col5 = (v.count_orang == 0) ? 0 : parseInt(v.tunjangan);
-                      col6 = parseInt(v.pph);
-                      col7 = parseInt(col5)+parseInt(col6);                      
-                      col8 = parseInt(v.jumlahPengurangan);
-                      col10 = (v.count_orang == 0) ? 0 : parseInt(v.tunjanganNetto);
-                      col11 = parseInt(v.pphNetto);;
-                      col12 = parseInt(col10)+parseInt(col11);
-                      col9 = col6 - col11;
-                      
-                      jml3+=v.count_orang;      
-                      jml5+=parseInt(col5);      
-                      jml6+=parseInt(col6);      
-                      jml7+=parseInt(col7);      
-                      jml8+= (isNaN(col8)) ?  0 :parseInt(col8);      
-                      jml9+= (isNaN(col9)) ?  0 :parseInt(col9);      
-                      jml10+= (isNaN(col10)) ?  0 :parseInt(col10);      
-                      jml11+= (isNaN(col11)) ?  0 :parseInt(col11);  
-                      jml12+= (isNaN(col12)) ?  0 :parseInt(col12);
-                    });
-                    $('.senilai').html("Rp.   "+number_format(Math.ceil(jml12),0,",","."));
-                    $('.terbilang').html('('+terbilang(Math.ceil(jml12))+')');
-                    senilaiJumlah = jml12+senilai2;
-                    $('.senilaiJumlah').html("Rp.   "+number_format(senilaiJumlah,0,",","."));
-                    $('.sprinLalu').html("Rp.   "+number_format(sprinLalu,0,",","."));
-                    sprinJumlah = sprinLalu+jml12;
-                    $('.sprinJumlah').html("Rp.   "+number_format(sprinJumlah,0,",","."));
-                    $('.sisaSprint').html("Rp.   "+number_format(sisaSprint,0,",","."));
+                   
 
                      $('.showWhenLoading').fadeOut("slow");
                   }
                 }
             });
+
+             $.ajax({
+                type: "POST",                  
+                url: "{{route('pilihBulanTahunLaporanPermintaanTunkin')}}",
+                data: 
+                { 
+                  "_token": "{{ csrf_token() }}",
+                  "bulan" : bulan,
+                  "tahun" : tahun,
+                  "satker" : satker,
+                  "jenis_pegawai" : jenis_pegawai,
+                },
+                success: function(data) {
+                  console.log("Kaboom");
+                  console.log(data.dataAbsensi);
+                   tunjanganKinerjaTotal = 0;
+                  $.each(data.dataAbsensi,function(k,v){
+                    if(v.status_dapat == "1")
+                      tunjanganKinerjaTotal+= (parseInt(v.tunjangan)+parseInt(v.pajak));
+                    else
+                      tunjanganKinerjaTotal+= 0;
+                    console.log(parseInt(v.tunjangan)+" "+parseInt(v.pajak)+" "+(parseInt(v.tunjangan)+parseInt(v.pajak)));
+                  });
+
+                  //hasil akhir
+                  $('.senilai').html("Rp.   "+number_format(Math.ceil(tunjanganKinerjaTotal),0,",","."));
+                  $('.terbilang').html('('+terbilang(Math.ceil(tunjanganKinerjaTotal))+')');
+                  // senilaiJumlah = jml12+senilai2;
+                  // $('.senilaiJumlah').html("Rp.   "+number_format(senilaiJumlah,0,",","."));
+                  // $('.sprinLalu').html("Rp.   "+number_format(sprinLalu,0,",","."));
+                  // sprinJumlah = sprinLalu+jml12;
+                  // $('.sprinJumlah').html("Rp.   "+number_format(sprinJumlah,0,",","."));
+                  // $('.sisaSprint').html("Rp.   "+number_format(sisaSprint,0,",","."));
+                }
+              });
           e.preventDefault();
         });
 

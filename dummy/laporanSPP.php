@@ -22,7 +22,7 @@
             <!-- <form method="POST" action="{{route('absensi.store')}}">   -->
               {{csrf_field()}}
             <div class="box-header">              
-              <h3 class="box-title">Form Kwitansi Polri/PNS</h3>                            
+              <h3 class="box-title">Laporan SPP Polri & PNS</h3>                            
             </div>
             <div class="box-body">    
               <form class="form-inline" id="formBulanTahun">
@@ -43,7 +43,7 @@
                 <div class="form-group @if(Auth::user()->level != 'admin') hide @endif">
                   <label>Kode Satker</label>
                   <select class="js-example-basic-single form-control" name="kd_satker">    
-                                  
+                                 
                     @foreach($dataSatker as $val)
                       <option value="{{$val->kd_satker}}">{{$val->kd_satker." - ".$val->nm_satker}}</option>                  
                     @endforeach
@@ -52,7 +52,7 @@
                 <div class="form-group ">
                   <label>Kategori</label>
                   <select class="js-example-basic-single form-control" name="jenis_pegawai">    
-                    {!!CH::printOptionJenisPegawai()!!}               
+                    {!!CH::printOptionJenisPegawai()!!}             
                   </select>                 
                 </div>  
                 <div class="form-group">
@@ -62,130 +62,177 @@
               </form>
               </div>
             </div>
-
-            <div class="box" style="border-top: 0px">
+            <div class="box " style="border-top:0px;">    
               <div class="box-body">
-              <div class="lembarLaporanKU">
-                <div class="headerKU">
-                  <div class="leftKU">
-                    <div class="logoPolriLaporan"><img src="{{url('public/asset/Logo-POLRI-bw.png')}}"></div>
-                    <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> <span class="satkerNama"></span></h5>
+               <div class="lembarLaporan">             
+                  <div class="headerKU">
+                    <div class="leftKU">
+                      <div class="logoPolriLaporan"><img src="{{url('public/asset/Logo-POLRI-bw.png')}}"></div>
+                      <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> <span class="satkerNama">aaa</span></h5>
+                    </div>
+                    <div class="rightKU">
+                      
+                    </div>
+                    <div class="clearfix"></div>
                   </div>
-                  <div class="rightKU">
-                    <h5>Bukti Kas : </h5>
+                  <div class="judulLaporan">
+                    <h3 class="judul">
+                      SURAT PERMINTAAN PEMBAYARAN (SPP)
+                    </h3>
+                    <h5 class="nomorSurat">Nomor : 4-1</h5>
                   </div>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="judulKU">
-                  <h3>KWITANSI</h3>
-                </div>
-                <div class="bodyKU">
-                  <div class="bag1KU">
+                  <div class="bag1">
                     <table>
                       <tr>
-                        <td>Tahun Anggaran</td>
+                        <td>Dari</td>
                         <td>:</td>
-                        <td>2018</td>
+                        <td class="dari1">2-1</td>
                       </tr>
                       <tr>
-                        <td>Kode Akun</td>
+                        <td>Kepada</td>
+                        <td>:</td>
+                        <td class="kepada1">2-2</td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="bag2">
+                    <table>
+                      <tr>
+                        <td>Sebesar</td>
+                        <td>:</td>
+                        <td class="senilai bold"></td>
+                      </tr>
+                      <tr>
+                        <td>Terbilang</td>
+                        <td>:</td>
+                        <td class="bold terbilang">-</td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="bag3">
+                    <table>
+                      <tr>
+                        <td>Untuk</td>
+                        <td>:</td>
+                        <td class="mengenai" data-word="3-1"> <span></span></td>
+                      </tr>
+                      <tr>
+                        <td>Kepada</td>
+                        <td>:</td>
+                        <td class="bag32">3-2</td>
+                        <td class="bag34">3-4</td>
+                      </tr>
+                      <tr>
+                        <td>Alamat</td>
+                        <td>:</td>
+                        <td class="bag33">3-3</td>
+                        <td class="bag35">3-5</td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="bag4">
+                    <table>
+                      <tr>
+                        <td colspan="4">Sprin Kapolda Bali</td>
+                      </tr>
+                      <tr>
+                        <td class="abjad">a.</td>
+                        <td class="keterangan">No.Pol</td>
+                        <td class="separator">:</td>
+                        <td class="isiAngka"></td>
+                        <td></td>
+                        <td class="senilai">-</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td colspan="3">Tanggal</td>
+                      </tr>
+                      <tr>
+                        <td class="abjad">b.</td>
+                        <td class="keterangan">No.Pol</td>
+                        <td class="separator">:</td>
+                        <td class="isiAngka"></td>
+                        <td></td>
+                        <td class="senilai2 underscore">-</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td colspan="3">Tanggal</td>
+                        <td class="jumlahLabel">Jumlah</td>
+                        <td class="senilaiJumlah"></td>
+                      </tr>
+                       <tr>                        
+                        <td colspan="4">SURAT PERJANJIAN / S.P K / SPRIN</td>
+                      </tr>
+                       <tr>
+                        <td>a.</td>
+                        <td>Nomor</td>
                         <td>:</td>
                         <td>-</td>
                       </tr>
-                      <tr>
-                        <td>Jenis Pengeluaran</td>
-                        <td>:</td>
-                        <td>Tunjangan Kinerja</td>
-                      </tr>
-                    </table>
-                  </div>
-                  <div class="bag2KU">
-                    <table>
-                      <tr>
-                        <td>Terima Dari </td>
-                        <td>:</td>
-                        <td colspan="2">KABIDKEU POLDA BALI</td>
-                      </tr>
-                      <tr>
-                        <td>Uang sejumlah Rp.</td>
-                        <td>:</td>
-                        <td class="senilai"></td>
-                        <td class="terbilang"></td>
-                      </tr>
                        <tr>
-                        <td>Untuk Pembayaran </td>
+                        <td>b.</td>
+                        <td>Mengenai</td>
                         <td>:</td>
-                        <td colspan="2" class="mengenai bag31" data-word="3-1"></td>
+                        <td class="mengenai"> <span></span></td>
                       </tr>
                     </table>
                   </div>
-                </div>
-                <div class="footerKU">
-                  <div class="leftKU">
-                    <h5 style="margin-bottom:0px; margin-top: 10px;" class="bag14">1-4</h5>
-                    <h5 style="margin-top:0px;">Yang membayarkan</h5>
-                    <div class="space"></div>
+                  <div class="bag5">
                     <table>
                       <tr>
-                        <td>Nama</td>
-                        <td>:</td>
-                        <td class="bag12">1-2</td>
+                        <td>Pengawasan Sprin Kapolda Bali</td>
                       </tr>
                       <tr>
-                        <td>Pangkat/NRP</td>
-                        <td>:</td>
-                        <td class="bag13">1-3</td>
+                        <td>Jumlah Sprin Tersebut Diatas</td>
+                        <td></td>
+                        <td class="senilai"></td>
                       </tr>
                       <tr>
-                        <td>Jabatan</td>
-                        <td>:</td>
-                        <td class="bag11">1-1</td>
+                        <td>Jumlah Sprin s/d yang lalu</td>
+                        <td class="sprinLalu"></td>
+                        <td></td>
                       </tr>
                       <tr>
-                        <td>Alamat</td>
-                        <td>:</td>
-                        <td class="bag15">1-5</td>
+                        <td>Jumlah Sprin ini</td>
+                        <td class="senilai underscore"></td>
+                        <td></td>
+                        
+                      </tr>
+                      <tr>
+                        <td>Jumlah Sprin s/d ini</td>
+                        <td></td>
+                        <td class="underscore sprinJumlah"></td>
+                      </tr>
+                      <tr>
+                        <td>Sisa Sprin tersebut diatas</td>
+                        <td></td>
+                        <td class="underscoreDouble sisaSprint"></td>
                       </tr>
                     </table>
                   </div>
-                  <div class="rightKU">
-                    <h5 style="margin-bottom:0px;" class="bag24">2-4</h5>
-                    <h5 style="margin-top:0px;">Yang menerima</h5>
-                    <div class="space"></div>
-                    <table>
-                      <tr>
-                        <td>Nama</td>
-                        <td>:</td>
-                        <td class="bag22">2-2</td>
-                      </tr>
-                      <tr>
-                        <td>Pangkat/NRP</td>
-                        <td>:</td>
-                        <td class="bag23">2-3</td>
-                      </tr>
-                      <tr>
-                        <td>Jabatan</td>
-                        <td>:</td>
-                        <td class="bag21">2-1</td>
-                      </tr>
-                      <tr>
-                        <td>Alamat</td>
-                        <td>:</td>
-                        <td class="bag25">2-5</td>
-                      </tr>
-                    </table>
+                  <div class="bag6">
+                    <div class="ttdform">
+                        <p class="waktuTTD">1-4</p>
+                        <p class="jabatanTTD">1-1</p>
+                        
+                        <div class="imgWrap">
+                         1-image
+                        </div>
+                        <div class="ttdImage"></div>
+                        <p style="text-decoration: underline;" class="namaTTD"><b>1-2</b></p>
+                        <p class="pangkatTTD">1-3</p>
+                    </div>
+                    <div class="clearfix"></div>
                   </div>
-                  <div class="clearfix"></div>
-
-                </div>
-
-              </div>
+               </div>
             </div>   
           </div>
           <!-- end box info -->
         </div>        
       </div>
       <!-- /.row -->
+      
       <div class="bgBlack showWhenLoading"></div>
     <div class="spinner showWhenLoading">
       <h3>Menampilkan Laporan</h3>
@@ -193,7 +240,6 @@
       <div class="bounce2"></div>
       <div class="bounce3"></div>
     </div>
-
     </section>
     <script type="text/javascript">
       function printReport()
@@ -206,7 +252,7 @@
         
           var prtContent = document.getElementById("printArea");
                     
-         
+          
           
       }
   </script>
@@ -214,7 +260,8 @@
       //form bulan tahun
 
         $('#formBulanTahun').submit(function(e){     
-        $('.showWhenLoading').fadeIn("slow");     
+
+         $('.showWhenLoading').fadeIn("slow");     
           bulan = $(this).find("select[name='bulan']").val();
           tahun = $(this).find("select[name='tahun']").val();
           satker = $(this).find("select[name='kd_satker']").val();
@@ -223,7 +270,7 @@
 
           $.ajax({
                 type: "POST",                  
-                url: "{{route('pilihBulanTahunLaporanKU')}}",
+                url: "{{route('pilihBulanTahunLaporanSPP')}}",
                 data: 
                 { 
                   "_token": "{{ csrf_token() }}",
@@ -231,41 +278,55 @@
                   "tahun" : tahun,
                   "satker" : satker,
                   "jenis_pegawai" : jenis_pegawai,
-                  "halaman" : "4",
+                  "halaman" : "3",
                 },
                 success: function(data) {
-                  
-                  console.log(data);
                   $('.satkerNama').html(data.selectedSatker.nm_satker);
+                  console.log(data.dataTTD);
                   //loop ttd
                   $.each(data.dataTTD,function(k,v){
                     if(v.bagian == "1")
                     {
-                      $('.bag11').html(v.nilai1);
-                      $('.bag12').html(v.nilai2);
-                      $('.bag13').html(v.nilai3);
-                      $('.bag14').html(v.nilai4);
-                      $('.bag15').html(v.nilai5);
+                      $('.waktuTTD').html(v.nilai4);
+                      $('.jabatanTTD').html(v.nilai1);
+                      $('.namaTTD b').html(v.nilai2);
+                      $('.pangkatTTD').html(v.nilai3);
+                      if(v.image == "")
+                      {
+                        $('.imgWrap').hide();
+                        $('.ttdImage').show();
+                      }
+                      else
+                      {
+                        url = "{{url('public/images/')}}/";
+                        $('.imgWrap').show().html('<img class="imageTTD" src="'+url+v.image+'">');
+                        $('.ttdImage').hide();
+                      }
                     }
                     else if(v.bagian == "2")
                     {
-                      $('.bag21').html(v.nilai1);
-                      $('.bag22').html(v.nilai2);
-                      $('.bag23').html(v.nilai3);
-                      $('.bag24').html(v.nilai4);
-                      $('.bag25').html(v.nilai5);
+                      $('.dari1').html(v.nilai1);
+                      $('.kepada1').html(v.nilai2);
                     }
                     else if(v.bagian == "3")
                     {
-                      $('.bag31').attr('data-word',v.nilai1);
+                      $('.mengenai').attr('data-word',v.nilai1);
+                      $('.bag32').html(v.nilai2);
+                      $('.bag33').html(v.nilai3);
+                      $('.bag34').html(v.nilai4);
+                      $('.bag35').html(v.nilai5);
+
                     }
-                    
+                    else if(v.bagian == "4")
+                    {
+                      $('.nomorSurat').html("Nomor : "+v.nilai1);
+                    }
                   });
-                  //
+                  
                   if(data.status == "nodata")
                   { 
-                    $('.showWhenLoading').fadeOut("slow");
-                    $('.lembarLaporanKU').fadeOut('slow');
+                     $('.showWhenLoading').fadeOut("slow");
+                    $('.lembarLaporan').fadeOut('slow');
                     $('#message').fadeIn("slow").html('Belum Ada Data Absensi');
                     setTimeout(function(){
                       $('#message').fadeOut('slow');
@@ -273,8 +334,8 @@
                   }
                   if(data.dataAbsensi.length == 0)
                   { 
-                    $('.showWhenLoading').fadeOut("slow");
-                    $('.lembarLaporanKU').fadeOut('slow');
+                     $('.showWhenLoading').fadeOut("slow");
+                    $('.lembarLaporan').fadeOut('slow');
                     $('#message').fadeIn("slow").html('Belum Ada Data Absensi');
                     setTimeout(function(){
                       $('#message').fadeOut('slow');
@@ -282,16 +343,18 @@
                   }
                   else if(data.status == "success")
                   {
-                    $('.lembarLaporanKU').fadeIn("slow");
+                    $('.lembarLaporan').fadeIn("slow");
                     i = 1;
                     
-                    mengenaiWord = data.words;                    
+                    console.log(data);
+                    
+                    //mengenai
+                   mengenaiWord = data.words;                    
                     insertWord = $('.mengenai').attr('data-word').replace('[bulan]',mengenaiWord);
                     insertWord = insertWord.replace('[anggota]',data.anggota);
                     insertWord = insertWord.replace('[satker]',data.satkerNama);
                     $('.mengenai').html(insertWord);
                     
-
                     console.log(data.formula);
                     formula1 = data.formula[0]['rumus'];
                     formula2 = data.formula[1]['rumus'];
@@ -315,48 +378,40 @@
                     sprinLalu = 0;
                     sprinJumlah = 0;
                     sisaSprint = 0;
-                   
+                    $.each(data.dataAbsensi,function(k,v){     
 
-                    $('.showWhenLoading').fadeOut("slow");
+                          col5 = (v.count_orang == 0) ? 0 : parseInt(v.tunjangan);
+                      col6 = parseInt(v.pph);
+                      col7 = parseInt(col5)+parseInt(col6);                      
+                      col8 = parseInt(v.jumlahPengurangan);
+                      col10 = (v.count_orang == 0) ? 0 : parseInt(v.tunjanganNetto);
+                      col11 = parseInt(v.pphNetto);;
+                      col12 = parseInt(col10)+parseInt(col11);
+                      col9 = col6 - col11;
+                      
+                      jml3+=v.count_orang;      
+                      jml5+=parseInt(col5);      
+                      jml6+=parseInt(col6);      
+                      jml7+=parseInt(col7);      
+                      jml8+= (isNaN(col8)) ?  0 :parseInt(col8);      
+                      jml9+= (isNaN(col9)) ?  0 :parseInt(col9);      
+                      jml10+= (isNaN(col10)) ?  0 :parseInt(col10);      
+                      jml11+= (isNaN(col11)) ?  0 :parseInt(col11);  
+                      jml12+= (isNaN(col12)) ?  0 :parseInt(col12);
+                    });
+                    $('.senilai').html("Rp.   "+number_format(Math.ceil(jml12),0,",","."));
+                    $('.terbilang').html('('+terbilang(Math.ceil(jml12))+')');
+                    senilaiJumlah = jml12+senilai2;
+                    $('.senilaiJumlah').html("Rp.   "+number_format(senilaiJumlah,0,",","."));
+                    $('.sprinLalu').html("Rp.   "+number_format(sprinLalu,0,",","."));
+                    sprinJumlah = sprinLalu+jml12;
+                    $('.sprinJumlah').html("Rp.   "+number_format(sprinJumlah,0,",","."));
+                    $('.sisaSprint').html("Rp.   "+number_format(sisaSprint,0,",","."));
+
+                     $('.showWhenLoading').fadeOut("slow");
                   }
                 }
             });
-
-
-            $.ajax({
-                type: "POST",                  
-                url: "{{route('pilihBulanTahunLaporanPermintaanTunkin')}}",
-                data: 
-                { 
-                  "_token": "{{ csrf_token() }}",
-                  "bulan" : bulan,
-                  "tahun" : tahun,
-                  "satker" : satker,
-                  "jenis_pegawai" : jenis_pegawai,
-                },
-                success: function(data) {
-                  console.log("Kaboom");
-                  console.log(data.dataAbsensi);
-                   tunjanganKinerjaTotal = 0;
-                  $.each(data.dataAbsensi,function(k,v){
-                    if(v.status_dapat == "1")
-                      tunjanganKinerjaTotal+= (parseInt(v.tunjangan)+parseInt(v.pajak));
-                    else
-                      tunjanganKinerjaTotal+= 0;
-                    console.log(parseInt(v.tunjangan)+" "+parseInt(v.pajak)+" "+(parseInt(v.tunjangan)+parseInt(v.pajak)));
-                  });
-
-                  //hasil akhir
-                  $('.senilai').html("Rp.   "+number_format(Math.ceil(tunjanganKinerjaTotal),0,",","."));
-                  $('.terbilang').html('('+terbilang(Math.ceil(tunjanganKinerjaTotal))+')');
-                  // senilaiJumlah = jml12+senilai2;
-                  // $('.senilaiJumlah').html("Rp.   "+number_format(senilaiJumlah,0,",","."));
-                  // $('.sprinLalu').html("Rp.   "+number_format(sprinLalu,0,",","."));
-                  // sprinJumlah = sprinLalu+jml12;
-                  // $('.sprinJumlah').html("Rp.   "+number_format(sprinJumlah,0,",","."));
-                  // $('.sisaSprint').html("Rp.   "+number_format(sisaSprint,0,",","."));
-                }
-              });
           e.preventDefault();
         });
 

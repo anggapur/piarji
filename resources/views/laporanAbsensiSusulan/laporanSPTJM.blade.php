@@ -267,7 +267,7 @@
                   mengenaiWord = data.words;                    
                     insertWord = $('.bodySPTJM').attr('data-word').replace('[bulan]',mengenaiWord);
                     insertWord = insertWord.replace('[anggota]',data.anggota);
-                    insertWord = insertWord.replace('[satker]',data.satkerNama);
+                    insertWord = insertWord.replace('[satker]',data.selectedSatker.nm_satker);
                     insertWord = insertWord.replace('[nominalAngka]',"Rp.   "+number_format(Math.ceil(jml12),0,",","."));
                     insertWord = insertWord.replace('[nominalHuruf]','('+terbilang(Math.ceil(jml12))+')');
                     $('.bodySPTJM').html(insertWord);

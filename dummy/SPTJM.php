@@ -22,7 +22,7 @@
             <!-- <form method="POST" action="{{route('absensi.store')}}">   -->
               {{csrf_field()}}
             <div class="box-header">              
-              <h3 class="box-title">Form Kwitansi Polri/PNS</h3>                            
+              <h3 class="box-title">Form Surat Pernyataan Tanggung Jawab Mutlak</h3>                            
             </div>
             <div class="box-body">    
               <form class="form-inline" id="formBulanTahun">
@@ -43,7 +43,7 @@
                 <div class="form-group @if(Auth::user()->level != 'admin') hide @endif">
                   <label>Kode Satker</label>
                   <select class="js-example-basic-single form-control" name="kd_satker">    
-                                  
+                                 
                     @foreach($dataSatker as $val)
                       <option value="{{$val->kd_satker}}">{{$val->kd_satker." - ".$val->nm_satker}}</option>                  
                     @endforeach
@@ -52,7 +52,7 @@
                 <div class="form-group ">
                   <label>Kategori</label>
                   <select class="js-example-basic-single form-control" name="jenis_pegawai">    
-                    {!!CH::printOptionJenisPegawai()!!}               
+                    {!!CH::printOptionJenisPegawai()!!}              
                   </select>                 
                 </div>  
                 <div class="form-group">
@@ -62,124 +62,46 @@
               </form>
               </div>
             </div>
-
-            <div class="box" style="border-top: 0px">
+            <div class="box " style="border-top:0px;">    
               <div class="box-body">
-              <div class="lembarLaporanKU">
-                <div class="headerKU">
-                  <div class="leftKU">
-                    <div class="logoPolriLaporan"><img src="{{url('public/asset/Logo-POLRI-bw.png')}}"></div>
-                    <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> <span class="satkerNama"></span></h5>
+               <div class="lembarLaporan">             
+                  <div class="headerKU">
+                    <div class="leftKU">
+                      <div class="logoPolriLaporan"><img src="{{url('public/asset/Logo-POLRI-bw.png')}}"></div>
+                      <h5>KEPOLISIAN NEGARA REPUBLIK INDONESIA <br> DAERAH BALI <br> <span class="satkerNama"></span></h5>
+                    </div>
+                    <div class="rightKU">
+                      
+                    </div>
+                    <div class="clearfix"></div>
                   </div>
-                  <div class="rightKU">
-                    <h5>Bukti Kas : </h5>
+                  <div class="judulLaporan">
+                    <h3 class="judul">
+                      SURAT PERNYATAAN  TANGGUNG JAWAB MUTLAK
+                    </h3>                    
                   </div>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="judulKU">
-                  <h3>KWITANSI</h3>
-                </div>
-                <div class="bodyKU">
-                  <div class="bag1KU">
-                    <table>
-                      <tr>
-                        <td>Tahun Anggaran</td>
-                        <td>:</td>
-                        <td>2018</td>
-                      </tr>
-                      <tr>
-                        <td>Kode Akun</td>
-                        <td>:</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <td>Jenis Pengeluaran</td>
-                        <td>:</td>
-                        <td>Tunjangan Kinerja</td>
-                      </tr>
-                    </table>
+                  <div class="bodySPTJM" @if(Auth::user()->level == "operator") data-word='{!!collect($dataTTD)->firstWhere("bagian","1")->nilai1!!}' @else data-word='' @endif>
+                    
                   </div>
-                  <div class="bag2KU">
-                    <table>
-                      <tr>
-                        <td>Terima Dari </td>
-                        <td>:</td>
-                        <td colspan="2">KABIDKEU POLDA BALI</td>
-                      </tr>
-                      <tr>
-                        <td>Uang sejumlah Rp.</td>
-                        <td>:</td>
-                        <td class="senilai"></td>
-                        <td class="terbilang"></td>
-                      </tr>
-                       <tr>
-                        <td>Untuk Pembayaran </td>
-                        <td>:</td>
-                        <td colspan="2" class="mengenai bag31" data-word="3-1"></td>
-                      </tr>
-                    </table>
+                  <div class="bag7">
+                    
+                    <div class="ttdform">
+                        <p style="margin-bottom: 0px;" class="bag24"></p>
+                        <p class="bag21"></p>
+                       
+                        <div class="imgWrap">
+                          
+                        </div>
+                        
+                          <div class="ttdImage"></div>
+                        
+                        <p style="text-decoration: underline;margin-bottom: 0px;" class="bag22"><b></b></p>
+                        <p class="bag23"></p>
+                    </div>
+                    
+                    <div class="clearfix"></div>
                   </div>
-                </div>
-                <div class="footerKU">
-                  <div class="leftKU">
-                    <h5 style="margin-bottom:0px; margin-top: 10px;" class="bag14">1-4</h5>
-                    <h5 style="margin-top:0px;">Yang membayarkan</h5>
-                    <div class="space"></div>
-                    <table>
-                      <tr>
-                        <td>Nama</td>
-                        <td>:</td>
-                        <td class="bag12">1-2</td>
-                      </tr>
-                      <tr>
-                        <td>Pangkat/NRP</td>
-                        <td>:</td>
-                        <td class="bag13">1-3</td>
-                      </tr>
-                      <tr>
-                        <td>Jabatan</td>
-                        <td>:</td>
-                        <td class="bag11">1-1</td>
-                      </tr>
-                      <tr>
-                        <td>Alamat</td>
-                        <td>:</td>
-                        <td class="bag15">1-5</td>
-                      </tr>
-                    </table>
-                  </div>
-                  <div class="rightKU">
-                    <h5 style="margin-bottom:0px;" class="bag24">2-4</h5>
-                    <h5 style="margin-top:0px;">Yang menerima</h5>
-                    <div class="space"></div>
-                    <table>
-                      <tr>
-                        <td>Nama</td>
-                        <td>:</td>
-                        <td class="bag22">2-2</td>
-                      </tr>
-                      <tr>
-                        <td>Pangkat/NRP</td>
-                        <td>:</td>
-                        <td class="bag23">2-3</td>
-                      </tr>
-                      <tr>
-                        <td>Jabatan</td>
-                        <td>:</td>
-                        <td class="bag21">2-1</td>
-                      </tr>
-                      <tr>
-                        <td>Alamat</td>
-                        <td>:</td>
-                        <td class="bag25">2-5</td>
-                      </tr>
-                    </table>
-                  </div>
-                  <div class="clearfix"></div>
-
-                </div>
-
-              </div>
+               </div>
             </div>   
           </div>
           <!-- end box info -->
@@ -193,7 +115,7 @@
       <div class="bounce2"></div>
       <div class="bounce3"></div>
     </div>
-
+    
     </section>
     <script type="text/javascript">
       function printReport()
@@ -206,7 +128,7 @@
         
           var prtContent = document.getElementById("printArea");
                     
-         
+          
           
       }
   </script>
@@ -214,7 +136,7 @@
       //form bulan tahun
 
         $('#formBulanTahun').submit(function(e){     
-        $('.showWhenLoading').fadeIn("slow");     
+          $('.showWhenLoading').fadeIn("slow");     
           bulan = $(this).find("select[name='bulan']").val();
           tahun = $(this).find("select[name='tahun']").val();
           satker = $(this).find("select[name='kd_satker']").val();
@@ -223,7 +145,7 @@
 
           $.ajax({
                 type: "POST",                  
-                url: "{{route('pilihBulanTahunLaporanKU')}}",
+                url: "{{route('pilihBulanTahunLaporanSPP')}}",
                 data: 
                 { 
                   "_token": "{{ csrf_token() }}",
@@ -231,41 +153,44 @@
                   "tahun" : tahun,
                   "satker" : satker,
                   "jenis_pegawai" : jenis_pegawai,
-                  "halaman" : "4",
+                  "halaman":"5",
                 },
                 success: function(data) {
-                  
-                  console.log(data);
                   $('.satkerNama').html(data.selectedSatker.nm_satker);
-                  //loop ttd
+                  console.log(data);
+                  //
                   $.each(data.dataTTD,function(k,v){
                     if(v.bagian == "1")
                     {
-                      $('.bag11').html(v.nilai1);
-                      $('.bag12').html(v.nilai2);
-                      $('.bag13').html(v.nilai3);
-                      $('.bag14').html(v.nilai4);
-                      $('.bag15').html(v.nilai5);
+                      $('.bodySPTJM').attr('data-word',v.nilai1);
                     }
                     else if(v.bagian == "2")
                     {
+                      
                       $('.bag21').html(v.nilai1);
-                      $('.bag22').html(v.nilai2);
+                      $('.bag22 > b').html(v.nilai2);
                       $('.bag23').html(v.nilai3);
                       $('.bag24').html(v.nilai4);
-                      $('.bag25').html(v.nilai5);
+                      if(v.image !== "")
+                      {
+                         url = '{{url("public/images")}}/';
+                        $('.imgWrap').show().html('<img class="imageTTD" src="'+url+v.image+'">');
+                        $('.ttdImage').hide();
+                       
+                      }
+                      else
+                      {
+                        $('.imgWrap').hide();
+                        $('.ttdImage').show();
+                      }
                     }
-                    else if(v.bagian == "3")
-                    {
-                      $('.bag31').attr('data-word',v.nilai1);
-                    }
-                    
                   });
+
                   //
                   if(data.status == "nodata")
                   { 
                     $('.showWhenLoading').fadeOut("slow");
-                    $('.lembarLaporanKU').fadeOut('slow');
+                    $('.lembarLaporan').fadeOut('slow');
                     $('#message').fadeIn("slow").html('Belum Ada Data Absensi');
                     setTimeout(function(){
                       $('#message').fadeOut('slow');
@@ -274,7 +199,7 @@
                   if(data.dataAbsensi.length == 0)
                   { 
                     $('.showWhenLoading').fadeOut("slow");
-                    $('.lembarLaporanKU').fadeOut('slow');
+                    $('.lembarLaporan').fadeOut('slow');
                     $('#message').fadeIn("slow").html('Belum Ada Data Absensi');
                     setTimeout(function(){
                       $('#message').fadeOut('slow');
@@ -282,16 +207,10 @@
                   }
                   else if(data.status == "success")
                   {
-                    $('.lembarLaporanKU').fadeIn("slow");
+                    $('.lembarLaporan').fadeIn("slow");
                     i = 1;
                     
-                    mengenaiWord = data.words;                    
-                    insertWord = $('.mengenai').attr('data-word').replace('[bulan]',mengenaiWord);
-                    insertWord = insertWord.replace('[anggota]',data.anggota);
-                    insertWord = insertWord.replace('[satker]',data.satkerNama);
-                    $('.mengenai').html(insertWord);
-                    
-
+                  
                     console.log(data.formula);
                     formula1 = data.formula[0]['rumus'];
                     formula2 = data.formula[1]['rumus'];
@@ -300,7 +219,7 @@
                     absensVal = [];                            
 
                     //dat aawal nomor kelas jabatan atau yan terbesar
-                    awal =  data.tunkin[0];   
+                   awal =  data.tunkin[0];   
                     jml3 = 0;   
                     jml5 = 0;      
                     jml6 = 0;      
@@ -315,48 +234,49 @@
                     sprinLalu = 0;
                     sprinJumlah = 0;
                     sisaSprint = 0;
-                   
+                    $.each(data.dataAbsensi,function(k,v){     
+
+                      col5 = (v.count_orang == 0) ? 0 : parseInt(v.tunjangan);
+                      col6 = parseInt(v.pph);
+                      col7 = parseInt(col5)+parseInt(col6);                      
+                      col8 = parseInt(v.jumlahPengurangan);
+                      col10 = (v.count_orang == 0) ? 0 : parseInt(v.tunjanganNetto);
+                      col11 = parseInt(v.pphNetto);;
+                      col12 = parseInt(col10)+parseInt(col11);
+                      col9 = col6 - col11;
+                      
+                      jml3+=v.count_orang;      
+                      jml5+=parseInt(col5);      
+                      jml6+=parseInt(col6);      
+                      jml7+=parseInt(col7);      
+                      jml8+= (isNaN(col8)) ?  0 :parseInt(col8);      
+                      jml9+= (isNaN(col9)) ?  0 :parseInt(col9);      
+                      jml10+= (isNaN(col10)) ?  0 :parseInt(col10);      
+                      jml11+= (isNaN(col11)) ?  0 :parseInt(col11);  
+                      jml12+= (isNaN(col12)) ?  0 :parseInt(col12);
+                    });
+                    $('.senilai').html("Rp.   "+number_format(Math.ceil(jml12),0,",","."));
+                    $('.terbilang').html('('+terbilang(Math.ceil(jml12))+')');
+                    senilaiJumlah = jml12+senilai2;
+                    $('.senilaiJumlah').html("Rp.   "+number_format(senilaiJumlah,0,",","."));
+                    $('.sprinLalu').html("Rp.   "+number_format(sprinLalu,0,",","."));
+                    sprinJumlah = sprinLalu+jml12;
+                    $('.sprinJumlah').html("Rp.   "+number_format(sprinJumlah,0,",","."));
+                    $('.sisaSprint').html("Rp.   "+number_format(sisaSprint,0,",","."));
+
+                      //mengenai
+                  mengenaiWord = data.words;                    
+                    insertWord = $('.bodySPTJM').attr('data-word').replace('[bulan]',mengenaiWord);
+                    insertWord = insertWord.replace('[anggota]',data.anggota);
+                    insertWord = insertWord.replace('[satker]',data.satkerNama);
+                    insertWord = insertWord.replace('[nominalAngka]',"Rp.   "+number_format(Math.ceil(jml12),0,",","."));
+                    insertWord = insertWord.replace('[nominalHuruf]','('+terbilang(Math.ceil(jml12))+')');
+                    $('.bodySPTJM').html(insertWord);
 
                     $('.showWhenLoading').fadeOut("slow");
                   }
                 }
             });
-
-
-            $.ajax({
-                type: "POST",                  
-                url: "{{route('pilihBulanTahunLaporanPermintaanTunkin')}}",
-                data: 
-                { 
-                  "_token": "{{ csrf_token() }}",
-                  "bulan" : bulan,
-                  "tahun" : tahun,
-                  "satker" : satker,
-                  "jenis_pegawai" : jenis_pegawai,
-                },
-                success: function(data) {
-                  console.log("Kaboom");
-                  console.log(data.dataAbsensi);
-                   tunjanganKinerjaTotal = 0;
-                  $.each(data.dataAbsensi,function(k,v){
-                    if(v.status_dapat == "1")
-                      tunjanganKinerjaTotal+= (parseInt(v.tunjangan)+parseInt(v.pajak));
-                    else
-                      tunjanganKinerjaTotal+= 0;
-                    console.log(parseInt(v.tunjangan)+" "+parseInt(v.pajak)+" "+(parseInt(v.tunjangan)+parseInt(v.pajak)));
-                  });
-
-                  //hasil akhir
-                  $('.senilai').html("Rp.   "+number_format(Math.ceil(tunjanganKinerjaTotal),0,",","."));
-                  $('.terbilang').html('('+terbilang(Math.ceil(tunjanganKinerjaTotal))+')');
-                  // senilaiJumlah = jml12+senilai2;
-                  // $('.senilaiJumlah').html("Rp.   "+number_format(senilaiJumlah,0,",","."));
-                  // $('.sprinLalu').html("Rp.   "+number_format(sprinLalu,0,",","."));
-                  // sprinJumlah = sprinLalu+jml12;
-                  // $('.sprinJumlah').html("Rp.   "+number_format(sprinJumlah,0,",","."));
-                  // $('.sisaSprint').html("Rp.   "+number_format(sisaSprint,0,",","."));
-                }
-              });
           e.preventDefault();
         });
 

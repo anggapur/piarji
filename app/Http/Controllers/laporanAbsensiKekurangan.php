@@ -636,12 +636,14 @@ class laporanAbsensiKekurangan extends Controller
             //$mengenaiWord = "Pembayaran Tunjangan Kinerja";
 
             //jenis pegawai            
-            if($request->jenis_pegawai == "0")
+             if($request->jenis_pegawai == "0")
                 $anggota=" Anggota Polri";                
             else if($request->jenis_pegawai == "1")
                 $anggota=" PNS Polri";    
+            else if($request->jenis_pegawai == "2")
+                $anggota=" Anggota Tipidkor"; 
             else
-                $anggota=" Polri & PNS";            
+                $anggota=" Polri & PNS";           
 
             //satker            
             $satkerNama = "";
@@ -833,12 +835,14 @@ class laporanAbsensiKekurangan extends Controller
             //$mengenaiWord = "Pembayaran Tunjangan Kinerja";
 
             //jenis pegawai            
-            if($request->jenis_pegawai == "0")
+             if($request->jenis_pegawai == "0")
                 $anggota=" Anggota Polri";                
             else if($request->jenis_pegawai == "1")
                 $anggota=" PNS Polri";    
+            else if($request->jenis_pegawai == "2")
+                $anggota=" Anggota Tipidkor"; 
             else
-                $anggota=" Polri & PNS";            
+                $anggota=" Polri & PNS";              
 
             //satker            
             $satkerNama = "";
