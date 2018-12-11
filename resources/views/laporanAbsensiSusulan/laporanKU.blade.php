@@ -109,8 +109,11 @@
                       <tr>
                         <td>Uang sejumlah Rp.</td>
                         <td>:</td>
-                        <td class="senilai"></td>
-                        <td class="terbilang"></td>
+                        <td colspan="2" rowspan="2"><span class="senilai"></span><span class="terbilang"></span></td>
+                      </tr>
+                      <tr>
+                        <td style="opacity: 0;">a</td>
+                        <td style="opacity: 0;">a</td>
                       </tr>
                        <tr>
                         <td>Untuk Pembayaran </td>
@@ -335,8 +338,8 @@
                       jml11+= (isNaN(col11)) ?  0 :parseInt(col11);  
                       jml12+= (isNaN(col12)) ?  0 :parseInt(col12);
                     });
-                    $('.senilai').html("Rp "+number_format(Math.ceil(jml12),2,",","."));
-                    $('.terbilang').html('('+terbilang(Math.ceil(jml12))+')');
+                    $('.senilai').html("Rp "+number_format(Math.ceil(jml7),2,",","."));
+                    $('.terbilang').html('('+terbilang(Math.ceil(jml7))+')');
                     senilaiJumlah = jml12+senilai2;
                     $('.senilaiJumlah').html("Rp "+number_format(senilaiJumlah,2,",","."));
                     $('.sprinLalu').html("Rp "+number_format(sprinLalu,2,",","."));

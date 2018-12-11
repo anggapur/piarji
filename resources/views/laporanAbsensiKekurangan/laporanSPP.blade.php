@@ -396,8 +396,8 @@
                       jml11+= (isNaN(col11)) ?  0 :parseInt(col11);  
                       jml12+= (isNaN(col12)) ?  0 :parseInt(col12);
                     });
-                    $('.senilai').html("Rp "+number_format(Math.ceil(jml12),2,",","."));
-                    $('.terbilang').html('('+terbilang(Math.ceil(jml12))+')');
+                    $('.senilai').html("Rp "+number_format(Math.ceil(jml7),2,",","."));
+                    $('.terbilang').html('('+terbilang(Math.ceil(jml7))+')');
                     senilaiJumlah = jml12+senilai2;
                     $('.senilaiJumlah').html("Rp "+number_format(senilaiJumlah,2,",","."));
                     $('.sprinLalu').html("Rp "+number_format(sprinLalu,2,",","."));

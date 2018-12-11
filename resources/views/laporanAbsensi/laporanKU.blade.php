@@ -109,8 +109,11 @@
                       <tr>
                         <td>Uang sejumlah Rp.</td>
                         <td>:</td>
-                        <td class="senilai"></td>
-                        <td class="terbilang"></td>
+                        <td colspan="2" rowspan="2"><span class="senilai"></span><span class="terbilang"></span></td>
+                      </tr>
+                      <tr>
+                        <td style="opacity: 0;">a</td>
+                        <td style="opacity: 0;">a</td>
                       </tr>
                        <tr>
                         <td>Untuk Pembayaran </td>

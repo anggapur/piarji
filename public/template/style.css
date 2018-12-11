@@ -131,6 +131,7 @@ h3.judul , h4.judul , h3.judul {
  .bag6 p
  {
   margin: 0px;
+  white-space: pre;
  }
 
  .ttd
@@ -197,6 +198,7 @@ td.underscoreDouble {
 {
     clear:both;
     position:relative;
+    margin-bottom: 30px;
 }
 .headerKU .leftKU {
     text-align: center;
@@ -444,7 +446,7 @@ table { page-break-inside:auto }
 }
 .c .judulLaporan, .b .judulLaporan {
     width: fit-content;
-    margin: 0px auto 30px auto;
+    margin: 30px auto 30px auto;
     border-bottom: 1px solid;
     padding: 0px 10px;
 }
@@ -466,4 +468,43 @@ p.namaTTD b {
 }
 .sptjmContent .borderBottom {
     margin-bottom: 0px;
+}
+div#printArea, div#printArea h5, div#printArea span,
+.printLaporan, .printLaporan h5, .printLaporan span,
+.lembarLaporan, .lembarLaporan h5, .lembarLaporan h3, .lembarLaporan span,
+.lembarLaporanKU, .lembarLaporanKU h5, .lembarLaporanKU h3, .lembarLaporanKU span {
+    font-family: Arial !Important;
+}
+
+
+.judulLaporan h5 {
+    margin-top:4px;
+    margin-bottom:4px;
+}
+
+h5.nomorSurat {
+    margin-bottom: 10px;
+}
+h3.judul {
+    font-size: 20px !important;
+}
+.judulLaporan {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.lembarLaporan h3.judul {
+    border-bottom: 1px solid;
+    padding-bottom: 5px;
+}
+h5.bag14 , h5.bag24{
+    white-space: pre;
+}
+
+p.bag24 {
+    white-space: pre;
+}
+.tglSpace
+{
+  white-space: pre;
 }

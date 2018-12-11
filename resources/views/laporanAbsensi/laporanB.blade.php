@@ -147,9 +147,7 @@
                   </div>
                 </div>
                 <div class="TTD3 col-cs-6">
-                   <div class="nilai4">
-                    {{collect($dataTTD)->firstWhere('bagian','2')->nilai4}}
-                  </div>
+                   <div class="nilai4 tglSpace">{{collect($dataTTD)->firstWhere('bagian','2')->nilai4}}</div>
                   <div class="nilai1">
                     {{collect($dataTTD)->firstWhere('bagian','2')->nilai1}}
                   </div>
