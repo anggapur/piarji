@@ -57,7 +57,7 @@
                 </div>  
                 <div class="form-group">
                   <input type="submit" name="submitBulanTahun" value="Pilih" class="btn btn-success" id="btnPilih">
-                  <button class="btn btn-default" onClick="printReport()">Print</button>
+                  <button type="button" class="btn btn-default" onClick="printReport()">Print</button>
                 </div>
               </form>
               </div>
@@ -202,7 +202,7 @@
       function printReport()
       {
         
-          $('#btnPilih').click();
+          // $('#btnPilih').click();
           setTimeout(function(){
             window.print();
           },1000);
