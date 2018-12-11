@@ -404,7 +404,11 @@
                     potonganPPH21PerHalaman = 0;
                     yangDibayarTotalPerHalaman = 0;
 
+                     maksPerHalaman = 10;
+                    hitungDataPerHalaman = 0; 
+
                     console.log('KKK:'+kodeSatker);
+                    console.log(data.dataAbsensi);
                     $.each(data.dataAbsensi,function(k,v){        
                        // console.log("koko : "+v.nm_anak_satker);              
                       absensVal[1] = v.absensiValue1;
@@ -416,8 +420,11 @@
                       tPPH21 = parseInt(v.pajak);
                       terimaBruto = parseInt(parseInt(yangDiterima)+parseInt(tPPH21));                      
 
+
                       if(kodeAnakSatker !== v.kd_anak_satker_saat_absensi)
                       {
+
+                        
                         if(awal2 == true)
                         {
                           // alert('awal');
@@ -425,7 +432,7 @@
                           templateAppend+= templateAtas;
                           awal2 = false;
                         }
-                        else
+                        else if(awal2 == false)
                         {
                            // alert('tengah');
                            templateAppend+= '<tr><td colspan="6">Jumlah Per Halaman</td>'+
@@ -446,12 +453,7 @@
                                   '<td>'+number_format(yangDibayarTotalPerHalaman,0,",",".")+'</td>'+
                                   '<td>-</td>'+
                                   '</tr>';
-                          templateAppend+=templateBawah;
-                          $('.tablePlace').append(templateAppend);
-                          templateAppend = "";
-                          templateAppend+=("<div class='pagebreak'></div> <h5>SUBSATKER : "+v.nm_anak_satker+"</h5>");
-                          templateAppend+=templateAtas;
-
+                         
                           //reset
                           tunjanganKinerjaTotalPerHalaman = 0;
                           absensi1totalPerHalaman = 0;
@@ -468,8 +470,75 @@
                           terimaBrutoTotalPerHalaman = 0;
                           potonganPPH21PerHalaman = 0;
                           yangDibayarTotalPerHalaman = 0;
-                        }                         
+
+                          hitungDataPerHalaman = 0; 
+
+                          templateAppend+=templateBawah;
+                          $('.tablePlace').append(templateAppend);
+                          templateAppend = "";
+                          templateAppend+=("<div class='pagebreak'></div> <h5>SUBSATKER : "+v.nm_anak_satker+"</h5>");
+                          templateAppend+=templateAtas;
+
+                          
+                        } 
+                                              
                       }
+                      else
+                      {
+                        if(awal2 == false)
+                        {
+                          ///apa ini
+                        if(hitungDataPerHalaman%maksPerHalaman == 0)
+                        {
+                          templateAppend+= '<tr><td colspan="6">Jumlah Per Halaman</td>'+
+                                  '<td>'+number_format(tunjanganKinerjaTotalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+absensi1total+'</td>'+
+                                  '<td>'+number_format(uang1totalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+absensi2total+'</td>'+
+                                  '<td>'+number_format(uang2totalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+absensi3total+'</td>'+
+                                  '<td>'+number_format(uang3totalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+absensi4total+'</td>'+
+                                  '<td>'+number_format(uang4totalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+number_format(jumlahPenguranganTotalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+number_format(tunjanganYangDiterimaTotalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+number_format(tPPH21TotalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+number_format(terimaBrutoTotalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+number_format(potonganPPH21PerHalaman,0,",",".")+'</td>'+
+                                  '<td>'+number_format(yangDibayarTotalPerHalaman,0,",",".")+'</td>'+
+                                  '<td>-</td>'+
+                                  '</tr>';
+                         
+                          //reset
+                          tunjanganKinerjaTotalPerHalaman = 0;
+                          absensi1totalPerHalaman = 0;
+                          absensi2totalPerHalaman = 0;
+                          absensi3totalPerHalaman = 0;
+                          absensi4totalPerHalaman = 0;
+                          uang1totalPerHalaman = 0;
+                          uang2totalPerHalaman = 0;
+                          uang3totalPerHalaman = 0;
+                          uang4totalPerHalaman = 0;
+                          jumlahPenguranganTotalPerHalaman = 0;
+                          tunjanganYangDiterimaTotalPerHalaman = 0;
+                          tPPH21TotalPerHalaman = 0;
+                          terimaBrutoTotalPerHalaman = 0;
+                          potonganPPH21PerHalaman = 0;
+                          yangDibayarTotalPerHalaman = 0;
+
+                          hitungDataPerHalaman = 0; 
+
+                          templateAppend+=templateBawah;
+                          $('.tablePlace').append(templateAppend);
+                          templateAppend = "";
+                          templateAppend+=("<div class='pagebreak'></div> <h5>SUBSATKER : "+v.nm_anak_satker+"</h5>");
+                          templateAppend+=templateAtas;
+
+                        }  
+                        //end apa ini
+                        }
+                      }
+
 
                       templateAppend+= '<tr>'+
                                '<td>'+(i)+'</td>'+
@@ -495,6 +564,8 @@
                                '<td>'+number_format(yangDiterima,0,",",".")+'</td>'+
                                '<td class="wrapper_ttd_field"> <div class="ttd_field">'+(i++)+'</div><span class="no_rekening_field">'+v.no_rekening+'</span></td>'+
                              '</tr>';
+                        hitungDataPerHalaman++;
+
                       //insert dataExport
                       singleDataExport.push({"text":noUrut++});
                       singleDataExport.push({"text":"\t"+v.nip.toString()});
@@ -541,7 +612,7 @@
                       potonganPPH21PerHalaman += parseInt(tPPH21);
                       yangDibayarTotalPerHalaman += parseInt(yangDiterima);
 
-
+                      
 
                     });//EACH
                     
@@ -589,8 +660,6 @@
                     console.log('end each');
                     $('.showWhenLoading').fadeOut("slow");
                     console.log(dataExport);
-                    
-
                     
                   }
                 }
