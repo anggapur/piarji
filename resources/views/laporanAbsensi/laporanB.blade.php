@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- Main content -->
-    <section class="content">
+    <section class="content b">
       <!-- Small boxes (Stat box) -->
       <div class="row">
         <div class="col-lg-12 col-xs-12">         
@@ -137,11 +137,13 @@
                   @else
                     <div class="ttdImage"></div>
                   @endif
-                  <div class="nilai2">
-                    <span>{{collect($dataTTD)->firstWhere('bagian','1')->nilai2}}</span>
-                  </div>
-                  <div class="nilai3">
-                    {{collect($dataTTD)->firstWhere('bagian','1')->nilai3}}
+                  <div class="wrappingTTD">
+                    <div class="nilai2 borderBottom">
+                      <span>{{collect($dataTTD)->firstWhere('bagian','1')->nilai2}}</span>
+                    </div>
+                    <div class="nilai3">
+                      {{collect($dataTTD)->firstWhere('bagian','1')->nilai3}}
+                    </div>
                   </div>
                 </div>
                 <div class="TTD3 col-cs-6">
@@ -158,11 +160,13 @@
                   @else
                     <div class="ttdImage"></div>
                   @endif
-                  <div class="nilai2">
-                    <span>{{collect($dataTTD)->firstWhere('bagian','2')->nilai2}}</span>
-                  </div>
-                  <div class="nilai3">
-                    {{collect($dataTTD)->firstWhere('bagian','2')->nilai3}}
+                  <div class="wrappingTTD">
+                    <div class="nilai2 borderBottom">
+                      <span>{{collect($dataTTD)->firstWhere('bagian','2')->nilai2}}</span>
+                    </div>
+                    <div class="nilai3">
+                      {{collect($dataTTD)->firstWhere('bagian','2')->nilai3}}
+                    </div>
                   </div>
                 </div>
                 
@@ -222,7 +226,8 @@
                 },
                 success: function(data) {
                    //print satker
-                  $('.satkerName').html(data.selectedSatker.nm_satker);
+                  $('span.satkerName').html(data.selectedSatker.nm_satker);
+                  $('h5.satkerName').html("SATKER : "+data.selectedSatker.nm_satker);
                   console.log('this is data');
                   console.log(data);
                   if(data.status == "nodata")

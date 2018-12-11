@@ -3,7 +3,7 @@
 @section('content')
 <div id="dvjson"></div>
     <!-- Main content -->
-    <section class="content">
+    <section class="content c">
       <!-- Small boxes (Stat box) -->
       <div class="row">
         <div class="col-lg-12 col-xs-12">         
@@ -124,12 +124,14 @@
                   @else
                     <div class="ttdImage"></div>
                   @endif
-                  <div class="nilai2">
+                   <div class="wrappingTTD">
+                    <div class="nilai2 borderBottom">
                     <span>{{collect($dataTTD)->firstWhere('bagian','1')->nilai2}}</span>
                   </div>
                   <div class="nilai3">
                     {{collect($dataTTD)->firstWhere('bagian','1')->nilai3}}
                   </div>
+                </div>
                 </div>
                 <div class="TTD2 col-cs-4">
                    <div class="nilai4">
@@ -145,12 +147,14 @@
                   @else
                     <div class="ttdImage"></div>
                   @endif
-                  <div class="nilai2">
+                  <div class="wrappingTTD">
+                    <div class="nilai2 borderBottom">
                     <span>{{collect($dataTTD)->firstWhere('bagian','2')->nilai2}}</span>
                   </div>
                   <div class="nilai3">
                     {{collect($dataTTD)->firstWhere('bagian','2')->nilai3}}
                   </div>
+                </div>
                 </div>
                 <div class="TTD3 col-cs-4">
                    <div class="nilai4">
@@ -166,12 +170,14 @@
                   @else
                     <div class="ttdImage"></div>
                   @endif
-                  <div class="nilai2">
+                 <div class="wrappingTTD">
+                  <div class="nilai2 borderBottom">
                     <span>{{collect($dataTTD)->firstWhere('bagian','3')->nilai2}}</span>
                   </div>
                   <div class="nilai3">
                     {{collect($dataTTD)->firstWhere('bagian','3')->nilai3}}
                   </div>
+                </div>
                 </div>
 
                </div>
@@ -354,7 +360,8 @@
                     singleDataExport.push({"text":"No Urut"});
                     singleDataExport.push({"text":"NRP"});
                     singleDataExport.push({"text":"Nama"});
-                    singleDataExport.push({"text":"Yang DIterima "});
+                    singleDataExport.push({"text":"PPH21 "});
+                    singleDataExport.push({"text":"Yang Diterima "});
                     singleDataExport.push({"text":"No Rekening"});
                     dataExport.push(singleDataExport);
                     singleDataExport = [];
@@ -496,6 +503,7 @@
                       singleDataExport.push({"text":noUrut++});
                       singleDataExport.push({"text":"\t"+v.nip.toString()});
                       singleDataExport.push({"text":v.nama});
+                      singleDataExport.push({"text":tPPH21});
                       singleDataExport.push({"text":yangDiterima});
                       singleDataExport.push({"text":"\t"+v.no_rekening.toString()});
                       dataExport.push(singleDataExport);

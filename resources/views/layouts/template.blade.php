@@ -748,6 +748,7 @@
 <script src="{{ asset('public/template/dist/js/pages/dashboard.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('public/template/dist/js/demo.js')}}"></script>
+<script src="{{ asset('public/js/terbilang.js')}}"></script>
 <!-- DROP DOWN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <script type="text/javascript">

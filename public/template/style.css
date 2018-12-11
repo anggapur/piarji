@@ -278,8 +278,8 @@ th.w100 {
 }
 
 .nilai2 span{
-    font-weight: bold;
-    border-bottom: 1px solid;
+    /*font-weight: bold;*/
+    /*border-bottom: 1px solid;*/
 }
 
 .nilai1 {
@@ -438,4 +438,32 @@ table { page-break-inside:auto }
 
 .hoverCursor, .hoverCursor2{
   cursor: pointer;
+}
+.judulLaporan h5 {
+    text-transform: uppercase;
+}
+.c .judulLaporan, .b .judulLaporan {
+    width: fit-content;
+    margin: 0px auto 30px auto;
+    border-bottom: 1px solid;
+    padding: 0px 10px;
+}
+p.namaTTD b {
+    font-weight: inherit;
+}
+.ttdform b {
+    font-weight: inherit;
+}
+.borderBottom
+{
+  border-bottom: 1px solid;
+}
+.wrappingTTD
+{
+    width: fit-content;
+    margin: 0 auto;
+    padding: 0px 10px;
+}
+.sptjmContent .borderBottom {
+    margin-bottom: 0px;
 }
