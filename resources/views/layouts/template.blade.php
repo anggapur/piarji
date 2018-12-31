@@ -60,6 +60,21 @@
 @media print
 {
   .noprint {display:none;}
+  .c .judulLaporan, .b .judulLaporan
+  {
+    margin: 0px auto 0px auto !important;
+    font-size: 5pt !important; 
+  }
+  .judulLaporan {
+    /*display: none;*/
+    margin: 0px auto 0px auto !important;
+    font-size: 100pt !important;
+  }
+  table td, table th
+  {
+    /*display: none;*/
+    font-size: 5pt !important;
+  }
 }
 </style>
 </head>

@@ -594,11 +594,11 @@ class laporanAbsensi extends Controller
             if($request->jenis_pegawai == "0")
                 $anggota=" Anggota Polri";                
             else if($request->jenis_pegawai == "1")
-                $anggota=" PNS Polri";    
+                $anggota=" Anggota PNS Polri";    
             else if($request->jenis_pegawai == "2")
                 $anggota=" Anggota Tipidkor"; 
             else
-                $anggota=" Polri & PNS";            
+                $anggota=" Anggota Polri & PNS Polri";            
 
             //satker            
             $satkerNama = "";
@@ -770,11 +770,11 @@ class laporanAbsensi extends Controller
             if($request->jenis_pegawai == "0")
                 $anggota=" Anggota Polri";                
             else if($request->jenis_pegawai == "1")
-                $anggota=" PNS Polri";    
-             else if($request->jenis_pegawai == "2")
+                $anggota=" Anggota PNS Polri";    
+            else if($request->jenis_pegawai == "2")
                 $anggota=" Anggota Tipidkor"; 
             else
-                $anggota=" Polri & PNS";            
+                $anggota=" Anggota Polri & PNS Polri";           
 
             //satker            
             $satkerNama = "";

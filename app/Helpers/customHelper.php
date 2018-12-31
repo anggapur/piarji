@@ -480,7 +480,7 @@ class customHelper {
         {
             $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
             $q2->where('absensi.state_tipikor_saat_absensi','0');
-            $keanggotaan = "PNS";
+            $keanggotaan = "PNS POLRI";
         }
         else if($jenis_pegawai == "2")
         {
@@ -494,7 +494,7 @@ class customHelper {
         else
         {
             $q2->where('absensi.state_tipikor_saat_absensi','0');
-            $keanggotaan = "POLRI & PNS";
+            $keanggotaan = "POLRI & PNS POLRI";
         }
         return ['query' => $q2, 'keanggotaan' => $keanggotaan];
 
@@ -529,9 +529,9 @@ class customHelper {
 
     public static function printOptionJenisPegawai()
     {
-        return '<option value="">Polri & PNS</option>                
+        return '<option value="">Polri & PNS Polri</option>                
                     <option value="0">Polri</option>                
-                    <option value="1">PNS</option>                
+                    <option value="1">PNS Polri</option>                
                     <option value="2">Tipidkor</option>'; 
     }
     public static function getTTD($halaman,$satker)

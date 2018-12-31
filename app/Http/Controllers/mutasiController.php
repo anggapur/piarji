@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\satker;
+use App\anak_satker;
 use CH;
 use App\pegawai;
 use Auth;
@@ -28,8 +29,12 @@ class mutasiController extends Controller
         $data['dataMutasi'] = mutasi::
                                 leftJoin('satker as KE','mutasi.ke_satker','=','KE.kd_satker')
                                 ->leftJoin('satker as DARI','mutasi.dari_satker','=','DARI.kd_satker')
+                                ->leftJoin('anak_satker',function($q){
+                                    $q->on('mutasi.ke_anak_satker','=','anak_satker.kd_anak_satker')
+                                        ->on('mutasi.ke_satker','=','anak_satker.kd_satker');
+                                })
                                 ->leftJoin('pegawai','pegawai.nip','=','mutasi.nip')
-                                ->select('mutasi.*','KE.nm_satker as KE_nm_satker','DARI.nm_satker as DARI_nm_satker','pegawai.nama')
+                                ->select('mutasi.*','KE.nm_satker as KE_nm_satker','DARI.nm_satker as DARI_nm_satker','pegawai.nama','anak_satker.nm_anak_satker')
                                 ->get();
         $data['page'] = $this->page;
         $data['subpage'] = "Daftar Mutasi"; 
@@ -43,9 +48,14 @@ class mutasiController extends Controller
         $data['bulan'] = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
         $data['dataMutasi'] = mutasi::where('dari_satker',CH::getKdSatker(Auth::user()->kd_satker))
                                 ->leftJoin('satker','mutasi.ke_satker','=','satker.kd_satker')
+                                ->leftJoin('anak_satker',function($q){
+                                    $q->on('mutasi.ke_anak_satker','=','anak_satker.kd_anak_satker')
+                                        ->on('mutasi.ke_satker','=','anak_satker.kd_satker');
+                                })
                                 ->leftJoin('pegawai','pegawai.nip','=','mutasi.nip')
-                                ->select('mutasi.*','satker.nm_satker','pegawai.nama')
+                                ->select('mutasi.*','satker.nm_satker','pegawai.nama','anak_satker.nm_anak_satker')
                                 ->get();
+        // dd($data['dataMutasi']);
         $data['page'] = $this->page;
         $data['subpage'] = "Daftar Mutasi"; 
         
@@ -152,7 +162,11 @@ class mutasiController extends Controller
         $data['page'] = $this->page;
         $data['subpage'] = "Kirim Mutasi"; 
         $data['dataSatker'] = satker::select('id','kd_satker','nm_satker')
-                                ->where('kd_satker','<>',CH::getKdSatker(Auth::user()->kd_satker))->get();
+                                // ->where('kd_satker','<>',CH::getKdSatker(Auth::user()->kd_satker))
+                                ->get();
+        $data['dataAnakSatker'] = anak_satker::
+                                    // where('kd_satker','<>',CH::getKdSatker(Auth::user()->kd_satker))
+                                    get();
         $data['tahunTerkecil'] = waktu_absensi::orderBy('tahun','ASC')->first()->tahun;   
         $data['dataPegawai'] = pegawai::where('kd_satker',CH::getKdSatker(Auth::user()->kd_satker))->get();
         
@@ -178,7 +192,9 @@ class mutasiController extends Controller
     public function store(Request $request)
     {
         //
-        $query = mutasi::where(['dari_satker' => CH::getKdSatker(Auth::user()->kd_satker) , 'nip' => $request->nip])
+        // return $request->all();
+        $query = mutasi::where(['dari_satker' => CH::getKdSatker(Auth::user()->kd_satker)])
+                        ->whereIn('nip',$request->nip)
                         ->where(function($q) use($request){
                             $q->where('ke_satker','out');
                             $q->orWhere('status_terima','1');
@@ -189,41 +205,59 @@ class mutasiController extends Controller
         {
             if($request->mutasi_ke == "dalam")
             {
-                $data['nip'] = $request->nip;
-                $data['dari_satker'] = CH::getKdSatker(Auth::user()->kd_satker);
-                $data['ke_satker'] = $request->ke_satker;
-                $data['bulan_keluar'] = $request->bulan_keluar;
-                $data['tahun_keluar'] = $request->tahun_keluar;
-                $data['bulan_diterima'] = NULL;
-                $data['tahun_diterima'] = NULL;
-                $data['status_terima'] = "0";
-                $data['status_cek'] = "0";
+                foreach ($request->nip as $key => $value) {
+                    $data['nip'] = $value;
+                    $data['dari_satker'] = CH::getKdSatker(Auth::user()->kd_satker);
+                    $data['ke_satker'] = $request->ke_satker;
+                    $data['ke_anak_satker'] = $request->ke_anak_satker;
+                    $data['bulan_keluar'] = $request->bulan_keluar;
+                    $data['tahun_keluar'] = $request->tahun_keluar;
+                    $data['bulan_diterima'] = NULL;
+                    $data['tahun_diterima'] = NULL;
+                    $data['status_terima'] = "0";
+                    $data['status_cek'] = "0";
+                    $query = mutasi::create($data);
+                    $query2 = pegawai::where('nip',$value)->update(['status_aktif'=>'0']);
+                }
             }
             else if($request->mutasi_ke == "keluar")
             {
-                $data['nip'] = $request->nip;
-                $data['dari_satker'] = CH::getKdSatker(Auth::user()->kd_satker);
-                $data['ke_satker'] = "out";
-                $data['bulan_keluar'] = $request->bulan_keluar;
-                $data['tahun_keluar'] = $request->tahun_keluar;
-                $data['bulan_diterima'] = NULL;
-                $data['tahun_diterima'] = NULL;
-                $data['status_terima'] = "0";
-                $data['status_cek'] = "0";
+                foreach ($request->nip as $key => $value) {
+                    $data['nip'] = $value;
+                    $data['dari_satker'] = CH::getKdSatker(Auth::user()->kd_satker);
+                    $data['ke_satker'] = "out";
+                    $data['bulan_keluar'] = $request->bulan_keluar;
+                    $data['tahun_keluar'] = $request->tahun_keluar;
+                    $data['bulan_diterima'] = NULL;
+                    $data['tahun_diterima'] = NULL;
+                    $data['status_terima'] = "0";
+                    $data['status_cek'] = "0";
+                    $query = mutasi::create($data);
+                    $query2 = pegawai::where('nip',$value)->update(['status_aktif'=>'0']);
+                }
             }
-            $query = mutasi::create($data);
-            $query2 = pegawai::where('nip',$request->nip)->update(['status_aktif'=>'0']);
+            
             if($query)
                 return redirect($this->mainPage)->with(['status' => 'success' ,'message' => 'Berhasil mutasi pegawai']);
         }
         else
         {
             if($query->first()->ke_satker == "out")
+            {
                 return redirect()->back()->with(['status' => 'danger' ,'message' => 'Gagal mutasi, pegawai '.$request->nip.' sudah dimutasi keluar polda Bali dari satker ini']);       
+            }
             else if($query->first()->status_terima == "1")
+            {
                 return redirect()->back()->with(['status' => 'danger' ,'message' => 'Gagal mutasi, pegawai '.$request->nip.' sudah diterima di satker '.$query->first()->ke_satker]);       
-            else if($query->first()->status_terima == "0")                
-                return redirect()->back()->with(['status' => 'danger' ,'message' => 'Gagal mutasi, pegawai '.$request->nip.' sedang dimutasi ke satker '.$query->first()->ke_satker.', batalkan mutasi terlebih dahulu']);       
+            }
+            else if($query->first()->status_terima == "0")     
+            {           
+                $message = "";
+                foreach ($query->get() as $key => $value) {
+                    $message.='Gagal mutasi, pegawai '.$value->nip.' sedang dimutasi ke satker '.$value->ke_satker.', batalkan mutasi terlebih dahulu<br>';
+                }
+                return redirect()->back()->with(['status' => 'danger' ,'message' => $message]);    
+            }   
 
         }
     }

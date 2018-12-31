@@ -31,8 +31,9 @@
                   <th>No</th>
                   <th>NIP</th>
                   <th>Nama</th>
-                  <th>Dar Satker</th>
+                  <th>Dari Satker</th>
                   <th>Ke Satker</th>
+                  <th>Ke Anak Satker</th>
                   <th>Waktu Keluar</th>
                   <th>Status Terima</th>                  
                 </tr>
@@ -47,6 +48,13 @@
                       <td>
                         @if($val->ke_satker !== "out")
                           {{$val->ke_satker}} - {{$val->KE_nm_satker}}
+                        @else
+                          <span class="label label-danger">Keluar Polda</span>
+                        @endif
+                      </td>
+                      <td>
+                        @if($val->ke_satker !== "out")
+                          {{$val->ke_anak_satker}} - {{$val->nm_anak_satker}}
                         @else
                           <span class="label label-danger">Keluar Polda</span>
                         @endif

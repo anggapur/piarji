@@ -404,7 +404,10 @@
                     potonganPPH21PerHalaman = 0;
                     yangDibayarTotalPerHalaman = 0;
 
-                     maksPerHalaman = 10;
+                     maksPerHalaman = 13;
+                     maksPerHalamanAwal = 7;
+                     hitung = 0;
+                     stateAwal = true;
                     hitungDataPerHalaman = 0; 
 
                     console.log('KKK:'+kodeSatker);
@@ -435,6 +438,8 @@
                         else if(awal2 == false)
                         {
                            // alert('tengah');
+                           //saat mau pindah anak satker
+                           stateAwal = false;
                            templateAppend+= '<tr><td colspan="6">Jumlah Per Halaman</td>'+
                                   '<td>'+number_format(tunjanganKinerjaTotalPerHalaman,0,",",".")+'</td>'+
                                   '<td>'+absensi1total+'</td>'+
@@ -488,7 +493,7 @@
                         if(awal2 == false)
                         {
                           ///apa ini
-                        if(hitungDataPerHalaman%maksPerHalaman == 0)
+                        if(hitungDataPerHalaman%maksPerHalaman == 0 || (hitung == maksPerHalamanAwal && stateAwal))
                         {
                           templateAppend+= '<tr><td colspan="6">Jumlah Per Halaman</td>'+
                                   '<td>'+number_format(tunjanganKinerjaTotalPerHalaman,0,",",".")+'</td>'+
@@ -565,6 +570,7 @@
                                '<td class="wrapper_ttd_field"> <div class="ttd_field">'+(i++)+'</div><span class="no_rekening_field">'+v.no_rekening+'</span></td>'+
                              '</tr>';
                         hitungDataPerHalaman++;
+                        hitung++;
 
                       //insert dataExport
                       singleDataExport.push({"text":noUrut++});

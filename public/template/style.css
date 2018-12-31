@@ -315,8 +315,17 @@ th.w100 {
 }
 @media print  
 {
+    *
+    {
+      display: none;
+    }
     div.TTDarea{
         page-break-inside: avoid;
+    }
+    table td, table th
+    {
+      font-size: 5pt;
+      display: none;
     }
 }
 
@@ -507,4 +516,8 @@ p.bag24 {
 .tglSpace
 {
   white-space: pre;
+}
+.logoPolriLaporan img {
+    width: 2cm;
+    height: 2cm;
 }

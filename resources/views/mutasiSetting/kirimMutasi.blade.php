@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group dalam keluar">
                   <label>Nama Pegawai</label>
-                  <select class="js-example-basic-single form-control" name="nip" required>                    
+                  <select class="js-example-basic-single form-control" name="nip[]" multiple="multiple" required>                    
                     <option value="">-</option>
                     @foreach($dataPegawai as $val)
                       <option value="{{$val->nip}}">{{$val->nip." - ".$val->nama}}</option>                                        
@@ -49,10 +49,19 @@
                 </div>
                 <div class="form-group dalam">
                   <label>Dikirim ke Satker</label>
-                  <select class="js-example-basic-single form-control" name="ke_satker" required>                    
+                  <select id="keSatker" class="js-example-basic-single form-control" name="ke_satker" required>                    
                     <option value="">-</option>
                     @foreach($dataSatker as $val)
                       <option value="{{$val->kd_satker}}">{{$val->kd_satker." - ".$val->nm_satker}}</option>                                        
+                    @endforeach
+                  </select>                 
+                </div>  
+                <div class="form-group dalam">
+                  <label>Dikirim ke Anak Satker</label>
+                  <select id="keAnakSatker" class="form-control" name="ke_anak_satker" required>                    
+                    <option value="">-</option>
+                    @foreach($dataAnakSatker as $val)
+                      <option data-parent="{{$val->kd_satker}}" value="{{$val->kd_anak_satker}}">{{$val->nm_anak_satker}}</option>                                        
                     @endforeach
                   </select>                 
                 </div>                  
@@ -99,6 +108,18 @@
     <script type="text/javascript">
       $(document).ready(function(){
 
+        $('#keSatker').change(function(){
+          dataValue = $(this).val();
+          $('#keAnakSatker').val("");
+          $('#keAnakSatker').find('option').hide();
+          $('#keAnakSatker').find('option[data-parent="'+dataValue+'"]').show();
+          
+
+        });
+        $('#keAnakSatker').find('option').hide();
+
+
+
         $('input[name="mutasi_ke"]').click(function(){
           kelas = $(this).val();
           if(kelas == "dalam")
@@ -106,8 +127,8 @@
           else
             kelasOposite = "dalam";
           
-          $('.'+kelasOposite).fadeOut('slow',function(){
-            $('.'+kelas).fadeIn('slow');
+          $('.'+kelasOposite).fadeOut('fast',function(){
+            $('.'+kelas).fadeIn('fast');
           });
           
           

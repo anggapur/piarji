@@ -348,7 +348,7 @@ class laporanAbsensiSusulan extends Controller
             if($request->satker != "")
                 $q2->where('absensi_susulan.kd_satker_saat_absensi',$request->satker);
             //cek apakah di requect polri atau pns
-            $keanggotaan = "POLRI & PNS";
+            $keanggotaan = "POLRI & PNS POLRI";
             if($request->jenis_pegawai == "0")
             {
                 $q2->whereRaw('LENGTH(pegawai.nip) <= 8'); // polri
@@ -357,7 +357,7 @@ class laporanAbsensiSusulan extends Controller
             else if($request->jenis_pegawai == "1")
             {
                 $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
-                $keanggotaan = "PNS";
+                $keanggotaan = "PNS POLRI";
             }
 
             //cari aturan tunkin detail
@@ -604,11 +604,11 @@ class laporanAbsensiSusulan extends Controller
             if($request->jenis_pegawai == "0")
                 $anggota=" Anggota Polri";                
             else if($request->jenis_pegawai == "1")
-                $anggota=" PNS Polri";    
+                $anggota=" Anggota PNS Polri";    
             else if($request->jenis_pegawai == "2")
                 $anggota=" Anggota Tipidkor"; 
             else
-                $anggota=" Polri & PNS";             
+                $anggota=" Anggota Polri & PNS Polri";         
 
             //satker            
             $satkerNama = "";
@@ -779,11 +779,11 @@ class laporanAbsensiSusulan extends Controller
              if($request->jenis_pegawai == "0")
                 $anggota=" Anggota Polri";                
             else if($request->jenis_pegawai == "1")
-                $anggota=" PNS Polri";    
+                $anggota=" Anggota PNS Polri";    
             else if($request->jenis_pegawai == "2")
                 $anggota=" Anggota Tipidkor"; 
             else
-                $anggota=" Polri & PNS";           
+                $anggota=" Anggota Polri & PNS Polri";       
 
             //satker            
             $satkerNama = "";
@@ -884,11 +884,11 @@ class laporanAbsensiSusulan extends Controller
             else if($request->jenis_pegawai == "1")
             {
                 $q2->whereRaw('LENGTH(pegawai.nip) > 8'); // pns
-                $keanggotaan = "PNS";
+                $keanggotaan = "PNS POLRI";
             }
             else
             {
-                $keanggotaan = "POLRI & PNS";
+                $keanggotaan = "POLRI & PNS POLRI";
             }
 
             $dataSend = [];            
